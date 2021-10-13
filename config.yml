@@ -1,5 +1,5 @@
 baseURL: "https://www.niuwx.cn/"
-title: "Ther's Blog \U0001F44B"
+title: "Ther's Blog"
 paginate: 5
 theme: PaperMod
 
@@ -17,8 +17,8 @@ minify:
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: Ther's Blog
-  description: "ExampleSite description"
-  keywords: [Blog, Portfolio, PaperMod]
+  description: "分享技术，分享生活... "
+  keywords: [Blog, C, C++, GO, Golang, 算法, 数据结构]
   author: Ther
   # images: "myimage.png"
   keywords: [c,cpp,golang,go,algorithm] 
@@ -49,14 +49,28 @@ params:
 
   homeInfoParams:
     Title: Welcome to my blog
-    Content: Record bit by bit...
+    Content: |
+        # Hi 👋, I'm Ther
+
+        #### A gopher from China.
+
+        🌱 I’m currently learning **Golang、Docker**
+
+        👨‍💻 All of my projects are available at [https://github.com/28251536](https://github.com/28251536)
+
+        📝 I regularly write articles on [https://www.niuwx.cn](https://www.niuwx.cn)
+
+        💬 Ask me about **nothing, because i am rookie.**
+
+        📫 How to reach me **28251536@qq.com**
+    
   
   assets:
-        favicon: "favicon.png"
-        favicon16x16: "favicon.png"
-        favicon32x32: "favicon.png"
-        apple_touch_icon: "favicon.png"
-        safari_pinned_tab: "favicon.png"
+        favicon: "favicon.ico"
+        favicon16x16: "favicon.ico"
+        favicon32x32: "favicon.ico"
+        apple_touch_icon: "favicon.ico"
+        safari_pinned_tab: "favicon.ico"
   
   profileMode:
     enabled: false
