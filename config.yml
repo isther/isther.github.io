@@ -1,0 +1,132 @@
+baseURL: "https://www.niuwx.cn/"
+title: "Ther's Blog"
+paginate: 5
+theme: PaperMod
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+googleAnalytics: UA-123-45
+
+minify:
+  disableXML: true
+  minifyOutput: true
+
+params:
+  env: production # to enable google analytics, opengraph, twitter-cards and schema.
+  title: Ther's Blog
+  description: "分享技术，分享生活... "
+  keywords: [Blog, C, C++, Golang, Rust, Linux, 算法, 数据结构]
+  author: Ther
+  # images: "myimage.png"
+  keywords: [c,cpp,golang,go,algorithm] 
+  DateFormat: "January 2, 2006"     
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowCodeCopyButtons: true
+  ShowFullTextinRSS: true
+  defaultTheme: "auto"
+  math: true
+
+  disableThemeToggle: false
+  disableSpecial1stPost: false
+  disableScrollToTop: false
+  disableAnchoredHeadings: false
+  hideMeta: false
+  hideSummary: false
+
+  showtoc: true
+  tocopen: true
+
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  comments: false
+
+  analytics:
+    google:
+      SiteVerificationTag:	"XYZabc"
+
+  homeInfoParams:
+    Title: Welcome to my blog
+    Content: |
+        # Hi 👋, I'm Ther
+
+        🌱 I’m currently learning **Golang、Docker**
+
+        👨‍💻 All of my projects are available at [https://github.com/isther](https://github.com/isther)
+
+        📝 I regularly write articles on [https://www.niuwx.cn](https://www.niuwx.cn)
+
+        💬 Ask me about **nothing, because i am rookie.**
+
+        📫 How to reach me **28251536@qq.com**
+    
+  
+  assets:
+        favicon: "favicon.ico"
+        favicon16x16: "favicon.ico"
+        favicon32x32: "favicon.ico"
+        apple_touch_icon: "favicon.ico"
+        safari_pinned_tab: "favicon.ico"
+        disableHLJS: true
+
+  socialIcons: # optional
+    - name: "github"
+      url: "https://github.com/isther"
+    - name: "qq"
+      url: "https://wpa.qq.com/msgrd?v=3&uin=28251536&site=qqq&menu=yes"
+    - name: "email"
+      url: "mailto:28251536@qq.com"
+    - name: "steam"
+      url: "https://steamcommunity.com/profiles/76561198821264534/"
+  
+  editPost:
+    URL: "https://github.com/isther/isther.github.io/tree/master/content"
+    Text: "Suggest Changes" # edit text
+    appendFilePath: true # to append file path to Edit link
+
+outputs:
+    home:
+        - HTML
+        - RSS
+        - JSON
+
+menu:
+    main:
+      - identifier: Home
+        name: Home
+        url: "/"
+        weight: 10
+      - identifier: Archives
+        name: Archives
+        url: "/archive"
+        weight: 20
+      - identifier: Categories
+        name: Categories
+        url: "/categories"
+        weight: 30
+      - identifier: Tags
+        name: Tags
+        url: "/tags"
+        weight: 40
+      - identifier: Friends
+        name: Friends
+        url: "/friends"
+        weight: 50
+      - identifier: Search
+        name: Search
+        url: "/search"
+        weight: 60
+
+
+# highlight
+markup:
+    highlight:
+        # anchorLineNos: true
+        codeFences: true
+        guessSyntax: true
+        lineNos: true
+        # noClasses: false
+        style: monokai
