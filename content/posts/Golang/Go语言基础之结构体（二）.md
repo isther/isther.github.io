@@ -1,6 +1,6 @@
 ---
 title: "Go语言基础之结构体（二）"
-date: March 21, 2021
+date: 2021-03-17T20:33:51+08:00
 # weight: 1
 # aliases: ["/first"]
 categories: ["Golang"]
@@ -16,7 +16,7 @@ description: "结构体"
 canonicalURL: "https://canonical.url/to/page"
 disableShare: false
 disableHLJS: false
-hideSummary: false
+hideSummary: true
 searchHidden: false
 
 ShowReadingTime: true

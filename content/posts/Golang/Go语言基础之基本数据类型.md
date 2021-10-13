@@ -1,6 +1,6 @@
 ---
 title: "Go语言基础之基本数据类型"
-date: March 15, 2021
+date: 2021-03-14T15:33:51+08:00
 # weight: 1
 # aliases: ["/first"]
 categories: ["Golang"]
@@ -16,7 +16,7 @@ description: "数据类型"
 canonicalURL: "https://canonical.url/to/page"
 disableShare: false
 disableHLJS: false
-hideSummary: false
+hideSummary: true
 searchHidden: false
 
 ShowReadingTime: true

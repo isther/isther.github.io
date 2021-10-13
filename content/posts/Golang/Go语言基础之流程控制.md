@@ -1,6 +1,6 @@
 ---
 title: "Go语言基础之流程控制"
-date: March 16, 2021
+date: 2021-03-15T16:33:51+08:00
 # weight: 1
 # aliases: ["/first"]
 categories: ["Golang"]
@@ -16,7 +16,7 @@ description: "流程控制"
 canonicalURL: "https://canonical.url/to/page"
 disableShare: false
 disableHLJS: false
-hideSummary: false
+hideSummary: true
 searchHidden: false
 
 ShowReadingTime: true
