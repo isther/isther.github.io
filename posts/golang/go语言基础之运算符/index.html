@@ -3,7 +3,7 @@
 <meta http-equiv=x-ua-compatible content="IE=edge">
 <meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
 <meta name=robots content="index, follow">
-<title>Go语言基础之运算符 | Ther's Blog 👋</title>
+<title>Go语言基础之运算符 | Ther's Blog</title>
 <meta name=keywords content="Golang,Go,学习笔记&#34;,运算符">
 <meta name=description content="Go运算符">
 <meta name=author content="Ther">
@@ -11,11 +11,11 @@
 <meta name=google-site-verification content="XYZabc">
 <link crossorigin=anonymous href=/assets/css/stylesheet.min.5e2b4101351c21e906f398ae96901791830f58d430f96f2659dab7eaef7b3cb7.css integrity="sha256-XitBATUcIekG85iulpAXkYMPWNQw+W8mWdq36u97PLc=" rel="preload stylesheet" as=style>
 <script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
-<link rel=icon href=https://www.niuwx.cn/favicon.png>
-<link rel=icon type=image/png sizes=16x16 href=https://www.niuwx.cn/favicon.png>
-<link rel=icon type=image/png sizes=32x32 href=https://www.niuwx.cn/favicon.png>
-<link rel=apple-touch-icon href=https://www.niuwx.cn/favicon.png>
-<link rel=mask-icon href=https://www.niuwx.cn/favicon.png>
+<link rel=icon href=https://www.niuwx.cn/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=https://www.niuwx.cn/favicon.ico>
+<link rel=icon type=image/png sizes=32x32 href=https://www.niuwx.cn/favicon.ico>
+<link rel=apple-touch-icon href=https://www.niuwx.cn/favicon.ico>
+<link rel=mask-icon href=https://www.niuwx.cn/favicon.ico>
 <meta name=theme-color content="#2e2e33">
 <meta name=msapplication-TileColor content="#2e2e33">
 <meta name=generator content="Hugo 0.88.1">
@@ -33,14 +33,14 @@
 <meta name=twitter:title content="Go语言基础之运算符">
 <meta name=twitter:description content="Go运算符">
 <script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://www.niuwx.cn/posts/"},{"@type":"ListItem","position":2,"name":"Go语言基础之运算符","item":"https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%BF%90%E7%AE%97%E7%AC%A6/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Go语言基础之运算符","name":"Go语言基础之运算符","description":"Go运算符","keywords":["Golang","Go","学习笔记\"","运算符"],"articleBody":"运算符用于在程序运行时执行数学或逻辑运算。\nGo 语言内置的运算符有五类：\n 算术运算符 关系运算符 逻辑运算符 位运算符 赋值运算符  算数运算符    运算符 描述     + 相加   - 相减   * 相乘   / 相除   % 求余    注意： ++（自增）和--（自减）在Go语言中是单独的语句，并不是运算符。\n关系运算符    运算符 描述     == 检查两个值是否相等，如果相等返回 True 否则返回 False。   != 检查两个值是否不相等，如果不相等返回 True 否则返回 False。    检查左边值是否大于右边值，如果是返回 True 否则返回 False。   = 检查左边值是否大于等于右边值，如果是返回 True 否则返回 False。    检查左边值是否小于右边值，如果是返回 True 否则返回 False。    检查左边值是否小于等于右边值，如果是返回 True 否则返回 False。    逻辑运算符    运算符 描述     \u0026\u0026 逻辑 AND 运算符。 如果两边的操作数都是 True，则为 True，否则为 False。   || 逻辑 OR 运算符。 如果两边的操作数有一个 True，则为 True，否则为 False。   ! 逻辑 NOT 运算符。 如果条件为 True，则为 False，否则为 True。    位运算符 位运算符对整数在内存中的二进制位进行操作。\n   运算符 描述     \u0026 参与运算的两数各对应的二进位相与。 （两位均为1才为1）   | 参与运算的两数各对应的二进位相或。 （两位有一个为1就为1）   ^ 参与运算的两数各对应的二进位相异或，当两对应的二进位相异时，结果为1。 （两位不一样则为1）   « 左移n位就是乘以2的n次方。 “a«b”是把a的各二进位全部左移b位，高位丢弃，低位补0。   » 右移n位就是除以2的n次方。 “a»b”是把a的各二进位全部右移b位。    赋值运算符    运算符 描述     = 简单的赋值运算符，将一个表达式的值赋给一个左值   += 相加后再赋值   -= 相减后再赋值   *= 相乘后再赋值   /= 相除后再赋值   %= 求余后再赋值   «= 左移后赋值   »= 右移后赋值   \u0026= 按位与后赋值   |= 按位或后赋值   ^= 按位异或后赋值   ","wordCount":"127","inLanguage":"en","datePublished":"2021-03-15T15:33:51+08:00","dateModified":"2021-03-15T15:33:51+08:00","author":{"@type":"Person","name":"Ther"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%BF%90%E7%AE%97%E7%AC%A6/"},"publisher":{"@type":"Organization","name":"Ther's Blog 👋","logo":{"@type":"ImageObject","url":"https://www.niuwx.cn/favicon.png"}}}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Go语言基础之运算符","name":"Go语言基础之运算符","description":"Go运算符","keywords":["Golang","Go","学习笔记\"","运算符"],"articleBody":"运算符用于在程序运行时执行数学或逻辑运算。\nGo 语言内置的运算符有五类：\n 算术运算符 关系运算符 逻辑运算符 位运算符 赋值运算符  算数运算符    运算符 描述     + 相加   - 相减   * 相乘   / 相除   % 求余    注意： ++（自增）和--（自减）在Go语言中是单独的语句，并不是运算符。\n关系运算符    运算符 描述     == 检查两个值是否相等，如果相等返回 True 否则返回 False。   != 检查两个值是否不相等，如果不相等返回 True 否则返回 False。    检查左边值是否大于右边值，如果是返回 True 否则返回 False。   = 检查左边值是否大于等于右边值，如果是返回 True 否则返回 False。    检查左边值是否小于右边值，如果是返回 True 否则返回 False。    检查左边值是否小于等于右边值，如果是返回 True 否则返回 False。    逻辑运算符    运算符 描述     \u0026\u0026 逻辑 AND 运算符。 如果两边的操作数都是 True，则为 True，否则为 False。   || 逻辑 OR 运算符。 如果两边的操作数有一个 True，则为 True，否则为 False。   ! 逻辑 NOT 运算符。 如果条件为 True，则为 False，否则为 True。    位运算符 位运算符对整数在内存中的二进制位进行操作。\n   运算符 描述     \u0026 参与运算的两数各对应的二进位相与。 （两位均为1才为1）   | 参与运算的两数各对应的二进位相或。 （两位有一个为1就为1）   ^ 参与运算的两数各对应的二进位相异或，当两对应的二进位相异时，结果为1。 （两位不一样则为1）   « 左移n位就是乘以2的n次方。 “a«b”是把a的各二进位全部左移b位，高位丢弃，低位补0。   » 右移n位就是除以2的n次方。 “a»b”是把a的各二进位全部右移b位。    赋值运算符    运算符 描述     = 简单的赋值运算符，将一个表达式的值赋给一个左值   += 相加后再赋值   -= 相减后再赋值   *= 相乘后再赋值   /= 相除后再赋值   %= 求余后再赋值   «= 左移后赋值   »= 右移后赋值   \u0026= 按位与后赋值   |= 按位或后赋值   ^= 按位异或后赋值   ","wordCount":"127","inLanguage":"en","datePublished":"2021-03-15T15:33:51+08:00","dateModified":"2021-03-15T15:33:51+08:00","author":{"@type":"Person","name":"Ther"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%BF%90%E7%AE%97%E7%AC%A6/"},"publisher":{"@type":"Organization","name":"Ther's Blog","logo":{"@type":"ImageObject","url":"https://www.niuwx.cn/favicon.ico"}}}</script>
 </head>
 <body id=top>
 <script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
 <header class=header>
 <nav class=nav>
 <div class=logo>
-<a href=https://www.niuwx.cn/ accesskey=h title="Ther's Blog 👋 (Alt + H)">Ther's Blog 👋</a>
+<a href=https://www.niuwx.cn/ accesskey=h title="Ther's Blog (Alt + H)">Ther's Blog</a>
 <span class=logo-switches>
 <button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
 </button>
@@ -332,7 +332,7 @@ Go运算符
 </article>
 </main>
 <footer class=footer>
-<span>&copy; 2021 <a href=https://www.niuwx.cn/>Ther's Blog 👋</a></span>
+<span>&copy; 2021 <a href=https://www.niuwx.cn/>Ther's Blog</a></span>
 <span>
 Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
