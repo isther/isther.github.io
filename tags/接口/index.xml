@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>接口 on Ther&#39;s Blog 👋</title>
+    <link>https://www.niuwx.cn/tags/%E6%8E%A5%E5%8F%A3/</link>
+    <description>Recent content in 接口 on Ther&#39;s Blog 👋</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://www.niuwx.cn/tags/%E6%8E%A5%E5%8F%A3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go语言基础之接口</title>
+      <link>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%8E%A5%E5%8F%A3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%8E%A5%E5%8F%A3/</guid>
+      <description>接口</description>
+      <content:encoded><![CDATA[<p>接口（interface）定义了一个对象的行为规范，只定义规范不实现，由具体的对象来实现规范的细节。</p>
+<h3 id="接口类型">接口类型</h3>
+<p>在Go语言中接口（interface）是一种类型，一种抽象的类型。</p>
+<p><code>interface</code>是一组<code>method</code>的集合，不关心属性（数据），只关心行为（方法）。</p>
+<h3 id="引入">引入</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Cat</span> <span style="color:#66d9ef">struct</span>{} <span style="color:#75715e">//猫
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">Cat</span>) <span style="color:#a6e22e">Say</span>() <span style="color:#66d9ef">string</span> { <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;喵喵喵&#34;</span> }
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Dog</span> <span style="color:#66d9ef">struct</span>{} <span style="color:#75715e">//狗
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#a6e22e">Dog</span>) <span style="color:#a6e22e">Say</span>() <span style="color:#66d9ef">string</span> { <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;汪汪汪&#34;</span> }
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Cat</span>{}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Say</span>())
+
+	<span style="color:#a6e22e">d</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Dog</span>{}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">Say</span>())
+}
+</code></pre></div><p>上述代码定义了猫和狗，以及他们叫声的方法，可以发现，main中会有重复的代码，如果再加上其他动物，代码还会重复，那如果把他们都归类成“会叫的动物”来处理呢？</p>
+<p>像这样类似的例子还有很多，例如：</p>
+<p>支付宝、微信、银联等在线支付的方式，可以把它们当成支付方式来处理。</p>
+<p>计算三角形、正方形、圆形等的周长和面积，可以把他们当成图形来处理</p>
+<p>等等……</p>
+<p>而在Go语言中为了解决类似上面的问题，就设计了接口这个概念。接口区别于所有的具体类型，接口是一种抽象的类型。当看到一个接口类型的值时，你不知道它是什么，只知道通过它的方法能做什么。</p>
+<h3 id="接口的定义">接口的定义</h3>
+<p>Go语言提倡面向接口编程</p>
+<p>每个接口由数个方法组成，格式如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">接口类型名</span> <span style="color:#66d9ef">interface</span>{
+    <span style="color:#a6e22e">方法名1</span>( <span style="color:#a6e22e">参数列表1</span> ) <span style="color:#a6e22e">返回值列表1</span>
+    <span style="color:#a6e22e">方法名2</span>( <span style="color:#a6e22e">参数列表2</span> ) <span style="color:#a6e22e">返回值列表2</span>
+    <span style="color:#960050;background-color:#1e0010">…</span>
+}
+</code></pre></div><ul>
+<li>接口名：使用<code>type</code>将接口定义为自定义的类型名。Go语言的接口在命名时，一般会在单词后面添加<code>er</code>，如有写操作的接口叫<code>Writer</code>，有字符串功能的接口叫<code>Stringer</code>等。接口名最好要能突出该接口的类型含义。</li>
+<li>方法名：当方法名首字母是大写且这个接口类型名首字母也是大写时，这个方法可以被接口所在的包（package）之外的代码访问。</li>
+<li>参数列表、返回值列表：参数列表和返回值列表中的参数变量名可以省略。</li>
+</ul>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">writer</span> <span style="color:#66d9ef">interface</span>{
+    <span style="color:#a6e22e">Write</span>([]<span style="color:#66d9ef">byte</span>) <span style="color:#66d9ef">error</span>
+}
+</code></pre></div><p>当你看到这个接口类型的值时，并不知道它是什么，唯一知道的就是可以通过它的Write方法来做一些事情。</p>
+<h3 id="接口实现的条件">接口实现的条件</h3>
+<p>一个对象只要全部实现了接口中的方法，那么就实现了这个接口。换句话说，接口就是一个{% emp 需要实现的方法列表 %}</p>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Sayer</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">Say</span>()
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Cat</span> <span style="color:#66d9ef">struct</span>{}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">Cat</span>) <span style="color:#a6e22e">Say</span>() { <span style="color:#75715e">//Cat实现了Sayer接口
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;喵喵喵&#34;</span>) 
+} 
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Dog</span> <span style="color:#66d9ef">struct</span>{}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#a6e22e">Dog</span>) <span style="color:#a6e22e">Say</span>() { <span style="color:#75715e">//Dog实现了Sayer接口
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;汪汪汪&#34;</span>) 
+} 
+</code></pre></div><h3 id="接口类型的变量">接口类型的变量</h3>
+<p>实现了接口有什么作用呢？</p>
+<p>接口类型变量能够储存所有实现了该接口的实例。</p>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#a6e22e">Sayer</span>
+
+	<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Cat</span>{}
+	<span style="color:#a6e22e">d</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Dog</span>{}
+
+	<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">c</span>
+	<span style="color:#a6e22e">x</span>.<span style="color:#a6e22e">Say</span>()
+
+	<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">d</span>
+	<span style="color:#a6e22e">x</span>.<span style="color:#a6e22e">Say</span>()
+}
+</code></pre></div><h3 id="值接收者和指针接收者实现接口的区别">值接收者和指针接收者实现接口的区别</h3>
+<p>定义一个<code>Mover</code>接口和一个<code>Dog</code>结构体</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Mover</span> <span style="color:#66d9ef">interface</span>{
+	<span style="color:#a6e22e">move</span>()
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Dog</span> <span style="color:#66d9ef">struct</span>{}
+</code></pre></div><p>{% tabs tab-1 %}</p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#a6e22e">Dog</span>) <span style="color:#a6e22e">move</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;狗跑了&#34;</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#a6e22e">Mover</span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wangcai</span> = <span style="color:#a6e22e">Dog</span>{}
+	<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">wangcai</span>
+	<span style="color:#a6e22e">x</span>.<span style="color:#a6e22e">move</span>()
+
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">fugui</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Dog</span>{}
+	<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">fugui</span>
+	<span style="color:#a6e22e">x</span>.<span style="color:#a6e22e">move</span>()
+}
+</code></pre></div><p>从上面这段代码不难发现，使用值接收者实现接口之后，不管是Dog结构体还是*Dog结构体指针类型的变量都可以赋值给该接口变量。</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>同样的代码，如果使用指针接受实现接口呢？</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Dog</span>) <span style="color:#a6e22e">move</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;狗跑了&#34;</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#a6e22e">Mover</span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wangcai</span> = <span style="color:#a6e22e">Dog</span>{}
+	<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">wangcai</span> <span style="color:#75715e">//x不可以接收Dog类型
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">x</span>.<span style="color:#a6e22e">move</span>()
+
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">fugui</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Dog</span>{}
+	<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">fugui</span>
+	<span style="color:#a6e22e">x</span>.<span style="color:#a6e22e">move</span>()
+}
+</code></pre></div><p>此时实现<code>Mover</code>接口的是<code>*Dog</code>类型，所以不能给<code>x</code>传入<code>Dog</code>类型。</p>
+<!-- raw HTML omitted -->
+<p>{% endtabs %}</p>
+<h3 id="类型与接口的关系">类型与接口的关系</h3>
+<h4 id="一个类型实现多个接口">一个类型实现多个接口</h4>
+<p>一个类型可以同时实现多个接口，而接口之间批次独立。例如，狗可以叫，也可以跑。就可以分别定义Sayer接口和Mover接口：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Sayer</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">say</span>()
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Mover</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">move</span>()
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Dog</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#a6e22e">Dog</span>) <span style="color:#a6e22e">say</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s说\n&#34;</span>, <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">name</span>)
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#a6e22e">Dog</span>) <span style="color:#a6e22e">move</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s跑了\n&#34;</span>, <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">name</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#a6e22e">Mover</span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">y</span> <span style="color:#a6e22e">Sayer</span>
+
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">a</span> = <span style="color:#a6e22e">Dog</span>{<span style="color:#e6db74">&#34;旺财&#34;</span>}
+
+	<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">a</span>
+	<span style="color:#a6e22e">y</span> = <span style="color:#a6e22e">a</span>
+
+	<span style="color:#a6e22e">x</span>.<span style="color:#a6e22e">move</span>()
+	<span style="color:#a6e22e">y</span>.<span style="color:#a6e22e">say</span>()
+}
+</code></pre></div><h4 id="多个类型实现同一接口">多个类型实现同一接口</h4>
+<p>Go语言中不同的类型还可以实现同一接口，例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Mover</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">move</span>()
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Dog</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#a6e22e">Dog</span>) <span style="color:#a6e22e">move</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s跑了\n&#34;</span>, <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">name</span>)
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Car</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">Car</span>) <span style="color:#a6e22e">move</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s跑了\n&#34;</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">name</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#a6e22e">Mover</span>
+
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">d</span> = <span style="color:#a6e22e">Dog</span>{<span style="color:#e6db74">&#34;旺财&#34;</span>}
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">c</span> = <span style="color:#a6e22e">Car</span>{<span style="color:#e6db74">&#34;保时捷&#34;</span>}
+
+	<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">d</span>
+	<span style="color:#a6e22e">x</span>.<span style="color:#a6e22e">move</span>()
+
+	<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">c</span>
+	<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">move</span>()
+    <span style="color:#75715e">//不关心具体是什么，只需调用方法即可
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h3 id="接口嵌套">接口嵌套</h3>
+<p>接口与接口之间可以通过嵌套创造出新的接口</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">//Sayer接口
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Sayer</span> <span style="color:#66d9ef">interface</span>{
+	<span style="color:#a6e22e">say</span>()
+}
+
+<span style="color:#75715e">//Mover接口
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Mover</span> <span style="color:#66d9ef">interface</span>{
+	<span style="color:#a6e22e">move</span>()
+}
+
+<span style="color:#75715e">//接口嵌套
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">animal</span> <span style="color:#66d9ef">interface</span>{
+	<span style="color:#a6e22e">Sayer</span>
+	<span style="color:#a6e22e">Mover</span>
+}
+</code></pre></div><p>嵌套得到的接口的使用与普通接口一样：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Cat</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">Cat</span>) <span style="color:#a6e22e">say</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;喵喵喵&#34;</span>)
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">Cat</span>) <span style="color:#a6e22e">move</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;猫跑了&#34;</span>)
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#a6e22e">animal</span>
+	<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">Cat</span>{<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;臭宝&#34;</span>}
+
+	<span style="color:#a6e22e">x</span>.<span style="color:#a6e22e">move</span>()
+	<span style="color:#a6e22e">x</span>.<span style="color:#a6e22e">say</span>()
+}
+</code></pre></div><h3 id="空接口">空接口</h3>
+<h4 id="空接口的定义">空接口的定义</h4>
+<p>空接口是指没有定义任何方法的接口。因此任何类型都实现了空接口。</p>
+<p>空接口类型的变量可以存储任意类型的变量。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">x</span> <span style="color:#66d9ef">interface</span>{}
+
+	<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;Hello&#34;</span>
+	<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">s</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%T %v\n&#34;</span>, <span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">x</span>)
+
+	<span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">100</span>
+	<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">i</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%T %v\n&#34;</span>, <span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">x</span>)
+
+	<span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">true</span>
+	<span style="color:#a6e22e">x</span> = <span style="color:#a6e22e">b</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%T %v\n&#34;</span>, <span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">x</span>)
+}
+</code></pre></div><h4 id="空接口的应用">空接口的应用</h4>
+<p>{% tabs tab-2 %}</p>
+<!-- raw HTML omitted -->
+<p>使用空接口实现可以接受任意类型的函数参数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">show</span>(<span style="color:#a6e22e">a</span> <span style="color:#66d9ef">interface</span>{}) {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%T %v\n&#34;</span>, <span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">a</span>)
+}
+</code></pre></div><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>使用空接口实现可以保存任意值的字典。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">studentInfo</span> = make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">interface</span>{})
+	<span style="color:#a6e22e">studentInfo</span>[<span style="color:#e6db74">&#34;name&#34;</span>] = <span style="color:#e6db74">&#34;臭宝&#34;</span>
+	<span style="color:#a6e22e">studentInfo</span>[<span style="color:#e6db74">&#34;age&#34;</span>] = <span style="color:#ae81ff">18</span>
+	<span style="color:#a6e22e">studentInfo</span>[<span style="color:#e6db74">&#34;married&#34;</span>] = <span style="color:#66d9ef">false</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">studentInfo</span>)
+	<span style="color:#75715e">//map[age:18 married:false name:臭宝]
+</span><span style="color:#75715e"></span>}
+</code></pre></div><!-- raw HTML omitted -->
+<p>{% endtabs %}</p>
+<h3 id="类型断言">类型断言</h3>]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>结构体 on Ther&#39;s Blog 👋</title>
+    <link>https://www.niuwx.cn/tags/%E7%BB%93%E6%9E%84%E4%BD%93/</link>
+    <description>Recent content in 结构体 on Ther&#39;s Blog 👋</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://www.niuwx.cn/tags/%E7%BB%93%E6%9E%84%E4%BD%93/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go语言基础之结构体（一）</title>
+      <link>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%80/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%80/</guid>
+      <description>结构体</description>
+      <content:encoded><![CDATA[<p>Go语言中没有“类”的概念，也不支持“类”的继承等面向对象的概念。Go语言中通过结构体的内嵌再配合接口比面向对象具有更高的扩展性和灵活性。</p>
+<h2 id="自定义类型和类型别名">自定义类型和类型别名</h2>
+<p>{% tabs tab-1 %}</p>
+<!-- raw HTML omitted -->
+<p>在Go语言中有一些基本的数据类型，如<code>string</code>、<code>整型</code>、<code>浮点型</code>、<code>布尔</code>等数据类型， Go语言中可以像C/C++一样使用<code>type</code>关键字来定义自定义类型。</p>
+<p>自定义类型是定义了一个全新的类型。我们可以基于内置的基本类型定义，也可以通过struct定义。例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">//将MyInt定义为int类型
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MyInt</span> <span style="color:#66d9ef">int</span>
+</code></pre></div><p>通过<code>type</code>关键字的定义，<code>MyInt</code>就是一种新的类型，它具有<code>int</code>的特性</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>类型别名规定：MyType只是Type的别名，本质上MyType与Type是同一个类型。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MyType</span> = <span style="color:#a6e22e">Type</span>
+</code></pre></div><p>我们之前见过的<code>rune</code>和<code>byte</code>就是类型别名，他们的定义如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#66d9ef">byte</span> = <span style="color:#66d9ef">uint8</span>
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">rune</span> = <span style="color:#66d9ef">int32</span>
+</code></pre></div><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>自定义类型和类型别名在语法上看似只有一个等号的差别，但其实不然，例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">//自定义类型
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">NewInt</span> <span style="color:#66d9ef">int</span>
+
+<span style="color:#75715e">//类型别名
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MyInt</span> = <span style="color:#66d9ef">int</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>(){
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">a</span> <span style="color:#a6e22e">NewInt</span>
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">b</span> <span style="color:#a6e22e">MyInt</span>
+   	
+    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%T\n&#34;</span>, <span style="color:#a6e22e">a</span>) <span style="color:#75715e">//main.NewInt
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%T&#34;</span>, <span style="color:#a6e22e">b</span>) <span style="color:#75715e">//int
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>输出结果显示a的类型是<code>main.NewInt</code>，表示main包下定义的``NewInt<code>类型；b的类型是</code>int`。</p>
+<p><code>MyInt</code>类型在编译完成时，会被替换成int</p>
+<!-- raw HTML omitted -->
+<p>{% endtabs %}</p>
+<h2 id="结构体">结构体</h2>
+<p>Go语言中结构体的定义与C/C++中类似。</p>
+<p>我们想表达一个事物的全部或部分属性时，这时用单一的基本数据类型无法满足需求，Go语言提供了自定义数据类型，可以封装多个基本数据类型，这就是结构体。</p>
+<p>通过<code>struct</code>来定义，同时在Go语言中，也通过<code>struct</code>实现面向对象</p>
+<h3 id="结构体的定义">结构体的定义</h3>
+<p>使用<code>type</code>和<code>struct</code>关键字来定义结构体，如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MyType</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">Name1</span> <span style="color:#a6e22e">Type1</span>
+	<span style="color:#a6e22e">Name2</span> <span style="color:#a6e22e">Type2</span>
+	<span style="color:#f92672">...</span>
+}
+</code></pre></div><ul>
+<li>MyType：自定义类型的名称，同一个包中不可重复</li>
+<li>Name1和Name2：结构体中成员名称，同一结构体中不可重复</li>
+<li>Type1和Type2：成员的具体类型</li>
+</ul>
+<p>例如，定义一个学生的结构体：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">student</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span>  <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">age</span>   <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">id</span>    <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">score</span> <span style="color:#66d9ef">int</span>
+}
+</code></pre></div><p>这样，使用student结构体就可以很方便在代码中表示和储存信息了</p>
+<p>Go语言内置的基础数据类型是用来描述一个值的，而结构体是用来描述一组值的。比如一个人有名字、年龄和居住城市等，本质上是一种聚合型的数据类型</p>
+<h3 id="结构体实例化">结构体实例化</h3>
+<p>只有结构体实例化后，才会对相应的变量分配内存。结构体实例化与声明内置类型一样，使用<code>var</code>关键字声明变量</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">student1</span> <span style="color:#a6e22e">student</span>
+</code></pre></div><p>{% tabs tab-2 %}</p>
+<!-- raw HTML omitted -->
+<p>通过<code>.</code>访问结构体的成员</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">student</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span>  <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">age</span>   <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">id</span>    <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">score</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">stu</span> <span style="color:#a6e22e">student</span> <span style="color:#75715e">//声明结构体变量
+</span><span style="color:#75715e"></span>
+	<span style="color:#75715e">//赋值
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">stu</span>.<span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;小学生&#34;</span>
+	<span style="color:#a6e22e">stu</span>.<span style="color:#a6e22e">age</span> = <span style="color:#ae81ff">7</span>
+	<span style="color:#a6e22e">stu</span>.<span style="color:#a6e22e">id</span> = <span style="color:#e6db74">&#34;666&#34;</span>
+	<span style="color:#a6e22e">stu</span>.<span style="color:#a6e22e">score</span> = <span style="color:#ae81ff">60</span>
+
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">stu</span>)
+
+}
+</code></pre></div><p>输出结果：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">{<span style="color:#a6e22e">小学生</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">666</span> <span style="color:#ae81ff">60</span>}
+</code></pre></div><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>在定义一些临时数据结构等场景下，可以使命匿名结构体</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">user</span> <span style="color:#66d9ef">struct</span> {
+		<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span>
+		<span style="color:#a6e22e">Age</span>  <span style="color:#66d9ef">int</span>
+	}
+	<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">Name</span> = <span style="color:#e6db74">&#34;小学生&#34;</span>
+	<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">Age</span> = <span style="color:#ae81ff">7</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">user</span>)
+}
+
+</code></pre></div><p>输出结果：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">{<span style="color:#a6e22e">小学生</span> <span style="color:#ae81ff">7</span>}
+</code></pre></div><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Go语言中还可以通过使用<code>new</code>关键字对结构体进行实例化，得到的是结构体的地址：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">student</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span>  <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">age</span>   <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">id</span>    <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">score</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> = new(<span style="color:#a6e22e">student</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%T\n&#34;</span>, <span style="color:#a6e22e">s</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s</span>)
+
+	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;小学生&#34;</span> <span style="color:#75715e">//Go语言中支持对结构体指针直接使用.来访问结构体成员
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">age</span> = <span style="color:#ae81ff">7</span>
+	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">id</span> = <span style="color:#e6db74">&#34;666&#34;</span>
+	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">score</span> = <span style="color:#ae81ff">60</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s</span>)
+}
+</code></pre></div><p>输出结果：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">main</span>.<span style="color:#a6e22e">student</span>
+<span style="color:#f92672">&amp;</span>{ <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span>}
+<span style="color:#f92672">&amp;</span>{<span style="color:#a6e22e">小学生</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">666</span> <span style="color:#ae81ff">60</span>}
+</code></pre></div><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>使用<code>&amp;</code>对结构体进行取址操作相当于对该结构体进行了依次<code>new</code>实例化操作</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">student</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span>  <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">age</span>   <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">id</span>    <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">score</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">student</span>{}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%T\n&#34;</span>, <span style="color:#a6e22e">s</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s</span>)
+
+	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;小学生&#34;</span>
+	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">age</span> = <span style="color:#ae81ff">7</span>
+	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">id</span> = <span style="color:#e6db74">&#34;666&#34;</span>
+	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">score</span> = <span style="color:#ae81ff">60</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s</span>)
+}
+
+</code></pre></div><p>输出结果：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">*</span><span style="color:#a6e22e">main</span>.<span style="color:#a6e22e">student</span>
+<span style="color:#f92672">&amp;</span>{ <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span>}
+<span style="color:#f92672">&amp;</span>{<span style="color:#a6e22e">小学生</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">666</span> <span style="color:#ae81ff">60</span>}
+</code></pre></div><!-- raw HTML omitted -->
+<p>{% endtabs %}</p>
+<h3 id="结构体初始化">结构体初始化</h3>
+<p>没有初始化的结构体，其成员变量都是对应类型的零值</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">student</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span>  <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">age</span>   <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">id</span>    <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">score</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">stu</span> <span style="color:#a6e22e">student</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%#v\n&#34;</span>, <span style="color:#a6e22e">stu</span>)
+}
+</code></pre></div><p>输出结果：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">main</span>.<span style="color:#a6e22e">student</span>{<span style="color:#a6e22e">name</span>:<span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#a6e22e">age</span>:<span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">id</span>:<span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#a6e22e">score</span>:<span style="color:#ae81ff">0</span>}
+</code></pre></div><p>{% tabs tab-3 %}</p>
+<!-- raw HTML omitted -->
+<p>使用键值对对结构体进行初始化时，键对应结构体的字段，值对应该字段的初始值</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">stu</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">student</span>{
+	<span style="color:#a6e22e">name</span>:  <span style="color:#e6db74">&#34;小学生&#34;</span>,
+	<span style="color:#a6e22e">age</span>:   <span style="color:#ae81ff">7</span>,
+	<span style="color:#a6e22e">id</span>:    <span style="color:#e6db74">&#34;666&#34;</span>,
+	<span style="color:#a6e22e">score</span>: <span style="color:#ae81ff">60</span>,
+}
+
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">stu</span>)<span style="color:#75715e">//{小学生 7 666 60}
+</span></code></pre></div><p>也可以对结构体指针进行键值对初始化：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">stu</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">student</span>{
+	<span style="color:#a6e22e">name</span>:  <span style="color:#e6db74">&#34;小学生&#34;</span>,
+	<span style="color:#a6e22e">age</span>:   <span style="color:#ae81ff">7</span>,
+	<span style="color:#a6e22e">id</span>:    <span style="color:#e6db74">&#34;666&#34;</span>,
+	<span style="color:#a6e22e">score</span>: <span style="color:#ae81ff">60</span>,
+}
+
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">stu</span>)<span style="color:#75715e">//&amp;{小学生 7 666 60}
+</span></code></pre></div><p>当某些字段没有初始值时，该字段可以不写。此时，没有指定初始值的字段的值时该字段类型的零值</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">stu</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">student</span>{
+	<span style="color:#a6e22e">name</span>:  <span style="color:#e6db74">&#34;小学生&#34;</span>,
+	<span style="color:#a6e22e">score</span>: <span style="color:#ae81ff">60</span>,
+}
+
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%#v&#34;</span>, <span style="color:#a6e22e">stu</span>)<span style="color:#75715e">//main.student{name:&#34;小学生&#34;, age:0, id:&#34;&#34;, score:60}
+</span></code></pre></div><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>初始话结构体时可以简写，也就是初始化时不写键，直接写值即可：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">stu</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">student</span>{
+	<span style="color:#e6db74">&#34;小学生&#34;</span>,
+	<span style="color:#ae81ff">7</span>,
+	<span style="color:#e6db74">&#34;666&#34;</span>,
+	<span style="color:#ae81ff">60</span>,
+}
+
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">stu</span>)<span style="color:#75715e">//{小学生 7 666 60}
+</span></code></pre></div><p>使用这种格式要注意：</p>
+<ul>
+<li>必须初始化结构体的所有字段</li>
+<li>顺序必须一致</li>
+<li>不可与简直初始化混用</li>
+</ul>
+<!-- raw HTML omitted -->
+<p>{% endtabs %}</p>
+<h3 id="结构体内存布局">结构体内存布局</h3>
+<p>结构体占用一块连续的内存</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">test</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">a</span> <span style="color:#66d9ef">int8</span>
+	<span style="color:#a6e22e">b</span> <span style="color:#66d9ef">int8</span>
+	<span style="color:#a6e22e">c</span> <span style="color:#66d9ef">int8</span>
+	<span style="color:#a6e22e">d</span> <span style="color:#66d9ef">int8</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">test</span>{
+		<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>,
+	}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;n.a %p\n&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">a</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;n.b %p\n&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">b</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;n.c %p\n&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">c</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;n.d %p\n&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">d</span>)
+}
+</code></pre></div><p>输出结果：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">a</span> <span style="color:#ae81ff">0xc000012090</span>
+<span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">b</span> <span style="color:#ae81ff">0xc000012091</span>
+<span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">c</span> <span style="color:#ae81ff">0xc000012092</span>
+<span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">d</span> <span style="color:#ae81ff">0xc000012093</span>
+</code></pre></div><h4 id="空结构体">空结构体</h4>
+<p>空结构体不占用空间</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">t</span> <span style="color:#66d9ef">struct</span>{}
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Sizeof</span>(<span style="color:#a6e22e">t</span>)) <span style="color:#75715e">// 0
+</span></code></pre></div>]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Go语言基础之结构体（二）</title>
+      <link>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%BB%93%E6%9E%84%E4%BD%93%E4%BA%8C/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%BB%93%E6%9E%84%E4%BD%93%E4%BA%8C/</guid>
+      <description>结构体</description>
+      <content:encoded><![CDATA[<p>在（一）中介绍了结构体的基本用法，（二）中将介绍结构体更多的用法。</p>
+<h3 id="构造函数">构造函数</h3>
+<p>在C++面向对象中，声明一个对象后，可以写一些针对该对象的一些方法，例如构造函数等。Go语言中的结构体没有构造函数，可以自己实现。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">student</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span>  <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">age</span>   <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">id</span>    <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">score</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#75715e">//构造函数
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Student</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">age</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">id</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">score</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">student</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">student</span>{ <span style="color:#75715e">//struct是值类型，如果结构体比较复杂，值拷贝开销较大，所以返回结构体指针类型
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">name</span>,
+		<span style="color:#a6e22e">age</span>,
+		<span style="color:#a6e22e">id</span>,
+		<span style="color:#a6e22e">score</span>,
+	}
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Student</span>(<span style="color:#e6db74">&#34;小学生&#34;</span>, <span style="color:#ae81ff">7</span>, <span style="color:#e6db74">&#34;666&#34;</span>, <span style="color:#ae81ff">60</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%#v\n&#34;</span>, <span style="color:#a6e22e">s</span>)
+	<span style="color:#75715e">//&amp;main.student{name:&#34;小学生&#34;, age:7, id:&#34;666&#34;, score:60}
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h3 id="方法和接收者">方法和接收者</h3>
+<p>Go语言中的<code>方法(Method)</code>是一种作用于特定类型变量的函数。这种特定类型变量叫做<code>接收者(Receiver)</code>。接收者的概念类似于C++中的<code>this</code>。</p>
+<p>定义格式如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">接收者变量</span> <span style="color:#a6e22e">接收者类型</span>) <span style="color:#a6e22e">方法名</span>(<span style="color:#a6e22e">参数列表</span>) (<span style="color:#a6e22e">返回参数</span>) {
+    <span style="color:#a6e22e">函数体</span>
+}
+</code></pre></div><ul>
+<li>接收者变量：接收者中的参数变量名在命名时，官方建议使用接收者类型名称首字母的小写，而不是<code>this</code>之类的命名。例如，student类型的接收者变量应该命名为 <code>p</code>，<code>Connector</code>类型的接收者变量应该命名为<code>c</code>等。</li>
+<li>接收者类型：接收者类型和参数类似，可以是指针类型和非指针类型。</li>
+<li>方法名、参数列表、返回参数：具体格式与函数定义相同。</li>
+</ul>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">student</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span>  <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">age</span>   <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">id</span>    <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">score</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#75715e">//构造函数
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Student</span>(<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">age</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">id</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">score</span> <span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">student</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">student</span>{ <span style="color:#75715e">//struct是值类型，如果结构体比较复杂，值拷贝开销较大，所以返回结构体指针类型
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">name</span>,
+		<span style="color:#a6e22e">age</span>,
+		<span style="color:#a6e22e">id</span>,
+		<span style="color:#a6e22e">score</span>,
+	}
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">student</span>) <span style="color:#a6e22e">study</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;我要好好学习！\n&#34;</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Student</span>(<span style="color:#e6db74">&#34;小学生&#34;</span>, <span style="color:#ae81ff">7</span>, <span style="color:#e6db74">&#34;666&#34;</span>, <span style="color:#ae81ff">60</span>)
+	<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">study</span>()
+}
+</code></pre></div><p>方法和函数的区别就是函数不属于任何类型，方法只属于特定的类型</p>
+<p>{% tabs tab-1 %}</p>
+<!-- raw HTML omitted -->
+<p>指针类型的接收者由一个结构的指针组成，由于指针的特性，调用方法时可以修改接收者指针的任何成员变量，在方法结束后，修改依然有效。这种方法类似于C++中使用<code>this</code>。</p>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">student</span>) <span style="color:#a6e22e">setAge</span>(<span style="color:#a6e22e">age</span> <span style="color:#66d9ef">int</span>) {
+	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">age</span> = <span style="color:#a6e22e">age</span>
+}
+</code></pre></div><p>这是一个修改student的age 的方法</p>
+<p>调用：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Student</span>(<span style="color:#e6db74">&#34;小学生&#34;</span>, <span style="color:#ae81ff">7</span>, <span style="color:#e6db74">&#34;666&#34;</span>, <span style="color:#ae81ff">60</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">age</span>) <span style="color:#75715e">//7
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">setAge</span>(<span style="color:#ae81ff">18</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">age</span>) <span style="color:#75715e">//18
+</span><span style="color:#75715e"></span>}
+</code></pre></div><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>与指针类型的接收者对比，调用方法时，拿到的是值类型接收者的值的拷贝份。在值类型接收者的方法中可以获取接收者的成员值，但修改成员变量指针对这个副本，无法修改接收者变量本身。</p>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">s</span> <span style="color:#a6e22e">student</span>) <span style="color:#a6e22e">setAge</span>(<span style="color:#a6e22e">age</span> <span style="color:#66d9ef">int</span>) {
+	<span style="color:#a6e22e">s</span>.<span style="color:#a6e22e">age</span> = <span style="color:#a6e22e">age</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Student</span>(<span style="color:#e6db74">&#34;小学生&#34;</span>, <span style="color:#ae81ff">7</span>, <span style="color:#e6db74">&#34;666&#34;</span>, <span style="color:#ae81ff">60</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">age</span>) <span style="color:#75715e">//7
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">setAge</span>(<span style="color:#ae81ff">18</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">age</span>) <span style="color:#75715e">//7
+</span><span style="color:#75715e"></span>}
+</code></pre></div><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<ol>
+<li>需要修改接收者的成员值</li>
+<li>接收者是比较复杂的结构体，拷贝开销大</li>
+</ol>
+<!-- raw HTML omitted -->
+<p>{% endtabs %}</p>
+<h3 id="任意类型添加方法">任意类型添加方法</h3>
+<p>Go语言中，接收者的类型可以是任何类型，不仅仅是结构体，任何类型都可以拥有方法。例如，基于内置的<code>int</code>类型使用type关键字可以定义新的自定义类型，然后为这个自定义类型添加方法。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MyInt</span> <span style="color:#66d9ef">int</span>
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">m</span> <span style="color:#a6e22e">MyInt</span>) <span style="color:#a6e22e">SayHello</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Hello, I&#39;m SatHello&#34;</span>) <span style="color:#75715e">//Hello, I&#39;m SatHello
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">m</span> <span style="color:#a6e22e">MyInt</span>
+	<span style="color:#a6e22e">m</span>.<span style="color:#a6e22e">SayHello</span>()
+	<span style="color:#a6e22e">m</span> = <span style="color:#ae81ff">100</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%#v %T\n&#34;</span>, <span style="color:#a6e22e">m</span>, <span style="color:#a6e22e">m</span>) <span style="color:#75715e">//100 main.MyInt
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>注意：只可以给本包的类型定义方法</p>
+<h3 id="结构体的匿名字段">结构体的匿名字段</h3>
+<p>结构体允许其成员字段在声明时没有字段名而只有类型，这种没有名字的字段称为匿名字段。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">student</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#66d9ef">string</span>
+	<span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">student</span>{
+		<span style="color:#e6db74">&#34;小学生&#34;</span>,
+		<span style="color:#ae81ff">7</span>,
+	}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%#v\n&#34;</span>, <span style="color:#a6e22e">s</span>) <span style="color:#75715e">//&amp;main.student{string:&#34;小学生&#34;, int:7}
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>匿名字段的说法并不代表没有字段名，而是默认采用类型名作为字段名。从其定义中不难发现，</p>
+<p>由于结构体要求字段名必须唯一，因此一个结构体中一种类型的匿名字段只能有一个。</p>
+<h3 id="嵌套结构体">嵌套结构体</h3>
+<p>一个结构体中可以嵌套包含另一个结构体或结构体指针，例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#75715e">//成绩信息
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">grade</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">math</span>    <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">chinese</span> <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">english</span> <span style="color:#66d9ef">int</span>
+}
+
+<span style="color:#75715e">//学生信息
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">student</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span>    <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">age</span>     <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">mygrade</span> <span style="color:#a6e22e">grade</span>
+    <span style="color:#75715e">//grade
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//↑可采用匿名字段的方式嵌套
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">student</span>{
+		<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;小学生&#34;</span>,
+		<span style="color:#a6e22e">age</span>:  <span style="color:#ae81ff">7</span>,
+		<span style="color:#a6e22e">mygrade</span>: <span style="color:#a6e22e">grade</span>{
+			<span style="color:#a6e22e">math</span>:    <span style="color:#ae81ff">60</span>,
+			<span style="color:#a6e22e">chinese</span>: <span style="color:#ae81ff">60</span>,
+			<span style="color:#a6e22e">english</span>: <span style="color:#ae81ff">60</span>,
+		},
+	}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%#v\n&#34;</span>, <span style="color:#a6e22e">s</span>)
+	<span style="color:#75715e">//&amp;main.student{name:&#34;小学生&#34;, age:7, mygrade:main.grade{math:60, chinese:60, english:60}}
+</span><span style="color:#75715e"></span>}
+
+</code></pre></div><h3 id="结构体的继承">结构体的“继承”</h3>
+<p>Go语言中使用结构体也可以实现C++中面向对象的继承。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Animal</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">a</span> <span style="color:#a6e22e">Animal</span>) <span style="color:#a6e22e">move</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s会动\n&#34;</span>, <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">name</span>)
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Dog</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">age</span>     <span style="color:#66d9ef">int</span>
+	<span style="color:#f92672">*</span><span style="color:#a6e22e">Animal</span> <span style="color:#75715e">//通过嵌套匿名结构体实现继承
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Dog</span>) <span style="color:#a6e22e">wang</span>() {
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s汪汪汪的叫\n&#34;</span>, <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">name</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">d</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Dog</span>{
+		<span style="color:#a6e22e">age</span>: <span style="color:#ae81ff">4</span>,
+		<span style="color:#a6e22e">Animal</span>: <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Animal</span>{
+			<span style="color:#a6e22e">name</span>: <span style="color:#e6db74">&#34;小明&#34;</span>,
+		},
+	}
+	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">move</span>()
+	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">wang</span>()
+}
+
+</code></pre></div><h3 id="结构体字段的可见性">结构体字段的可见性</h3>
+<p>结构体中字段大写开头表示可公开访问，小写代表私有（仅在定义当前结构体的包中可访问）</p>
+<p>{% note warning, 区别私有概念 %}</p>]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>
