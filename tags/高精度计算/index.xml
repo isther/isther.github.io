@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>高精度计算 on Ther&#39;s Blog 👋</title>
+    <link>https://www.niuwx.cn/tags/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97/</link>
+    <description>Recent content in 高精度计算 on Ther&#39;s Blog 👋</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 19 Mar 2021 22:02:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>高精度计算</title>
+      <link>https://www.niuwx.cn/posts/%E7%AE%97%E6%B3%95/%E9%AB%98%E7%B2%BE%E5%BA%A6/</link>
+      <pubDate>Fri, 19 Mar 2021 22:02:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/%E7%AE%97%E6%B3%95/%E9%AB%98%E7%B2%BE%E5%BA%A6/</guid>
+      <description>简单介绍了一下高精度计算</description>
+      <content:encoded><![CDATA[<p>C/C++中，当进行整数计算时，最多可以储存一个8bye的数据，也就是$2^{64}$，超过这个限度的数字，没有其他的数据类型来储存。所以就需要高精度来解决这一问题</p>
+<h2 id="存储">存储</h2>
+<p>高精度可以使用字符串或者数组来表示，在存储时逆序存储，在输出时逆序输出</p>
+<h4 id="头文件及全局变量">头文件及全局变量</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> LEN <span style="color:#f92672">=</span> <span style="color:#ae81ff">1004</span>;
+<span style="color:#66d9ef">int</span> a[LEN], b[LEN], c[LEN], d[LEN];
+<span style="color:#66d9ef">int</span> flag;
+</code></pre></div><h4 id="清空">清空</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clean</span>(<span style="color:#66d9ef">int</span> temp[]) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> LEN; <span style="color:#f92672">++</span>i)
+        temp[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h4 id="存储-1">存储</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">read</span>(<span style="color:#66d9ef">int</span> temp[]) {
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">char</span> s[LEN <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+    scanf(<span style="color:#e6db74">&#34;%s&#34;</span>, s);
+
+    clean(temp);
+
+    <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> strlen(s);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; <span style="color:#f92672">++</span>i) {
+        temp[len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> i] <span style="color:#f92672">=</span> s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;0&#39;</span>;
+    }
+}
+</code></pre></div><h4 id="输出">输出</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>(<span style="color:#66d9ef">int</span> a[]) {
+    <span style="color:#66d9ef">int</span> i;
+    <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; <span style="color:#f92672">--</span>i)
+        <span style="color:#66d9ef">if</span> (a[i] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+            <span style="color:#66d9ef">break</span>;
+    <span style="color:#66d9ef">for</span> (; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>)
+        putchar(a[i] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;0&#39;</span>);
+    putchar(<span style="color:#e6db74">&#39;\n&#39;</span>);
+}
+</code></pre></div><p>这样就完成了对于数据的存储与输出</p>
+<h2 id="加法">加法</h2>
+<p>高精度加法其实就是按照竖式加法法则来计算</p>
+<p>从低位开始相加，满十则向高一位进一，本位取余</p>
+<p>{% note info, 这里使用十进制，也可以使用其他更大的进制，如1000进制 %}</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">//高精度加法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">int</span> a[], <span style="color:#66d9ef">int</span> b[], <span style="color:#66d9ef">int</span> c[]) {
+    clean(c);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        c[i] <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">+</span> b[i];
+        <span style="color:#66d9ef">if</span> (c[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>) {<span style="color:#75715e">//判断是否满十
+</span><span style="color:#75715e"></span>            c[i] <span style="color:#f92672">-=</span> <span style="color:#ae81ff">10</span>;
+            c[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+}
+</code></pre></div><h2 id="减法">减法</h2>
+<p>高精度减法同样也是按照竖式减法逐位相减，减不过向高一位借一。</p>
+<p>因为要考虑到小数减大数的情况，所以用此函数来判断</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">compare</span>(<span style="color:#66d9ef">int</span> a[], <span style="color:#66d9ef">int</span> b[]) {
+    <span style="color:#66d9ef">int</span> i, j;
+    <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; <span style="color:#f92672">--</span>i)
+        <span style="color:#66d9ef">if</span> (a[i] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+            <span style="color:#66d9ef">break</span>;
+    <span style="color:#66d9ef">for</span> (j <span style="color:#f92672">=</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; <span style="color:#f92672">--</span>j)
+        <span style="color:#66d9ef">if</span> (b[j] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+            <span style="color:#66d9ef">break</span>;
+
+    <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&gt;</span> j) {
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> j) {
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+    } <span style="color:#66d9ef">else</span> {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> i; p <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>p) {
+            <span style="color:#66d9ef">if</span> (a[p] <span style="color:#f92672">==</span> b[p])
+                <span style="color:#66d9ef">continue</span>;
+
+            <span style="color:#66d9ef">if</span> (a[p] <span style="color:#f92672">&gt;</span> b[p])
+                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">else</span>
+                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">//高精度减法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sub</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> a, <span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> b, <span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> c) {
+    flag <span style="color:#f92672">=</span> compare(a, b);<span style="color:#75715e">//判断是否是小数减大数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (flag) {<span style="color:#75715e">//如果是
+</span><span style="color:#75715e"></span>        putchar(<span style="color:#e6db74">&#39;-&#39;</span>);<span style="color:#75715e">//则输出负号
+</span><span style="color:#75715e"></span>        sub(b, a, c);<span style="color:#75715e">//按照大数减小数计算
+</span><span style="color:#75715e"></span>        flag <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">return</span>;
+    }
+
+    clean(c);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        c[i] <span style="color:#f92672">+=</span> a[i] <span style="color:#f92672">-</span> b[i];
+        <span style="color:#66d9ef">if</span> (c[i] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+            c[i] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">10</span>;
+            c[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+}
+</code></pre></div><h2 id="乘法">乘法</h2>
+<h4 id="高精度低精度">高精度*低精度</h4>
+<p>如果是高精度与低精度相乘的话，就没必要使用高精度乘法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">mul</span>(<span style="color:#66d9ef">int</span> a[], <span style="color:#66d9ef">int</span> b, <span style="color:#66d9ef">int</span> c[]) {
+    clean(c);
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; <span style="color:#f92672">++</span>i) {
+        c[i] <span style="color:#f92672">+=</span> a[i] <span style="color:#f92672">*</span> b;<span style="color:#75715e">//每位都乘低精度
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">if</span> (c[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>) {
+            c[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+=</span> c[i] <span style="color:#f92672">/</span> <span style="color:#ae81ff">10</span>;
+            c[i] <span style="color:#f92672">%=</span> <span style="color:#ae81ff">10</span>;
+        }
+    }
+}
+</code></pre></div><h4 id="高精度高精度">高精度*高精度</h4>
+<p>高精度与高精度相乘也是模拟了手写计算乘法的方式</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">//高精度乘法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">mul</span>(<span style="color:#66d9ef">int</span> a[], <span style="color:#66d9ef">int</span> b[], <span style="color:#66d9ef">int</span> c[]) {
+    clean(c);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#75715e">// 第 i 次循环为 c[i] 加上了所有满足 p + q = i 的 a[p] 与 b[q] 的乘积之和
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> i; j<span style="color:#f92672">++</span>) {
+            c[i] <span style="color:#f92672">+=</span> a[j] <span style="color:#f92672">*</span> b[i <span style="color:#f92672">-</span> j];
+        }
+        
+        <span style="color:#66d9ef">if</span> (c[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>) {
+            c[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> c[i] <span style="color:#f92672">/</span> <span style="color:#ae81ff">10</span>;
+            c[i] <span style="color:#f92672">%=</span> <span style="color:#ae81ff">10</span>;
+        }
+    }
+}
+</code></pre></div><h2 id="除法">除法</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">//判断长度
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">greater_eq</span>(<span style="color:#66d9ef">int</span> a[], <span style="color:#66d9ef">int</span> b[], <span style="color:#66d9ef">int</span> last_dg, <span style="color:#66d9ef">int</span> len) {
+    <span style="color:#66d9ef">if</span> (a[last_dg <span style="color:#f92672">+</span> len] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+        <span style="color:#66d9ef">return</span> true;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>i) {
+        <span style="color:#66d9ef">if</span> (a[last_dg <span style="color:#f92672">+</span> i] <span style="color:#f92672">&gt;</span> b[i])
+            <span style="color:#66d9ef">return</span> true;
+        <span style="color:#66d9ef">if</span> (a[last_dg <span style="color:#f92672">+</span> i] <span style="color:#f92672">&lt;</span> b[i])
+            <span style="color:#66d9ef">return</span> false;
+    }
+    <span style="color:#66d9ef">return</span> true;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">//高精度除法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">div</span>(<span style="color:#66d9ef">int</span> a[], <span style="color:#66d9ef">int</span> b[], <span style="color:#66d9ef">int</span> c[], <span style="color:#66d9ef">int</span> d[]) {
+    clean(c);
+    clean(d);
+
+    <span style="color:#66d9ef">int</span> la, lb;
+    <span style="color:#66d9ef">for</span> (la <span style="color:#f92672">=</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; la <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>la)
+        <span style="color:#66d9ef">if</span> (a[la <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+            <span style="color:#66d9ef">break</span>;
+    <span style="color:#66d9ef">for</span> (lb <span style="color:#f92672">=</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; lb <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>lb)
+        <span style="color:#66d9ef">if</span> (b[lb <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+            <span style="color:#66d9ef">break</span>;
+    <span style="color:#66d9ef">if</span> (lb <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+        puts(<span style="color:#e6db74">&#34;除数为零，错误&#34;</span>);
+        <span style="color:#66d9ef">return</span>;
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> la; <span style="color:#f92672">++</span>i) d[i] <span style="color:#f92672">=</span> a[i];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> la <span style="color:#f92672">-</span> lb; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>i) {
+        <span style="color:#66d9ef">while</span> (greater_eq(d, b, i, lb)) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> lb; <span style="color:#f92672">++</span>j) {
+                d[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">-=</span> b[j];
+                <span style="color:#66d9ef">if</span> (d[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+                    d[i <span style="color:#f92672">+</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>;
+                    d[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">10</span>;
+                }
+            }
+            c[i] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+}
+</code></pre></div><h2 id="测试">测试</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    flag <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    read(a);
+    read(b);
+
+    add(a, b, c);
+    print(c);
+
+    sub(a, b, c);
+    print(c);
+
+    mul(a, b, c);
+    print(c);
+
+    div(a, b, c, d);
+    print(c);
+    print(d);
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div>]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

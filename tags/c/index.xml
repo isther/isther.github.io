@@ -1,0 +1,2017 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>C on Ther&#39;s Blog 👋</title>
+    <link>https://www.niuwx.cn/tags/c/</link>
+    <description>Recent content in C on Ther&#39;s Blog 👋</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 27 Mar 2021 19:02:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/c/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>拓扑排序</title>
+      <link>https://www.niuwx.cn/posts/%E7%AE%97%E6%B3%95/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/</link>
+      <pubDate>Sat, 27 Mar 2021 19:02:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/%E7%AE%97%E6%B3%95/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/</guid>
+      <description>简单介绍了一下拓扑排序</description>
+      <content:encoded><![CDATA[<p>这篇文章将介绍图论中的拓扑排序。</p>
+<h3 id="什么是拓扑排序">什么是拓扑排序？</h3>
+<p>对于任何有向无环图而言，其拓扑排序为其所有结点的一个线性排序（对于同一个有向五环图而言可能存在多个这样的结点排序）。</p>
+<h3 id="拓扑排序">拓扑排序</h3>
+<ul>
+<li>入度：指向v的边的个数叫做v的入度。</li>
+<li>出度：v指向的点的个数叫做v的出度。</li>
+</ul>
+<p>如果一个点的入度是<code>0</code>，那么说明这个点是起点（起点不止一个）。如果一个点的出度为<code>0</code>，那么说明这个点排在最后。</p>
+<p>举例说明：</p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/imgDAG1.jpg" alt="DAG1"  />
+</p>
+<p>如图所示，这是一个有向无环图，其指向顺序为<code>a,(b,c),d,e</code>,则<code>abcde</code>和<code>acbde</code>都是这个图的拓扑排序。</p>
+<p>很显然，一个图是有向无环图(DAG)是其可以进行拓扑排序的充要条件。</p>
+<h3 id="拓扑排序的实现">拓扑排序的实现</h3>
+<p>DFS和BFS都可以实现拓扑排序。</p>
+<h4 id="bfs实现拓扑排序">BFS实现拓扑排序</h4>
+<p>这种算法也叫做Kahn算法</p>
+<p>继续使用上面的例子进行说明</p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/imgDAG1.jpg" alt="DAG1"  />
+</p>
+<p>BFS实现拓扑排序有两个实现方向，即无前驱的顶点优先、无后继的顶点优先，简单点说就是顺着找或倒着找。两种方法都差不多，在这里只介绍无前驱的定点优先。</p>
+<p>无前驱的顶点优先就是顺着找，a的入度为<code>0</code>，则其为起点，a入队；</p>
+<p>a出队，a指向了c，c的入度减一，判断其入度是否为零，若为零，则入队，则c入队，b同理也入队；</p>
+<p>目前队列中有{c,b}，c出队，c指向d，d入度减一，d入度不为零，不入队；</p>
+<p>b出队，b指向d，d入度减一，d入度为零，入队；</p>
+<p>d出队，d指向e，e入度减一，e入度为零，入队；</p>
+<p>e出队，无后续结点，结束。</p>
+<p>由上述过程可得拓扑排序为<code>acbde</code>。</p>
+<h6 id="时间复杂度">时间复杂度</h6>
+<p>假设这个图$G = (V,E)$，则其时间复杂度为$O(E+V)$。</p>
+<p>代码实现如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">100005</span>;
+<span style="color:#66d9ef">int</span> T, n, m, u, v;
+
+<span style="color:#66d9ef">int</span> deg[N];
+<span style="color:#66d9ef">int</span> vis[N];
+<span style="color:#66d9ef">int</span> dest[N];
+vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> g[N];
+queue<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> q;
+
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">toposort</span>() {
+    <span style="color:#75715e">//将入度为零的点放入队列
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>deg[i]) {
+            vis[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+            q.push(i);
+        }
+    }
+
+    <span style="color:#66d9ef">int</span> num <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>q.empty()) {
+        <span style="color:#66d9ef">int</span> now <span style="color:#f92672">=</span> q.front();
+        q.pop();
+        dest[num<span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> now;
+
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> to : g[now]) {
+            <span style="color:#66d9ef">if</span> (vis[to])  <span style="color:#75715e">//判断该节点是否在队列中
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">continue</span>;
+            <span style="color:#66d9ef">else</span> {
+                deg[to]<span style="color:#f92672">--</span>;        <span style="color:#75715e">//入度减一
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>deg[to]) {   <span style="color:#75715e">//判断入度是否为零
+</span><span style="color:#75715e"></span>                    q.push(to);   <span style="color:#75715e">//入队
+</span><span style="color:#75715e"></span>                    vis[to] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;  <span style="color:#75715e">//标记其在队列中
+</span><span style="color:#75715e"></span>                }
+            }
+        }
+    }
+    <span style="color:#66d9ef">if</span> (num <span style="color:#f92672">==</span> n)
+        <span style="color:#66d9ef">return</span> true;
+    <span style="color:#66d9ef">else</span>
+        <span style="color:#66d9ef">return</span> false;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#66d9ef">const</span> <span style="color:#f92672">*</span>argv[]) {
+    memset(deg, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(deg));
+    memset(vis, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(vis));
+    memset(dest, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(dest));
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> N; i<span style="color:#f92672">++</span>)
+        g[i].clear();
+
+    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>q.empty())
+        q.pop();
+    <span style="color:#75715e">//以上为初始化
+</span><span style="color:#75715e"></span>
+    cin <span style="color:#f92672">&gt;&gt;</span> n <span style="color:#f92672">&gt;&gt;</span> m;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> m; i<span style="color:#f92672">++</span>) {
+        scanf(<span style="color:#e6db74">&#34;%d%d&#34;</span>, <span style="color:#f92672">&amp;</span>u, <span style="color:#f92672">&amp;</span>v);  <span style="color:#75715e">//读入
+</span><span style="color:#75715e"></span>        g[u].push_back(v);
+        deg[v]<span style="color:#f92672">++</span>;  <span style="color:#75715e">//统计入度
+</span><span style="color:#75715e"></span>    }
+
+    <span style="color:#66d9ef">if</span> (toposort()) {<span style="color:#75715e">//如果可以生成拓扑排序
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>)  <span style="color:#75715e">//输出结果
+</span><span style="color:#75715e"></span>            printf(<span style="color:#e6db74">&#34;%d%c&#34;</span>, dest[i], i <span style="color:#f92672">==</span> n <span style="color:#f92672">?</span> <span style="color:#e6db74">&#39;\n&#39;</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39; &#39;</span>);
+    }
+    <span style="color:#66d9ef">else</span> printf(<span style="color:#e6db74">&#34;NO</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#75715e">//测试数据
+</span><span style="color:#75715e">//有向有环图
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">2</span> <span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">1</span> <span style="color:#ae81ff">3</span>
+<span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span>
+<span style="color:#ae81ff">4</span> <span style="color:#ae81ff">2</span>
+<span style="color:#75715e">//有向无环图
+</span><span style="color:#75715e"></span><span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span>
+<span style="color:#ae81ff">1</span> <span style="color:#ae81ff">3</span>
+<span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span>
+<span style="color:#ae81ff">2</span> <span style="color:#ae81ff">4</span>
+<span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span>
+</code></pre></div><h4 id="dfs实现拓扑排序">DFS实现拓扑排序</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">100005</span>;
+
+<span style="color:#66d9ef">int</span> n, u, v;
+<span style="color:#66d9ef">int</span> c[N];          <span style="color:#75715e">// 标志数组
+</span><span style="color:#75715e"></span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> G[N];  <span style="color:#75715e">// vector 实现的邻接表
+</span><span style="color:#75715e"></span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> topo;  <span style="color:#75715e">// 拓扑排序后的节点
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> u) {
+    c[u] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> v : G[u]) {
+        <span style="color:#66d9ef">if</span> (c[v] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)
+            <span style="color:#66d9ef">return</span> false;
+        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>c[v])
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>dfs(v))
+                <span style="color:#66d9ef">return</span> false;
+    }
+    c[u] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    topo.push_back(u);
+    <span style="color:#66d9ef">return</span> true;
+}
+
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">toposort</span>() {
+    topo.clear();
+    memset(c, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(c));
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> u <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; u <span style="color:#f92672">&lt;</span> n; u<span style="color:#f92672">++</span>)
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>c[u])
+            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>dfs(u))
+                <span style="color:#66d9ef">return</span> false;
+    reverse(topo.begin(), topo.end());
+    <span style="color:#66d9ef">return</span> true;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#66d9ef">const</span> <span style="color:#f92672">*</span>argv[]) {
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div>]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>高精度计算</title>
+      <link>https://www.niuwx.cn/posts/%E7%AE%97%E6%B3%95/%E9%AB%98%E7%B2%BE%E5%BA%A6/</link>
+      <pubDate>Fri, 19 Mar 2021 22:02:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/%E7%AE%97%E6%B3%95/%E9%AB%98%E7%B2%BE%E5%BA%A6/</guid>
+      <description>简单介绍了一下高精度计算</description>
+      <content:encoded><![CDATA[<p>C/C++中，当进行整数计算时，最多可以储存一个8bye的数据，也就是$2^{64}$，超过这个限度的数字，没有其他的数据类型来储存。所以就需要高精度来解决这一问题</p>
+<h2 id="存储">存储</h2>
+<p>高精度可以使用字符串或者数组来表示，在存储时逆序存储，在输出时逆序输出</p>
+<h4 id="头文件及全局变量">头文件及全局变量</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> LEN <span style="color:#f92672">=</span> <span style="color:#ae81ff">1004</span>;
+<span style="color:#66d9ef">int</span> a[LEN], b[LEN], c[LEN], d[LEN];
+<span style="color:#66d9ef">int</span> flag;
+</code></pre></div><h4 id="清空">清空</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clean</span>(<span style="color:#66d9ef">int</span> temp[]) {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> LEN; <span style="color:#f92672">++</span>i)
+        temp[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h4 id="存储-1">存储</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">read</span>(<span style="color:#66d9ef">int</span> temp[]) {
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">char</span> s[LEN <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+    scanf(<span style="color:#e6db74">&#34;%s&#34;</span>, s);
+
+    clean(temp);
+
+    <span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> strlen(s);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; <span style="color:#f92672">++</span>i) {
+        temp[len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> i] <span style="color:#f92672">=</span> s[i] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;0&#39;</span>;
+    }
+}
+</code></pre></div><h4 id="输出">输出</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print</span>(<span style="color:#66d9ef">int</span> a[]) {
+    <span style="color:#66d9ef">int</span> i;
+    <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; <span style="color:#f92672">--</span>i)
+        <span style="color:#66d9ef">if</span> (a[i] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+            <span style="color:#66d9ef">break</span>;
+    <span style="color:#66d9ef">for</span> (; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i<span style="color:#f92672">--</span>)
+        putchar(a[i] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;0&#39;</span>);
+    putchar(<span style="color:#e6db74">&#39;\n&#39;</span>);
+}
+</code></pre></div><p>这样就完成了对于数据的存储与输出</p>
+<h2 id="加法">加法</h2>
+<p>高精度加法其实就是按照竖式加法法则来计算</p>
+<p>从低位开始相加，满十则向高一位进一，本位取余</p>
+<p>{% note info, 这里使用十进制，也可以使用其他更大的进制，如1000进制 %}</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">//高精度加法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">int</span> a[], <span style="color:#66d9ef">int</span> b[], <span style="color:#66d9ef">int</span> c[]) {
+    clean(c);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        c[i] <span style="color:#f92672">=</span> a[i] <span style="color:#f92672">+</span> b[i];
+        <span style="color:#66d9ef">if</span> (c[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>) {<span style="color:#75715e">//判断是否满十
+</span><span style="color:#75715e"></span>            c[i] <span style="color:#f92672">-=</span> <span style="color:#ae81ff">10</span>;
+            c[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+}
+</code></pre></div><h2 id="减法">减法</h2>
+<p>高精度减法同样也是按照竖式减法逐位相减，减不过向高一位借一。</p>
+<p>因为要考虑到小数减大数的情况，所以用此函数来判断</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">compare</span>(<span style="color:#66d9ef">int</span> a[], <span style="color:#66d9ef">int</span> b[]) {
+    <span style="color:#66d9ef">int</span> i, j;
+    <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; <span style="color:#f92672">--</span>i)
+        <span style="color:#66d9ef">if</span> (a[i] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+            <span style="color:#66d9ef">break</span>;
+    <span style="color:#66d9ef">for</span> (j <span style="color:#f92672">=</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; <span style="color:#f92672">--</span>j)
+        <span style="color:#66d9ef">if</span> (b[j] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+            <span style="color:#66d9ef">break</span>;
+
+    <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&gt;</span> j) {
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">&lt;</span> j) {
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+    } <span style="color:#66d9ef">else</span> {
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> p <span style="color:#f92672">=</span> i; p <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>p) {
+            <span style="color:#66d9ef">if</span> (a[p] <span style="color:#f92672">==</span> b[p])
+                <span style="color:#66d9ef">continue</span>;
+
+            <span style="color:#66d9ef">if</span> (a[p] <span style="color:#f92672">&gt;</span> b[p])
+                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">else</span>
+                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">//高精度减法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sub</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> a, <span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> b, <span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> c) {
+    flag <span style="color:#f92672">=</span> compare(a, b);<span style="color:#75715e">//判断是否是小数减大数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (flag) {<span style="color:#75715e">//如果是
+</span><span style="color:#75715e"></span>        putchar(<span style="color:#e6db74">&#39;-&#39;</span>);<span style="color:#75715e">//则输出负号
+</span><span style="color:#75715e"></span>        sub(b, a, c);<span style="color:#75715e">//按照大数减小数计算
+</span><span style="color:#75715e"></span>        flag <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">return</span>;
+    }
+
+    clean(c);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        c[i] <span style="color:#f92672">+=</span> a[i] <span style="color:#f92672">-</span> b[i];
+        <span style="color:#66d9ef">if</span> (c[i] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+            c[i] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">10</span>;
+            c[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+}
+</code></pre></div><h2 id="乘法">乘法</h2>
+<h4 id="高精度低精度">高精度*低精度</h4>
+<p>如果是高精度与低精度相乘的话，就没必要使用高精度乘法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">mul</span>(<span style="color:#66d9ef">int</span> a[], <span style="color:#66d9ef">int</span> b, <span style="color:#66d9ef">int</span> c[]) {
+    clean(c);
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; <span style="color:#f92672">++</span>i) {
+        c[i] <span style="color:#f92672">+=</span> a[i] <span style="color:#f92672">*</span> b;<span style="color:#75715e">//每位都乘低精度
+</span><span style="color:#75715e"></span>
+        <span style="color:#66d9ef">if</span> (c[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>) {
+            c[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+=</span> c[i] <span style="color:#f92672">/</span> <span style="color:#ae81ff">10</span>;
+            c[i] <span style="color:#f92672">%=</span> <span style="color:#ae81ff">10</span>;
+        }
+    }
+}
+</code></pre></div><h4 id="高精度高精度">高精度*高精度</h4>
+<p>高精度与高精度相乘也是模拟了手写计算乘法的方式</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">//高精度乘法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">mul</span>(<span style="color:#66d9ef">int</span> a[], <span style="color:#66d9ef">int</span> b[], <span style="color:#66d9ef">int</span> c[]) {
+    clean(c);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i<span style="color:#f92672">++</span>) {
+        <span style="color:#75715e">// 第 i 次循环为 c[i] 加上了所有满足 p + q = i 的 a[p] 与 b[q] 的乘积之和
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;=</span> i; j<span style="color:#f92672">++</span>) {
+            c[i] <span style="color:#f92672">+=</span> a[j] <span style="color:#f92672">*</span> b[i <span style="color:#f92672">-</span> j];
+        }
+        
+        <span style="color:#66d9ef">if</span> (c[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>) {
+            c[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> c[i] <span style="color:#f92672">/</span> <span style="color:#ae81ff">10</span>;
+            c[i] <span style="color:#f92672">%=</span> <span style="color:#ae81ff">10</span>;
+        }
+    }
+}
+</code></pre></div><h2 id="除法">除法</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">//判断长度
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">greater_eq</span>(<span style="color:#66d9ef">int</span> a[], <span style="color:#66d9ef">int</span> b[], <span style="color:#66d9ef">int</span> last_dg, <span style="color:#66d9ef">int</span> len) {
+    <span style="color:#66d9ef">if</span> (a[last_dg <span style="color:#f92672">+</span> len] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+        <span style="color:#66d9ef">return</span> true;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>i) {
+        <span style="color:#66d9ef">if</span> (a[last_dg <span style="color:#f92672">+</span> i] <span style="color:#f92672">&gt;</span> b[i])
+            <span style="color:#66d9ef">return</span> true;
+        <span style="color:#66d9ef">if</span> (a[last_dg <span style="color:#f92672">+</span> i] <span style="color:#f92672">&lt;</span> b[i])
+            <span style="color:#66d9ef">return</span> false;
+    }
+    <span style="color:#66d9ef">return</span> true;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">//高精度除法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">div</span>(<span style="color:#66d9ef">int</span> a[], <span style="color:#66d9ef">int</span> b[], <span style="color:#66d9ef">int</span> c[], <span style="color:#66d9ef">int</span> d[]) {
+    clean(c);
+    clean(d);
+
+    <span style="color:#66d9ef">int</span> la, lb;
+    <span style="color:#66d9ef">for</span> (la <span style="color:#f92672">=</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; la <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>la)
+        <span style="color:#66d9ef">if</span> (a[la <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+            <span style="color:#66d9ef">break</span>;
+    <span style="color:#66d9ef">for</span> (lb <span style="color:#f92672">=</span> LEN <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; lb <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>lb)
+        <span style="color:#66d9ef">if</span> (b[lb <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+            <span style="color:#66d9ef">break</span>;
+    <span style="color:#66d9ef">if</span> (lb <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+        puts(<span style="color:#e6db74">&#34;除数为零，错误&#34;</span>);
+        <span style="color:#66d9ef">return</span>;
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> la; <span style="color:#f92672">++</span>i) d[i] <span style="color:#f92672">=</span> a[i];
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> la <span style="color:#f92672">-</span> lb; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>i) {
+        <span style="color:#66d9ef">while</span> (greater_eq(d, b, i, lb)) {
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> lb; <span style="color:#f92672">++</span>j) {
+                d[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">-=</span> b[j];
+                <span style="color:#66d9ef">if</span> (d[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+                    d[i <span style="color:#f92672">+</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>;
+                    d[i <span style="color:#f92672">+</span> j] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">10</span>;
+                }
+            }
+            c[i] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;
+        }
+    }
+}
+</code></pre></div><h2 id="测试">测试</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    flag <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    read(a);
+    read(b);
+
+    add(a, b, c);
+    print(c);
+
+    sub(a, b, c);
+    print(c);
+
+    mul(a, b, c);
+    print(c);
+
+    div(a, b, c, d);
+    print(c);
+    print(d);
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div>]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>快速幂</title>
+      <link>https://www.niuwx.cn/posts/%E7%AE%97%E6%B3%95/%E5%BF%AB%E9%80%9F%E5%B9%82/</link>
+      <pubDate>Wed, 10 Mar 2021 20:02:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/%E7%AE%97%E6%B3%95/%E5%BF%AB%E9%80%9F%E5%B9%82/</guid>
+      <description>简单介绍了一下快速幂</description>
+      <content:encoded><![CDATA[<h2 id="引入">引入</h2>
+<p>例题<a href="http://acm.hdu.edu.cn/showproblem.php?pid=1097">hdu1097</a></p>
+<p>这道题如果使用暴力法，数据过大时候会超时或者变量存不下那么大的数，所以需要考虑其他方法</p>
+<p>{% folding green, 点击展开 %}</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fastPower</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> base, <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> power){
+    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> power; i<span style="color:#f92672">++</span>){
+        ans <span style="color:#f92672">*=</span>base;
+    }
+    <span style="color:#66d9ef">return</span> ans <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+}
+</code></pre></div><p>{%endfolding%}</p>
+<p>那么，考虑到个位数的改变只与个位数有关，如果每次只计算个位数呢？</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">fastPower</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> base, <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> power){
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    base <span style="color:#f92672">%=</span> <span style="color:#ae81ff">10</span>;
+    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> power; i<span style="color:#f92672">++</span>){
+        ans <span style="color:#f92672">*=</span> base;
+        <span style="color:#66d9ef">if</span>(ans <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>)
+            ans <span style="color:#f92672">%=</span> <span style="color:#ae81ff">10</span>;
+    }
+    <span style="color:#66d9ef">return</span> ans;
+}
+</code></pre></div><p>结果同样，如果数据过大，还是会超时。</p>
+<h2 id="快速幂">快速幂</h2>
+<p>{% folding green, 取模的运算法则 %}</p>
+<p>$(a+b) mod M = (amodM + bmodM)modM$</p>
+<p>$(a-b)modM = (amodM - bmodM)modM$</p>
+<p>$(a*b)modM = (amodM * bmodM)modM$</p>
+<p>{% endfolding %}</p>
+<hr>
+<h4 id="入门">入门</h4>
+<p>快速幂算法可以高效快速的算出$a^n$。</p>
+<p>下面举一个例子</p>
+<p>如果计算$2^{10}$</p>
+<p>$2^{10}$ = 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2</p>
+<p>尽量将指数变小，如下</p>
+<p>$2^{10} = (2*2)^5 = 4^5$</p>
+<p>此时指数由10缩减一半变成了5，而底数变成了原来的平方，原本要执行十次的乘法操作，现在只需要进行五次。对于高次幂的计算来说，效果更佳。</p>
+<p>那么，现在的问题是如何将5次方也变成原来的一半，5的一半是2.5，但指数不能是小数，所以式子就变成了这样</p>
+<p>$2^{10} = 4^4*4^1$</p>
+<p>将$4^1$单独拿出来，那$4^4$就能够继续执行上面的操作：</p>
+<p>$2^{10} = 16^2*4^1$</p>
+<p>将指数再次缩小一半</p>
+<p>$2^{10} = 256^1*4^1$</p>
+<p>此时256和4的指数都是1、奇数，无法再次缩小：所以发现了一个规律，<strong>得到的结果是变化过程中所有指数为奇数时的底数的乘积</strong></p>
+<h4 id="初步实现">初步实现</h4>
+<p>用代码实现上面的算法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fastPower</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> base, <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> power) {
+    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> result <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (power) {
+        <span style="color:#66d9ef">if</span> (power <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span>) {
+            power <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>;
+            result <span style="color:#f92672">=</span> result <span style="color:#f92672">*</span> base <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+            power <span style="color:#f92672">/=</span> <span style="color:#ae81ff">2</span>;
+            base <span style="color:#f92672">=</span> base <span style="color:#f92672">*</span> base <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+        } <span style="color:#66d9ef">else</span> {
+            power <span style="color:#f92672">/=</span> <span style="color:#ae81ff">2</span>;
+            base <span style="color:#f92672">=</span> base <span style="color:#f92672">*</span> base <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+        }
+    }
+    <span style="color:#66d9ef">return</span> result <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+}
+</code></pre></div><h4 id="优化">优化</h4>
+<p>1.由于if、else中有重复语句</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">power <span style="color:#f92672">/=</span> <span style="color:#ae81ff">2</span>;
+base <span style="color:#f92672">=</span> base <span style="color:#f92672">*</span> base <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+</code></pre></div><p>2.且在整形运算中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">power <span style="color:#f92672">-=</span><span style="color:#ae81ff">1</span>;
+power <span style="color:#f92672">/=</span><span style="color:#ae81ff">2</span>;
+</code></pre></div><p>可以压缩成下面一句</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">power <span style="color:#f92672">/=</span><span style="color:#ae81ff">2</span>;
+</code></pre></div><hr>
+<p>于是代码就可以压缩成以下这样：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fastPower</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> base, <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> power) {
+    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> result <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (power) {
+        <span style="color:#66d9ef">if</span> (power <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span>)
+            result <span style="color:#f92672">=</span> result <span style="color:#f92672">*</span> base <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+        power <span style="color:#f92672">/=</span> <span style="color:#ae81ff">2</span>;
+        base <span style="color:#f92672">=</span> base <span style="color:#f92672">*</span> base <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+    }
+    <span style="color:#66d9ef">return</span> result <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+}
+</code></pre></div><h4 id="再次优化">再次优化</h4>
+<p>在C/C++中可以利用更快位运算来代替一些计算，例如</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">power <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>;
+power <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>;<span style="color:#75715e">//位运算
+</span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">power <span style="color:#f92672">/=</span><span style="color:#ae81ff">2</span>;
+power <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;<span style="color:#75715e">//位运算
+</span></code></pre></div><p>于是代码就变成了这样：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fastPower</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> base, <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> power) {
+    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> result <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (power) {
+        <span style="color:#66d9ef">if</span> (power <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>)
+            result <span style="color:#f92672">=</span> result <span style="color:#f92672">*</span> base <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+        power <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+        base <span style="color:#f92672">=</span> base <span style="color:#f92672">*</span> base <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+    }
+
+    <span style="color:#66d9ef">return</span> result <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+}
+</code></pre></div>]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>并查集</title>
+      <link>https://www.niuwx.cn/posts/%E7%AE%97%E6%B3%95/%E5%B9%B6%E6%9F%A5%E9%9B%86/</link>
+      <pubDate>Wed, 03 Feb 2021 20:02:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/%E7%AE%97%E6%B3%95/%E5%B9%B6%E6%9F%A5%E9%9B%86/</guid>
+      <description>简单介绍了一下并查集</description>
+      <content:encoded><![CDATA[<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e5%b9%b6%e6%9f%a5%e9%9b%86.jpg" alt=""  />
+</p>
+<p>“你只看见我渺小的身躯，却没有看到我心中的广阔森林”</p>
+<p>并查集可以总结为三句话：</p>
+<ul>
+<li>“并”的意思是把两个有某些关系的结点并到一起</li>
+<li>“查”的意思是查找一个结点的根节点</li>
+<li>“并”的时候需要用到“查”</li>
+</ul>
+<h3 id="初始化">初始化</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> father[len];<span style="color:#75715e">//此数组定义在全局
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Init</span>(<span style="color:#66d9ef">int</span> n){
+	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; <span style="color:#f92672">++</span>i) {<span style="color:#75715e">//len为结点总数
+</span><span style="color:#75715e"></span>		father[i] <span style="color:#f92672">=</span> i;
+	}
+}
+</code></pre></div><h3 id="查">查</h3>
+<p>初始化一个father数组，里面存放每个结点的父结点，即数组序号就是自己，数组里存放的数据就是自己的爹（父结点）。所以我们可以用数组表示一棵树，其目的是为了找到根节点（祖先）（自己是自己的爹的那个结点）</p>
+<p>假如有一个大家族里，大家族中的每个人都知道自己的父亲是谁，当有一天，你问你爸爸我的祖先是谁呀？你爸爸就会先问你爷爷，你爷爷就问你太爷爷，最后就能追溯到祖先 root.</p>
+<p>如图即是对应关系</p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e6%9f%a5.jpg" alt=""  />
+</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//查（非递归算法）
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">FindRoot</span>(<span style="color:#66d9ef">int</span> x){
+	r <span style="color:#f92672">=</span> x;
+    <span style="color:#66d9ef">while</span>(r <span style="color:#f92672">!=</span> father[r]){<span style="color:#75715e">//自己是自己的爹即是找到了根结点
+</span><span style="color:#75715e"></span>        r <span style="color:#f92672">=</span> father[r];
+    }
+    
+    <span style="color:#66d9ef">return</span> r;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">//递归算法
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">FindRoot</span>(<span style="color:#66d9ef">int</span> x){
+	<span style="color:#66d9ef">return</span> x <span style="color:#f92672">==</span> father[x] <span style="color:#f92672">?</span> x : FindRoot(father[x]);
+}
+</code></pre></div><h3 id="并">并</h3>
+<p>如果现在有两个结点x，y，通过“查”可以判断x和y的根节点是否相同（查询祖先是否相同），如果是同一个祖先，那么x和y就是一家人，不进行操作；</p>
+<p>相反的，如果x和y祖先不同，那就必须要迁户口，让他们成为一家人，即y的祖先做x的祖先的儿子，至此，实现了合并的操作</p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e5%b9%b6.png" alt=""  />
+</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//并
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">merge</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y){
+	x <span style="color:#f92672">=</span> FindRoot(x);
+	y <span style="color:#f92672">=</span> FindRoot(y);
+    <span style="color:#66d9ef">if</span>(x <span style="color:#f92672">!=</span> y){
+		parent[y] <span style="color:#f92672">=</span> x;
+    }
+}
+</code></pre></div><h3 id="例题">例题</h3>
+<p>hdu1213</p>
+<h5 id="问题描述">问题描述</h5>
+<p>今天是伊格纳修斯的生日。他邀请了很多朋友。现在是晚餐时间。伊格纳修斯想知道他至少需要多少张桌子。你必须注意到，不是所有的朋友都认识，所有的朋友都不想和陌生人呆在一起。
+此问题的一个重要规则是，如果我告诉你 A 知道 B，B 知道 C，这意味着 A、B、C 彼此了解，这样他们就可以坐在一个桌子上。</p>
+<p>例如：如果我告诉你 A 知道 B，B 知道 C，D 知道 E，所以 A、B、C 可以坐在一个桌子上，而 D、E 必须坐在另一个桌子上
+所以伊格纳修斯至少需要 2 张桌子。</p>
+<h5 id="输入">输入</h5>
+<p>输入以表示测试用例数的整数 T（1&lt;=T&lt;=25）开头。然后 T 测试用例随之而来。每个测试用例以两个整数 N 和 M（1&lt;=N，M&lt;=1000）开头。N 表示好友数量，好友从 1 标记为 N。然后 M 线跟随。每行由两个整数 A 和 B（A！=B）组成，这意味着朋友 A 和朋友 B 彼此认识。两个案例之间空一行。</p>
+<h5 id="输出">输出</h5>
+<p>对于每个测试用例，只需输出至少需要多少张桌子。不要打印任何空白。</p>
+<h5 id="示例输入">示例输入</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ae81ff">2</span>
+<span style="color:#ae81ff">5</span> <span style="color:#ae81ff">3</span>
+<span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span>
+<span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span>
+<span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span>
+
+<span style="color:#ae81ff">5</span> <span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">2</span> <span style="color:#ae81ff">5</span>
+
+</code></pre></div><h5 id="示例输出">示例输出</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#ae81ff">2</span>
+<span style="color:#ae81ff">4</span>
+</code></pre></div><p>这道题用一句话概括就是在一张桌子上，每个人都要有认识的人</p>
+<h5 id="代码">代码</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> father[<span style="color:#ae81ff">1001</span>];
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">find</span>(<span style="color:#66d9ef">int</span> x) {
+	<span style="color:#66d9ef">return</span> father[x] <span style="color:#f92672">==</span> x <span style="color:#f92672">?</span> x : find(father[x]);
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">merge</span> (<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y) {
+	x <span style="color:#f92672">=</span> find(x);
+	y <span style="color:#f92672">=</span> find(y);
+	<span style="color:#66d9ef">if</span> (x <span style="color:#f92672">!=</span> y) {
+		a[x] <span style="color:#f92672">=</span> y;
+	}
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#66d9ef">const</span> <span style="color:#f92672">*</span>argv[]) {
+	<span style="color:#66d9ef">int</span> t, m, n, x, y;
+	scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>t);
+	<span style="color:#66d9ef">while</span> (t<span style="color:#f92672">--</span>) {
+		scanf(<span style="color:#e6db74">&#34;%d%d&#34;</span>, <span style="color:#f92672">&amp;</span>n, <span style="color:#f92672">&amp;</span>m);
+		<span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>i) {
+			father[i] <span style="color:#f92672">=</span> i;
+		}
+
+		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> m; <span style="color:#f92672">++</span>i) {
+			scanf(<span style="color:#e6db74">&#34;%d%d&#34;</span>, <span style="color:#f92672">&amp;</span>x, <span style="color:#f92672">&amp;</span>y);
+			merge(x, y);
+		}
+		
+		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; <span style="color:#f92672">++</span>i) {
+			<span style="color:#66d9ef">if</span> (father[i] <span style="color:#f92672">==</span> i) {
+				cnt<span style="color:#f92672">++</span>;
+			}
+		}
+		printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, cnt);
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h3 id="优化">优化</h3>
+<h4 id="合并的优化">合并的优化</h4>
+<p>如果一开始就是暴力盲目的将大树接到小树的根结点下，那么就会出现头重脚轻的现象，导致树生长的不平衡。那么，如果将小树接到大树的根结点下就可以避免</p>
+<p>不妨再设置一个数组height，用来统计以每个结点为根结点的树的深度</p>
+<p>初始化代码如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> father[len];
+<span style="color:#66d9ef">int</span> height[len];
+<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> len; i<span style="color:#f92672">++</span>){
+	father[i] <span style="color:#f92672">=</span> i;
+	height[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#75715e">//初始深度为1
+</span><span style="color:#75715e"></span>}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//并
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">merge</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y){
+	x <span style="color:#f92672">=</span> FindRoot(x);
+	y <span style="color:#f92672">=</span> FindRoot(y);
+	<span style="color:#66d9ef">if</span>(height[x] <span style="color:#f92672">==</span> height[y]){<span style="color:#75715e">//此处无需判断x，y根结点是否一致
+</span><span style="color:#75715e"></span>		height[x] <span style="color:#f92672">=</span> height[x] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+		father[y] <span style="color:#f92672">=</span> x;
+    }
+    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(height[x] <span style="color:#f92672">&gt;</span> height [y]){
+		father[y] <span style="color:#f92672">=</span> x;
+    }
+    <span style="color:#66d9ef">else</span> {
+        father[x] <span style="color:#f92672">=</span> y;
+    }
+}
+</code></pre></div><h4 id="查询的优化">查询的优化</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"> <span style="color:#75715e">//对于之前的查询程序，查询元素i是需要搜索路径找到根结点，返回的结果是根结点。
+</span><span style="color:#75715e">//这条搜索路径可能很长。如果返回的时候顺便把元素i所属的结点改为根节点，那么在下次搜索时就能够在O(1)的时间内得到结果
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">find</span> (<span style="color:#66d9ef">int</span> x){
+    <span style="color:#66d9ef">if</span>(x <span style="color:#f92672">!=</span> parent[x]){
+		father[x] <span style="color:#f92672">=</span> find(father[x]);
+    }
+	<span style="color:#66d9ef">return</span> father[x];   
+}
+</code></pre></div><p>此方法成为路径压缩，不仅优化了下次查询，而且还优化了合并</p>
+<p>但是使用递归实现，如果数据规模较大，有可能爆栈，非递归代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">Find</span>(<span style="color:#66d9ef">int</span> x){
+	<span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> x;
+    <span style="color:#66d9ef">while</span>(father[r] <span style="color:#f92672">!=</span> r){<span style="color:#75715e">//找到根结点
+</span><span style="color:#75715e"></span>		r <span style="color:#f92672">=</span> father[r];
+    }
+	<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> x;
+    <span style="color:#66d9ef">int</span> j;
+    <span style="color:#66d9ef">while</span>(i <span style="color:#f92672">!=</span> r){<span style="color:#75715e">//循环修改这条路径上的根结点
+</span><span style="color:#75715e"></span>		j <span style="color:#f92672">=</span> father[i];<span style="color:#75715e">//j记录元素i此时的父亲
+</span><span style="color:#75715e"></span>		father[i] <span style="color:#f92672">=</span> r;<span style="color:#75715e">//将i的父亲改为根结点
+</span><span style="color:#75715e"></span>		i <span style="color:#f92672">=</span> j;<span style="color:#75715e">//i记录为要“查询”的结点
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#66d9ef">return</span> r;
+}
+</code></pre></div><p>经过以上优化，查找和合并的时间复杂度都小于 $(log_2n)$</p>
+<h3 id="总结">总结</h3>
+<ul>
+<li>并查集的思想很精妙，用一个数组表示了整片森林</li>
+<li>优化的关键在于记录每棵树的结点数量，根据结点关系合并</li>
+</ul>]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>树（二）</title>
+      <link>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%BA%8C/</link>
+      <pubDate>Wed, 03 Feb 2021 19:33:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%BA%8C/</guid>
+      <description>简单介绍了一下树</description>
+      <content:encoded><![CDATA[<h3 id="树的遍历">树的遍历</h3>
+<p>上一节记录了树的递归遍历，递归是函数自身调用自身，大量压栈出栈，时间和空间开销较大，而这操作都是在栈上，如果数据规模较大很容易溢出。</p>
+<p>以下是树的非递归遍历方法：</p>
+<p>偷个懒用一下C++写，头文件要加上</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stack&gt;</span><span style="color:#75715e">
+</span></code></pre></div><h4 id="先序遍历">先序遍历</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">//先序遍历
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">PreorderNoneSecu</span>(PTree T) {
+	cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;先序非递归遍历&#34;</span><span style="color:#f92672">&lt;&lt;</span>endl;
+	PTree t <span style="color:#f92672">=</span> T;
+	stack<span style="color:#f92672">&lt;</span>PTree<span style="color:#f92672">&gt;</span> s;
+	<span style="color:#66d9ef">while</span>(t <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>s.empty()){
+		<span style="color:#66d9ef">while</span>(t){
+			cout <span style="color:#f92672">&lt;&lt;</span> t<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;<span style="color:#75715e">//拿到这个结点就直接打印
+</span><span style="color:#75715e"></span>			s.push(t);
+			t <span style="color:#f92672">=</span> t<span style="color:#f92672">-&gt;</span>left;
+		}
+
+		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>s.empty()){
+			t <span style="color:#f92672">=</span> s.top();
+			s.pop();			
+			t <span style="color:#f92672">=</span> t<span style="color:#f92672">-&gt;</span>right;
+		}
+	}
+
+	cout <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div><h4 id="中序遍历">中序遍历</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#75715e">//中序非递归遍历
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">InorderNoneSecu</span>(PTree T) {
+	cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;中序非递归遍历&#34;</span><span style="color:#f92672">&lt;&lt;</span>endl;
+	PTree t <span style="color:#f92672">=</span> T;
+	stack<span style="color:#f92672">&lt;</span>PTree<span style="color:#f92672">&gt;</span> s;
+	<span style="color:#66d9ef">while</span>(t <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>s.empty()){
+		<span style="color:#66d9ef">while</span>(t){
+			s.push(t);
+			t <span style="color:#f92672">=</span> t<span style="color:#f92672">-&gt;</span>left;
+		}
+
+		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>s.empty()){
+			t <span style="color:#f92672">=</span> s.top();
+			s.pop();
+			cout <span style="color:#f92672">&lt;&lt;</span> t<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;<span style="color:#75715e">//遍历完左子树后再打印
+</span><span style="color:#75715e"></span>			t <span style="color:#f92672">=</span> t<span style="color:#f92672">-&gt;</span>right;
+		}
+	}
+
+	cout <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div><h4 id="后序遍历">后序遍历</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">//后序非递归遍历
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">PostorderNoneSecu</span>(PTree T) {
+	cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;后序非递归遍历&#34;</span><span style="color:#f92672">&lt;&lt;</span>endl;
+	PTree t <span style="color:#f92672">=</span> T;
+	stack<span style="color:#f92672">&lt;</span>PTree<span style="color:#f92672">&gt;</span> s;
+	stack<span style="color:#f92672">&lt;</span>PTree<span style="color:#f92672">&gt;</span> s2;
+	<span style="color:#66d9ef">while</span>(t <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>s.empty()){
+		<span style="color:#66d9ef">while</span>(t){
+			s.push(t);
+			s2.push(t);
+			t <span style="color:#f92672">=</span> t<span style="color:#f92672">-&gt;</span>right;
+		}
+
+		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>s.empty()){
+			t <span style="color:#f92672">=</span> s.top();
+			s.pop();
+			t <span style="color:#f92672">=</span> t<span style="color:#f92672">-&gt;</span>left;
+		}
+	}
+
+	<span style="color:#66d9ef">while</span>(<span style="color:#f92672">!</span>s2.empty()){
+		t <span style="color:#f92672">=</span> s2.top();
+		s2.pop();
+		cout <span style="color:#f92672">&lt;&lt;</span> t<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+	}
+
+	cout <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div><p>后序遍历与先序遍历的顺序相反，那么可以先遍历右子树，也就是说将先序遍历的顺序逆过来压入s2中，，然后再根据栈的后进先出的特点，一一出栈。</p>]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>树（一）</title>
+      <link>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%80/</link>
+      <pubDate>Tue, 02 Feb 2021 16:33:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%80/</guid>
+      <description>简单介绍了一下树</description>
+      <content:encoded><![CDATA[<p>树是n个结点的有限集，可以是空树（n == 0）也可以是非空树。</p>
+<p>对于非空树：</p>
+<p>1.有且仅有一个称之为根的结点。</p>
+<p>2.除根结点以外的其余结点可分为m个互不相交的有限集，其中每个集合本身也是一棵树，成为根的子树。</p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e6%a0%91%e5%bd%a2%e7%bb%93%e6%9e%84.jpg" alt=""  />
+</p>
+<h3 id="基本术语">基本术语</h3>
+<ul>
+<li>结点的度（Degree）：结点的子树个数</li>
+<li>树的度：树的所有结点最大的度</li>
+<li>叶结点（Leaf）：度为0的结点</li>
+<li>父结点（Parent）：有子树的结点是其子树的根结点的父结点</li>
+<li>子结点（Child）：若A结点是B结点的父结点，则称B结点为A结点的子结点；子结点也称孩子结点</li>
+<li>兄弟结点（Sibling）：具有同一父结点的个节点彼此是兄弟结点</li>
+<li>路径和路径长度：从结点n1到nk的路径为一个结点序列n1，n2，n3&hellip;nk。路径所包含边的个数为路径的长度</li>
+<li>祖先结点（Ancestor）：沿树根到某一结点路径上的所有结点都是这个结点的祖先结点</li>
+<li>子孙节点（Descendant）：某一结点的子树中的所有结点是这个结点的子孙</li>
+<li>结点的层次（Level）：规定根结点在第一层，其它任意节点层数是父结点层数加一</li>
+<li>树的深度（Depth）：树中所有结点中的最大层次</li>
+</ul>
+<h3 id="二叉树">二叉树</h3>
+<p>二叉树是一种树型结构，它的特点是每个结点至多只有两棵子树，并且，二叉树的子树有左右之分，其次序不能任意颠倒。</p>
+<h4 id="性质">性质</h4>
+<p>1.二叉树的第i层的最大节点数为<img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/imgi.svg" alt=""  />
+</p>
+<p>2.深度为k的二叉树最大结点数为<img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/imgk.svg" alt=""  />
+</p>
+<p>3.二叉树的终端节点数为n0，度数为2 的结点数为n2，则n0 = n2 +1</p>
+<p><strong>特殊的,</strong></p>
+<p>如果一个深度为 k 的二叉树，正好有  <img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/imgk.svg" alt=""  />
+个结点，那么这棵树就被称为<strong>满二叉树</strong>。</p>
+<p>如图所示：</p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e6%bb%a1%e4%ba%8c%e5%8f%89%e6%a0%91.jpg" alt=""  />
+</p>
+<p>如果一个二叉树，只有当第 i 层已经达到了<img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/imgi.svg" alt=""  />
+的最大值以后，才能往第 i + 1 层自左向右地添加结点，这棵树就被称为<strong>完全二叉树</strong>。</p>
+<p>那么，根据二叉树的性质二可得，具有n个结点的完全二叉树的深度为
+$$
+[log_2(n)]+1
+$$</p>
+<p>如图所示：</p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e5%ae%8c%e5%85%a8%e4%ba%8c%e5%8f%89%e6%a0%91.jpg" alt=""  />
+</p>
+<h4 id="二叉树的建立">二叉树的建立</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> Tree
+{
+	<span style="color:#66d9ef">int</span> data;
+	<span style="color:#66d9ef">struct</span> Tree <span style="color:#f92672">*</span>left;
+	<span style="color:#66d9ef">struct</span> Tree <span style="color:#f92672">*</span>right;
+} BiTree, <span style="color:#f92672">*</span>PTree;
+</code></pre></div><hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//创造一个结点
+</span><span style="color:#75715e"></span>PTree <span style="color:#a6e22e">CreatNode</span>(<span style="color:#66d9ef">int</span> value) {
+	PTree p <span style="color:#f92672">=</span> (PTree)malloc(<span style="color:#66d9ef">sizeof</span>(BiTree));
+	p<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">=</span> value;
+	p<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> p<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> NULL;
+	<span style="color:#66d9ef">return</span> p;
+}
+
+<span style="color:#75715e">//插入结点且排序，不存在有相同值的结点
+</span><span style="color:#75715e"></span>PTree <span style="color:#a6e22e">AddNode</span>(<span style="color:#66d9ef">int</span> value, PTree p) {
+	<span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> NULL) {
+		<span style="color:#66d9ef">return</span> CreatNode(value);
+	}
+
+	<span style="color:#66d9ef">if</span> (value <span style="color:#f92672">==</span> p<span style="color:#f92672">-&gt;</span>data) {
+		<span style="color:#66d9ef">return</span> p;
+	}
+
+	<span style="color:#66d9ef">if</span> (value <span style="color:#f92672">&lt;</span> p<span style="color:#f92672">-&gt;</span>data) {
+		<span style="color:#66d9ef">if</span> (p<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">==</span> NULL) {
+			p<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> CreatNode(value);
+			<span style="color:#66d9ef">return</span> p<span style="color:#f92672">-&gt;</span>left;
+		}
+		<span style="color:#66d9ef">else</span> {
+			<span style="color:#66d9ef">return</span> AddNode(value, p<span style="color:#f92672">-&gt;</span>left);
+		}
+	}
+	<span style="color:#66d9ef">else</span> {
+		<span style="color:#66d9ef">if</span> (p<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">==</span> NULL) {
+			p<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> CreatNode(value);
+			<span style="color:#66d9ef">return</span> p<span style="color:#f92672">-&gt;</span>right;
+		}
+		<span style="color:#66d9ef">else</span> {
+			<span style="color:#66d9ef">return</span> AddNode(value, p<span style="color:#f92672">-&gt;</span>right);
+		}
+	}
+}
+</code></pre></div><h4 id="遍历二叉树">遍历二叉树</h4>
+<p>递归遍历左子树、根节点、递归遍历右子树</p>
+<h5 id="先序遍历">先序遍历</h5>
+<p>输出根节点，递归遍历左子树，在递归遍历右子树</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Preorder</span>(PTree p) {
+	<span style="color:#66d9ef">if</span> (p <span style="color:#f92672">!=</span> NULL) {
+		printf(<span style="color:#e6db74">&#34;%d &#34;</span>, p<span style="color:#f92672">-&gt;</span>data);
+		Preorder(p<span style="color:#f92672">-&gt;</span>left);
+		Preorder(p<span style="color:#f92672">-&gt;</span>right);
+	}
+}
+</code></pre></div><h5 id="中序遍历">中序遍历</h5>
+<p>递归遍历左子树，输出根节点，在递归遍历右子树</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Midorder</span>(PTree p) {
+	<span style="color:#66d9ef">if</span> (p <span style="color:#f92672">!=</span> NULL) {
+		Midorder(p<span style="color:#f92672">-&gt;</span>left);
+		printf(<span style="color:#e6db74">&#34;%d &#34;</span>, p<span style="color:#f92672">-&gt;</span>data);
+		Midorder(p<span style="color:#f92672">-&gt;</span>right);
+	}
+}
+</code></pre></div><h5 id="后序遍历">后序遍历</h5>
+<p>递归遍历左子树，再递归遍历右子树，输出根节点</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Postorder</span>(PTree p) {
+	<span style="color:#66d9ef">if</span> (p <span style="color:#f92672">!=</span> NULL) {
+		Postorder(p<span style="color:#f92672">-&gt;</span>left);
+		Postorder(p<span style="color:#f92672">-&gt;</span>right);
+		printf(<span style="color:#e6db74">&#34;%d &#34;</span>, p<span style="color:#f92672">-&gt;</span>data);
+	}
+}
+</code></pre></div><h4 id="求二叉树的深度">求二叉树的深度</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">TreeHeight</span>(PTree p) {
+	<span style="color:#66d9ef">int</span> l, r;
+	<span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> NULL) {
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+	}
+	<span style="color:#66d9ef">else</span> {
+		l <span style="color:#f92672">=</span> TreeHeight(p<span style="color:#f92672">-&gt;</span>left);
+		r <span style="color:#f92672">=</span> TreeHeight(p<span style="color:#f92672">-&gt;</span>right);
+		<span style="color:#66d9ef">return</span> (l <span style="color:#f92672">&gt;</span> r <span style="color:#f92672">?</span> l : r) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+	}
+}
+</code></pre></div><hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#66d9ef">const</span> <span style="color:#f92672">*</span>argv[]) {<span style="color:#75715e">//测试
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> value;
+	PTree p <span style="color:#f92672">=</span> NULL;
+	printf(<span style="color:#e6db74">&#34;Please enter 10 numbers:&#34;</span>);
+	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>; <span style="color:#f92672">++</span>i) {
+		scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>value);
+		<span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> NULL) {
+			p <span style="color:#f92672">=</span> CreatNode(value);
+		}
+		<span style="color:#66d9ef">else</span> {
+			AddNode(value, p);
+		}
+	}
+
+	Preorder(p);
+	printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+	Midorder(p);
+	printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+	Postorder(p);
+	printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+
+	printf(<span style="color:#e6db74">&#34;The depth of the binary tree is：%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, TreeHeight(p));
+
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div>]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>栈和队列</title>
+      <link>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/</link>
+      <pubDate>Sun, 31 Jan 2021 23:38:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/</guid>
+      <description>简单介绍了一下栈和队列</description>
+      <content:encoded><![CDATA[<h5 id="引入">引入</h5>
+<p>栈是一种重要的线性结构，是线性表（顺序表，链表）的一种具体形式，也就是说其可以通过顺序表或链表实现。</p>
+<p>顺序表或者链表可以像之前一样独立存在、处理数据，同时它们也可以是一些特殊的数据结构（栈、队列）的实现基础。</p>
+<!-- raw HTML omitted -->
+<h2 id="栈">栈</h2>
+<h3 id="定义">定义</h3>
+<p>栈是一个后进先出（LIFO）的线性表，其要求只在表尾进行数据的插入和删除等操作。也就是说，所谓栈其实就是一个线性表，但是它的操作上有一些特殊的要求和限制。如图</p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e6%a0%88%e7%a4%ba%e6%84%8f%e5%9b%be.jpg" alt=""  />
+</p>
+<p><strong>线性表有两种存储形式，顺序表储存和链表储存。</strong></p>
+<h3 id="顺序栈">顺序栈</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#define MAXSIZE 100
+</span><span style="color:#75715e">#define OK 1
+</span><span style="color:#75715e">#define ERROR 0
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">int</span> elem;
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">int</span> Status;
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> Stack{
+	elem<span style="color:#f92672">*</span> base;<span style="color:#75715e">//栈基
+</span><span style="color:#75715e"></span>	elem<span style="color:#f92672">*</span> top;<span style="color:#75715e">//栈顶
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> stacksize; <span style="color:#75715e">//栈的容量
+</span><span style="color:#75715e"></span>}Stack;
+
+</code></pre></div><h4 id="创建一个栈">创建一个栈</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">CreatStack</span>(Stack<span style="color:#f92672">*</span> s){
+	s<span style="color:#f92672">-&gt;</span>base <span style="color:#f92672">=</span> (elem<span style="color:#f92672">*</span>)malloc(<span style="color:#66d9ef">sizeof</span>(elem) <span style="color:#f92672">*</span> MAXSIZE);
+	<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>s<span style="color:#f92672">-&gt;</span>base) <span style="color:#66d9ef">return</span> ERROR;
+	s<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">=</span> s<span style="color:#f92672">-&gt;</span>base;
+	s<span style="color:#f92672">-&gt;</span>stacksize <span style="color:#f92672">=</span> MAXSIZE;  	
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="入栈">入栈</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">PushStack</span>(Stack<span style="color:#f92672">*</span> s, elem e){
+	<span style="color:#66d9ef">if</span>(s<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">-</span> s<span style="color:#f92672">-&gt;</span>base <span style="color:#f92672">&gt;=</span> s<span style="color:#f92672">-&gt;</span>stacksize){
+		s<span style="color:#f92672">-&gt;</span>base <span style="color:#f92672">=</span> (elem<span style="color:#f92672">*</span>)realloc(s<span style="color:#f92672">-&gt;</span>base, <span style="color:#66d9ef">sizeof</span>(elem) <span style="color:#f92672">*</span> MAXSIZE);
+		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>s<span style="color:#f92672">-&gt;</span>base) <span style="color:#66d9ef">return</span> ERROR;
+
+		s<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">=</span> s<span style="color:#f92672">-&gt;</span>base <span style="color:#f92672">+</span> s<span style="color:#f92672">-&gt;</span>stacksize;
+		s<span style="color:#f92672">-&gt;</span>stacksize <span style="color:#f92672">+=</span>MAXSIZE;	
+	}
+
+	<span style="color:#f92672">*</span>(s<span style="color:#f92672">-&gt;</span>top) <span style="color:#f92672">=</span> e;
+	s<span style="color:#f92672">-&gt;</span>top<span style="color:#f92672">++</span>;
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="出栈">出栈</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">PopStack</span>(Stack<span style="color:#f92672">*</span>s,elem <span style="color:#f92672">*</span>e){
+	<span style="color:#66d9ef">if</span>(s<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">==</span> s<span style="color:#f92672">-&gt;</span>base) <span style="color:#66d9ef">return</span> ERROR;
+	<span style="color:#f92672">*</span>e <span style="color:#f92672">=</span> <span style="color:#f92672">*--</span>(s<span style="color:#f92672">-&gt;</span>top);
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="清空">清空</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">CleanStack</span>(Stack<span style="color:#f92672">*</span> s){
+	s<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">=</span> s<span style="color:#f92672">-&gt;</span>base;
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="销毁">销毁</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">DestroyStack</span>(Stack<span style="color:#f92672">*</span> s){
+	free(s<span style="color:#f92672">-&gt;</span>base);
+	s<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">=</span> s<span style="color:#f92672">-&gt;</span>base <span style="color:#f92672">=</span> NULL;
+	s<span style="color:#f92672">-&gt;</span>stacksize <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="获取当前容量">获取当前容量</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">GetSize</span>(Stack<span style="color:#f92672">*</span> s){
+	<span style="color:#66d9ef">return</span> s<span style="color:#f92672">-&gt;</span>stacksize;
+}
+</code></pre></div><h3 id="链表栈">链表栈</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#define OK 1
+</span><span style="color:#75715e">#define ERROR 0
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">int</span> elem;
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">int</span> Status;
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> Node<span style="color:#75715e">//定义链表结构
+</span><span style="color:#75715e"></span>{
+	elem data;<span style="color:#75715e">//数据域
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">struct</span> Node<span style="color:#f92672">*</span> next;<span style="color:#75715e">//指针域
+</span><span style="color:#75715e"></span>}Node, <span style="color:#f92672">*</span> LNode;
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> Stack
+{
+	LNode top;
+	LNode base;
+}Stack,<span style="color:#f92672">*</span>Pstack;
+</code></pre></div><h4 id="创建一个栈-1">创建一个栈</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Pstack <span style="color:#a6e22e">CreatStack</span>(){
+	Pstack stack <span style="color:#f92672">=</span> (Pstack)malloc(<span style="color:#66d9ef">sizeof</span>(Stack));
+	<span style="color:#66d9ef">if</span>(stack <span style="color:#f92672">==</span> NULL){
+		<span style="color:#66d9ef">return</span> NULL;
+	}
+	
+	stack<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">=</span> stack<span style="color:#f92672">-&gt;</span>base <span style="color:#f92672">=</span> NULL;
+
+	<span style="color:#66d9ef">return</span> stack;
+}
+</code></pre></div><h4 id="入栈-1">入栈</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">PushStack</span>(Pstack <span style="color:#f92672">*</span>stack, elem e){
+	Node<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> (LNode)malloc(<span style="color:#66d9ef">sizeof</span>(Node));
+	<span style="color:#66d9ef">if</span>(p <span style="color:#f92672">==</span> NULL){
+		<span style="color:#66d9ef">return</span> ERROR;
+	}
+	p<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">=</span> e;
+	p<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> (<span style="color:#f92672">*</span>stack)<span style="color:#f92672">-&gt;</span>top;
+	(<span style="color:#f92672">*</span>stack)<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">=</span> p;
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="出栈-1">出栈</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">PopStack</span>(Pstack <span style="color:#f92672">*</span>stack){
+	Node<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> (<span style="color:#f92672">*</span>stack)<span style="color:#f92672">-&gt;</span>top;
+	<span style="color:#66d9ef">if</span>(p <span style="color:#f92672">==</span> (<span style="color:#f92672">*</span>stack)<span style="color:#f92672">-&gt;</span>base){
+		printf(<span style="color:#e6db74">&#34;栈已空&#34;</span>);
+		<span style="color:#66d9ef">return</span> ERROR;
+	}
+	(<span style="color:#f92672">*</span>stack)<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">=</span> p<span style="color:#f92672">-&gt;</span>next;
+	printf(<span style="color:#e6db74">&#34;%d &#34;</span>,p<span style="color:#f92672">-&gt;</span>data);
+	free(p);
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="判断是否为空">判断是否为空</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">IsEmptyStack</span>(Pstack stack){
+	<span style="color:#66d9ef">return</span> (stack<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">==</span> stack<span style="color:#f92672">-&gt;</span>base);
+}
+</code></pre></div><h4 id="清空-1">清空</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">CleanStack</span>(Pstack <span style="color:#f92672">*</span>stack){
+	Node<span style="color:#f92672">*</span>p <span style="color:#f92672">=</span> (<span style="color:#f92672">*</span>stack)<span style="color:#f92672">-&gt;</span>top;
+	<span style="color:#66d9ef">while</span>(p){
+		(<span style="color:#f92672">*</span>stack)<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">=</span> p<span style="color:#f92672">-&gt;</span>next; 
+		free(p);
+		p <span style="color:#f92672">=</span> (<span style="color:#f92672">*</span>stack)<span style="color:#f92672">-&gt;</span>top;
+	}
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="销毁-1">销毁</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">DestroyStack</span>(Pstack <span style="color:#f92672">*</span>stack){
+	CleanStack(stack);
+
+	free(<span style="color:#f92672">*</span>stack);
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test</span>(){<span style="color:#75715e">//测试
+</span><span style="color:#75715e"></span>	Pstack stack <span style="color:#f92672">=</span> CreatStack();
+
+	printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, IsEmptyStack(stack));
+
+	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>; <span style="color:#f92672">++</span>i){
+		PushStack(<span style="color:#f92672">&amp;</span>stack, i);
+	}
+
+	printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, IsEmptyStack(stack));
+
+	<span style="color:#75715e">/*出栈*/</span>
+	<span style="color:#75715e">// for (int i = 0; i &lt; 10; ++i){
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 	PopStack(&amp;stack);
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// }
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// printf(&#34;%\n&#34;);
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// printf(&#34;%d\n&#34;, IsEmptyStack(stack));
+</span><span style="color:#75715e"></span>	
+	<span style="color:#75715e">/*清空*/</span>
+	CleanStack(<span style="color:#f92672">&amp;</span>stack);
+
+	printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, IsEmptyStack(stack));
+	printf(<span style="color:#e6db74">&#34;%p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,stack);
+
+	DestroyStack(<span style="color:#f92672">&amp;</span>stack);
+
+	printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, IsEmptyStack(stack));
+	printf(<span style="color:#e6db74">&#34;%p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,stack);
+
+}
+</code></pre></div><h3 id="栈与递归">栈与递归</h3>
+<p><strong>递归：函数自己调用自己</strong></p>
+<ul>
+<li>函数定义是递归的——斐波那契数列</li>
+<li>数据结构是递归的——单链表、树</li>
+<li>问题解法是递归的——汉诺塔、</li>
+</ul>
+<h4 id="函数的调用">函数的调用</h4>
+<p>函数被调用之前，</p>
+<ol>
+<li>系统需要将实参以及返回地址传递给被调用的函数进行保存</li>
+<li>将被调用的函数的局部变量分配到储存区</li>
+<li>将控制转移到被调用的函数的入口</li>
+</ol>
+<p>从被调用函数返回到调用函数之前，</p>
+<ol>
+<li>保存被调用函数的计算结果</li>
+<li>释放被调用函数中的数据区</li>
+<li>依照被调用函数的保存的返回地址将控制转移至此</li>
+</ol>
+<h2 id="队列">队列</h2>
+<h3 id="定义-1">定义</h3>
+<p>队列也是一种重要的线性结构。与栈相同，实现一个队列也需要顺序表或者链表作为基础。但是与栈不同的是，队列是一种先进先出（FIFO）的线性表。其要求所有的数据从队列的一段进入，从队列的另一端离开。在队列中，允许插入数据的一端叫做队尾（rear），允许数据离开的一端叫做队头（front）。如图所示</p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e9%98%9f%e5%88%97.jpg" alt=""  />
+</p>
+<h2 id="链队列">链队列</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#define OK 1
+</span><span style="color:#75715e">#define ERROR 0
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">int</span> elem;
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">int</span> Status;
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> QNode {
+	elem data;			<span style="color:#75715e">//数据域
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">struct</span> QNode<span style="color:#f92672">*</span>next;	<span style="color:#75715e">//指针域
+</span><span style="color:#75715e"></span>} QNode, <span style="color:#f92672">*</span>PNode;
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+	PNode front;		<span style="color:#75715e">//队头指针
+</span><span style="color:#75715e"></span>	PNode rear;			<span style="color:#75715e">//队尾指针
+</span><span style="color:#75715e"></span>} LinkQueue;
+</code></pre></div><h4 id="创建一个队列">创建一个队列</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">CreatQueue</span>(LinkQueue <span style="color:#f92672">*</span>q) {
+	q<span style="color:#f92672">-&gt;</span>front <span style="color:#f92672">=</span> q<span style="color:#f92672">-&gt;</span>rear <span style="color:#f92672">=</span> (PNode)malloc(<span style="color:#66d9ef">sizeof</span>(QNode));
+
+	<span style="color:#66d9ef">if</span> (q<span style="color:#f92672">-&gt;</span>front <span style="color:#f92672">==</span> NULL) {
+		<span style="color:#66d9ef">return</span> ERROR;
+	}
+
+	q<span style="color:#f92672">-&gt;</span>front<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> NULL;
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img1.jpg" alt=""  />
+</p>
+<h4 id="入队">入队</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">PushQueue</span>(LinkQueue <span style="color:#f92672">*</span>q, elem e) {
+	QNode <span style="color:#f92672">*</span>p <span style="color:#f92672">=</span> (PNode)malloc(<span style="color:#66d9ef">sizeof</span>(QNode));
+	<span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> NULL) {
+		<span style="color:#66d9ef">return</span> ERROR;
+	}
+	p<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">=</span> e;
+	p<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> NULL;
+	q<span style="color:#f92672">-&gt;</span>rear<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> p;
+	q<span style="color:#f92672">-&gt;</span>rear <span style="color:#f92672">=</span> p;
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img2.jpg" alt=""  />
+</p>
+<h4 id="出队">出队</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">PopQueue</span>(LinkQueue <span style="color:#f92672">*</span>q) {
+	<span style="color:#66d9ef">if</span> (q<span style="color:#f92672">-&gt;</span>front <span style="color:#f92672">==</span> q<span style="color:#f92672">-&gt;</span>rear) {
+		<span style="color:#66d9ef">return</span> ERROR;
+	}
+
+	QNode<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> q<span style="color:#f92672">-&gt;</span>front<span style="color:#f92672">-&gt;</span>next;
+	printf(<span style="color:#e6db74">&#34;%d &#34;</span>, p<span style="color:#f92672">-&gt;</span>data);
+	q<span style="color:#f92672">-&gt;</span>front<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> p<span style="color:#f92672">-&gt;</span>next;
+	<span style="color:#66d9ef">if</span> (q<span style="color:#f92672">-&gt;</span>rear <span style="color:#f92672">==</span> p) q<span style="color:#f92672">-&gt;</span>rear <span style="color:#f92672">=</span> q<span style="color:#f92672">-&gt;</span>front;
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="销毁-2">销毁</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">DestroyQueue</span>(LinkQueue <span style="color:#f92672">*</span>q) {
+	<span style="color:#66d9ef">while</span> (q<span style="color:#f92672">-&gt;</span>front) {
+		q<span style="color:#f92672">-&gt;</span>rear <span style="color:#f92672">=</span> q<span style="color:#f92672">-&gt;</span>front<span style="color:#f92672">-&gt;</span>next;
+		free(q<span style="color:#f92672">-&gt;</span>front);
+		q<span style="color:#f92672">-&gt;</span>front <span style="color:#f92672">=</span> q<span style="color:#f92672">-&gt;</span>rear;
+	}
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div>]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>单链表</title>
+      <link>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%8D%95%E9%93%BE%E8%A1%A8/</link>
+      <pubDate>Sat, 30 Jan 2021 17:02:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%8D%95%E9%93%BE%E8%A1%A8/</guid>
+      <description>简单介绍了一下单链表</description>
+      <content:encoded><![CDATA[<p>链表是线性表的链式存储方式，逻辑上相邻的数据在计算机内的存储位置不一定相邻，可以给每个元素附加一个指针域，指向下一个元素的存储位置。</p>
+<!-- raw HTML omitted -->
+<p>每个结点都包括数据域和指针域，指针域存储下一个结点的地址，因此指针指向的类型也是结点类型。</p>
+<p>在顺序表中，想找第i个元素，就可以立即通过L.elem[i-1]找到，称为<em>随机存取</em>方式，而在单链表中，没那么容易，必须从头开始，按顺序一个一个来，一直数到第i个元素，称为<em>顺序存取</em>方式。</p>
+<h3 id="头指针和头节点">头指针和头节点</h3>
+<h4 id="基本概念">基本概念</h4>
+<h5 id="头指针">头指针</h5>
+<p><strong>通常使用“头指针”来标识一个链表，如单链表L，头指针为NULL的时表示一个空链表。</strong></p>
+<h5 id="头节点">头节点</h5>
+<p><strong>在单链表的第一个结点之前附加一个结点，称为头结点。头结点的Data域可以不设任何信息，也可以记录表长等相关信息。</strong></p>
+<p><strong>[注意]无论是否有头结点，头指针始终指向链表的第一个结点。如果有头结点，头指针就指向头结点。</strong></p>
+<p>空链表
+<img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e7%a9%ba%e9%93%be%e8%a1%a8.jpg" alt=""  />
+</p>
+<p>单链表
+<img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e5%8d%95%e9%93%be%e8%a1%a8.jpg" alt=""  />
+</p>
+<h4 id="引入头结点的优势">引入头结点的优势</h4>
+<p>链表可以没有头结点，但是必须要有头指针，因为要用头指针来标识一个链表。设链表的头指针为pHead。除了头结点之外，还需要一个指向链表一般元素的指针pNode（因为pHead只能指向表头，不能指向其他元素，故需要另设指针）。</p>
+<h5 id="优势1第一个位置的插入删除特别方便">优势1：第一个位置的插入删除特别方便</h5>
+<p>若使用头结点，则第1个位置的插入和删除都是对p—&gt;next进行操作，而不用动p本身，而且减少了if else分支，具体的流程为：</p>
+<h6 id="插入操作如下">插入操作如下</h6>
+<ol>
+<li>p指向要插入结点的前驱结点，若要插入的结点为第1个位置，则其前驱结点就是头结点，此时p指向头结点。</li>
+<li>让新结点s的next指向p的next，即s—&gt;next = p—&gt;next;</li>
+<li>让p—&gt;next指向s，即p—&gt;next = s;</li>
+</ol>
+<h6 id="删除操作如下">删除操作如下</h6>
+<ol>
+<li>p指向要删除结点的前驱结点，若要删除的结点为第1个位置，则其前驱结点就是头结点，此时p指向头结点。</li>
+<li>让临时指针q指向要删除的结点，即q = p—&gt;next；</li>
+<li>让p的next指向要删除结点的下一个结点，即p—&gt;next = q—&gt;next；</li>
+<li>释放q的空间，即free(q);</li>
+</ol>
+<hr>
+<p>若没有头结点，在第1个位置插入或删除时，需要动头指针。</p>
+<h6 id="插入操作如下-1">插入操作如下</h6>
+<ol>
+<li>判断要插入的是否是第1个位置，若是需要特殊处理。</li>
+<li>若是第1个位置，让新结点s的next指向头指针PtrL。</li>
+<li>return s，此时s作为链表的头指针。此时的更新了链表的头指针。</li>
+<li>若不是第1个位置，首先找到要插入结点的前驱结点，让p指向这个前驱结点。</li>
+<li>让新结点s的next指向p的next，即s—&gt;next = p—&gt;next;</li>
+<li>让p—&gt;next指向s，即p—&gt;next = s;</li>
+<li>return PtrL，此时PtrL还是作为链表的头指针，没有被修改，但考虑到一致性需要这样写。</li>
+</ol>
+<h6 id="删除操作如下-1">删除操作如下</h6>
+<ol>
+<li>判断要删除的是否是第1个位置，若是需要特殊处理。</li>
+<li>若是第1个位置，让s指向要删除的结点。首先判断PtrL是否为空，若是直接return NULL;若不为空，则将链表的头结点挪到下一个位置，即PtrL = PtrL—&gt;next；</li>
+<li>free(s);然后return PtrL</li>
+<li>若不是第1个位置，首先找到要删除结点的前驱结点，让p指向这个前驱结点。</li>
+<li>让临时指针q指向要删除的结点，即q = p—&gt;next；</li>
+<li>让p的next指向要删除结点的下一个结点，即p—&gt;next = q—&gt;next；</li>
+<li>释放q的空间，即free(q);</li>
+<li>return PtrL</li>
+</ol>
+<h5 id="优势2统一空表和非空表的处理">优势2：统一空表和非空表的处理</h5>
+<p>若使用头结点，<em>无论表是否为空，头指针都指向头结点，也就是</em>LNode类型*，对于空表和非空表的操作是一致的。</p>
+<p>若不使用头结点，<em>当表非空时，头指针指向第1个结点的地址，即</em>LNode类型，但是对于空表，头指针指向的是NULL*，此时空表和非空表的操作是不一致的。</p>
+<h3 id="链表的建立">链表的建立</h3>
+<h4 id="有头结点链表的建立">有头结点链表的建立</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#define OK 1
+</span><span style="color:#75715e">#define ERROR 0
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">int</span> elem;
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">int</span> Status;
+
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> LNode{
+    elem data;          <span style="color:#75715e">//数据域
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">struct</span> LNode<span style="color:#f92672">*</span> next; <span style="color:#75715e">//指针域
+</span><span style="color:#75715e"></span>}Node, <span style="color:#f92672">*</span>List;
+</code></pre></div><hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">List <span style="color:#a6e22e">HeadCreatList</span>(<span style="color:#66d9ef">int</span> n){<span style="color:#75715e">//带头结点_头插法
+</span><span style="color:#75715e"></span>    Node <span style="color:#f92672">*</span>s;
+    List head <span style="color:#f92672">=</span> (List)malloc(<span style="color:#66d9ef">sizeof</span>(Node));<span style="color:#75715e">//生成头结点
+</span><span style="color:#75715e"></span>    head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> NULL;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>){
+        s <span style="color:#f92672">=</span> (List)malloc(<span style="color:#66d9ef">sizeof</span>(Node));
+        s<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">=</span> i;
+        s<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next;
+        head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> s;<span style="color:#75715e">//头结点的指针域next指向s结点，使得s成为结点
+</span><span style="color:#75715e"></span>    }   
+    <span style="color:#66d9ef">return</span> head;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">List <span style="color:#a6e22e">TailCreatList</span>(<span style="color:#66d9ef">int</span> n){<span style="color:#75715e">//带头结点_尾插法
+</span><span style="color:#75715e"></span>    Node <span style="color:#f92672">*</span>s, <span style="color:#f92672">*</span>r;
+    List head <span style="color:#f92672">=</span> (List)malloc(<span style="color:#66d9ef">sizeof</span>(Node));
+    head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> NULL;
+    r <span style="color:#f92672">=</span> head;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>){
+        s <span style="color:#f92672">=</span> (List)malloc(<span style="color:#66d9ef">sizeof</span>(Node));
+        s<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">=</span> i;
+        r<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> s;
+        r <span style="color:#f92672">=</span> s;
+    }
+
+    <span style="color:#66d9ef">if</span>(r<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">!=</span> NULL){
+        r<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> NULL;
+    }
+    
+    <span style="color:#66d9ef">return</span> head;
+}
+</code></pre></div><hr>
+<p>下面这个是建立头结点与建立链表分离</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">List <span style="color:#a6e22e">CreatHNode</span>(){<span style="color:#75715e">//建立头结点
+</span><span style="color:#75715e"></span>    Node <span style="color:#f92672">*</span>s, <span style="color:#f92672">*</span>r;
+    List head <span style="color:#f92672">=</span> (List)malloc(<span style="color:#66d9ef">sizeof</span>(Node));
+    head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> NULL;
+    <span style="color:#66d9ef">return</span> head;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">HeadList</span>(List head, <span style="color:#66d9ef">int</span> n){<span style="color:#75715e">//头插法
+</span><span style="color:#75715e"></span>    Node <span style="color:#f92672">*</span>s;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>){
+        s <span style="color:#f92672">=</span> (List)malloc(<span style="color:#66d9ef">sizeof</span>(Node));
+        s<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">=</span> i;
+        s<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next;
+        head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> s;<span style="color:#75715e">//头结点的指针域next指向s结点，使得s成为结点
+</span><span style="color:#75715e"></span>    }   
+    <span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">TailList</span>(List head, <span style="color:#66d9ef">int</span> n){<span style="color:#75715e">//尾插法
+</span><span style="color:#75715e"></span>    Node <span style="color:#f92672">*</span>s, <span style="color:#f92672">*</span>r;
+    r <span style="color:#f92672">=</span> head;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>){
+        s <span style="color:#f92672">=</span> (List)malloc(<span style="color:#66d9ef">sizeof</span>(Node));
+        s<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">=</span> i;
+        r<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> s;
+        r <span style="color:#f92672">=</span> s;
+    }
+
+    <span style="color:#66d9ef">if</span>(r<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">!=</span> NULL){
+        r<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> NULL;
+    }
+    <span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><p>为了方便测试，先写出遍历并打印链表的函数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">PrintList</span>(List head){<span style="color:#75715e">//打印链表数据
+</span><span style="color:#75715e"></span>    Node <span style="color:#f92672">*</span>t <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next;
+    <span style="color:#66d9ef">while</span> (t <span style="color:#f92672">!=</span> NULL){
+        printf(<span style="color:#e6db74">&#34;%d &#34;</span>,t<span style="color:#f92672">-&gt;</span>data);
+        t <span style="color:#f92672">=</span> t<span style="color:#f92672">-&gt;</span>next;
+    }
+    printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+    
+    <span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test</span>(){<span style="color:#75715e">//测试
+</span><span style="color:#75715e"></span>    List head;
+    <span style="color:#75715e">//head = HeadCreatList(10);
+</span><span style="color:#75715e"></span>    head <span style="color:#f92672">=</span> TailCreatList(<span style="color:#ae81ff">10</span>);
+    <span style="color:#75715e">//head = CreatHNode();
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//HeadList(head, 10);
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//TailList(head, 10);
+</span><span style="color:#75715e"></span>    PrintList(head);
+
+    system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+    <span style="color:#66d9ef">return</span>;
+}
+</code></pre></div><h4 id="无头结点链表的建立">无头结点链表的建立</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">List <span style="color:#a6e22e">HeadCreatList</span>(<span style="color:#66d9ef">int</span> n){<span style="color:#75715e">//头插法
+</span><span style="color:#75715e"></span>	List head <span style="color:#f92672">=</span> NULL;
+	Node <span style="color:#f92672">*</span>p;
+	<span style="color:#66d9ef">while</span>(n<span style="color:#f92672">--</span>){
+		p <span style="color:#f92672">=</span> (List)malloc(<span style="color:#66d9ef">sizeof</span>(Node));
+		p<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">=</span> n;
+		<span style="color:#66d9ef">if</span>(head <span style="color:#f92672">==</span> NULL){
+			p<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> NULL;
+			head <span style="color:#f92672">=</span> p;
+		}
+		<span style="color:#66d9ef">else</span>{
+			p<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> head;
+			head <span style="color:#f92672">=</span> p;
+		}
+	}
+	<span style="color:#66d9ef">return</span> head;
+}
+
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">List <span style="color:#a6e22e">TailCreatList</span>(<span style="color:#66d9ef">int</span> n){<span style="color:#75715e">//尾插法
+</span><span style="color:#75715e"></span>	List head <span style="color:#f92672">=</span> NULL;
+	Node <span style="color:#f92672">*</span>p, <span style="color:#f92672">*</span>q;
+	<span style="color:#66d9ef">while</span>(n<span style="color:#f92672">--</span>){
+		p <span style="color:#f92672">=</span> (List)malloc(<span style="color:#66d9ef">sizeof</span>(Node));
+		p<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">=</span> n;
+		<span style="color:#66d9ef">if</span>(head <span style="color:#f92672">==</span> NULL){
+			head <span style="color:#f92672">=</span> p;
+		}
+		<span style="color:#66d9ef">else</span>{
+			q<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> p;
+		}
+		p<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> NULL;
+		q <span style="color:#f92672">=</span> p;
+	}
+	<span style="color:#66d9ef">return</span> head;
+}
+</code></pre></div><p>为了测试，先写出打印链表的函数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">PrintList</span>(List head){<span style="color:#75715e">//打印链表元素
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span>(head <span style="color:#f92672">==</span> NULL){
+		<span style="color:#66d9ef">return</span> ERROR;
+    }
+    Node <span style="color:#f92672">*</span>t <span style="color:#f92672">=</span> head;
+    <span style="color:#66d9ef">while</span>(t <span style="color:#f92672">!=</span> NULL){
+        printf(<span style="color:#e6db74">&#34;%d&#34;</span>, t<span style="color:#f92672">-&gt;</span>data);		
+        t <span style="color:#f92672">=</span> t<span style="color:#f92672">-&gt;</span>next;
+    }
+    printf(<span style="color:#e6db74">&#34;%d&#34;</span>);
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test</span>(){<span style="color:#75715e">//测试
+</span><span style="color:#75715e"></span>	List head;
+	<span style="color:#75715e">//head = HeadCreatList(10);
+</span><span style="color:#75715e"></span>	head <span style="color:#f92672">=</span> TailCreatList(<span style="color:#ae81ff">10</span>);
+	PrintList(head);
+	<span style="color:#66d9ef">return</span> ;
+}
+</code></pre></div><h3 id="链表的各个功能的实现有头结点">链表的各个功能的实现（有头结点）</h3>
+<p>上面介绍了有无头结点对于功能实现的影响，接下来先使用有头结点的链表进行</p>
+<h4 id="链表元素的添加">链表元素的添加</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//链表添加元素（插头）
+</span><span style="color:#75715e"></span>Status <span style="color:#a6e22e">HeadInsertList</span>(List head,Node a){
+    Node <span style="color:#f92672">*</span>p <span style="color:#f92672">=</span> (List)malloc(<span style="color:#66d9ef">sizeof</span>(Node));
+    p<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">=</span> a.data;
+    p<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next;
+    head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> p;
+    <span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//链表添加元素（插尾）
+</span><span style="color:#75715e"></span>Status <span style="color:#a6e22e">TailInsertList</span>(List head,Node a){
+    Node <span style="color:#f92672">*</span>p, <span style="color:#f92672">*</span>t, <span style="color:#f92672">*</span>s;
+    t <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next;
+    p <span style="color:#f92672">=</span> (List)malloc(<span style="color:#66d9ef">sizeof</span>(Node));
+    p<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">=</span> a.data;
+    <span style="color:#66d9ef">while</span>(t<span style="color:#f92672">!=</span> NULL){
+        s <span style="color:#f92672">=</span> t;
+        t <span style="color:#f92672">=</span> t<span style="color:#f92672">-&gt;</span>next;
+    }
+    s<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> p;
+    p<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> NULL;
+    <span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test</span>(){<span style="color:#75715e">//测试
+</span><span style="color:#75715e"></span>    List head;
+    Node a;
+    a.data <span style="color:#f92672">=</span> <span style="color:#ae81ff">666</span>;
+    head <span style="color:#f92672">=</span> HeadCreatList(<span style="color:#ae81ff">10</span>);
+
+    PrintList(head);
+
+    <span style="color:#75715e">//HeadInsertList(head, a);
+</span><span style="color:#75715e"></span>    TailInsertList(head, a);
+
+    PrintList(head);
+
+    system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+    <span style="color:#66d9ef">return</span>;
+}
+</code></pre></div><h4 id="链表元素的插入">链表元素的插入</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//链表的插入（插在之前）
+</span><span style="color:#75715e"></span>Status <span style="color:#a6e22e">InsertIndexFront</span>(List head,<span style="color:#66d9ef">int</span> i){
+    Node <span style="color:#f92672">*</span>p, <span style="color:#f92672">*</span>q, <span style="color:#f92672">*</span>r;
+    <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    p <span style="color:#f92672">=</span> head;
+    <span style="color:#66d9ef">while</span>(p <span style="color:#f92672">&amp;&amp;</span> j <span style="color:#f92672">&lt;</span> i){
+        r <span style="color:#f92672">=</span> p;
+        p <span style="color:#f92672">=</span> p<span style="color:#f92672">-&gt;</span>next;
+        j<span style="color:#f92672">++</span>;
+    }
+
+    <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>p <span style="color:#f92672">||</span> j<span style="color:#f92672">&gt;</span>i){
+        <span style="color:#66d9ef">return</span> ERROR;
+    }
+
+    q <span style="color:#f92672">=</span> (List)malloc(<span style="color:#66d9ef">sizeof</span>(Node));
+    scanf(<span style="color:#e6db74">&#34;%d&#34;</span>,<span style="color:#f92672">&amp;</span>q<span style="color:#f92672">-&gt;</span>data);
+    q<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> p;
+    r<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> q;
+
+    <span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//链表的插入（插在之后）
+</span><span style="color:#75715e"></span>Status <span style="color:#a6e22e">InsertIndexBack</span>(List head,<span style="color:#66d9ef">int</span> i){
+    Node <span style="color:#f92672">*</span>p,<span style="color:#f92672">*</span>q;
+    <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    p <span style="color:#f92672">=</span> head;
+    <span style="color:#66d9ef">while</span>(p <span style="color:#f92672">&amp;&amp;</span> j <span style="color:#f92672">&lt;</span> i){
+        p <span style="color:#f92672">=</span> p<span style="color:#f92672">-&gt;</span>next;
+        j<span style="color:#f92672">++</span>;
+    }
+
+    <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>p <span style="color:#f92672">||</span> j <span style="color:#f92672">&gt;</span> i){
+        <span style="color:#66d9ef">return</span> ERROR;
+    }
+
+    q <span style="color:#f92672">=</span> (List)malloc(<span style="color:#66d9ef">sizeof</span>(Node));
+    scanf(<span style="color:#e6db74">&#34;%d&#34;</span>,<span style="color:#f92672">&amp;</span>q<span style="color:#f92672">-&gt;</span>data);
+    q<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> p<span style="color:#f92672">-&gt;</span>next;
+    p<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> q;
+
+    <span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">oid <span style="color:#a6e22e">test</span>(){<span style="color:#75715e">//测试
+</span><span style="color:#75715e"></span>        List head;
+    head <span style="color:#f92672">=</span> HeadCreatList(<span style="color:#ae81ff">10</span>);
+
+    PrintList(head);
+
+    InsertIndexFront(head,<span style="color:#ae81ff">2</span>);
+    <span style="color:#75715e">//InsertIndexBack(head,2);
+</span><span style="color:#75715e"></span>
+    PrintList(head);
+
+    system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+    <span style="color:#66d9ef">return</span>;
+}
+</code></pre></div><h4 id="链表元素的查找">链表元素的查找</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//链表元素的查找
+</span><span style="color:#75715e"></span>elem <span style="color:#a6e22e">GetElem</span>(List head, <span style="color:#66d9ef">int</span> index){<span style="color:#75715e">//按序号查找
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> j;
+    Node<span style="color:#f92672">*</span> p;
+    p <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next; <span style="color:#75715e">//p指向第一个数据结点
+</span><span style="color:#75715e"></span>    j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; <span style="color:#75715e">//j为计数器
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">while</span> (p <span style="color:#f92672">&amp;&amp;</span> j <span style="color:#f92672">&lt;</span> index ){ <span style="color:#75715e">//顺着链表向后扫描，直到p指向第i个元素或p为空
+</span><span style="color:#75715e"></span>        p<span style="color:#f92672">=</span>p<span style="color:#f92672">-&gt;</span>next; <span style="color:#75715e">//p指向下一个结点
+</span><span style="color:#75715e"></span>        j<span style="color:#f92672">++</span>; <span style="color:#75715e">//计数器j相应加1
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>p <span style="color:#f92672">||</span> j <span style="color:#f92672">&gt;</span> index)
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; <span style="color:#75715e">//i值不合法i＞n或i&lt;=0
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> p<span style="color:#f92672">-&gt;</span>data;<span style="color:#75715e">//返回第i个结点的数据域
+</span><span style="color:#75715e"></span>
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">elem <span style="color:#a6e22e">GetIndex</span>(List head, <span style="color:#66d9ef">int</span> e) {<span style="color:#75715e">//按值查找
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//在带头结点的单链表L中查找值为e的元素
+</span><span style="color:#75715e"></span>    Node<span style="color:#f92672">*</span> p;
+    <span style="color:#66d9ef">int</span> index <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    p <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next;
+
+    <span style="color:#66d9ef">while</span> (p <span style="color:#f92672">&amp;&amp;</span> p<span style="color:#f92672">-&gt;</span>data<span style="color:#f92672">!=</span>e){
+        <span style="color:#75715e">//顺链域向后扫描，直到p为空或p所指结点的数据域等于e
+</span><span style="color:#75715e"></span>        p<span style="color:#f92672">=</span>p<span style="color:#f92672">-&gt;</span>next; <span style="color:#75715e">//p指向下一个结点
+</span><span style="color:#75715e"></span>        <span style="color:#f92672">++</span>index;
+    }
+    <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>p)
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; <span style="color:#75715e">//查找失败p为NULL
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">return</span> index;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test</span>(){
+    List head;
+    Node a;
+    a.data <span style="color:#f92672">=</span> <span style="color:#ae81ff">666</span>;
+    head <span style="color:#f92672">=</span> HeadCreatList(<span style="color:#ae81ff">10</span>);
+
+    PrintList(head);
+
+    printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,GetElem(head,<span style="color:#ae81ff">6</span>));
+    printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,GetIndex(head,<span style="color:#ae81ff">6</span>));
+
+    system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+    <span style="color:#66d9ef">return</span>;
+}
+</code></pre></div><h4 id="链表元素的删除">链表元素的删除</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">DeleteList</span>(List head, <span style="color:#66d9ef">int</span> index) {<span style="color:#75715e">//单链表的删除
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//在带头结点的单链表L中，删除第i个位置
+</span><span style="color:#75715e"></span>    Node <span style="color:#f92672">*</span>p, <span style="color:#f92672">*</span>q;
+    <span style="color:#66d9ef">int</span> j;
+    p <span style="color:#f92672">=</span> head;
+    j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">while</span>((p<span style="color:#f92672">-&gt;</span>next)<span style="color:#f92672">&amp;&amp;</span>(j <span style="color:#f92672">&lt;</span> index <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)) {<span style="color:#75715e">//查找第i-1个结点，p指向该结点
+</span><span style="color:#75715e"></span>        p<span style="color:#f92672">=</span>p<span style="color:#f92672">-&gt;</span>next;
+        j<span style="color:#f92672">++</span>;
+    }
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>(p<span style="color:#f92672">-&gt;</span>next)<span style="color:#f92672">||</span>(j <span style="color:#f92672">&gt;</span> index <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>))<span style="color:#75715e">//当i&gt;n或i&lt;1时，删除位置不合理
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> ERROR;
+    q <span style="color:#f92672">=</span> p<span style="color:#f92672">-&gt;</span>next; <span style="color:#75715e">//临时保存被删结点的地址以备释放空间
+</span><span style="color:#75715e"></span>    p<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> q<span style="color:#f92672">-&gt;</span>next; <span style="color:#75715e">//改变删除结点前驱结点的指针域
+</span><span style="color:#75715e"></span>    free(q); <span style="color:#75715e">//释放被删除结点的空间
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test</span>(){<span style="color:#75715e">//测试
+</span><span style="color:#75715e"></span>    List head;
+    Node a;
+    a.data <span style="color:#f92672">=</span> <span style="color:#ae81ff">666</span>;
+    head <span style="color:#f92672">=</span> HeadCreatList(<span style="color:#ae81ff">10</span>);
+
+    PrintList(head);
+
+    DeleteList(head,<span style="color:#ae81ff">4</span>);
+
+    PrintList(head);
+
+    system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+    <span style="color:#66d9ef">return</span>;
+}
+</code></pre></div><h4 id="链表元素的修改">链表元素的修改</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//链表元素的修改
+</span><span style="color:#75715e"></span>Status <span style="color:#a6e22e">ReverseElem</span>(List head, <span style="color:#66d9ef">int</span> index,<span style="color:#66d9ef">int</span> e){
+    <span style="color:#66d9ef">int</span> j;
+    Node<span style="color:#f92672">*</span> p;
+    p <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next; <span style="color:#75715e">//p指向第一个数据结点
+</span><span style="color:#75715e"></span>    j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; <span style="color:#75715e">//j为计数器
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">while</span> (p <span style="color:#f92672">&amp;&amp;</span> j <span style="color:#f92672">&lt;</span> index ){ <span style="color:#75715e">//顺着链表向后扫描，直到p指向第i个元素或p为空
+</span><span style="color:#75715e"></span>        p<span style="color:#f92672">=</span>p<span style="color:#f92672">-&gt;</span>next; <span style="color:#75715e">//p指向下一个结点
+</span><span style="color:#75715e"></span>        j<span style="color:#f92672">++</span>; <span style="color:#75715e">//计数器j相应加1
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>p <span style="color:#f92672">||</span> j <span style="color:#f92672">&gt;</span> index)
+        <span style="color:#66d9ef">return</span> ERROR; <span style="color:#75715e">//i值不合法i＞n或i&lt;=0
+</span><span style="color:#75715e"></span>    p<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">=</span> e;
+    <span style="color:#66d9ef">return</span> OK;<span style="color:#75715e">//返回第i个结点的数据域
+</span><span style="color:#75715e"></span>}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test</span>(){<span style="color:#75715e">//测试
+</span><span style="color:#75715e"></span>    List head;
+    Node a;
+    a.data <span style="color:#f92672">=</span> <span style="color:#ae81ff">666</span>;
+    head <span style="color:#f92672">=</span> HeadCreatList(<span style="color:#ae81ff">10</span>);
+
+    PrintList(head);
+
+    ReverseElem(head,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">999</span>);
+
+    PrintList(head);
+
+    system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+    <span style="color:#66d9ef">return</span>;
+}
+</code></pre></div><h4 id="链表元素的清空">链表元素的清空</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//清空链表
+</span><span style="color:#75715e"></span>Status <span style="color:#a6e22e">ClearList</span>(List head)  
+{  
+    Node<span style="color:#f92672">*</span>p,<span style="color:#f92672">*</span>q;
+    <span style="color:#66d9ef">if</span>(head <span style="color:#f92672">==</span> NULL)  
+        <span style="color:#66d9ef">return</span> ERROR;  
+    p <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next;  
+    <span style="color:#66d9ef">while</span>(p<span style="color:#f92672">!=</span>NULL)  
+    {  
+        q<span style="color:#f92672">=</span>p<span style="color:#f92672">-&gt;</span>next;  
+        free(p);  
+        p<span style="color:#f92672">=</span>q;  
+    }  
+    head<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">=</span>NULL;  
+    <span style="color:#66d9ef">return</span> OK;  
+}
+</code></pre></div><h4 id="链表元素的排序">链表元素的排序</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">SwapElem</span>(<span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>i, <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span>j){<span style="color:#75715e">//交换数据
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span>  temp <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>i;
+    <span style="color:#f92672">*</span>i <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>j;
+    <span style="color:#f92672">*</span>j <span style="color:#f92672">=</span> temp;
+    <span style="color:#66d9ef">return</span> OK;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">SortList</span>(List head){<span style="color:#75715e">//冒泡排序
+</span><span style="color:#75715e"></span>    Node<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> NULL;
+    Node<span style="color:#f92672">*</span> q <span style="color:#f92672">=</span> NULL;
+    Node<span style="color:#f92672">*</span> t <span style="color:#f92672">=</span> NULL;
+    <span style="color:#66d9ef">if</span>(head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">==</span> NULL){
+        <span style="color:#66d9ef">return</span> ;
+    }
+
+    <span style="color:#66d9ef">for</span> ( p <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next; p <span style="color:#f92672">!=</span> NULL; p <span style="color:#f92672">=</span> p<span style="color:#f92672">-&gt;</span>next){
+        <span style="color:#66d9ef">for</span> ( q <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next; q<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">!=</span> NULL; q <span style="color:#f92672">=</span> q<span style="color:#f92672">-&gt;</span>next){
+            <span style="color:#66d9ef">if</span>(q<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">&gt;</span> q<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>data){
+                SwapElem(<span style="color:#f92672">&amp;</span>q<span style="color:#f92672">-&gt;</span>data, <span style="color:#f92672">&amp;</span>q<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>data);
+            }
+        }
+    }
+}
+</code></pre></div><h4 id="无头结点链表的功能实现就不在此赘述所有源码都在githubhttpsgithubcom28251536datanote">无头结点链表的功能实现就不在此赘述，所有源码都在<a href="https://github.com/28251536/DataNote">Github</a></h4>
+]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>顺序表</title>
+      <link>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%A1%BA%E5%BA%8F%E8%A1%A8/</link>
+      <pubDate>Fri, 29 Jan 2021 17:38:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%A1%BA%E5%BA%8F%E8%A1%A8/</guid>
+      <description>简单介绍了一下顺序表</description>
+      <content:encoded><![CDATA[<h3 id="概念">概念</h3>
+<p>具有 <em>一对一</em> 逻辑关系的数据按照次序连续存储到一整块物理空间上”的存储结构就是顺序存储结构（顺序表）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;time.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#define MAXSIZE 100
+</span><span style="color:#75715e">#define OK 1
+</span><span style="color:#75715e">#define ERROR 0
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">int</span> Status;
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">int</span> elem;
+
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> Sqlist{
+    elem <span style="color:#f92672">*</span>e;<span style="color:#75715e">//存储空间的及地址
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> length;<span style="color:#75715e">//长度
+</span><span style="color:#75715e"></span>}Sqlist;
+</code></pre></div><h3 id="功能的实现">功能的实现</h3>
+<h4 id="顺序表的初始化">顺序表的初始化</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//数组的初始化
+</span><span style="color:#75715e"></span>Status <span style="color:#a6e22e">InitArray</span>(Sqlist <span style="color:#f92672">*</span>L){
+    <span style="color:#66d9ef">if</span>(L<span style="color:#f92672">-&gt;</span>e) {<span style="color:#75715e">//判断指针是否为空
+</span><span style="color:#75715e"></span>        free(L<span style="color:#f92672">-&gt;</span>e);
+        L<span style="color:#f92672">-&gt;</span>e <span style="color:#f92672">=</span> NULL;
+    }
+
+    L<span style="color:#f92672">-&gt;</span>e <span style="color:#f92672">=</span> (elem<span style="color:#f92672">*</span>)malloc(<span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>) <span style="color:#f92672">*</span> MAXSIZE);<span style="color:#75715e">//申请capacity大小的空间
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">if</span>(L<span style="color:#f92672">-&gt;</span>e <span style="color:#f92672">==</span> NULL){
+        printf(<span style="color:#e6db74">&#34;内存分配失败!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);<span style="color:#75715e">//判断内存分配是否成功
+</span><span style="color:#75715e"></span>        exit(<span style="color:#ae81ff">0</span>);
+    }
+
+    L<span style="color:#f92672">-&gt;</span>length <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="元素的添加">元素的添加</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//添加元素
+</span><span style="color:#75715e"></span>Status <span style="color:#a6e22e">PushBackArray</span>(Sqlist <span style="color:#f92672">*</span>L,elem value){
+    <span style="color:#66d9ef">if</span>(L<span style="color:#f92672">-&gt;</span>e <span style="color:#f92672">==</span> NULL){
+        printf(<span style="color:#e6db74">&#34;请初始化顺序表</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        <span style="color:#66d9ef">return</span> ERROR;
+    }
+
+    <span style="color:#66d9ef">if</span>(L<span style="color:#f92672">-&gt;</span>length <span style="color:#f92672">==</span> MAXSIZE) {
+        <span style="color:#66d9ef">return</span> ERROR;
+    }
+    L<span style="color:#f92672">-&gt;</span>e[L<span style="color:#f92672">-&gt;</span>length] <span style="color:#f92672">=</span> value;
+    <span style="color:#f92672">++</span>L<span style="color:#f92672">-&gt;</span>length;
+    <span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="元素的插入">元素的插入</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//插入
+</span><span style="color:#75715e"></span>Status <span style="color:#a6e22e">InsertArray</span>(Sqlist <span style="color:#f92672">*</span>L,<span style="color:#66d9ef">int</span> index,elem value){
+    <span style="color:#66d9ef">if</span>(index <span style="color:#f92672">&gt;</span> L<span style="color:#f92672">-&gt;</span>length <span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> index <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1</span>){
+        <span style="color:#66d9ef">return</span> ERROR;
+    }
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> L<span style="color:#f92672">-&gt;</span>length; i <span style="color:#f92672">&gt;=</span> index; i<span style="color:#f92672">--</span>) {
+		L<span style="color:#f92672">-&gt;</span>e[i] <span style="color:#f92672">=</span> L<span style="color:#f92672">-&gt;</span>e[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+	}
+
+	L<span style="color:#f92672">-&gt;</span>e[index] <span style="color:#f92672">=</span> value;
+
+	<span style="color:#f92672">++</span>L<span style="color:#f92672">-&gt;</span>length;
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="元素的查找">元素的查找</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//根据位置查找
+</span><span style="color:#75715e"></span>elem <span style="color:#a6e22e">FindByIndex</span>(Sqlist<span style="color:#f92672">*</span> L,<span style="color:#66d9ef">int</span> index){
+    <span style="color:#66d9ef">return</span> L<span style="color:#f92672">-&gt;</span>e[index];
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//根据值查找
+</span><span style="color:#75715e"></span>Status <span style="color:#a6e22e">FindByValue</span>(Sqlist<span style="color:#f92672">*</span> L,elem value){
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> L<span style="color:#f92672">-&gt;</span>length; i<span style="color:#f92672">++</span>){
+        <span style="color:#66d9ef">if</span>(L<span style="color:#f92672">-&gt;</span>e[i] <span style="color:#f92672">==</span> value){
+            <span style="color:#66d9ef">return</span> i;
+        }
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+}
+</code></pre></div><h4 id="元素的删除">元素的删除</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//根据值删除
+</span><span style="color:#75715e"></span>Status <span style="color:#a6e22e">RemoveByValue</span>(Sqlist<span style="color:#f92672">*</span> L,elem value){
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> L<span style="color:#f92672">-&gt;</span>length; i<span style="color:#f92672">++</span>){
+        <span style="color:#66d9ef">if</span>(L<span style="color:#f92672">-&gt;</span>e[i] <span style="color:#f92672">==</span> value){
+	        <span style="color:#66d9ef">for</span> (; i <span style="color:#f92672">&lt;</span> L<span style="color:#f92672">-&gt;</span>length; i<span style="color:#f92672">++</span>) {
+		        L<span style="color:#f92672">-&gt;</span>e[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> L<span style="color:#f92672">-&gt;</span>e[i];
+	        }
+
+	        <span style="color:#f92672">--</span>L<span style="color:#f92672">-&gt;</span>length;
+	        <span style="color:#66d9ef">return</span> OK;
+        }
+    }
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//根据位置删除
+</span><span style="color:#75715e"></span>Status <span style="color:#a6e22e">RemoveByIndex</span>(Sqlist<span style="color:#f92672">*</span> L,<span style="color:#66d9ef">int</span> index){
+	<span style="color:#66d9ef">if</span> (index <span style="color:#f92672">&gt;</span> L<span style="color:#f92672">-&gt;</span>length <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> index <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1</span>) {
+		<span style="color:#66d9ef">return</span> ERROR;
+	}
+
+	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> index; i <span style="color:#f92672">&lt;</span> L<span style="color:#f92672">-&gt;</span>length; i<span style="color:#f92672">++</span>) {
+		L<span style="color:#f92672">-&gt;</span>e[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> L<span style="color:#f92672">-&gt;</span>e[i];
+	}
+
+	<span style="color:#f92672">--</span>L<span style="color:#f92672">-&gt;</span>length;
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="元素的清空">元素的清空</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//清空
+</span><span style="color:#75715e"></span>Status <span style="color:#a6e22e">CleanArray</span>(Sqlist <span style="color:#f92672">*</span>L){
+    <span style="color:#66d9ef">if</span>(L<span style="color:#f92672">-&gt;</span>e <span style="color:#f92672">==</span> NULL) {
+        printf(<span style="color:#e6db74">&#34;未初始化</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        <span style="color:#66d9ef">return</span> ERROR;
+    
+    }
+
+    L<span style="color:#f92672">-&gt;</span>length <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="线性表的销毁">线性表的销毁</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//销毁
+</span><span style="color:#75715e"></span>Status <span style="color:#a6e22e">FreeArray</span>(Sqlist<span style="color:#f92672">*</span> L){
+    <span style="color:#66d9ef">if</span>(L<span style="color:#f92672">-&gt;</span>e <span style="color:#f92672">!=</span> NULL){
+        free(L<span style="color:#f92672">-&gt;</span>e);
+        L<span style="color:#f92672">-&gt;</span>e <span style="color:#f92672">=</span> NULL;
+    }
+
+    L<span style="color:#f92672">-&gt;</span>length <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+    <span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="获取当前长度">获取当前长度</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//长度
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">GetLength</span>(Sqlist<span style="color:#f92672">*</span> L){
+     <span style="color:#66d9ef">if</span>(L<span style="color:#f92672">-&gt;</span>e <span style="color:#f92672">==</span> NULL) <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">return</span> L<span style="color:#f92672">-&gt;</span>length;
+}
+</code></pre></div><h4 id="判断是否为空">判断是否为空</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//判断是否为空
+</span><span style="color:#75715e"></span>Status <span style="color:#a6e22e">IsEmptyArray</span>(Sqlist <span style="color:#f92672">*</span>L){
+    <span style="color:#66d9ef">return</span> L<span style="color:#f92672">-&gt;</span>length <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+}
+
+</code></pre></div><h4 id="顺序表的合并">顺序表的合并</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//合并
+</span><span style="color:#75715e"></span>Status <span style="color:#a6e22e">CombineArray</span>(Sqlist <span style="color:#f92672">*</span>L1,Sqlist <span style="color:#f92672">*</span>L2){
+    <span style="color:#66d9ef">if</span> (L1<span style="color:#f92672">-&gt;</span>length <span style="color:#f92672">+</span> L2<span style="color:#f92672">-&gt;</span>length <span style="color:#f92672">&gt;</span> MAXSIZE) {
+        printf(<span style="color:#e6db74">&#34;空间不足，合并失败</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+		<span style="color:#66d9ef">return</span> ERROR;
+	}
+
+	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> L2<span style="color:#f92672">-&gt;</span>length; i<span style="color:#f92672">++</span>) {
+		L1<span style="color:#f92672">-&gt;</span>e[L1<span style="color:#f92672">-&gt;</span>length <span style="color:#f92672">+</span> i] <span style="color:#f92672">=</span> L2<span style="color:#f92672">-&gt;</span>e[i];
+	}
+    L1<span style="color:#f92672">-&gt;</span>length <span style="color:#f92672">+=</span>L2<span style="color:#f92672">-&gt;</span>length;
+
+    free(L2<span style="color:#f92672">-&gt;</span>e);
+    L2<span style="color:#f92672">-&gt;</span>length <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+    <span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="顺序表的打印">顺序表的打印</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//打印
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">PrintArray</span>(Sqlist<span style="color:#f92672">*</span> L){
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> L<span style="color:#f92672">-&gt;</span>length; i<span style="color:#f92672">++</span>){
+        printf(<span style="color:#e6db74">&#34;%d &#34;</span>,L<span style="color:#f92672">-&gt;</span>e[i]);
+    }
+    printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test</span>(){<span style="color:#75715e">//测试
+</span><span style="color:#75715e"></span>    Sqlist L,L2;
+      <span style="color:#75715e">/******************************/</span>
+     <span style="color:#75715e">/********初始化及添加元素********/</span>
+    <span style="color:#75715e">/******************************/</span>
+    InitArray(<span style="color:#f92672">&amp;</span>L);<span style="color:#75715e">//初始化顺序表
+</span><span style="color:#75715e"></span>    InitArray(<span style="color:#f92672">&amp;</span>L2);
+    <span style="color:#75715e">//srand(time(NULL));
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>; i<span style="color:#f92672">++</span>){<span style="color:#75715e">//赋值
+</span><span style="color:#75715e"></span>        PushBackArray(<span style="color:#f92672">&amp;</span>L,i);
+        PushBackArray(<span style="color:#f92672">&amp;</span>L2,i);
+    }
+    printf(<span style="color:#e6db74">&#34;初始化...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+    PrintArray(<span style="color:#f92672">&amp;</span>L);<span style="color:#75715e">//打印
+</span><span style="color:#75715e"></span>    printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, GetLength(<span style="color:#f92672">&amp;</span>L));<span style="color:#75715e">//获取当前长度
+</span><span style="color:#75715e"></span>
+     <span style="color:#75715e">/******************************/</span>
+     <span style="color:#75715e">/************插入元素***********/</span>
+    <span style="color:#75715e">/******************************/</span>
+    InsertArray(<span style="color:#f92672">&amp;</span>L,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">100</span>);<span style="color:#75715e">//插入元素
+</span><span style="color:#75715e"></span>    printf(<span style="color:#e6db74">&#34;插入元素...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+    PrintArray(<span style="color:#f92672">&amp;</span>L);<span style="color:#75715e">//打印
+</span><span style="color:#75715e"></span>    printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, GetLength(<span style="color:#f92672">&amp;</span>L));<span style="color:#75715e">//获取当前长度
+</span><span style="color:#75715e"></span>
+      <span style="color:#75715e">/******************************/</span>
+     <span style="color:#75715e">/************查找元素***********/</span>
+    <span style="color:#75715e">/******************************/</span>
+    printf(<span style="color:#e6db74">&#34;查找元素...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+    printf(<span style="color:#e6db74">&#34;%d &#34;</span>,FindByIndex(<span style="color:#f92672">&amp;</span>L,<span style="color:#ae81ff">10</span>));<span style="color:#75715e">//根据位置查找
+</span><span style="color:#75715e"></span>    printf(<span style="color:#e6db74">&#34;%d &#34;</span>,FindByValue(<span style="color:#f92672">&amp;</span>L,<span style="color:#ae81ff">4</span>));<span style="color:#75715e">//根据值查找
+</span><span style="color:#75715e"></span>
+
+
+      <span style="color:#75715e">/******************************/</span>
+     <span style="color:#75715e">/************删除元素***********/</span>
+    <span style="color:#75715e">/******************************/</span>
+    RemoveByIndex(<span style="color:#f92672">&amp;</span>L,<span style="color:#ae81ff">3</span>);<span style="color:#75715e">//根据位置删除
+</span><span style="color:#75715e"></span>    RemoveByValue(<span style="color:#f92672">&amp;</span>L,<span style="color:#ae81ff">9</span>);<span style="color:#75715e">//根据值删除
+</span><span style="color:#75715e"></span>    printf(<span style="color:#e6db74">&#34;删除元素...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+    PrintArray(<span style="color:#f92672">&amp;</span>L);<span style="color:#75715e">//打印
+</span><span style="color:#75715e"></span>    printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, GetLength(<span style="color:#f92672">&amp;</span>L));<span style="color:#75715e">//获取当前长度
+</span><span style="color:#75715e"></span>
+
+      <span style="color:#75715e">/******************************/</span>
+     <span style="color:#75715e">/***********合并顺序表**********/</span>
+    <span style="color:#75715e">/******************************/</span>
+    CombineArray(<span style="color:#f92672">&amp;</span>L,<span style="color:#f92672">&amp;</span>L2);<span style="color:#75715e">//合并
+</span><span style="color:#75715e"></span>    printf(<span style="color:#e6db74">&#34;合并顺序表...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+    PrintArray(<span style="color:#f92672">&amp;</span>L);<span style="color:#75715e">//打印
+</span><span style="color:#75715e"></span>    printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, GetLength(<span style="color:#f92672">&amp;</span>L));<span style="color:#75715e">//获取当前长度
+</span><span style="color:#75715e"></span>
+     <span style="color:#75715e">/******************************/</span>
+     <span style="color:#75715e">/***********清空顺序表**********/</span>
+    <span style="color:#75715e">/******************************/</span>
+    CleanArray(<span style="color:#f92672">&amp;</span>L);<span style="color:#75715e">//清空
+</span><span style="color:#75715e"></span>    printf(<span style="color:#e6db74">&#34;清空顺序表...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+    PrintArray(<span style="color:#f92672">&amp;</span>L);<span style="color:#75715e">//打印
+</span><span style="color:#75715e"></span>    printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, GetLength(<span style="color:#f92672">&amp;</span>L));<span style="color:#75715e">//获取当前长度
+</span><span style="color:#75715e"></span>
+      <span style="color:#75715e">/******************************/</span>
+     <span style="color:#75715e">/***********销毁顺序表**********/</span>
+    <span style="color:#75715e">/******************************/</span>
+    FreeArray(<span style="color:#f92672">&amp;</span>L);<span style="color:#75715e">//销毁
+</span><span style="color:#75715e"></span>    printf(<span style="color:#e6db74">&#34;销毁顺序表...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+    printf(<span style="color:#e6db74">&#34;%d&#34;</span>,PushBackArray(<span style="color:#f92672">&amp;</span>L,<span style="color:#ae81ff">1</span>));
+}
+
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+    test();
+    system(<span style="color:#e6db74">&#34;pause&#34;</span>);
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div>]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>数据结构概括</title>
+      <link>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link>
+      <pubDate>Fri, 29 Jan 2021 16:33:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid>
+      <description>基础知识</description>
+      <content:encoded><![CDATA[<h3 id="数据">数据</h3>
+<p>所有能够输入到计算机中的去的描述客观事物的符号</p>
+<h3 id="数据元素">数据元素</h3>
+<p>数据的基本单位，也称结点或记录</p>
+<h3 id="数据结构">数据结构</h3>
+<p>相互之间存在一种或多种特定关系的数据元素的集合</p>
+<h3 id="逻辑结构和存储结构">逻辑结构和存储结构</h3>
+<h4 id="逻辑结构">逻辑结构</h4>
+<p>数据元素间抽象化的相互关系，与数据的存储无关，独立于计算机，它是从具体问题抽象出来的数学模型。</p>
+<h5 id="1集合">1.集合</h5>
+<p>数据元素间除同属于一个集合外，无其他关系
+集合中的元素是离散的、无序的、相互之间没有关系的</p>
+<h5 id="2线性结构">2.线性结构</h5>
+<p>一个对一个
+<img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e7%ba%bf%e6%80%a7%e7%bb%93%e6%9e%84.jpg" alt=""  />
+</p>
+<ul>
+<li>线性表</li>
+<li>栈</li>
+<li>队列
+线性结构像是珠子穿在一根线上，不会分叉，有且只有唯一的开始和结束</li>
+</ul>
+<h5 id="3树形结构">3.树形结构</h5>
+<p>一个对多个
+<img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e6%a0%91%e5%bd%a2%e7%bb%93%e6%9e%84.jpg" alt=""  />
+
+树形结构就像一棵倒立的树，树根可以发出多个分支，每个每支也可以继续发出分支。树枝和树枝之间是不相交的。</p>
+<ul>
+<li>树</li>
+</ul>
+<h5 id="4图形结构">4.图形结构</h5>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e5%9b%be%e5%bd%a2%e7%bb%93%e6%9e%84.jpg" alt=""  />
+
+图形结构就像我们经常见到的地图，任何一个结点都可能和其它结点有关系，就像一张错综复杂的网。</p>
+<h4 id="存储结构">存储结构</h4>
+<p>存储结构是数据元素及其关系在计算机中的存储方式。</p>
+<h5 id="1顺序结构">1.顺序结构</h5>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e9%a1%ba%e5%ba%8f%e5%82%a8%e5%ad%98.jpg" alt=""  />
+
+顺序存储在计算机内的存储位置是连续的，可以快速定位第几个元素的问题。中间不允许有空，所以插入、删除时需要移动大量元素。</p>
+<h5 id="2链式结构">2.链式结构</h5>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e9%93%be%e5%bc%8f%e5%82%a8%e5%ad%98.png" alt=""  />
+
+链式存储就像一个铁链子，一环扣一环才能连在一起。每个结点除了数据域，还有一个指针域，记录下一个元素的存储地址。</p>
+<h5 id="3散列机构">3.散列机构</h5>
+<h5 id="4索引结构">4.索引结构</h5>
+<h3 id="算法复杂性">算法复杂性</h3>
+<h4 id="时间复杂度">时间复杂度</h4>
+<p>程序运行所需的时间</p>
+<ol>
+<li>常数阶 O(1)</li>
+<li>O(n)</li>
+<li>O(n²)</li>
+<li>O(log(n))-二分查找</li>
+<li>O(nlogn)-快排</li>
+</ol>
+<h5 id="递归时间复杂度">递归时间复杂度</h5>
+<p>O(T * depth)  T是每一次递归的时间复杂度</p>
+<h5 id="最好最坏情况时间复杂度">最好最坏情况时间复杂度</h5>
+<h5 id="平均时间复杂度">平均时间复杂度</h5>
+<h4 id="空间复杂度">空间复杂度</h4>
+<p>程序运行所需的空间</p>
+<p>主要分为两部分：</p>
+<ol>
+<li>固定部分：指令空间、数据空间（静态空间）</li>
+<li>可变空间：动态分配的空间</li>
+</ol>
+<p>S(n) = O(f(n))</p>]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

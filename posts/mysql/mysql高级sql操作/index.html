@@ -1,0 +1,810 @@
+<!doctype html><html lang=en dir=auto>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
+<title>MySQL高级SQL操作 | Ther's Blog 👋</title>
+<meta name=keywords content="数据库,MySQL,蠕虫赋值,主键冲突,查询选项,别名,数据源,where子句,运算符,group by子句,回溯统计,having子句,order by子句,limit子句,限制删除,限制更新,清空数据">
+<meta name=description content="简单介绍了一下高级SQL操作">
+<meta name=author content="Ther">
+<link rel=canonical href=https://canonical.url/to/page>
+<meta name=google-site-verification content="XYZabc">
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.5e2b4101351c21e906f398ae96901791830f58d430f96f2659dab7eaef7b3cb7.css integrity="sha256-XitBATUcIekG85iulpAXkYMPWNQw+W8mWdq36u97PLc=" rel="preload stylesheet" as=style>
+<script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://www.niuwx.cn/favicon.png>
+<link rel=icon type=image/png sizes=16x16 href=https://www.niuwx.cn/favicon.png>
+<link rel=icon type=image/png sizes=32x32 href=https://www.niuwx.cn/favicon.png>
+<link rel=apple-touch-icon href=https://www.niuwx.cn/favicon.png>
+<link rel=mask-icon href=https://www.niuwx.cn/favicon.png>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<meta name=generator content="Hugo 0.88.1">
+<noscript>
+<style>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-123-45','auto'),ga('send','pageview'))</script><meta property="og:title" content="MySQL高级SQL操作">
+<meta property="og:description" content="简单介绍了一下高级SQL操作">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.niuwx.cn/posts/mysql/mysql%E9%AB%98%E7%BA%A7sql%E6%93%8D%E4%BD%9C/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2021-07-28T10:31:51+08:00">
+<meta property="article:modified_time" content="2021-07-28T10:31:51+08:00"><meta property="og:site_name" content="Ther's Blog">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="MySQL高级SQL操作">
+<meta name=twitter:description content="简单介绍了一下高级SQL操作">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://www.niuwx.cn/posts/"},{"@type":"ListItem","position":2,"name":"MySQL高级SQL操作","item":"https://www.niuwx.cn/posts/mysql/mysql%E9%AB%98%E7%BA%A7sql%E6%93%8D%E4%BD%9C/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"MySQL高级SQL操作","name":"MySQL高级SQL操作","description":"简单介绍了一下高级SQL操作","keywords":["数据库","MySQL","蠕虫赋值","主键冲突","查询选项","别名","数据源","where子句","运算符","group by子句","回溯统计","having子句","order by子句","limit子句","限制删除","限制更新","清空数据"],"articleBody":"常见的SQL高级操作，主要集中在数据操作（增删改查），基于基础操作之上实现一些复杂业务的数据操作\n数据新增 主要是在新增数据时的高级操作技巧，提升数据插入的效率问题、安全问题。\n批量插入   批量插入分两种\n  全字段批量插入\ninsert into 表名 values(值列表1),(值列表2)...(值列表n);   部分字段批量插入\ninsert into 表名 (字段列表) values(值列表1),(值列表2)...(值列表n);     示例   批量插入学生成绩(全字段)\ninsert into t1 values(null,'Tom','Computer','90'),(null,'Lily','Computer','100');   批量插入学生考试信息(不含成绩)\ninsert into t1 (stu_name,course) values('Tony','English'),('Ray','Math');   蠕虫复制   从已有的表中复制数据直接插入到另外一张表\n  目的是快速增加表中的数据\n 实现表中数据复制（用于数据备份和迁移） 实现数据的指数级递增（多用于测试）    蠕虫复制语法\ninsert into 表名 [(字段列表)] select 字段列表 from 表名;   注意事项\n 字段列表必须对应 字段类型必须匹配 数据冲突需要事先考虑    示例   创建一张新表，将t1表中的数据迁移到新表中\ncreate table t2( id int primary key auto_increment, stu_name varchar(20) not null, course varchar(20) not null, score decimal(5,2) )charset utf8; insert into t2 select * from t1;   快速让t1表中的数据达到超过100条（重复执行）\ninsert into t2 (stu_name,course,score) select stu_name,course,score from t1; #   主键冲突   在数据进行插入时包含主键指定，而主键在数据表已经存在\n  主键冲突的业务通常是发生在业务主键上（业务主键本身有业务意义）\n  主键冲突的解决方案\n  忽略冲突：保留原始记录\ninsert ignore into 表名 [(字段列表)] values(值列表); # 产生主键冲突后，保留原始记录，插入数据无效   冲突更新：冲突后部分字段变成更新后的值\ninsert into 表名 [(字段列表)] values(值列表) on duplicate key update 字段 = 新值[,字段=新值...]; # 1.尝试新增 # 2.失败，更新   冲突替换：先删除原有记录，后新增记录\nreplace into 表名 [(字段列表)] values(值列表); #效率没有insert高（需要检查是否冲突）     示例   用户名作为主键的用户注册（冲突不能覆盖）：username，password，regtime\ncreate table t1( `username` varchar(50) primary key, `password` char(32) not null, regtime int unsigned not null )charset utf8; insert into t1 values('username','password',1234546789); #冲突忽略，且数据不插入 insert ignore into t1 values('username','password',123456789);   用户名作为主键的记录用户使用信息（不存在新增，存在则更新时间）：username，logintime\ncreate table t1( `username` varchar(50) primary key, logintime int unsigned )charset utf8; insert into t1 values('username',12345678); #冲突更新（替换部分字段数据） insert into t1 values('username',12345678) on duplicate key update logintime = unix_timestamp();  如果主键不冲突：新增 如果主键冲突：更新指定字段 上述方式适用于字段较多，但是可能冲突时数据变化的字段较少    用户名作为主键，记录用户登录信息（不存在新增、存在则更新全部）：username、login time、clientinfo\ncreate table t1( `username` varchar(50) primary key, logintime int unsigned, clientinfo varchar(255) not null )charset utf8; replace into t1 values('username',unix_timestamp(),'{PC:chrome}'); replace into t1 values('username',unix_timestamp(),'{phone:uc}');  replace遇到主键重复就会先删除、后新增    数据查询 查询选项  用于对查询结果进行简单数据筛选 查询选项时在select关键字之后，有两个互斥值  all：默认，表示保留所有记录 distinct：去重，重复的记录（所有字段都重复）    示例 查看商品表中所有品类的商品信息，重复商品只保留一次（名字、价格、属性都一致）\ncreate table t1( id int primary key auto_increment, goods_name varchar(50) not null, goods_price decimal(10,2) default 0.00, goods_color varchar(20), goods_weight int unsigned comment '重量，单位克' )charset utf8; insert into t1 values(null,'mate10',5499.00,'blue',320), (null,'mate10',5499.00,'gray',320), (null,'nokia3301',1299,'black',420); # 考虑所有字段的去重（不含逻辑主键） select distinct goods_name,goods_price,goods_color,goods_weight from t1; # 不考虑颜色去重 select distinct goods_name,goods_price,goods_weight from t1; 字段选择\u0026别名  字段选择：根据实际需求选择的要获取数据的字段信息 根据实际需求，明确所需要的字段名字，使用英文逗号，分隔 获取所有字段，使用星号*通配所有字段 字段数据可以不一定是来自数据源（select只要有结果即可）  数据常量：select 1 函数或变量：select unix_timestamp(),@@version(@@是系统变量的前缀，后跟变量名)   字段别名：给字段取的临时名字 字段别名使用as语法实现  字段名 as 别名 字段名 别名   字段别名的目的通常为了保护数据  字段冲突：多张表同时操作有同名字段（系统默认覆盖），想保留全部 数据安全：对外提供数据不使用真实字段名字    示例   查询商品信息\n# 全部查询 select * from t1; # 需求为商品名字和商品 select goods_name,goods_price from t1; # 别名使用 select goods_name as gn,goods_price as gp from t1;   不需要数据源的数据获取：select的表达式本身能算出结果\n# 获取当前时间戳和版本号 select unix_timestamp() as now,@@version as version,@@version;   数据源  数据来源 from之后 单表数据源：数据源就是一张表 from 表名 多表数据源：数据来源是多张表（逗号分隔） from 表名1,表名2,... 子查询数据源：数据来源是一个查询结果from (select 字段列表 from 表名) as 别名  数据源要求必须是一个表 如果是查询结果必须给其一个表别名   数据表也可以指定别名  表名 as 别名 表名 别名    示例   单表数据源：最简单的数据源，直接从一个数据表获取\nselect * from t1;   多表数据源：\nselect * from t1,t2; # 利用一张表的一条数据匹配另外一张表的所有记录 # 记录数=表1记录数*表2记录数 # 字段数=表1字段数+表2字段数   子查询数据源：数据来源是一个select对应的查询结果\n 查询语句需要使用括号 查询结果需要指定别名  select * from (select * from t1,t2) t;   如果有时候名字较长或使用不方便，可以利用表别名\nselect * from table1 as t1; select t1.*,t2.stu_name from table1 as t1 table2 as t2;   where子句  跟在from数据源之后，对数据进行条件匹配 where是在磁盘读取后，进入内存之前进行筛选  不符合条件的数据不会进入内存   where筛选的内容因为还没进入内存，所以数据是没有被加工过的  字段别名不能在where中使用    示例   查询t1表中学生名字为Lily的成绩信息\nselect * from t1 where stu_name = 'Lily';   因为where是在磁盘取数据时进行条件筛选，此时数据没有进入内存，所以字段别名是无效的\n# 错误 select stu_name sn,score from t1 where name = 'Lily';   运算符  比较运算符  、、=（即是赋值又是等于）、=、、(不等于) between A and B ：A和B之间，包括A和B本身，数值比较 in (数据1,数据2,...数据N)：在列举的数据之中 like 'pattern'：上面这样的，用于字符串比较  _：单下划线，匹配对应位置的一个任意字符 %：匹配当前位置往后任意数量任意字符     逻辑运算符  and(逻辑与)、or(逻辑或)、not(逻辑非)   null运算符  is null(为空)、is not null(不为空)    示例   查询成绩不及格的所有学生信息\nselect * from t1 where score  60;   查询成绩在60-90之间的学生信息\nselect * from t1 where between 60 ans 90; select * from t1 where score = 60 and score 90;   查询没有成绩的学生\nselect * from t1 where score is null;   group by 子句  分组统计，根据某个字段所有的结果分类，并进行数据统计分析 分组的目的不是为了显示数据，一定是为了统计数据 group by子句一定是出现在where字句之后（如果同时存在） 分组统计可以进行统计细分：先分大组，然后大组分小组 分组统计需要使用统计函数  group_concat()：将组里的某个字段全部保留 any_value()：不属于分组字段的任意一个组里的值 count()：求对应分组的记录数量  count(字段名)：统计某个字段值的数量（NULL不统计） count(*)：统计整个记录的数量（较多）   sum()：求对应分组中某个字段的和 max()/min()：求对应分组中某个字段的最大/最小值 avg()：求对应分组中某个字段的平均值    示例   创建一张表，存储学生信息\ncreate table t1( id int primary key auto_increment, `name` varchar(10) not null, `gender` enum('男','女','保密'), age tinyint unsigned not null, class_name varchar(10) not null comment '班级名称' )charset utf8; insert into t1 values(null,'鸣人','男',18,'木叶1班'), (null,'佐助','男',18,'木叶1班'), (null,'小樱','女',18,'木叶1班'), (null,'佐井','男',18,'木叶1班'), (null,'大蛇丸','男',28,'木叶0班'), (null,'卡卡西','男',29,'木叶2班'), (null,'雏田','女',18,'木叶1班'), (null,'我爱罗','男',18,'木叶1班'), (null,'向日葵','女',8,'木叶10班'), (null,'博人','男',8,'木叶10班'), (null,'鼬','男',28,'木叶0班'), (null,'带土','男',28,'木叶2班'), (null,'琳','女',27,'木叶2班')；   统计每个班的人数\nSELECT COUNT(*),class_name from t1 group by class_name;   多分组：统计每个班的男女学生数量\nSELECT COUNT(*),class_name,gender from t1 group by class_name,gender;   统计每个班里的人数，并记录班级学生的名字\nSELECT COUNT(*),group_concat(`name`) from t1 group by class_name;   回溯统计  在进行分组时（通常是多分组），每一次结果的回溯都进行一次汇总统计 回溯统计语法：在统计之后使用with rollup  示例 统计每个班的男女同学数量，同时要知道班级人数总数\n# 只统计每个班的男女同学数量，没有班级汇总 SELECT COUNT(*),class_name,gender,group_concat(`name`) from t1 group by class_name,gender; # 汇总统计：回溯 SELECT count(*),class_name,gender,group_concat(`name`) from t1 group by class_name,gender with rollup; 分组排序  在分组后统计结果，根据分组字段进行升序或者降序显示数据 默认系统自动升序排序 可以设定分组结果的排序方式  group by 字段名 [ASC]：升序 group by 字段名 DESC：降序    示例 SELECT COUNT(*),class_name,gender,group_concat(`name`),any_value(`name`) from t1 group by class_name,gender desc; having子句  类似于where子句，是用来进行条件筛选数据的 having子句本身是针对分组统计结果进行条件筛选的 having子句必须出现在group by子句之后（如果同时存在） having针对的数据是在内存里已经加载的数据 having几乎能做where能做的所有事，但是where却不一定  字段别名（where针对磁盘数据，在处理时还没有别名） 统计结果（where在group by之前） 分组统计函数（having通常是针对group by存在的）    示例   获取班级人数小于3的班级\nSELECT COUNT(*) as `count`,class_name,group_concat(`name`) from t1 group by class_name having count  3; SELECT COUNT(*) as `count` ,class_name,group_concat(`name`) from t1 group by class_name having COUNT(*)  3; # 多用了一次函数（效率降低）  SELECT class_name,group_concat(`name`) from t1 group by class_name having COUNT(*)  3;   order by子句  排序，根据某个指定的字段进行升序或者降序 排序的参照物是校对集 order by子句在having子句字后（如果同时存在） 排序分为升序和降序：默认升序  order by 字段 [ASC]：升序 order by 字段 DESC：降序   多字段排序：在根据某个字段排序好之后，可以再细分  示例   单字段：按照年龄升序\nselect * from t1 order by age; select * from t1 order by age asc;   多字段：先性别降序，后年龄升序\nselect * from t1 order by gender desc, age; select * from t1 order by gender desc, age asc;   limit子句  限制数据的获取数量 limit子句必须在order by子句之后（如果同时存在） limit限制数量方式有两种  limit 数量 limit 起始位置,数量    示例   获取表中前3条\nselect * from t1 limit 3;   获取表中第三条开始之后的3条数据\nselect * from t1 limit 3,3;   数据更新 限制更新  更新时对更新的记录数进行限制 限制更新通过limit实现 其实是局部更新的一种手段，一般更多情况下依据条件精确更新  示例 对会员选3个发送10元红包\nCREATE table t1( id int primary key auto_increment, `username` varchar(50) not null unique, `password` char(12) not null, account decimal(10,2) default 0.00 )charset utf8; INSERT INTO t1 VALUES(null,'username1','password',default), (null,'username2','password',default), (null,'username3','password',default), (null,'username4','password',default), (null,'username5','password',default), (null,'username6','password',default), (null,'username7','password',default); UPDATE t1 set account = account + 10 LIMIT 3; SELECT * from t1; 数据删除 限制删除  限制要删除的记录数 使用limit限制 一般很少使用，通常使用where条件精确删除  示例 删除没有账户余额的一个用户\ndelete from t1 where account = 0 limit 1; 清空数据  将表中的数据清楚，表的所有状态回到原始状态 本质是先删除，后创建 清空后可以使表的一些变化状态回到原始状态，例如自增长回归初值 清空语法：truncate 表名  示例 清空用户数据表\ntruncate t1; ","wordCount":"817","inLanguage":"en","datePublished":"2021-07-28T10:31:51+08:00","dateModified":"2021-07-28T10:31:51+08:00","author":{"@type":"Person","name":"Ther"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.niuwx.cn/posts/mysql/mysql%E9%AB%98%E7%BA%A7sql%E6%93%8D%E4%BD%9C/"},"publisher":{"@type":"Organization","name":"Ther's Blog 👋","logo":{"@type":"ImageObject","url":"https://www.niuwx.cn/favicon.png"}}}</script>
+</head>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://www.niuwx.cn/ accesskey=h title="Ther's Blog 👋 (Alt + H)">Ther's Blog 👋</a>
+<span class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+</span>
+</div>
+<ul id=menu>
+<li>
+<a href=https://www.niuwx.cn/ title=Home>
+<span>Home</span>
+</a>
+</li>
+<li>
+<a href=https://www.niuwx.cn/archive title=Archive>
+<span>Archive</span>
+</a>
+</li>
+<li>
+<a href=https://www.niuwx.cn/categories title=Categories>
+<span>Categories</span>
+</a>
+</li>
+<li>
+<a href=https://www.niuwx.cn/tags title=Tags>
+<span>Tags</span>
+</a>
+</li>
+<li>
+<a href=https://www.niuwx.cn/search title="Search (Alt + /)" accesskey=/>
+<span>Search</span>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<div class=breadcrumbs><a href=https://www.niuwx.cn/>Home</a>&nbsp;»&nbsp;<a href=https://www.niuwx.cn/posts/>Posts</a></div>
+<h1 class=post-title>
+MySQL高级SQL操作
+</h1>
+<div class=post-description>
+简单介绍了一下高级SQL操作
+</div>
+<div class=post-meta>July 28, 2021&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Ther&nbsp;|&nbsp;<a href=https://github.com/%3cpath_to_repo%3e/content/posts/MySQL/MySQL%e9%ab%98%e7%ba%a7SQL%e6%93%8d%e4%bd%9c.md rel="noopener noreferrer" target=_blank>Suggest Changes</a>
+</div>
+</header> <div class=toc>
+<details open>
+<summary accesskey=c title="(Alt + C)">
+<span class=details>Table of Contents</span>
+</summary>
+<div class=inner><ul>
+<li>
+<a href=#%e6%95%b0%e6%8d%ae%e6%96%b0%e5%a2%9e aria-label=数据新增>数据新增</a><ul>
+<li>
+<a href=#%e6%89%b9%e9%87%8f%e6%8f%92%e5%85%a5 aria-label=批量插入>批量插入</a><ul>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b aria-label=示例>示例</a></li></ul>
+</li>
+<li>
+<a href=#%e8%a0%95%e8%99%ab%e5%a4%8d%e5%88%b6 aria-label=蠕虫复制>蠕虫复制</a><ul>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b-1 aria-label=示例>示例</a></li></ul>
+</li>
+<li>
+<a href=#%e4%b8%bb%e9%94%ae%e5%86%b2%e7%aa%81 aria-label=主键冲突>主键冲突</a><ul>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b-2 aria-label=示例>示例</a></li></ul>
+</li></ul>
+</li>
+<li>
+<a href=#%e6%95%b0%e6%8d%ae%e6%9f%a5%e8%af%a2 aria-label=数据查询>数据查询</a><ul>
+<li>
+<a href=#%e6%9f%a5%e8%af%a2%e9%80%89%e9%a1%b9 aria-label=查询选项>查询选项</a><ul>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b-3 aria-label=示例>示例</a></li></ul>
+</li>
+<li>
+<a href=#%e5%ad%97%e6%ae%b5%e9%80%89%e6%8b%a9%e5%88%ab%e5%90%8d aria-label=字段选择&amp;amp;别名>字段选择&别名</a><ul>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b-4 aria-label=示例>示例</a></li></ul>
+</li>
+<li>
+<a href=#%e6%95%b0%e6%8d%ae%e6%ba%90 aria-label=数据源>数据源</a><ul>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b-5 aria-label=示例>示例</a></li></ul>
+</li>
+<li>
+<a href=#where%e5%ad%90%e5%8f%a5 aria-label=where子句>where子句</a><ul>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b-6 aria-label=示例>示例</a></li></ul>
+</li>
+<li>
+<a href=#%e8%bf%90%e7%ae%97%e7%ac%a6 aria-label=运算符>运算符</a><ul>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b-7 aria-label=示例>示例</a></li></ul>
+</li>
+<li>
+<a href=#group-by-%e5%ad%90%e5%8f%a5 aria-label="group by 子句">group by 子句</a><ul>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b-8 aria-label=示例>示例</a></li></ul>
+</li>
+<li>
+<a href=#%e5%9b%9e%e6%ba%af%e7%bb%9f%e8%ae%a1 aria-label=回溯统计>回溯统计</a><ul>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b-9 aria-label=示例>示例</a></li></ul>
+</li>
+<li>
+<a href=#%e5%88%86%e7%bb%84%e6%8e%92%e5%ba%8f aria-label=分组排序>分组排序</a><ul>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b-10 aria-label=示例>示例</a></li></ul>
+</li>
+<li>
+<a href=#having%e5%ad%90%e5%8f%a5 aria-label=having子句>having子句</a><ul>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b-11 aria-label=示例>示例</a></li></ul>
+</li>
+<li>
+<a href=#order-by%e5%ad%90%e5%8f%a5 aria-label="order by子句">order by子句</a><ul>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b-12 aria-label=示例>示例</a></li></ul>
+</li>
+<li>
+<a href=#limit%e5%ad%90%e5%8f%a5 aria-label=limit子句>limit子句</a><ul>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b-13 aria-label=示例>示例</a></li></ul>
+</li></ul>
+</li>
+<li>
+<a href=#%e6%95%b0%e6%8d%ae%e6%9b%b4%e6%96%b0 aria-label=数据更新>数据更新</a><ul>
+<li>
+<a href=#%e9%99%90%e5%88%b6%e6%9b%b4%e6%96%b0 aria-label=限制更新>限制更新</a></li>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b-14 aria-label=示例>示例</a></li></ul>
+</li>
+<li>
+<a href=#%e6%95%b0%e6%8d%ae%e5%88%a0%e9%99%a4 aria-label=数据删除>数据删除</a><ul>
+<li>
+<a href=#%e9%99%90%e5%88%b6%e5%88%a0%e9%99%a4 aria-label=限制删除>限制删除</a><ul>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b-15 aria-label=示例>示例</a></li></ul>
+</li>
+<li>
+<a href=#%e6%b8%85%e7%a9%ba%e6%95%b0%e6%8d%ae aria-label=清空数据>清空数据</a><ul>
+<li>
+<a href=#%e7%a4%ba%e4%be%8b-16 aria-label=示例>示例</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</details>
+</div>
+<div class=post-content><p>常见的SQL高级操作，主要集中在数据操作（增删改查），基于基础操作之上实现一些复杂业务的数据操作</p>
+<h3 id=数据新增>数据新增<a hidden class=anchor aria-hidden=true href=#数据新增>#</a></h3>
+<p>主要是在新增数据时的高级操作技巧，提升数据插入的效率问题、安全问题。</p>
+<h4 id=批量插入>批量插入<a hidden class=anchor aria-hidden=true href=#批量插入>#</a></h4>
+<ul>
+<li>
+<p>批量插入分两种</p>
+<ul>
+<li>
+<p>全字段批量插入</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>insert</span> <span style=color:#66d9ef>into</span> <span style=color:#960050;background-color:#1e0010>表名</span> <span style=color:#66d9ef>values</span>(<span style=color:#960050;background-color:#1e0010>值列表</span><span style=color:#ae81ff>1</span>),(<span style=color:#960050;background-color:#1e0010>值列表</span><span style=color:#ae81ff>2</span>)...(<span style=color:#960050;background-color:#1e0010>值列表</span>n);
+</code></pre></div></li>
+<li>
+<p>部分字段批量插入</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>insert</span> <span style=color:#66d9ef>into</span> <span style=color:#960050;background-color:#1e0010>表名</span> (<span style=color:#960050;background-color:#1e0010>字段列表</span>) <span style=color:#66d9ef>values</span>(<span style=color:#960050;background-color:#1e0010>值列表</span><span style=color:#ae81ff>1</span>),(<span style=color:#960050;background-color:#1e0010>值列表</span><span style=color:#ae81ff>2</span>)...(<span style=color:#960050;background-color:#1e0010>值列表</span>n);
+</code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h5 id=示例>示例<a hidden class=anchor aria-hidden=true href=#示例>#</a></h5>
+<ol>
+<li>
+<p>批量插入学生成绩(全字段)</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>insert</span> <span style=color:#66d9ef>into</span> t1 <span style=color:#66d9ef>values</span>(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;Tom&#39;</span>,<span style=color:#e6db74>&#39;Computer&#39;</span>,<span style=color:#e6db74>&#39;90&#39;</span>),(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;Lily&#39;</span>,<span style=color:#e6db74>&#39;Computer&#39;</span>,<span style=color:#e6db74>&#39;100&#39;</span>);
+</code></pre></div></li>
+<li>
+<p>批量插入学生考试信息(不含成绩)</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>insert</span> <span style=color:#66d9ef>into</span> <span style=color:#a6e22e>t1</span> (stu_name,course) <span style=color:#66d9ef>values</span>(<span style=color:#e6db74>&#39;Tony&#39;</span>,<span style=color:#e6db74>&#39;English&#39;</span>),(<span style=color:#e6db74>&#39;Ray&#39;</span>,<span style=color:#e6db74>&#39;Math&#39;</span>);
+</code></pre></div></li>
+</ol>
+<h4 id=蠕虫复制>蠕虫复制<a hidden class=anchor aria-hidden=true href=#蠕虫复制>#</a></h4>
+<ul>
+<li>
+<p>从已有的表中复制数据直接插入到另外一张表</p>
+</li>
+<li>
+<p>目的是快速增加表中的数据</p>
+<ul>
+<li>实现表中数据复制（用于数据备份和迁移）</li>
+<li>实现数据的指数级递增（多用于测试）</li>
+</ul>
+</li>
+<li>
+<p>蠕虫复制语法</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>insert</span> <span style=color:#66d9ef>into</span> <span style=color:#960050;background-color:#1e0010>表名</span> [(<span style=color:#960050;background-color:#1e0010>字段列表</span>)] <span style=color:#66d9ef>select</span> <span style=color:#960050;background-color:#1e0010>字段列表</span> <span style=color:#66d9ef>from</span> <span style=color:#960050;background-color:#1e0010>表名</span>;
+</code></pre></div></li>
+<li>
+<p>注意事项</p>
+<ul>
+<li>字段列表必须对应</li>
+<li>字段类型必须匹配</li>
+<li>数据冲突需要事先考虑</li>
+</ul>
+</li>
+</ul>
+<h5 id=示例-1>示例<a hidden class=anchor aria-hidden=true href=#示例-1>#</a></h5>
+<ol>
+<li>
+<p>创建一张新表，将t1表中的数据迁移到新表中</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>create</span> <span style=color:#66d9ef>table</span> <span style=color:#a6e22e>t2</span>(
+	id <span style=color:#66d9ef>int</span> <span style=color:#66d9ef>primary</span> <span style=color:#66d9ef>key</span> <span style=color:#66d9ef>auto_increment</span>,
+    stu_name <span style=color:#66d9ef>varchar</span>(<span style=color:#ae81ff>20</span>) <span style=color:#66d9ef>not</span> <span style=color:#66d9ef>null</span>,
+    course <span style=color:#66d9ef>varchar</span>(<span style=color:#ae81ff>20</span>) <span style=color:#66d9ef>not</span> <span style=color:#66d9ef>null</span>,
+    score <span style=color:#66d9ef>decimal</span>(<span style=color:#ae81ff>5</span>,<span style=color:#ae81ff>2</span>)
+)<span style=color:#66d9ef>charset</span> utf8;
+
+<span style=color:#66d9ef>insert</span> <span style=color:#66d9ef>into</span> t2 <span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1;
+</code></pre></div></li>
+<li>
+<p>快速让t1表中的数据达到超过100条（重复执行）</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>insert</span> <span style=color:#66d9ef>into</span> <span style=color:#a6e22e>t2</span> (stu_name,course,score) <span style=color:#66d9ef>select</span> stu_name,course,score <span style=color:#66d9ef>from</span> t1;
+<span style=color:#75715e># 
+</span></code></pre></div></li>
+</ol>
+<h4 id=主键冲突>主键冲突<a hidden class=anchor aria-hidden=true href=#主键冲突>#</a></h4>
+<ul>
+<li>
+<p>在数据进行插入时包含主键指定，而主键在数据表已经存在</p>
+</li>
+<li>
+<p>主键冲突的业务通常是发生在业务主键上（业务主键本身有业务意义）</p>
+</li>
+<li>
+<p>主键冲突的解决方案</p>
+<ul>
+<li>
+<p>忽略冲突：保留原始记录</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>insert</span> <span style=color:#66d9ef>ignore</span> <span style=color:#66d9ef>into</span> <span style=color:#960050;background-color:#1e0010>表名</span> [(<span style=color:#960050;background-color:#1e0010>字段列表</span>)] <span style=color:#66d9ef>values</span>(<span style=color:#960050;background-color:#1e0010>值列表</span>);
+<span style=color:#75715e># 产生主键冲突后，保留原始记录，插入数据无效
+</span></code></pre></div></li>
+<li>
+<p>冲突更新：冲突后部分字段变成更新后的值</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>insert</span> <span style=color:#66d9ef>into</span> <span style=color:#960050;background-color:#1e0010>表名</span> [(<span style=color:#960050;background-color:#1e0010>字段列表</span>)] <span style=color:#66d9ef>values</span>(<span style=color:#960050;background-color:#1e0010>值列表</span>) <span style=color:#66d9ef>on</span> duplicate <span style=color:#66d9ef>key</span> <span style=color:#66d9ef>update</span> <span style=color:#960050;background-color:#1e0010>字段</span> <span style=color:#f92672>=</span> <span style=color:#960050;background-color:#1e0010>新值</span>[,<span style=color:#960050;background-color:#1e0010>字段</span><span style=color:#f92672>=</span><span style=color:#960050;background-color:#1e0010>新值</span>...];
+<span style=color:#75715e># 1.尝试新增
+</span><span style=color:#75715e># 2.失败，更新
+</span></code></pre></div></li>
+<li>
+<p>冲突替换：先删除原有记录，后新增记录</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>replace</span> <span style=color:#66d9ef>into</span> <span style=color:#960050;background-color:#1e0010>表名</span> [(<span style=color:#960050;background-color:#1e0010>字段列表</span>)] <span style=color:#66d9ef>values</span>(<span style=color:#960050;background-color:#1e0010>值列表</span>);
+<span style=color:#75715e>#效率没有insert高（需要检查是否冲突）
+</span></code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h5 id=示例-2>示例<a hidden class=anchor aria-hidden=true href=#示例-2>#</a></h5>
+<ol>
+<li>
+<p>用户名作为主键的用户注册（冲突不能覆盖）：username，password，regtime</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>create</span> <span style=color:#66d9ef>table</span> <span style=color:#a6e22e>t1</span>(
+	<span style=color:#f92672>`</span>username<span style=color:#f92672>`</span> <span style=color:#66d9ef>varchar</span>(<span style=color:#ae81ff>50</span>) <span style=color:#66d9ef>primary</span> <span style=color:#66d9ef>key</span>,
+	<span style=color:#f92672>`</span>password<span style=color:#f92672>`</span> <span style=color:#66d9ef>char</span>(<span style=color:#ae81ff>32</span>) <span style=color:#66d9ef>not</span> <span style=color:#66d9ef>null</span>,
+	regtime <span style=color:#66d9ef>int</span> <span style=color:#66d9ef>unsigned</span> <span style=color:#66d9ef>not</span> <span style=color:#66d9ef>null</span>
+)<span style=color:#66d9ef>charset</span> utf8;
+
+<span style=color:#66d9ef>insert</span> <span style=color:#66d9ef>into</span> t1 <span style=color:#66d9ef>values</span>(<span style=color:#e6db74>&#39;username&#39;</span>,<span style=color:#e6db74>&#39;password&#39;</span>,<span style=color:#ae81ff>1234546789</span>);
+<span style=color:#75715e>#冲突忽略，且数据不插入
+</span><span style=color:#75715e></span><span style=color:#66d9ef>insert</span> <span style=color:#66d9ef>ignore</span> <span style=color:#66d9ef>into</span> t1 <span style=color:#66d9ef>values</span>(<span style=color:#e6db74>&#39;username&#39;</span>,<span style=color:#e6db74>&#39;password&#39;</span>,<span style=color:#ae81ff>123456789</span>);
+</code></pre></div></li>
+<li>
+<p>用户名作为主键的记录用户使用信息（不存在新增，存在则更新时间）：username，logintime</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>create</span> <span style=color:#66d9ef>table</span> <span style=color:#a6e22e>t1</span>(
+	<span style=color:#f92672>`</span>username<span style=color:#f92672>`</span> <span style=color:#66d9ef>varchar</span>(<span style=color:#ae81ff>50</span>) <span style=color:#66d9ef>primary</span> <span style=color:#66d9ef>key</span>,
+    logintime <span style=color:#66d9ef>int</span> <span style=color:#66d9ef>unsigned</span>
+)<span style=color:#66d9ef>charset</span> utf8;
+
+<span style=color:#66d9ef>insert</span> <span style=color:#66d9ef>into</span> t1 <span style=color:#66d9ef>values</span>(<span style=color:#e6db74>&#39;username&#39;</span>,<span style=color:#ae81ff>12345678</span>);
+
+<span style=color:#75715e>#冲突更新（替换部分字段数据）
+</span><span style=color:#75715e></span><span style=color:#66d9ef>insert</span> <span style=color:#66d9ef>into</span> t1 <span style=color:#66d9ef>values</span>(<span style=color:#e6db74>&#39;username&#39;</span>,<span style=color:#ae81ff>12345678</span>) <span style=color:#66d9ef>on</span> duplicate <span style=color:#66d9ef>key</span> <span style=color:#66d9ef>update</span> logintime <span style=color:#f92672>=</span> <span style=color:#a6e22e>unix_timestamp</span>();
+</code></pre></div><ul>
+<li>如果主键不冲突：新增</li>
+<li>如果主键冲突：更新指定字段</li>
+<li>上述方式适用于字段较多，但是可能冲突时数据变化的字段较少</li>
+</ul>
+</li>
+<li>
+<p>用户名作为主键，记录用户登录信息（不存在新增、存在则更新全部）：username、login time、clientinfo</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>create</span> <span style=color:#66d9ef>table</span> <span style=color:#a6e22e>t1</span>(
+	<span style=color:#f92672>`</span>username<span style=color:#f92672>`</span> <span style=color:#66d9ef>varchar</span>(<span style=color:#ae81ff>50</span>) <span style=color:#66d9ef>primary</span> <span style=color:#66d9ef>key</span>,
+	logintime <span style=color:#66d9ef>int</span> <span style=color:#66d9ef>unsigned</span>,
+	clientinfo <span style=color:#66d9ef>varchar</span>(<span style=color:#ae81ff>255</span>) <span style=color:#66d9ef>not</span> <span style=color:#66d9ef>null</span>
+)<span style=color:#66d9ef>charset</span> utf8;
+
+<span style=color:#66d9ef>replace</span> <span style=color:#66d9ef>into</span> t1 <span style=color:#66d9ef>values</span>(<span style=color:#e6db74>&#39;username&#39;</span>,<span style=color:#a6e22e>unix_timestamp</span>(),<span style=color:#e6db74>&#39;{PC:chrome}&#39;</span>);
+<span style=color:#66d9ef>replace</span> <span style=color:#66d9ef>into</span> t1 <span style=color:#66d9ef>values</span>(<span style=color:#e6db74>&#39;username&#39;</span>,<span style=color:#a6e22e>unix_timestamp</span>(),<span style=color:#e6db74>&#39;{phone:uc}&#39;</span>);
+</code></pre></div><ul>
+<li><code>replace</code>遇到主键重复就会先删除、后新增</li>
+</ul>
+</li>
+</ol>
+<h3 id=数据查询>数据查询<a hidden class=anchor aria-hidden=true href=#数据查询>#</a></h3>
+<h4 id=查询选项>查询选项<a hidden class=anchor aria-hidden=true href=#查询选项>#</a></h4>
+<ul>
+<li>用于对查询结果进行简单数据筛选</li>
+<li>查询选项时在<code>select</code>关键字之后，有两个互斥值
+<ul>
+<li><code>all</code>：默认，表示保留所有记录</li>
+<li><code>distinct</code>：去重，重复的记录（所有字段都重复）</li>
+</ul>
+</li>
+</ul>
+<h5 id=示例-3>示例<a hidden class=anchor aria-hidden=true href=#示例-3>#</a></h5>
+<p>查看商品表中所有品类的商品信息，重复商品只保留一次（名字、价格、属性都一致）</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>create</span> <span style=color:#66d9ef>table</span> <span style=color:#a6e22e>t1</span>(
+	id <span style=color:#66d9ef>int</span> <span style=color:#66d9ef>primary</span> <span style=color:#66d9ef>key</span> <span style=color:#66d9ef>auto_increment</span>,
+	goods_name <span style=color:#66d9ef>varchar</span>(<span style=color:#ae81ff>50</span>) <span style=color:#66d9ef>not</span> <span style=color:#66d9ef>null</span>,
+	goods_price <span style=color:#66d9ef>decimal</span>(<span style=color:#ae81ff>10</span>,<span style=color:#ae81ff>2</span>) <span style=color:#66d9ef>default</span> <span style=color:#ae81ff>0</span>.<span style=color:#ae81ff>00</span>,
+	goods_color <span style=color:#66d9ef>varchar</span>(<span style=color:#ae81ff>20</span>),
+	goods_weight <span style=color:#66d9ef>int</span> <span style=color:#66d9ef>unsigned</span> comment <span style=color:#e6db74>&#39;重量，单位克&#39;</span>
+)<span style=color:#66d9ef>charset</span> utf8;
+
+<span style=color:#66d9ef>insert</span> <span style=color:#66d9ef>into</span> t1 <span style=color:#66d9ef>values</span>(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;mate10&#39;</span>,<span style=color:#ae81ff>5499</span>.<span style=color:#ae81ff>00</span>,<span style=color:#e6db74>&#39;blue&#39;</span>,<span style=color:#ae81ff>320</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;mate10&#39;</span>,<span style=color:#ae81ff>5499</span>.<span style=color:#ae81ff>00</span>,<span style=color:#e6db74>&#39;gray&#39;</span>,<span style=color:#ae81ff>320</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;nokia3301&#39;</span>,<span style=color:#ae81ff>1299</span>,<span style=color:#e6db74>&#39;black&#39;</span>,<span style=color:#ae81ff>420</span>);
+
+<span style=color:#75715e># 考虑所有字段的去重（不含逻辑主键）
+</span><span style=color:#75715e></span><span style=color:#66d9ef>select</span> <span style=color:#66d9ef>distinct</span> goods_name,goods_price,goods_color,goods_weight <span style=color:#66d9ef>from</span> t1;
+
+<span style=color:#75715e># 不考虑颜色去重
+</span><span style=color:#75715e></span><span style=color:#66d9ef>select</span> <span style=color:#66d9ef>distinct</span> goods_name,goods_price,goods_weight <span style=color:#66d9ef>from</span> t1;
+</code></pre></div><h4 id=字段选择别名>字段选择&别名<a hidden class=anchor aria-hidden=true href=#字段选择别名>#</a></h4>
+<ul>
+<li><strong>字段选择</strong>：根据实际需求选择的要获取数据的字段信息</li>
+<li>根据实际需求，明确所需要的字段名字，使用英文逗号，分隔</li>
+<li>获取所有字段，使用星号<code>*</code>通配所有字段</li>
+<li>字段数据可以不一定是来自数据源（select只要有结果即可）
+<ul>
+<li>数据常量：<code>select 1</code></li>
+<li>函数或变量：<code>select unix_timestamp(),@@version</code>(@@是系统变量的前缀，后跟变量名)</li>
+</ul>
+</li>
+<li><strong>字段别名</strong>：给字段取的临时名字</li>
+<li>字段别名使用<code>as</code>语法实现
+<ul>
+<li>字段名 <code>as</code> 别名</li>
+<li>字段名 别名</li>
+</ul>
+</li>
+<li>字段别名的目的通常为了保护数据
+<ul>
+<li>字段冲突：多张表同时操作有同名字段（系统默认覆盖），想保留全部</li>
+<li>数据安全：对外提供数据不使用真实字段名字</li>
+</ul>
+</li>
+</ul>
+<h5 id=示例-4>示例<a hidden class=anchor aria-hidden=true href=#示例-4>#</a></h5>
+<ol>
+<li>
+<p>查询商品信息</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#75715e># 全部查询
+</span><span style=color:#75715e></span><span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1;
+
+<span style=color:#75715e># 需求为商品名字和商品
+</span><span style=color:#75715e></span><span style=color:#66d9ef>select</span> goods_name,goods_price <span style=color:#66d9ef>from</span> t1;
+
+<span style=color:#75715e># 别名使用
+</span><span style=color:#75715e></span><span style=color:#66d9ef>select</span> goods_name <span style=color:#66d9ef>as</span> gn,goods_price <span style=color:#66d9ef>as</span> gp <span style=color:#66d9ef>from</span> t1;
+</code></pre></div></li>
+<li>
+<p>不需要数据源的数据获取：select的表达式本身能算出结果</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#75715e># 获取当前时间戳和版本号
+</span><span style=color:#75715e></span><span style=color:#66d9ef>select</span> <span style=color:#a6e22e>unix_timestamp</span>() <span style=color:#66d9ef>as</span> now,<span style=color:#f92672>@@</span>version <span style=color:#66d9ef>as</span> version,<span style=color:#f92672>@@</span>version;
+</code></pre></div></li>
+</ol>
+<h4 id=数据源>数据源<a hidden class=anchor aria-hidden=true href=#数据源>#</a></h4>
+<ul>
+<li>数据来源 <code>from</code>之后</li>
+<li>单表数据源：数据源就是一张表 <code>from 表名</code></li>
+<li>多表数据源：数据来源是多张表（逗号分隔） <code>from 表名1,表名2,...</code></li>
+<li>子查询数据源：数据来源是一个查询结果<code>from (select 字段列表 from 表名) as 别名</code>
+<ul>
+<li>数据源要求必须是一个表</li>
+<li>如果是查询结果必须给其一个表别名</li>
+</ul>
+</li>
+<li>数据表也可以指定别名
+<ul>
+<li>表名 <code>as</code> 别名</li>
+<li>表名 别名</li>
+</ul>
+</li>
+</ul>
+<h5 id=示例-5>示例<a hidden class=anchor aria-hidden=true href=#示例-5>#</a></h5>
+<ol>
+<li>
+<p>单表数据源：最简单的数据源，直接从一个数据表获取</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1;
+</code></pre></div></li>
+<li>
+<p>多表数据源：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1,t2;
+<span style=color:#75715e># 利用一张表的一条数据匹配另外一张表的所有记录
+</span><span style=color:#75715e># 记录数=表1记录数*表2记录数
+</span><span style=color:#75715e># 字段数=表1字段数+表2字段数
+</span></code></pre></div></li>
+<li>
+<p>子查询数据源：数据来源是一个select对应的查询结果</p>
+<ul>
+<li>查询语句需要使用括号</li>
+<li>查询结果需要指定别名</li>
+</ul>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> (<span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1,t2) t;
+</code></pre></div></li>
+<li>
+<p>如果有时候名字较长或使用不方便，可以利用表别名</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> table1 <span style=color:#66d9ef>as</span> t1;
+
+<span style=color:#66d9ef>select</span> t1.<span style=color:#f92672>*</span>,t2.stu_name <span style=color:#66d9ef>from</span> table1 <span style=color:#66d9ef>as</span> t1 table2 <span style=color:#66d9ef>as</span> t2;
+</code></pre></div></li>
+</ol>
+<h4 id=where子句>where子句<a hidden class=anchor aria-hidden=true href=#where子句>#</a></h4>
+<ul>
+<li>跟在<code>from</code>数据源之后，对数据进行条件匹配</li>
+<li><code>where</code>是在磁盘读取后，进入内存之前进行筛选
+<ul>
+<li>不符合条件的数据不会进入内存</li>
+</ul>
+</li>
+<li><code>where</code>筛选的内容因为还没进入内存，所以数据是没有被加工过的
+<ul>
+<li>字段别名不能在<code>where</code>中使用</li>
+</ul>
+</li>
+</ul>
+<h5 id=示例-6>示例<a hidden class=anchor aria-hidden=true href=#示例-6>#</a></h5>
+<ol>
+<li>
+<p>查询t1表中学生名字为Lily的成绩信息</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>where</span> stu_name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;Lily&#39;</span>;
+</code></pre></div></li>
+<li>
+<p>因为where是在磁盘取数据时进行条件筛选，此时数据没有进入内存，所以字段别名是无效的</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#75715e># 错误
+</span><span style=color:#75715e></span><span style=color:#66d9ef>select</span> stu_name sn,score <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>where</span> name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;Lily&#39;</span>;
+</code></pre></div></li>
+</ol>
+<h4 id=运算符>运算符<a hidden class=anchor aria-hidden=true href=#运算符>#</a></h4>
+<ul>
+<li>比较运算符
+<ul>
+<li><code>></code>、<code>&lt;</code>、<code>=</code>（即是赋值又是等于）、<code>>=</code>、<code>&lt;=</code>、<code>&lt;></code>(不等于)</li>
+<li><code>between A and B</code> ：A和B之间，包括A和B本身，数值比较</li>
+<li><code>in (数据1,数据2,...数据N)</code>：在列举的数据之中</li>
+<li><code>like 'pattern'</code>：上面这样的，用于字符串比较
+<ul>
+<li><code>_</code>：单下划线，匹配对应位置的一个任意字符</li>
+<li><code>%</code>：匹配当前位置往后任意数量任意字符</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>逻辑运算符
+<ul>
+<li><code>and(逻辑与)</code>、<code>or(逻辑或)</code>、<code>not(逻辑非)</code></li>
+</ul>
+</li>
+<li>null运算符
+<ul>
+<li><code>is null(为空)</code>、<code>is not null(不为空)</code></li>
+</ul>
+</li>
+</ul>
+<h5 id=示例-7>示例<a hidden class=anchor aria-hidden=true href=#示例-7>#</a></h5>
+<ol>
+<li>
+<p>查询成绩不及格的所有学生信息</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>where</span> score <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>60</span>;
+</code></pre></div></li>
+<li>
+<p>查询成绩在60-90之间的学生信息</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>where</span> <span style=color:#66d9ef>between</span> <span style=color:#ae81ff>60</span> ans <span style=color:#ae81ff>90</span>;
+<span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>where</span> score <span style=color:#f92672>&gt;=</span> <span style=color:#ae81ff>60</span> <span style=color:#66d9ef>and</span> score <span style=color:#f92672>&lt;=</span><span style=color:#ae81ff>90</span>;
+</code></pre></div></li>
+<li>
+<p>查询没有成绩的学生</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>where</span> score <span style=color:#66d9ef>is</span> <span style=color:#66d9ef>null</span>;
+</code></pre></div></li>
+</ol>
+<h4 id=group-by-子句>group by 子句<a hidden class=anchor aria-hidden=true href=#group-by-子句>#</a></h4>
+<ul>
+<li>分组统计，根据某个字段所有的<strong>结果分类</strong>，并进行<strong>数据统计分析</strong></li>
+<li>分组的目的不是为了显示数据，一定是为了统计数据</li>
+<li><code>group by</code>子句一定是出现在<code>where</code>字句之后（如果同时存在）</li>
+<li>分组统计可以进行统计细分：先分大组，然后大组分小组</li>
+<li>分组统计需要使用统计函数
+<ul>
+<li><code>group_concat()</code>：将组里的某个字段全部保留</li>
+<li><code>any_value()</code>：不属于分组字段的任意一个组里的值</li>
+<li><code>count()</code>：求对应分组的记录数量
+<ul>
+<li><code>count(字段名)</code>：统计某个字段值的数量（NULL不统计）</li>
+<li><code>count(*)</code>：统计整个记录的数量（较多）</li>
+</ul>
+</li>
+<li><code>sum()</code>：求对应分组中某个字段的和</li>
+<li><code>max()/min()</code>：求对应分组中某个字段的最大/最小值</li>
+<li><code>avg()</code>：求对应分组中某个字段的平均值</li>
+</ul>
+</li>
+</ul>
+<h5 id=示例-8>示例<a hidden class=anchor aria-hidden=true href=#示例-8>#</a></h5>
+<ol>
+<li>
+<p>创建一张表，存储学生信息</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>create</span> <span style=color:#66d9ef>table</span> <span style=color:#a6e22e>t1</span>(
+	id <span style=color:#66d9ef>int</span> <span style=color:#66d9ef>primary</span> <span style=color:#66d9ef>key</span> <span style=color:#66d9ef>auto_increment</span>,
+    <span style=color:#f92672>`</span>name<span style=color:#f92672>`</span> <span style=color:#66d9ef>varchar</span>(<span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>not</span> <span style=color:#66d9ef>null</span>,
+	<span style=color:#f92672>`</span>gender<span style=color:#f92672>`</span> <span style=color:#66d9ef>enum</span>(<span style=color:#e6db74>&#39;男&#39;</span>,<span style=color:#e6db74>&#39;女&#39;</span>,<span style=color:#e6db74>&#39;保密&#39;</span>),
+    age <span style=color:#66d9ef>tinyint</span> <span style=color:#66d9ef>unsigned</span> <span style=color:#66d9ef>not</span> <span style=color:#66d9ef>null</span>,
+    class_name <span style=color:#66d9ef>varchar</span>(<span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>not</span> <span style=color:#66d9ef>null</span> comment <span style=color:#e6db74>&#39;班级名称&#39;</span>
+)<span style=color:#66d9ef>charset</span> utf8;
+
+<span style=color:#66d9ef>insert</span> <span style=color:#66d9ef>into</span> t1 <span style=color:#66d9ef>values</span>(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;鸣人&#39;</span>,<span style=color:#e6db74>&#39;男&#39;</span>,<span style=color:#ae81ff>18</span>,<span style=color:#e6db74>&#39;木叶1班&#39;</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;佐助&#39;</span>,<span style=color:#e6db74>&#39;男&#39;</span>,<span style=color:#ae81ff>18</span>,<span style=color:#e6db74>&#39;木叶1班&#39;</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;小樱&#39;</span>,<span style=color:#e6db74>&#39;女&#39;</span>,<span style=color:#ae81ff>18</span>,<span style=color:#e6db74>&#39;木叶1班&#39;</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;佐井&#39;</span>,<span style=color:#e6db74>&#39;男&#39;</span>,<span style=color:#ae81ff>18</span>,<span style=color:#e6db74>&#39;木叶1班&#39;</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;大蛇丸&#39;</span>,<span style=color:#e6db74>&#39;男&#39;</span>,<span style=color:#ae81ff>28</span>,<span style=color:#e6db74>&#39;木叶0班&#39;</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;卡卡西&#39;</span>,<span style=color:#e6db74>&#39;男&#39;</span>,<span style=color:#ae81ff>29</span>,<span style=color:#e6db74>&#39;木叶2班&#39;</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;雏田&#39;</span>,<span style=color:#e6db74>&#39;女&#39;</span>,<span style=color:#ae81ff>18</span>,<span style=color:#e6db74>&#39;木叶1班&#39;</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;我爱罗&#39;</span>,<span style=color:#e6db74>&#39;男&#39;</span>,<span style=color:#ae81ff>18</span>,<span style=color:#e6db74>&#39;木叶1班&#39;</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;向日葵&#39;</span>,<span style=color:#e6db74>&#39;女&#39;</span>,<span style=color:#ae81ff>8</span>,<span style=color:#e6db74>&#39;木叶10班&#39;</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;博人&#39;</span>,<span style=color:#e6db74>&#39;男&#39;</span>,<span style=color:#ae81ff>8</span>,<span style=color:#e6db74>&#39;木叶10班&#39;</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;鼬&#39;</span>,<span style=color:#e6db74>&#39;男&#39;</span>,<span style=color:#ae81ff>28</span>,<span style=color:#e6db74>&#39;木叶0班&#39;</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;带土&#39;</span>,<span style=color:#e6db74>&#39;男&#39;</span>,<span style=color:#ae81ff>28</span>,<span style=color:#e6db74>&#39;木叶2班&#39;</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;琳&#39;</span>,<span style=color:#e6db74>&#39;女&#39;</span>,<span style=color:#ae81ff>27</span>,<span style=color:#e6db74>&#39;木叶2班&#39;</span>)<span style=color:#960050;background-color:#1e0010>；</span>
+</code></pre></div></li>
+<li>
+<p>统计每个班的人数</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>SELECT</span> <span style=color:#a6e22e>COUNT</span>(<span style=color:#f92672>*</span>),class_name <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>group</span> <span style=color:#66d9ef>by</span> class_name;
+</code></pre></div></li>
+<li>
+<p>多分组：统计每个班的男女学生数量</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>SELECT</span> <span style=color:#a6e22e>COUNT</span>(<span style=color:#f92672>*</span>),class_name,gender <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>group</span> <span style=color:#66d9ef>by</span> class_name,gender;
+</code></pre></div></li>
+<li>
+<p>统计每个班里的人数，并记录班级学生的名字</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>SELECT</span> <span style=color:#a6e22e>COUNT</span>(<span style=color:#f92672>*</span>),<span style=color:#a6e22e>group_concat</span>(<span style=color:#f92672>`</span>name<span style=color:#f92672>`</span>) <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>group</span> <span style=color:#66d9ef>by</span> class_name;
+</code></pre></div></li>
+</ol>
+<h4 id=回溯统计>回溯统计<a hidden class=anchor aria-hidden=true href=#回溯统计>#</a></h4>
+<ul>
+<li>在进行分组时（通常是多分组），每一次结果的回溯都进行一次汇总统计</li>
+<li>回溯统计语法：在统计之后使用<code>with rollup</code></li>
+</ul>
+<h5 id=示例-9>示例<a hidden class=anchor aria-hidden=true href=#示例-9>#</a></h5>
+<p>统计每个班的男女同学数量，同时要知道班级人数总数</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#75715e># 只统计每个班的男女同学数量，没有班级汇总
+</span><span style=color:#75715e></span><span style=color:#66d9ef>SELECT</span> <span style=color:#a6e22e>COUNT</span>(<span style=color:#f92672>*</span>),class_name,gender,<span style=color:#a6e22e>group_concat</span>(<span style=color:#f92672>`</span>name<span style=color:#f92672>`</span>) <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>group</span> <span style=color:#66d9ef>by</span> class_name,gender;
+
+<span style=color:#75715e># 汇总统计：回溯
+</span><span style=color:#75715e></span><span style=color:#66d9ef>SELECT</span> <span style=color:#a6e22e>count</span>(<span style=color:#f92672>*</span>),class_name,gender,<span style=color:#a6e22e>group_concat</span>(<span style=color:#f92672>`</span>name<span style=color:#f92672>`</span>) <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>group</span> <span style=color:#66d9ef>by</span> class_name,gender <span style=color:#66d9ef>with</span> rollup;
+</code></pre></div><h4 id=分组排序>分组排序<a hidden class=anchor aria-hidden=true href=#分组排序>#</a></h4>
+<ul>
+<li>在分组后统计结果，根据分组字段进行升序或者降序显示数据</li>
+<li>默认系统自动升序排序</li>
+<li>可以设定分组结果的排序方式
+<ul>
+<li><code>group by 字段名 [ASC]</code>：升序</li>
+<li><code>group by 字段名 DESC</code>：降序</li>
+</ul>
+</li>
+</ul>
+<h5 id=示例-10>示例<a hidden class=anchor aria-hidden=true href=#示例-10>#</a></h5>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>SELECT</span> <span style=color:#a6e22e>COUNT</span>(<span style=color:#f92672>*</span>),class_name,gender,<span style=color:#a6e22e>group_concat</span>(<span style=color:#f92672>`</span>name<span style=color:#f92672>`</span>),<span style=color:#a6e22e>any_value</span>(<span style=color:#f92672>`</span>name<span style=color:#f92672>`</span>) <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>group</span> <span style=color:#66d9ef>by</span> class_name,gender <span style=color:#66d9ef>desc</span>;
+</code></pre></div><h4 id=having子句>having子句<a hidden class=anchor aria-hidden=true href=#having子句>#</a></h4>
+<ul>
+<li>类似于<code>where</code>子句，是用来进行条件筛选数据的</li>
+<li><code>having</code>子句本身是针对<strong>分组统计结果进行条件筛选</strong>的</li>
+<li><code>having</code>子句必须出现在<code>group by</code>子句之后（如果同时存在）</li>
+<li><code>having</code>针对的数据是在内存里已经加载的数据</li>
+<li><code>having</code>几乎能做<code>where</code>能做的所有事，但是<code>where</code>却不一定
+<ul>
+<li>字段别名（where针对磁盘数据，在处理时还没有别名）</li>
+<li>统计结果（where在group by之前）</li>
+<li>分组统计函数（having通常是针对group by存在的）</li>
+</ul>
+</li>
+</ul>
+<h5 id=示例-11>示例<a hidden class=anchor aria-hidden=true href=#示例-11>#</a></h5>
+<ol>
+<li>
+<p>获取班级人数小于3的班级</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>SELECT</span> <span style=color:#a6e22e>COUNT</span>(<span style=color:#f92672>*</span>) <span style=color:#66d9ef>as</span> <span style=color:#f92672>`</span>count<span style=color:#f92672>`</span>,class_name,<span style=color:#a6e22e>group_concat</span>(<span style=color:#f92672>`</span>name<span style=color:#f92672>`</span>) <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>group</span> <span style=color:#66d9ef>by</span> class_name <span style=color:#66d9ef>having</span> count <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>3</span>;
+
+<span style=color:#66d9ef>SELECT</span> <span style=color:#a6e22e>COUNT</span>(<span style=color:#f92672>*</span>) <span style=color:#66d9ef>as</span> <span style=color:#f92672>`</span>count<span style=color:#f92672>`</span> ,class_name,<span style=color:#a6e22e>group_concat</span>(<span style=color:#f92672>`</span>name<span style=color:#f92672>`</span>) <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>group</span> <span style=color:#66d9ef>by</span> class_name <span style=color:#66d9ef>having</span> <span style=color:#a6e22e>COUNT</span>(<span style=color:#f92672>*</span>) <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>3</span>;
+<span style=color:#75715e># 多用了一次函数（效率降低）
+</span><span style=color:#75715e></span>
+<span style=color:#66d9ef>SELECT</span> class_name,<span style=color:#a6e22e>group_concat</span>(<span style=color:#f92672>`</span>name<span style=color:#f92672>`</span>) <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>group</span> <span style=color:#66d9ef>by</span> class_name <span style=color:#66d9ef>having</span> <span style=color:#a6e22e>COUNT</span>(<span style=color:#f92672>*</span>) <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>3</span>;
+</code></pre></div></li>
+</ol>
+<h4 id=order-by子句>order by子句<a hidden class=anchor aria-hidden=true href=#order-by子句>#</a></h4>
+<ul>
+<li>排序，根据某个指定的字段进行升序或者降序</li>
+<li>排序的参照物是校对集</li>
+<li><code>order by</code>子句在having子句字后（如果同时存在）</li>
+<li>排序分为升序和降序：默认升序
+<ul>
+<li><code>order by 字段 [ASC]</code>：升序</li>
+<li><code>order by 字段 DESC</code>：降序</li>
+</ul>
+</li>
+<li>多字段排序：在根据某个字段排序好之后，可以再细分</li>
+</ul>
+<h5 id=示例-12>示例<a hidden class=anchor aria-hidden=true href=#示例-12>#</a></h5>
+<ol>
+<li>
+<p>单字段：按照年龄升序</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>order</span> <span style=color:#66d9ef>by</span> age;
+<span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>order</span> <span style=color:#66d9ef>by</span> age <span style=color:#66d9ef>asc</span>;
+</code></pre></div></li>
+<li>
+<p>多字段：先性别降序，后年龄升序</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>order</span> <span style=color:#66d9ef>by</span> gender <span style=color:#66d9ef>desc</span>, age;
+<span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>order</span> <span style=color:#66d9ef>by</span> gender <span style=color:#66d9ef>desc</span>, age <span style=color:#66d9ef>asc</span>;
+</code></pre></div></li>
+</ol>
+<h4 id=limit子句>limit子句<a hidden class=anchor aria-hidden=true href=#limit子句>#</a></h4>
+<ul>
+<li>限制数据的获取数量</li>
+<li><code>limit</code>子句必须在<code>order by</code>子句之后（如果同时存在）</li>
+<li><code>limit</code>限制数量方式有两种
+<ul>
+<li><code>limit 数量</code></li>
+<li><code>limit 起始位置,数量</code></li>
+</ul>
+</li>
+</ul>
+<h5 id=示例-13>示例<a hidden class=anchor aria-hidden=true href=#示例-13>#</a></h5>
+<ol>
+<li>
+<p>获取表中前3条</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>limit</span> <span style=color:#ae81ff>3</span>;
+</code></pre></div></li>
+<li>
+<p>获取表中第三条开始之后的3条数据</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>select</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>limit</span> <span style=color:#ae81ff>3</span>,<span style=color:#ae81ff>3</span>;
+</code></pre></div></li>
+</ol>
+<h3 id=数据更新>数据更新<a hidden class=anchor aria-hidden=true href=#数据更新>#</a></h3>
+<h4 id=限制更新>限制更新<a hidden class=anchor aria-hidden=true href=#限制更新>#</a></h4>
+<ul>
+<li>更新时对更新的记录数进行限制</li>
+<li>限制更新通过limit实现</li>
+<li>其实是局部更新的一种手段，一般更多情况下依据条件精确更新</li>
+</ul>
+<h4 id=示例-14>示例<a hidden class=anchor aria-hidden=true href=#示例-14>#</a></h4>
+<p>对会员选3个发送10元红包</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>table</span> <span style=color:#a6e22e>t1</span>(
+    id <span style=color:#66d9ef>int</span> <span style=color:#66d9ef>primary</span> <span style=color:#66d9ef>key</span> <span style=color:#66d9ef>auto_increment</span>,
+    <span style=color:#f92672>`</span>username<span style=color:#f92672>`</span> <span style=color:#66d9ef>varchar</span>(<span style=color:#ae81ff>50</span>) <span style=color:#66d9ef>not</span> <span style=color:#66d9ef>null</span> <span style=color:#66d9ef>unique</span>,
+    <span style=color:#f92672>`</span>password<span style=color:#f92672>`</span> <span style=color:#66d9ef>char</span>(<span style=color:#ae81ff>12</span>) <span style=color:#66d9ef>not</span> <span style=color:#66d9ef>null</span>,
+    account <span style=color:#66d9ef>decimal</span>(<span style=color:#ae81ff>10</span>,<span style=color:#ae81ff>2</span>) <span style=color:#66d9ef>default</span> <span style=color:#ae81ff>0</span>.<span style=color:#ae81ff>00</span>
+)<span style=color:#66d9ef>charset</span> utf8;
+
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> t1 <span style=color:#66d9ef>VALUES</span>(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;username1&#39;</span>,<span style=color:#e6db74>&#39;password&#39;</span>,<span style=color:#66d9ef>default</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;username2&#39;</span>,<span style=color:#e6db74>&#39;password&#39;</span>,<span style=color:#66d9ef>default</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;username3&#39;</span>,<span style=color:#e6db74>&#39;password&#39;</span>,<span style=color:#66d9ef>default</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;username4&#39;</span>,<span style=color:#e6db74>&#39;password&#39;</span>,<span style=color:#66d9ef>default</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;username5&#39;</span>,<span style=color:#e6db74>&#39;password&#39;</span>,<span style=color:#66d9ef>default</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;username6&#39;</span>,<span style=color:#e6db74>&#39;password&#39;</span>,<span style=color:#66d9ef>default</span>),
+(<span style=color:#66d9ef>null</span>,<span style=color:#e6db74>&#39;username7&#39;</span>,<span style=color:#e6db74>&#39;password&#39;</span>,<span style=color:#66d9ef>default</span>);
+
+<span style=color:#66d9ef>UPDATE</span> t1 <span style=color:#66d9ef>set</span> account <span style=color:#f92672>=</span> account <span style=color:#f92672>+</span> <span style=color:#ae81ff>10</span> <span style=color:#66d9ef>LIMIT</span> <span style=color:#ae81ff>3</span>;
+
+<span style=color:#66d9ef>SELECT</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>from</span> t1;
+</code></pre></div><h3 id=数据删除>数据删除<a hidden class=anchor aria-hidden=true href=#数据删除>#</a></h3>
+<h4 id=限制删除>限制删除<a hidden class=anchor aria-hidden=true href=#限制删除>#</a></h4>
+<ul>
+<li>限制要删除的记录数</li>
+<li>使用<code>limit</code>限制</li>
+<li>一般很少使用，通常使用<code>where</code>条件精确删除</li>
+</ul>
+<h5 id=示例-15>示例<a hidden class=anchor aria-hidden=true href=#示例-15>#</a></h5>
+<p>删除没有账户余额的一个用户</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql><span style=color:#66d9ef>delete</span> <span style=color:#66d9ef>from</span> t1 <span style=color:#66d9ef>where</span> account <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span> <span style=color:#66d9ef>limit</span> <span style=color:#ae81ff>1</span>;
+</code></pre></div><h4 id=清空数据>清空数据<a hidden class=anchor aria-hidden=true href=#清空数据>#</a></h4>
+<ul>
+<li>将表中的数据清楚，表的所有状态回到原始状态</li>
+<li>本质是先删除，后创建</li>
+<li>清空后可以使表的一些变化状态回到原始状态，例如自增长回归初值</li>
+<li>清空语法：<code>truncate 表名</code></li>
+</ul>
+<h5 id=示例-16>示例<a hidden class=anchor aria-hidden=true href=#示例-16>#</a></h5>
+<p>清空用户数据表</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-mysql data-lang=mysql>truncate t1;
+</code></pre></div>
+</div>
+<footer class=post-footer>
+<ul class=post-tags>
+<li><a href=https://www.niuwx.cn/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/>数据库</a></li>
+<li><a href=https://www.niuwx.cn/tags/mysql/>MySQL</a></li>
+<li><a href=https://www.niuwx.cn/tags/%E8%A0%95%E8%99%AB%E8%B5%8B%E5%80%BC/>蠕虫赋值</a></li>
+<li><a href=https://www.niuwx.cn/tags/%E4%B8%BB%E9%94%AE%E5%86%B2%E7%AA%81/>主键冲突</a></li>
+<li><a href=https://www.niuwx.cn/tags/%E6%9F%A5%E8%AF%A2%E9%80%89%E9%A1%B9/>查询选项</a></li>
+<li><a href=https://www.niuwx.cn/tags/%E5%88%AB%E5%90%8D/>别名</a></li>
+<li><a href=https://www.niuwx.cn/tags/%E6%95%B0%E6%8D%AE%E6%BA%90/>数据源</a></li>
+<li><a href=https://www.niuwx.cn/tags/where%E5%AD%90%E5%8F%A5/>where子句</a></li>
+<li><a href=https://www.niuwx.cn/tags/%E8%BF%90%E7%AE%97%E7%AC%A6/>运算符</a></li>
+<li><a href=https://www.niuwx.cn/tags/group-by%E5%AD%90%E5%8F%A5/>group by子句</a></li>
+<li><a href=https://www.niuwx.cn/tags/%E5%9B%9E%E6%BA%AF%E7%BB%9F%E8%AE%A1/>回溯统计</a></li>
+<li><a href=https://www.niuwx.cn/tags/having%E5%AD%90%E5%8F%A5/>having子句</a></li>
+<li><a href=https://www.niuwx.cn/tags/order-by%E5%AD%90%E5%8F%A5/>order by子句</a></li>
+<li><a href=https://www.niuwx.cn/tags/limit%E5%AD%90%E5%8F%A5/>limit子句</a></li>
+<li><a href=https://www.niuwx.cn/tags/%E9%99%90%E5%88%B6%E5%88%A0%E9%99%A4/>限制删除</a></li>
+<li><a href=https://www.niuwx.cn/tags/%E9%99%90%E5%88%B6%E6%9B%B4%E6%96%B0/>限制更新</a></li>
+<li><a href=https://www.niuwx.cn/tags/%E6%B8%85%E7%A9%BA%E6%95%B0%E6%8D%AE/>清空数据</a></li>
+</ul>
+<nav class=paginav>
+<a class=prev href=https://www.niuwx.cn/posts/mysql/mysql%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/>
+<span class=title>« Prev Page</span>
+<br>
+<span>MySQL多表操作</span>
+</a>
+<a class=next href=https://www.niuwx.cn/posts/mysql/%E8%8C%83%E5%BC%8F%E5%92%8C%E8%A1%A8%E5%85%B3%E7%B3%BB/>
+<span class=title>Next Page »</span>
+<br>
+<span>范式和表关系</span>
+</a>
+</nav>
+<div class=share-buttons>
+<a target=_blank rel="noopener noreferrer" aria-label="share MySQL高级SQL操作 on twitter" href="https://twitter.com/intent/tweet/?text=MySQL%e9%ab%98%e7%ba%a7SQL%e6%93%8d%e4%bd%9c&url=https%3a%2f%2fwww.niuwx.cn%2fposts%2fmysql%2fmysql%25E9%25AB%2598%25E7%25BA%25A7sql%25E6%2593%258D%25E4%25BD%259C%2f&hashtags=%e6%95%b0%e6%8d%ae%e5%ba%93%2cMySQL%2c%e8%a0%95%e8%99%ab%e8%b5%8b%e5%80%bc%2c%e4%b8%bb%e9%94%ae%e5%86%b2%e7%aa%81%2c%e6%9f%a5%e8%af%a2%e9%80%89%e9%a1%b9%2c%e5%88%ab%e5%90%8d%2c%e6%95%b0%e6%8d%ae%e6%ba%90%2cwhere%e5%ad%90%e5%8f%a5%2c%e8%bf%90%e7%ae%97%e7%ac%a6%2cgroupby%e5%ad%90%e5%8f%a5%2c%e5%9b%9e%e6%ba%af%e7%bb%9f%e8%ae%a1%2chaving%e5%ad%90%e5%8f%a5%2corderby%e5%ad%90%e5%8f%a5%2climit%e5%ad%90%e5%8f%a5%2c%e9%99%90%e5%88%b6%e5%88%a0%e9%99%a4%2c%e9%99%90%e5%88%b6%e6%9b%b4%e6%96%b0%2c%e6%b8%85%e7%a9%ba%e6%95%b0%e6%8d%ae"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM195.519 424.544c135.939.0 210.268-112.643 210.268-210.268.0-3.218.0-6.437-.153-9.502 14.406-10.421 26.973-23.448 36.935-38.314-13.18 5.824-27.433 9.809-42.452 11.648 15.326-9.196 26.973-23.602 32.49-40.92-14.252 8.429-30.038 14.56-46.896 17.931-13.487-14.406-32.644-23.295-53.946-23.295-40.767.0-73.87 33.104-73.87 73.87.0 5.824.613 11.494 1.992 16.858-61.456-3.065-115.862-32.49-152.337-77.241-6.284 10.881-9.962 23.601-9.962 37.088.0 25.594 13.027 48.276 32.95 61.456-12.107-.307-23.448-3.678-33.41-9.196v.92c0 35.862 25.441 65.594 59.311 72.49-6.13 1.686-12.72 2.606-19.464 2.606-4.751.0-9.348-.46-13.946-1.38 9.349 29.426 36.628 50.728 68.965 51.341-25.287 19.771-57.164 31.571-91.8 31.571-5.977.0-11.801-.306-17.625-1.073 32.337 21.15 71.264 33.41 112.95 33.41z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share MySQL高级SQL操作 on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fwww.niuwx.cn%2fposts%2fmysql%2fmysql%25E9%25AB%2598%25E7%25BA%25A7sql%25E6%2593%258D%25E4%25BD%259C%2f&title=MySQL%e9%ab%98%e7%ba%a7SQL%e6%93%8d%e4%bd%9c&summary=MySQL%e9%ab%98%e7%ba%a7SQL%e6%93%8d%e4%bd%9c&source=https%3a%2f%2fwww.niuwx.cn%2fposts%2fmysql%2fmysql%25E9%25AB%2598%25E7%25BA%25A7sql%25E6%2593%258D%25E4%25BD%259C%2f"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share MySQL高级SQL操作 on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fwww.niuwx.cn%2fposts%2fmysql%2fmysql%25E9%25AB%2598%25E7%25BA%25A7sql%25E6%2593%258D%25E4%25BD%259C%2f&title=MySQL%e9%ab%98%e7%ba%a7SQL%e6%93%8d%e4%bd%9c"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share MySQL高级SQL操作 on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.niuwx.cn%2fposts%2fmysql%2fmysql%25E9%25AB%2598%25E7%25BA%25A7sql%25E6%2593%258D%25E4%25BD%259C%2f"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share MySQL高级SQL操作 on whatsapp" href="https://api.whatsapp.com/send?text=MySQL%e9%ab%98%e7%ba%a7SQL%e6%93%8d%e4%bd%9c%20-%20https%3a%2f%2fwww.niuwx.cn%2fposts%2fmysql%2fmysql%25E9%25AB%2598%25E7%25BA%25A7sql%25E6%2593%258D%25E4%25BD%259C%2f"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg>
+</a>
+<a target=_blank rel="noopener noreferrer" aria-label="share MySQL高级SQL操作 on telegram" href="https://telegram.me/share/url?text=MySQL%e9%ab%98%e7%ba%a7SQL%e6%93%8d%e4%bd%9c&url=https%3a%2f%2fwww.niuwx.cn%2fposts%2fmysql%2fmysql%25E9%25AB%2598%25E7%25BA%25A7sql%25E6%2593%258D%25E4%25BD%259C%2f"><svg viewBox="2 2 28 28"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg>
+</a>
+</div>
+</footer>
+</article>
+</main>
+<footer class=footer>
+<span>&copy; 2021 <a href=https://www.niuwx.cn/>Ther's Blog 👋</a></span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a>
+<script>let menu=document.getElementById('menu');menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)},document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+<script>document.querySelectorAll('pre > code').forEach(b=>{const c=b.parentNode.parentNode,a=document.createElement('button');a.classList.add('copy-code'),a.innerText='copy';function d(){a.innerText='copied!',setTimeout(()=>{a.innerText='copy'},2e3)}a.addEventListener('click',e=>{if('clipboard'in navigator){navigator.clipboard.writeText(b.textContent),d();return}const a=document.createRange();a.selectNodeContents(b);const c=window.getSelection();c.removeAllRanges(),c.addRange(a);try{document.execCommand('copy'),d()}catch(a){}c.removeRange(a)}),c.classList.contains("highlight")?c.appendChild(a):c.parentNode.firstChild==c||(b.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?b.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(a):b.parentNode.appendChild(a))})</script>
+</body>
+</html>

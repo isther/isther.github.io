@@ -27,12 +27,13 @@
 <meta property="og:description" content="Go运算符">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%BF%90%E7%AE%97%E7%AC%A6/"><meta property="article:section" content="posts">
-<meta property="og:site_name" content="Ther's Blog">
+<meta property="article:published_time" content="2021-03-15T15:33:51+08:00">
+<meta property="article:modified_time" content="2021-03-15T15:33:51+08:00"><meta property="og:site_name" content="Ther's Blog">
 <meta name=twitter:card content="summary">
 <meta name=twitter:title content="Go语言基础之运算符">
 <meta name=twitter:description content="Go运算符">
 <script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://www.niuwx.cn/posts/"},{"@type":"ListItem","position":2,"name":"Go语言基础之运算符","item":"https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%BF%90%E7%AE%97%E7%AC%A6/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Go语言基础之运算符","name":"Go语言基础之运算符","description":"Go运算符","keywords":["Golang","Go","学习笔记\"","运算符"],"articleBody":"运算符用于在程序运行时执行数学或逻辑运算。\nGo 语言内置的运算符有五类：\n 算术运算符 关系运算符 逻辑运算符 位运算符 赋值运算符  算数运算符    运算符 描述     + 相加   - 相减   * 相乘   / 相除   % 求余    注意： ++（自增）和--（自减）在Go语言中是单独的语句，并不是运算符。\n关系运算符    运算符 描述     == 检查两个值是否相等，如果相等返回 True 否则返回 False。   != 检查两个值是否不相等，如果不相等返回 True 否则返回 False。    检查左边值是否大于右边值，如果是返回 True 否则返回 False。   = 检查左边值是否大于等于右边值，如果是返回 True 否则返回 False。    检查左边值是否小于右边值，如果是返回 True 否则返回 False。    检查左边值是否小于等于右边值，如果是返回 True 否则返回 False。    逻辑运算符    运算符 描述     \u0026\u0026 逻辑 AND 运算符。 如果两边的操作数都是 True，则为 True，否则为 False。   || 逻辑 OR 运算符。 如果两边的操作数有一个 True，则为 True，否则为 False。   ! 逻辑 NOT 运算符。 如果条件为 True，则为 False，否则为 True。    位运算符 位运算符对整数在内存中的二进制位进行操作。\n   运算符 描述     \u0026 参与运算的两数各对应的二进位相与。 （两位均为1才为1）   | 参与运算的两数各对应的二进位相或。 （两位有一个为1就为1）   ^ 参与运算的两数各对应的二进位相异或，当两对应的二进位相异时，结果为1。 （两位不一样则为1）   « 左移n位就是乘以2的n次方。 “a«b”是把a的各二进位全部左移b位，高位丢弃，低位补0。   » 右移n位就是除以2的n次方。 “a»b”是把a的各二进位全部右移b位。    赋值运算符    运算符 描述     = 简单的赋值运算符，将一个表达式的值赋给一个左值   += 相加后再赋值   -= 相减后再赋值   *= 相乘后再赋值   /= 相除后再赋值   %= 求余后再赋值   «= 左移后赋值   »= 右移后赋值   \u0026= 按位与后赋值   |= 按位或后赋值   ^= 按位异或后赋值   ","wordCount":"127","inLanguage":"en","datePublished":"0001-01-01T00:00:00Z","dateModified":"0001-01-01T00:00:00Z","author":{"@type":"Person","name":"Ther"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%BF%90%E7%AE%97%E7%AC%A6/"},"publisher":{"@type":"Organization","name":"Ther's Blog 👋","logo":{"@type":"ImageObject","url":"https://www.niuwx.cn/favicon.png"}}}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Go语言基础之运算符","name":"Go语言基础之运算符","description":"Go运算符","keywords":["Golang","Go","学习笔记\"","运算符"],"articleBody":"运算符用于在程序运行时执行数学或逻辑运算。\nGo 语言内置的运算符有五类：\n 算术运算符 关系运算符 逻辑运算符 位运算符 赋值运算符  算数运算符    运算符 描述     + 相加   - 相减   * 相乘   / 相除   % 求余    注意： ++（自增）和--（自减）在Go语言中是单独的语句，并不是运算符。\n关系运算符    运算符 描述     == 检查两个值是否相等，如果相等返回 True 否则返回 False。   != 检查两个值是否不相等，如果不相等返回 True 否则返回 False。    检查左边值是否大于右边值，如果是返回 True 否则返回 False。   = 检查左边值是否大于等于右边值，如果是返回 True 否则返回 False。    检查左边值是否小于右边值，如果是返回 True 否则返回 False。    检查左边值是否小于等于右边值，如果是返回 True 否则返回 False。    逻辑运算符    运算符 描述     \u0026\u0026 逻辑 AND 运算符。 如果两边的操作数都是 True，则为 True，否则为 False。   || 逻辑 OR 运算符。 如果两边的操作数有一个 True，则为 True，否则为 False。   ! 逻辑 NOT 运算符。 如果条件为 True，则为 False，否则为 True。    位运算符 位运算符对整数在内存中的二进制位进行操作。\n   运算符 描述     \u0026 参与运算的两数各对应的二进位相与。 （两位均为1才为1）   | 参与运算的两数各对应的二进位相或。 （两位有一个为1就为1）   ^ 参与运算的两数各对应的二进位相异或，当两对应的二进位相异时，结果为1。 （两位不一样则为1）   « 左移n位就是乘以2的n次方。 “a«b”是把a的各二进位全部左移b位，高位丢弃，低位补0。   » 右移n位就是除以2的n次方。 “a»b”是把a的各二进位全部右移b位。    赋值运算符    运算符 描述     = 简单的赋值运算符，将一个表达式的值赋给一个左值   += 相加后再赋值   -= 相减后再赋值   *= 相乘后再赋值   /= 相除后再赋值   %= 求余后再赋值   «= 左移后赋值   »= 右移后赋值   \u0026= 按位与后赋值   |= 按位或后赋值   ^= 按位异或后赋值   ","wordCount":"127","inLanguage":"en","datePublished":"2021-03-15T15:33:51+08:00","dateModified":"2021-03-15T15:33:51+08:00","author":{"@type":"Person","name":"Ther"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%BF%90%E7%AE%97%E7%AC%A6/"},"publisher":{"@type":"Organization","name":"Ther's Blog 👋","logo":{"@type":"ImageObject","url":"https://www.niuwx.cn/favicon.png"}}}</script>
 </head>
 <body id=top>
 <script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
@@ -84,7 +85,7 @@ Go语言基础之运算符
 <div class=post-description>
 Go运算符
 </div>
-<div class=post-meta>1 min&nbsp;·&nbsp;Ther&nbsp;|&nbsp;<a href=https://github.com/%3cpath_to_repo%3e/content/posts/Golang/Go%e8%af%ad%e8%a8%80%e5%9f%ba%e7%a1%80%e4%b9%8b%e8%bf%90%e7%ae%97%e7%ac%a6.md rel="noopener noreferrer" target=_blank>Suggest Changes</a>
+<div class=post-meta>March 15, 2021&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Ther&nbsp;|&nbsp;<a href=https://github.com/%3cpath_to_repo%3e/content/posts/Golang/Go%e8%af%ad%e8%a8%80%e5%9f%ba%e7%a1%80%e4%b9%8b%e8%bf%90%e7%ae%97%e7%ac%a6.md rel="noopener noreferrer" target=_blank>Suggest Changes</a>
 </div>
 </header> <div class=toc>
 <details open>
@@ -302,10 +303,15 @@ Go运算符
 <li><a href=https://www.niuwx.cn/tags/%E8%BF%90%E7%AE%97%E7%AC%A6/>运算符</a></li>
 </ul>
 <nav class=paginav>
-<a class=prev href=https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%BB%93%E6%9E%84%E4%BD%93%E4%BA%8C/>
+<a class=prev href=https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/>
 <span class=title>« Prev Page</span>
 <br>
-<span>Go语言基础之结构体（二）</span>
+<span>Go语言基础之流程控制</span>
+</a>
+<a class=next href=https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/>
+<span class=title>Next Page »</span>
+<br>
+<span>Go语言基础之基本数据类型</span>
 </a>
 </nav>
 <div class=share-buttons>

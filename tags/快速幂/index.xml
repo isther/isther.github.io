@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>快速幂 on Ther&#39;s Blog 👋</title>
+    <link>https://www.niuwx.cn/tags/%E5%BF%AB%E9%80%9F%E5%B9%82/</link>
+    <description>Recent content in 快速幂 on Ther&#39;s Blog 👋</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 10 Mar 2021 20:02:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/%E5%BF%AB%E9%80%9F%E5%B9%82/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>快速幂</title>
+      <link>https://www.niuwx.cn/posts/%E7%AE%97%E6%B3%95/%E5%BF%AB%E9%80%9F%E5%B9%82/</link>
+      <pubDate>Wed, 10 Mar 2021 20:02:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/%E7%AE%97%E6%B3%95/%E5%BF%AB%E9%80%9F%E5%B9%82/</guid>
+      <description>简单介绍了一下快速幂</description>
+      <content:encoded><![CDATA[<h2 id="引入">引入</h2>
+<p>例题<a href="http://acm.hdu.edu.cn/showproblem.php?pid=1097">hdu1097</a></p>
+<p>这道题如果使用暴力法，数据过大时候会超时或者变量存不下那么大的数，所以需要考虑其他方法</p>
+<p>{% folding green, 点击展开 %}</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fastPower</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> base, <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> power){
+    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> power; i<span style="color:#f92672">++</span>){
+        ans <span style="color:#f92672">*=</span>base;
+    }
+    <span style="color:#66d9ef">return</span> ans <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+}
+</code></pre></div><p>{%endfolding%}</p>
+<p>那么，考虑到个位数的改变只与个位数有关，如果每次只计算个位数呢？</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">fastPower</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> base, <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> power){
+    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    base <span style="color:#f92672">%=</span> <span style="color:#ae81ff">10</span>;
+    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> power; i<span style="color:#f92672">++</span>){
+        ans <span style="color:#f92672">*=</span> base;
+        <span style="color:#66d9ef">if</span>(ans <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>)
+            ans <span style="color:#f92672">%=</span> <span style="color:#ae81ff">10</span>;
+    }
+    <span style="color:#66d9ef">return</span> ans;
+}
+</code></pre></div><p>结果同样，如果数据过大，还是会超时。</p>
+<h2 id="快速幂">快速幂</h2>
+<p>{% folding green, 取模的运算法则 %}</p>
+<p>$(a+b) mod M = (amodM + bmodM)modM$</p>
+<p>$(a-b)modM = (amodM - bmodM)modM$</p>
+<p>$(a*b)modM = (amodM * bmodM)modM$</p>
+<p>{% endfolding %}</p>
+<hr>
+<h4 id="入门">入门</h4>
+<p>快速幂算法可以高效快速的算出$a^n$。</p>
+<p>下面举一个例子</p>
+<p>如果计算$2^{10}$</p>
+<p>$2^{10}$ = 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2 * 2</p>
+<p>尽量将指数变小，如下</p>
+<p>$2^{10} = (2*2)^5 = 4^5$</p>
+<p>此时指数由10缩减一半变成了5，而底数变成了原来的平方，原本要执行十次的乘法操作，现在只需要进行五次。对于高次幂的计算来说，效果更佳。</p>
+<p>那么，现在的问题是如何将5次方也变成原来的一半，5的一半是2.5，但指数不能是小数，所以式子就变成了这样</p>
+<p>$2^{10} = 4^4*4^1$</p>
+<p>将$4^1$单独拿出来，那$4^4$就能够继续执行上面的操作：</p>
+<p>$2^{10} = 16^2*4^1$</p>
+<p>将指数再次缩小一半</p>
+<p>$2^{10} = 256^1*4^1$</p>
+<p>此时256和4的指数都是1、奇数，无法再次缩小：所以发现了一个规律，<strong>得到的结果是变化过程中所有指数为奇数时的底数的乘积</strong></p>
+<h4 id="初步实现">初步实现</h4>
+<p>用代码实现上面的算法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fastPower</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> base, <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> power) {
+    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> result <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (power) {
+        <span style="color:#66d9ef">if</span> (power <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span>) {
+            power <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>;
+            result <span style="color:#f92672">=</span> result <span style="color:#f92672">*</span> base <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+            power <span style="color:#f92672">/=</span> <span style="color:#ae81ff">2</span>;
+            base <span style="color:#f92672">=</span> base <span style="color:#f92672">*</span> base <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+        } <span style="color:#66d9ef">else</span> {
+            power <span style="color:#f92672">/=</span> <span style="color:#ae81ff">2</span>;
+            base <span style="color:#f92672">=</span> base <span style="color:#f92672">*</span> base <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+        }
+    }
+    <span style="color:#66d9ef">return</span> result <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+}
+</code></pre></div><h4 id="优化">优化</h4>
+<p>1.由于if、else中有重复语句</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">power <span style="color:#f92672">/=</span> <span style="color:#ae81ff">2</span>;
+base <span style="color:#f92672">=</span> base <span style="color:#f92672">*</span> base <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+</code></pre></div><p>2.且在整形运算中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">power <span style="color:#f92672">-=</span><span style="color:#ae81ff">1</span>;
+power <span style="color:#f92672">/=</span><span style="color:#ae81ff">2</span>;
+</code></pre></div><p>可以压缩成下面一句</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">power <span style="color:#f92672">/=</span><span style="color:#ae81ff">2</span>;
+</code></pre></div><hr>
+<p>于是代码就可以压缩成以下这样：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fastPower</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> base, <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> power) {
+    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> result <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (power) {
+        <span style="color:#66d9ef">if</span> (power <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span>)
+            result <span style="color:#f92672">=</span> result <span style="color:#f92672">*</span> base <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+        power <span style="color:#f92672">/=</span> <span style="color:#ae81ff">2</span>;
+        base <span style="color:#f92672">=</span> base <span style="color:#f92672">*</span> base <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+    }
+    <span style="color:#66d9ef">return</span> result <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+}
+</code></pre></div><h4 id="再次优化">再次优化</h4>
+<p>在C/C++中可以利用更快位运算来代替一些计算，例如</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">power <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>;
+power <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>;<span style="color:#75715e">//位运算
+</span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++">power <span style="color:#f92672">/=</span><span style="color:#ae81ff">2</span>;
+power <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;<span style="color:#75715e">//位运算
+</span></code></pre></div><p>于是代码就变成了这样：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">fastPower</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> base, <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> power) {
+    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> result <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">while</span> (power) {
+        <span style="color:#66d9ef">if</span> (power <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>)
+            result <span style="color:#f92672">=</span> result <span style="color:#f92672">*</span> base <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+        power <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+        base <span style="color:#f92672">=</span> base <span style="color:#f92672">*</span> base <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+    }
+
+    <span style="color:#66d9ef">return</span> result <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+}
+</code></pre></div>]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

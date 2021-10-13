@@ -4,535 +4,36 @@
     <title>学习笔记 on Ther&#39;s Blog 👋</title>
     <link>https://www.niuwx.cn/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
     <description>Recent content in 学习笔记 on Ther&#39;s Blog 👋</description>
-    <generator>Hugo -- gohugo.io</generator><atom:link href="https://www.niuwx.cn/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 18 Mar 2021 22:33:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Golang学习笔记</title>
       <link>https://www.niuwx.cn/posts/golang/golang%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 13 Mar 2021 10:33:51 +0800</pubDate>
       
       <guid>https://www.niuwx.cn/posts/golang/golang%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
       <description>Golang学习笔记目录，记录点滴。</description>
       <content:encoded><![CDATA[<p>这里将记录Golang学习的笔记。</p>
 <h3 id="go基础">Go基础</h3>
-<p><a href="https://www.niuwx.cn/posts/golang/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B8%B8%E9%87%8F/">Go语言基础之变量与常量</a></p>
-<p><a href="https://www.niuwx.cn/posts/golang/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Go语言基础之基本数据类型</a></p>
-<p><a href="https://www.niuwx.cn/posts/golang/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%BF%90%E7%AE%97%E7%AC%A6/">Go语言基础之运算符</a></p>
-<p><a href="https://www.niuwx.cn/posts/golang/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/">Go语言基础之流程控制</a></p>
-<p><a href="https://www.niuwx.cn/posts/golang/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%95%B0%E7%BB%84/">Go语言基础之数组</a></p>
-<p><a href="https://www.niuwx.cn/posts/golang/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%88%87%E7%89%87/">Go语言基础之切片</a></p>
-<p><a href="https://www.niuwx.cn/posts/golang/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8Bmap/">Go语言基础之map</a></p>
-<p><a href="https://www.niuwx.cn/posts/golang/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%87%BD%E6%95%B0/">Go语言基础之函数</a></p>
-<p><a href="https://www.niuwx.cn/posts/golang/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%8C%87%E9%92%88/">Go语言基础之指针</a></p>
-<p><a href="https://www.niuwx.cn/posts/golang/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%BB%93%E6%9E%84%E4%BD%93%EF%BC%88%E4%B8%80%EF%BC%89/">Go语言基础之结构体（一）</a></p>
-<p><a href="https://www.niuwx.cn/posts/golang/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%BB%93%E6%9E%84%E4%BD%93%EF%BC%88%E4%BA%8C%EF%BC%89/">Go语言基础之结构体（二）</a></p>
-<p><a href="https://www.niuwx.cn/posts/golang/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%8E%A5%E5%8F%A3/">Go语言基础之接口</a></p>
-<p><a href="https://www.niuwx.cn/posts/golang/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%B9%B6%E5%8F%91/">Go语言基础之并发</a></p>]]></content:encoded>
-    </item>
-    
-    <item>
-      <title>Go语言基础之map</title>
-      <link>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8Bmap/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8Bmap/</guid>
-      <description>Map</description>
-      <content:encoded><![CDATA[<p>Go语言中提供的映射关系容器为<code>map</code>，其内部使用<code>散列表（hash）</code>实现。</p>
-<h1 id="map">map</h1>
-<p>map是一种无序的基于<code>key-value</code>的数据结构，Go语言中的map是引用类型，必须初始化才能使用。</p>
-<h2 id="map定义">map定义</h2>
-<p>Go语言中 <code>map</code>的定义语法如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">KeyType</span>]<span style="color:#a6e22e">ValueType</span>
-</code></pre></div><p>其中，</p>
-<ul>
-<li>KeyType:表示键的类型。</li>
-<li>ValueType:表示键对应的值的类型。</li>
-</ul>
-<p>map类型的变量默认初始值为nil，需要使用make()函数来分配内存。语法为：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">make(<span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">KeyType</span>]<span style="color:#a6e22e">ValueType</span>, [<span style="color:#a6e22e">cap</span>])
-</code></pre></div><p>其中cap表示map的容量，该参数虽然不是必须的，但是我们应该在初始化map的时候就为其指定一个合适的容量。</p>
-<h2 id="map基本使用">map基本使用</h2>
-<p>map中的数据都是成对出现的，map的基本使用示例代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">scoreMap</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">8</span>)
-	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;张三&#34;</span>] = <span style="color:#ae81ff">90</span>
-	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;小明&#34;</span>] = <span style="color:#ae81ff">100</span>
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">scoreMap</span>)
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;小明&#34;</span>])
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;type of a:%T\n&#34;</span>, <span style="color:#a6e22e">scoreMap</span>)
-}
-</code></pre></div><p>输出：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">map<span style="color:#f92672">[</span>小明:100 张三:90<span style="color:#f92672">]</span>
-<span style="color:#ae81ff">100</span>
-type of a:map<span style="color:#f92672">[</span>string<span style="color:#f92672">]</span>int
-</code></pre></div><p>map也支持在声明的时候填充元素，例如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">userInfo</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>{
-		<span style="color:#e6db74">&#34;username&#34;</span>: <span style="color:#e6db74">&#34;沙河小王子&#34;</span>,
-		<span style="color:#e6db74">&#34;password&#34;</span>: <span style="color:#e6db74">&#34;123456&#34;</span>,
-	}
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">userInfo</span>) <span style="color:#75715e">//
-</span><span style="color:#75715e"></span>}
-</code></pre></div><h2 id="判断某个键是否存在">判断某个键是否存在</h2>
-<p>Go语言中有个判断map中键是否存在的特殊写法，格式如下:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">value</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">key</span>]
-</code></pre></div><p>举个例子：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">scoreMap</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">int</span>)
-	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;张三&#34;</span>] = <span style="color:#ae81ff">90</span>
-	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;小明&#34;</span>] = <span style="color:#ae81ff">100</span>
-	<span style="color:#75715e">// 如果key存在ok为true,v为对应的值；不存在ok为false,v为值类型的零值
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;张三&#34;</span>]
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ok</span> {
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">v</span>)
-	} <span style="color:#66d9ef">else</span> {
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;查无此人&#34;</span>)
-	}
-}
-</code></pre></div><h2 id="map的遍历">map的遍历</h2>
-<p>Go语言中使用<code>for range</code>遍历map。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">scoreMap</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">int</span>)
-	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;张三&#34;</span>] = <span style="color:#ae81ff">90</span>
-	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;小明&#34;</span>] = <span style="color:#ae81ff">100</span>
-	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;娜扎&#34;</span>] = <span style="color:#ae81ff">60</span>
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">scoreMap</span> {
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span>)
-	}
-}
-</code></pre></div><p>但我们只想遍历key的时候，可以按下面的写法：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">scoreMap</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">int</span>)
-	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;张三&#34;</span>] = <span style="color:#ae81ff">90</span>
-	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;小明&#34;</span>] = <span style="color:#ae81ff">100</span>
-	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;娜扎&#34;</span>] = <span style="color:#ae81ff">60</span>
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">scoreMap</span> {
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">k</span>)
-	}
-}
-</code></pre></div><p><strong>注意：</strong> 遍历map时的元素顺序与添加键值对的顺序无关。</p>
-<h2 id="使用delete函数删除键值对">使用delete()函数删除键值对</h2>
-<p>使用<code>delete()</code>内建函数从map中删除一组键值对，<code>delete()</code>函数的格式如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">delete(<span style="color:#66d9ef">map</span>, <span style="color:#a6e22e">key</span>)
-</code></pre></div><p>其中，</p>
-<ul>
-<li>map:表示要删除键值对的map</li>
-<li>key:表示要删除的键值对的键</li>
-</ul>
-<p>示例代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>(){
-	<span style="color:#a6e22e">scoreMap</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">int</span>)
-	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;张三&#34;</span>] = <span style="color:#ae81ff">90</span>
-	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;小明&#34;</span>] = <span style="color:#ae81ff">100</span>
-	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;娜扎&#34;</span>] = <span style="color:#ae81ff">60</span>
-	delete(<span style="color:#a6e22e">scoreMap</span>, <span style="color:#e6db74">&#34;小明&#34;</span>)<span style="color:#75715e">//将小明:100从map中删除
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span>,<span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">scoreMap</span>{
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span>)
-	}
-}
-</code></pre></div><h2 id="按照指定顺序遍历map">按照指定顺序遍历map</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Seed</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>().<span style="color:#a6e22e">UnixNano</span>()) <span style="color:#75715e">//初始化随机数种子
-</span><span style="color:#75715e"></span>
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">scoreMap</span> = make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">200</span>)
-
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">100</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">key</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;stu%02d&#34;</span>, <span style="color:#a6e22e">i</span>) <span style="color:#75715e">//生成stu开头的字符串
-</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">value</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Intn</span>(<span style="color:#ae81ff">100</span>)          <span style="color:#75715e">//生成0~99的随机整数
-</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">scoreMap</span>[<span style="color:#a6e22e">key</span>] = <span style="color:#a6e22e">value</span>
-	}
-	<span style="color:#75715e">//取出map中的所有key存入切片keys
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">keys</span> = make([]<span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">200</span>)
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">key</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">scoreMap</span> {
-		<span style="color:#a6e22e">keys</span> = append(<span style="color:#a6e22e">keys</span>, <span style="color:#a6e22e">key</span>)
-	}
-	<span style="color:#75715e">//对切片进行排序
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">sort</span>.<span style="color:#a6e22e">Strings</span>(<span style="color:#a6e22e">keys</span>)
-	<span style="color:#75715e">//按照排序后的key遍历map
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">key</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">keys</span> {
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">scoreMap</span>[<span style="color:#a6e22e">key</span>])
-	}
-}
-</code></pre></div><h2 id="元素为map类型的切片">元素为map类型的切片</h2>
-<p>下面的代码演示了切片中的元素为map类型时的操作：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">mapSlice</span> = make([]<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">3</span>)
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">value</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">mapSlice</span> {
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;index:%d value:%v\n&#34;</span>, <span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">value</span>)
-	}
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;after init&#34;</span>)
-	<span style="color:#75715e">// 对切片中的map元素进行初始化
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">mapSlice</span>[<span style="color:#ae81ff">0</span>] = make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">10</span>)
-	<span style="color:#a6e22e">mapSlice</span>[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;name&#34;</span>] = <span style="color:#e6db74">&#34;小王子&#34;</span>
-	<span style="color:#a6e22e">mapSlice</span>[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;password&#34;</span>] = <span style="color:#e6db74">&#34;123456&#34;</span>
-	<span style="color:#a6e22e">mapSlice</span>[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;address&#34;</span>] = <span style="color:#e6db74">&#34;沙河&#34;</span>
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">value</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">mapSlice</span> {
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;index:%d value:%v\n&#34;</span>, <span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">value</span>)
-	}
-}
-</code></pre></div><h2 id="值为切片类型的map">值为切片类型的map</h2>
-<p>下面的代码演示了map中值为切片类型的操作：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">sliceMap</span> = make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>][]<span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">3</span>)
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">sliceMap</span>)
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;after init&#34;</span>)
-	<span style="color:#a6e22e">key</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;中国&#34;</span>
-	<span style="color:#a6e22e">value</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sliceMap</span>[<span style="color:#a6e22e">key</span>]
-	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
-		<span style="color:#a6e22e">value</span> = make([]<span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>)
-	}
-	<span style="color:#a6e22e">value</span> = append(<span style="color:#a6e22e">value</span>, <span style="color:#e6db74">&#34;北京&#34;</span>, <span style="color:#e6db74">&#34;上海&#34;</span>)
-	<span style="color:#a6e22e">sliceMap</span>[<span style="color:#a6e22e">key</span>] = <span style="color:#a6e22e">value</span>
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">sliceMap</span>)
-}
-</code></pre></div>]]></content:encoded>
-    </item>
-    
-    <item>
-      <title>Go语言基础之切片</title>
-      <link>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%88%87%E7%89%87/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%88%87%E7%89%87/</guid>
-      <description>Go切片</description>
-      <content:encoded><![CDATA[<p>本文主要介绍Go语言中切片（slice）及它的基本使用。</p>
-<h2 id="引入">引入</h2>
-<p>因为数组的长度是固定的并且数组长度属于类型的一部分，所以数组有很多的局限性。 例如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">arraySum</span>(<span style="color:#a6e22e">x</span> [<span style="color:#ae81ff">3</span>]<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span>{
-    <span style="color:#a6e22e">sum</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
-    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">x</span>{
-        <span style="color:#a6e22e">sum</span> = <span style="color:#a6e22e">sum</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">v</span>
-    }
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">sum</span>
-}
-</code></pre></div><p>这个求和函数只能接受<code>[3]int</code>类型，其他的都不支持。 再比如，</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">3</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>}
-</code></pre></div><p>数组a中已经有三个元素了，我们不能再继续往数组a中添加新元素了，这样就难受的一批。而切片可以很好的解决这个问题</p>
-<h2 id="切片">切片</h2>
-<p>切片（Slice）是一个拥有相同类型元素的可变长度的序列。它是基于数组类型做的一层封装。它非常灵活，支持自动扩容。</p>
-<h3 id="切片的定义">切片的定义</h3>
-<p>声明切片类型的基本语法如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">name</span> []<span style="color:#a6e22e">T</span>
-</code></pre></div><ul>
-<li>name:表示变量名</li>
-<li>T:表示切片中的元素类型</li>
-</ul>
-<p>例如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#75715e">// 声明切片类型
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">a</span> []<span style="color:#66d9ef">string</span>              <span style="color:#75715e">//声明一个字符串切片
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">b</span> = []<span style="color:#66d9ef">int</span>{}             <span style="color:#75715e">//声明一个整型切片并初始化
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">c</span> = []<span style="color:#66d9ef">bool</span>{<span style="color:#66d9ef">false</span>, <span style="color:#66d9ef">true</span>} <span style="color:#75715e">//声明一个布尔切片并初始化
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">d</span> = []<span style="color:#66d9ef">bool</span>{<span style="color:#66d9ef">false</span>, <span style="color:#66d9ef">true</span>} <span style="color:#75715e">//声明一个布尔切片并初始化
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>)              <span style="color:#75715e">//[]
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">b</span>)              <span style="color:#75715e">//[]
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">c</span>)              <span style="color:#75715e">//[false true]
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span>)       <span style="color:#75715e">//true
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span>)       <span style="color:#75715e">//false
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span>)       <span style="color:#75715e">//false
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">// fmt.Println(c == d)   //切片是引用类型，不支持直接比较，只能和nil比较
-</span><span style="color:#75715e"></span>}
-</code></pre></div><h3 id="切片的长度和容量">切片的长度和容量</h3>
-<p>切片拥有自己的长度和容量，我们可以通过使用内置的<code>len()</code>函数求长度，使用内置的<code>cap()</code>函数求切片的容量。</p>
-<h3 id="切片表达式">切片表达式</h3>
-<h4 id="简单切片表达式">简单切片表达式</h4>
-<p>切片的底层就是一个数组，所以我们可以基于数组通过切片表达式得到切片。 切片表达式中的<code>low</code>和<code>high</code>表示一个索引范围（左包含，右不包含），也就是下面代码中从数组a中选出<code>1&lt;=索引值&lt;4</code>的元素组成切片s，得到的切片<code>长度=high-low</code>，容量等于得到的切片的底层数组的容量。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">5</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
-	<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]  <span style="color:#75715e">// s := a[low:high]
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;s:%v len(s):%v cap(s):%v\n&#34;</span>, <span style="color:#a6e22e">s</span>, len(<span style="color:#a6e22e">s</span>), cap(<span style="color:#a6e22e">s</span>))
-}
-</code></pre></div><p>输入结果如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">s:<span style="color:#f92672">[</span><span style="color:#ae81ff">2</span> 3<span style="color:#f92672">]</span> len<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>:2 cap<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>:4
-</code></pre></div><p>为了方便起见，可以省略切片表达式中的任何索引。省略了<code>low</code>则默认为0；省略了<code>high</code>则默认为切片操作数的长度:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">2</span>:]  <span style="color:#75715e">// 等同于 a[2:len(a)]
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">a</span>[:<span style="color:#ae81ff">3</span>]  <span style="color:#75715e">// 等同于 a[0:3]
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">a</span>[:]   <span style="color:#75715e">// 等同于 a[0:len(a)]
-</span></code></pre></div><p>{% span red, 注意： %}</p>
-<p>对于数组或字符串，如果<code>0 &lt;= low &lt;= high &lt;= len(a)</code>，则索引合法，否则就会索引越界（out of range）。</p>
-<p>对切片再执行切片表达式时（切片再切片），<code>high</code>的上限边界是切片的容量<code>cap(a)</code>，而不是长度。<strong>常量索引</strong>必须是非负的，并且可以用int类型的值表示;对于数组或常量字符串，常量索引也必须在有效范围内。如果<code>low</code>和<code>high</code>两个指标都是常数，它们必须满足<code>low &lt;= high</code>。如果索引在运行时超出范围，就会发生运行时<code>panic</code>。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">5</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
-	<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]  <span style="color:#75715e">// s := a[low:high]
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;s:%v len(s):%v cap(s):%v\n&#34;</span>, <span style="color:#a6e22e">s</span>, len(<span style="color:#a6e22e">s</span>), cap(<span style="color:#a6e22e">s</span>))
-	<span style="color:#a6e22e">s2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s</span>[<span style="color:#ae81ff">3</span>:<span style="color:#ae81ff">4</span>]  <span style="color:#75715e">// 索引的上限是cap(s)而不是len(s)
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;s2:%v len(s2):%v cap(s2):%v\n&#34;</span>, <span style="color:#a6e22e">s2</span>, len(<span style="color:#a6e22e">s2</span>), cap(<span style="color:#a6e22e">s2</span>))
-}
-</code></pre></div><p>输出结果如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">s:<span style="color:#f92672">[</span><span style="color:#ae81ff">2</span> 3<span style="color:#f92672">]</span> len<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>:2 cap<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>:4
-s2:<span style="color:#f92672">[</span>5<span style="color:#f92672">]</span> len<span style="color:#f92672">(</span>s2<span style="color:#f92672">)</span>:1 cap<span style="color:#f92672">(</span>s2<span style="color:#f92672">)</span>:1
-</code></pre></div><h4 id="完整切片表达式">完整切片表达式</h4>
-<p>对于数组，指向数组的指针，或切片a(<strong>注意不能是字符串</strong>)支持完整切片表达式：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">a</span>[<span style="color:#a6e22e">low</span> : <span style="color:#a6e22e">high</span> : <span style="color:#a6e22e">max</span>]
-</code></pre></div><p>上面的代码会构造与简单切片表达式<code>a[low: high]</code>相同类型、相同长度和元素的切片。另外，它会将得到的结果切片的容量设置为<code>max-low</code>。在完整切片表达式中只有第一个索引值（low）可以省略；它默认为0。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">5</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
-	<span style="color:#a6e22e">t</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>:<span style="color:#ae81ff">5</span>]
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;t:%v len(t):%v cap(t):%v\n&#34;</span>, <span style="color:#a6e22e">t</span>, len(<span style="color:#a6e22e">t</span>), cap(<span style="color:#a6e22e">t</span>))
-}
-</code></pre></div><p>输出结果如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">t:<span style="color:#f92672">[</span><span style="color:#ae81ff">2</span> 3<span style="color:#f92672">]</span> len<span style="color:#f92672">(</span>t<span style="color:#f92672">)</span>:2 cap<span style="color:#f92672">(</span>t<span style="color:#f92672">)</span>:4
-</code></pre></div><p>完整切片表达式需要满足的条件是<code>0 &lt;= low &lt;= high &lt;= max &lt;= cap(a)</code>，其他条件和简单切片表达式相同。</p>
-<h3 id="使用make函数构造切片">使用make()函数构造切片</h3>
-<p>我们上面都是基于数组来创建的切片，如果需要动态的创建一个切片，我们就需要使用内置的<code>make()</code>函数，格式如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">make<span style="color:#f92672">([]</span>T, size, cap<span style="color:#f92672">)</span>
-</code></pre></div><p>其中：</p>
-<ul>
-<li>T:切片的元素类型</li>
-<li>size:切片中元素的数量</li>
-<li>cap:切片的容量</li>
-</ul>
-<p>举个例子：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">10</span>)
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>)      <span style="color:#75715e">//[0 0]
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(len(<span style="color:#a6e22e">a</span>)) <span style="color:#75715e">//2
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(cap(<span style="color:#a6e22e">a</span>)) <span style="color:#75715e">//10
-</span><span style="color:#75715e"></span>}
-</code></pre></div><p>上面代码中<code>a</code>的内部存储空间已经分配了10个，但实际上只用了2个。 容量并不会影响当前元素的个数，所以<code>len(a)</code>返回2，<code>cap(a)</code>则返回该切片的容量。</p>
-<h3 id="切片的本质">切片的本质</h3>
-<p>切片的本质就是对底层数组的封装，它包含了三个信息：底层数组的指针、切片的长度（len）和切片的容量（cap）。</p>
-<ul>
-<li>多个切片指向同一数组时，对任一切片进行操作时，都有可能对其他切片造成影响</li>
-</ul>
-<h3 id="切片不能直接比较">切片不能直接比较</h3>
-<p>切片之间是不能比较的，我们不能使用<code>==</code>操作符来判断两个切片是否含有全部相等元素。 切片唯一合法的比较操作是和<code>nil</code>比较。 一个<code>nil</code>值的切片并没有底层数组，一个<code>nil</code>值的切片的长度和容量都是0。但是我们不能说一个长度和容量都是0的切片一定是<code>nil</code>，例如下面的示例：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s1</span> []<span style="color:#66d9ef">int</span>         <span style="color:#75715e">//len(s1)=0;cap(s1)=0;s1==nil
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">s2</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{}        <span style="color:#75715e">//len(s2)=0;cap(s2)=0;s2!=nil
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">s3</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">0</span>) <span style="color:#75715e">//len(s3)=0;cap(s3)=0;s3!=nil
-</span></code></pre></div><p>所以要判断一个切片是否是空的，要是用<code>len(s) == 0</code>来判断，不应该使用<code>s == nil</code>来判断。</p>
-<h3 id="切片的赋值拷贝">切片的赋值拷贝</h3>
-<p>下面的代码中演示了拷贝前后两个变量共享底层数组，对一个切片的修改会影响另一个切片的内容，这点需要特别注意。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">s1</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">3</span>) <span style="color:#75715e">//[0 0 0]
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">s2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s1</span>             <span style="color:#75715e">//将s1直接赋值给s2，s1和s2共用一个底层数组
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">s2</span>[<span style="color:#ae81ff">0</span>] = <span style="color:#ae81ff">100</span>
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s1</span>) <span style="color:#75715e">//[100 0 0]
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s2</span>) <span style="color:#75715e">//[100 0 0]
-</span><span style="color:#75715e"></span>}
-</code></pre></div><h3 id="切片遍历">切片遍历</h3>
-<p>切片的遍历方式和数组是一致的，支持索引遍历和<code>for range</code>遍历。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">5</span>}
-
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; len(<span style="color:#a6e22e">s</span>); <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">s</span>[<span style="color:#a6e22e">i</span>])
-	}
-
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">value</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">s</span> {
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">value</span>)
-	}
-}
-</code></pre></div><h3 id="append方法为切片添加元素">append()方法为切片添加元素</h3>
-<p>Go语言的内建函数<code>append()</code>可以为切片动态添加元素。 可以一次添加一个元素，可以添加多个元素，也可以添加另一个切片中的元素（后面加…）。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>(){
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> []<span style="color:#66d9ef">int</span>
-	<span style="color:#a6e22e">s</span> = append(<span style="color:#a6e22e">s</span>, <span style="color:#ae81ff">1</span>)        <span style="color:#75715e">// [1]
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">s</span> = append(<span style="color:#a6e22e">s</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>)  <span style="color:#75715e">// [1 2 3 4]
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">s2</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>}  
-	<span style="color:#a6e22e">s</span> = append(<span style="color:#a6e22e">s</span>, <span style="color:#a6e22e">s2</span><span style="color:#f92672">...</span>)    <span style="color:#75715e">// [1 2 3 4 5 6 7]
-</span><span style="color:#75715e"></span>}
-</code></pre></div><p>**注意：**通过var声明的零值切片可以在<code>append()</code>函数直接使用，无需初始化。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> []<span style="color:#66d9ef">int</span>
-<span style="color:#a6e22e">s</span> = append(<span style="color:#a6e22e">s</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>)
-</code></pre></div><p>没有必要像下面的代码一样初始化一个切片再传入<code>append()</code>函数使用，</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{}  <span style="color:#75715e">// 没有必要初始化
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">s</span> = append(<span style="color:#a6e22e">s</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>)
-
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> = make([]<span style="color:#66d9ef">int</span>)  <span style="color:#75715e">// 没有必要初始化
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">s</span> = append(<span style="color:#a6e22e">s</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>)
-</code></pre></div><p>每个切片会指向一个底层数组，这个数组的容量够用就添加新增元素。当底层数组不能容纳新增的元素时，切片就会自动按照一定的策略进行“扩容”，此时该切片指向的底层数组就会更换。“扩容”操作往往发生在<code>append()</code>函数调用时，所以我们通常都需要用原变量接收append函数的返回值。</p>
-<p>举个例子：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#75715e">//append()添加元素和切片扩容
-</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">numSlice</span> []<span style="color:#66d9ef">int</span>
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">10</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">numSlice</span> = append(<span style="color:#a6e22e">numSlice</span>, <span style="color:#a6e22e">i</span>)
-		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%v  len:%d  cap:%d  ptr:%p\n&#34;</span>, <span style="color:#a6e22e">numSlice</span>, len(<span style="color:#a6e22e">numSlice</span>), cap(<span style="color:#a6e22e">numSlice</span>), <span style="color:#a6e22e">numSlice</span>)
-	}
-}
-</code></pre></div><p>输出：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>  len:1  cap:1  ptr:0xc0000a8000
-<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> 1<span style="color:#f92672">]</span>  len:2  cap:2  ptr:0xc0000a8040
-<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> 2<span style="color:#f92672">]</span>  len:3  cap:4  ptr:0xc0000b2020
-<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> 3<span style="color:#f92672">]</span>  len:4  cap:4  ptr:0xc0000b2020
-<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> 4<span style="color:#f92672">]</span>  len:5  cap:8  ptr:0xc0000b6000
-<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5<span style="color:#f92672">]</span>  len:6  cap:8  ptr:0xc0000b6000
-<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> 6<span style="color:#f92672">]</span>  len:7  cap:8  ptr:0xc0000b6000
-<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> 7<span style="color:#f92672">]</span>  len:8  cap:8  ptr:0xc0000b6000
-<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">7</span> 8<span style="color:#f92672">]</span>  len:9  cap:16  ptr:0xc0000b8000
-<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">8</span> 9<span style="color:#f92672">]</span>  len:10  cap:16  ptr:0xc0000b8000
-</code></pre></div><p>从上面的结果可以看出：</p>
-<ol>
-<li><code>append()</code>函数将元素追加到切片的最后并返回该切片。</li>
-<li>切片numSlice的容量按照1，2，4，8，16这样的规则自动进行扩容，每次扩容后都是扩容前的2倍。</li>
-</ol>
-<p>append()函数还支持一次性追加多个元素。 例如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">citySlice</span> []<span style="color:#66d9ef">string</span>
-<span style="color:#75715e">// 追加一个元素
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">citySlice</span> = append(<span style="color:#a6e22e">citySlice</span>, <span style="color:#e6db74">&#34;北京&#34;</span>)
-<span style="color:#75715e">// 追加多个元素
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">citySlice</span> = append(<span style="color:#a6e22e">citySlice</span>, <span style="color:#e6db74">&#34;上海&#34;</span>, <span style="color:#e6db74">&#34;广州&#34;</span>, <span style="color:#e6db74">&#34;深圳&#34;</span>)
-<span style="color:#75715e">// 追加切片
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;成都&#34;</span>, <span style="color:#e6db74">&#34;重庆&#34;</span>}
-<span style="color:#a6e22e">citySlice</span> = append(<span style="color:#a6e22e">citySlice</span>, <span style="color:#a6e22e">a</span><span style="color:#f92672">...</span>)
-<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">citySlice</span>) <span style="color:#75715e">//[北京 上海 广州 深圳 成都 重庆]
-</span></code></pre></div><h3 id="使用copy函数复制切片">使用copy()函数复制切片</h3>
-<p>首先我们来看一个问题：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
-	<span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>) <span style="color:#75715e">//[1 2 3 4 5]
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">b</span>) <span style="color:#75715e">//[1 2 3 4 5]
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">b</span>[<span style="color:#ae81ff">0</span>] = <span style="color:#ae81ff">1000</span>
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>) <span style="color:#75715e">//[1000 2 3 4 5]
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">b</span>) <span style="color:#75715e">//[1000 2 3 4 5]
-</span><span style="color:#75715e"></span>}
-</code></pre></div><p>由于切片是引用类型，所以a和b其实都指向了同一块内存地址。修改b的同时a的值也会发生变化。</p>
-<p>Go语言内建的<code>copy()</code>函数可以迅速地将一个切片的数据复制到另外一个切片空间中，<code>copy()</code>函数的使用格式如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">copy<span style="color:#f92672">(</span>destSlice, srcSlice <span style="color:#f92672">[]</span>T<span style="color:#f92672">)</span>
-</code></pre></div><p>其中：</p>
-<ul>
-<li>srcSlice: 数据来源切片</li>
-<li>destSlice: 目标切片</li>
-</ul>
-<p>举个例子：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#75715e">// copy()复制切片
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
-	<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>)
-	copy(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">a</span>)     <span style="color:#75715e">//使用copy()函数将切片a中的元素复制到切片c
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>) <span style="color:#75715e">//[1 2 3 4 5]
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">c</span>) <span style="color:#75715e">//[1 2 3 4 5]
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">c</span>[<span style="color:#ae81ff">0</span>] = <span style="color:#ae81ff">1000</span>
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>) <span style="color:#75715e">//[1 2 3 4 5]
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">c</span>) <span style="color:#75715e">//[1000 2 3 4 5]
-</span><span style="color:#75715e"></span>}
-</code></pre></div><h3 id="从切片中删除元素">从切片中删除元素</h3>
-<p>Go语言中并没有删除切片元素的专用方法，我们可以使用切片本身的特性来删除元素。 代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#75715e">// 从切片中删除元素
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">33</span>, <span style="color:#ae81ff">34</span>, <span style="color:#ae81ff">35</span>, <span style="color:#ae81ff">36</span>, <span style="color:#ae81ff">37</span>}
-	<span style="color:#75715e">// 要删除索引为2的元素
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">a</span> = append(<span style="color:#a6e22e">a</span>[:<span style="color:#ae81ff">2</span>], <span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">3</span>:]<span style="color:#f92672">...</span>)
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>) <span style="color:#75715e">//[30 31 33 34 35 36 37]
-</span><span style="color:#75715e"></span>}
-</code></pre></div><p>总结一下就是：要从切片a中删除索引为<code>index</code>的元素，操作方法是<code>a = append(a[:index], a[index+1:]...)</code></p>]]></content:encoded>
-    </item>
-    
-    <item>
-      <title>Go语言基础之变量与常量</title>
-      <link>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B8%B8%E9%87%8F/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B8%B8%E9%87%8F/</guid>
-      <description>常量与变量</description>
-      <content:encoded><![CDATA[<p>变量和常量是编程中必不可少的部分，也是很好理解的一部分。</p>
-<h3 id="标识符与关键字">标识符与关键字</h3>
-<h4 id="标识符">标识符</h4>
-<p>关于Go语言中的命名规则，与C类似。Go语言中标识符由字母、数字和<code>_</code>(下划线)组成，并且只能以字母和<code>_</code>开头。
-例如<code>aaa</code>,<code>_ </code>,<code>_123</code>,<code>a123</code></p>
-<h4 id="关键字">关键字</h4>
-<p>关键字是指编程语言中预先定义好的具有特殊含义的标识符。且不能将关键字和保留字作为变量名</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">//25个关键字
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">break</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">func</span> <span style="color:#66d9ef">interface</span> <span style="color:#66d9ef">select</span>
-<span style="color:#66d9ef">case</span> <span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">go</span> <span style="color:#66d9ef">map</span> <span style="color:#66d9ef">struct</span> 
-<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">continue</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">fallthrough</span>
-<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">goto</span> <span style="color:#f92672">package</span> <span style="color:#66d9ef">range</span> 
-<span style="color:#f92672">import</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">switch</span> <span style="color:#66d9ef">type</span> <span style="color:#66d9ef">var</span>
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">//37个保留字
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">Constants</span>: <span style="color:#66d9ef">true</span> <span style="color:#66d9ef">false</span> <span style="color:#66d9ef">iota</span> <span style="color:#66d9ef">nil</span>
-
-<span style="color:#a6e22e">Types</span>: <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">int8</span> <span style="color:#66d9ef">int16</span> <span style="color:#66d9ef">int32</span> <span style="color:#66d9ef">int64</span> <span style="color:#66d9ef">uint</span> <span style="color:#66d9ef">uint8</span> <span style="color:#66d9ef">uint16</span> <span style="color:#66d9ef">uint32</span> <span style="color:#66d9ef">uint64</span> <span style="color:#66d9ef">uintptr</span> <span style="color:#66d9ef">float32</span> <span style="color:#66d9ef">float64</span> <span style="color:#66d9ef">complex128</span> <span style="color:#66d9ef">complex64</span> <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">byte</span> <span style="color:#66d9ef">rune</span> <span style="color:#66d9ef">string</span>
-
-<span style="color:#66d9ef">error</span> <span style="color:#a6e22e">Functions</span>: <span style="color:#a6e22e">make</span> <span style="color:#a6e22e">len</span> <span style="color:#a6e22e">cap</span> <span style="color:#a6e22e">new</span> <span style="color:#a6e22e">append</span> <span style="color:#a6e22e">copy</span> <span style="color:#a6e22e">close</span> <span style="color:#a6e22e">delete</span> <span style="color:#a6e22e">complex</span> <span style="color:#a6e22e">real</span> <span style="color:#a6e22e">imag</span> <span style="color:#a6e22e">panic</span> <span style="color:#a6e22e">recover</span>
-</code></pre></div><h3 id="变量">变量</h3>
-<h4 id="变量类型">变量类型</h4>
-<p>变量的功能是存储数据，不同类型的变量存储不同类型的数据。</p>
-<p>常见变量的数据类型有：整型、浮点型、布尔型等。</p>
-<p>Go语言中的每一个变量都有自己的类型，并且变量必须经过声明才能开始使用。</p>
-<h4 id="变量声明">变量声明</h4>
-<p>Go语言声明变量的格式为:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">变量名</span> <span style="color:#a6e22e">变量类型</span>
-</code></pre></div><p>例如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">age</span> <span style="color:#66d9ef">int</span>
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">isOK</span> <span style="color:#66d9ef">bool</span>
-</code></pre></div><p>当然，在Go语言中，可以批量声明变量</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span>(
-    <span style="color:#a6e22e">a</span> <span style="color:#66d9ef">string</span>
-    <span style="color:#a6e22e">b</span> <span style="color:#66d9ef">int</span>
-    <span style="color:#a6e22e">c</span> <span style="color:#66d9ef">bool</span>
-    <span style="color:#a6e22e">d</span> <span style="color:#66d9ef">float32</span>
-)
-</code></pre></div><h4 id="变量初始化">变量初始化</h4>
-<p>Go语言在声明变量的时候，会自动对变量对应的内存区域进行初始化操作。每个变量会被初始化成其类型的默认值，例如： 整型和浮点型变量的默认值为<code>0</code>。 字符串变量的默认值为<code>空字符串</code>。 布尔型变量默认为<code>false</code>。 切片、函数、指针变量的默认为<code>nil</code>。</p>
-<p>当然我们也可在声明变量的时候为其指定初始值。变量初始化的标准格式如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">变量名</span> <span style="color:#a6e22e">类型</span> = <span style="color:#a6e22e">值</span>
-</code></pre></div><p>例如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span> = <span style="color:#e6db74">&#34;Q1mi&#34;</span>
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">age</span> <span style="color:#66d9ef">int</span> = <span style="color:#ae81ff">18</span>
-</code></pre></div><p>同样，也支持多个变量初始化</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">age</span> = <span style="color:#e6db74">&#34;Q1mi&#34;</span>, <span style="color:#ae81ff">20</span>
-</code></pre></div><p>{% note info, 类型推导 %}</p>
-<p>有时候我们会将变量的类型省略，这个时候编译器会根据等号右边的值来推导变量的类型完成初始化。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;Q1mi&#34;</span>
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">age</span> = <span style="color:#ae81ff">18</span>
-</code></pre></div><p>{% note info, 短变量声明 %}</p>
-<p>在函数内部，可以使用更简略的<code>:=</code>方式声明并初始化变量。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
-
-<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
-<span style="color:#75715e">// 全局变量m
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">m</span> = <span style="color:#ae81ff">100</span>
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">10</span>
-	<span style="color:#a6e22e">m</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">200</span> <span style="color:#75715e">// 此处声明局部变量m
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">m</span>, <span style="color:#a6e22e">n</span>)
-}
-</code></pre></div><p>{% note info, 匿名变量 %}
-在使用多重赋值时，如果想要忽略某个值，可以使用<code>匿名变量</code>。 匿名变量用一个下划线<code>_</code>表示。</p>
-<p>例如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">test</span>() (<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">string</span>) {
-	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">10</span>, <span style="color:#e6db74">&#34;hahaha&#34;</span>
-}
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
-	<span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">test</span>()
-	<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">y</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">test</span>()
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;x=&#34;</span>, <span style="color:#a6e22e">x</span>)
-	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;y=&#34;</span>, <span style="color:#a6e22e">y</span>)
-}
-</code></pre></div><p>匿名变量不占用命名空间，不会分配内存，所以匿名变量之间不存在重复声明。</p>
-<p>注意事项：</p>
-<ul>
-<li>函数外的每个语句都必须以关键字开始（var、const、func等）</li>
-<li>:=不能使用在函数外。</li>
-<li>_多用于占位，表示忽略值。</li>
-</ul>
-<h3 id="常量">常量</h3>
-<p>相对于变量，常量是恒定不变的值，多用于定义程序运行期间不会改变的那些值。 常量的声明和变量声明非常类似，只是把<code>ar</code>换成了<code>const</code>，常量在定义的时候必须赋值。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">pi</span> = <span style="color:#ae81ff">3.1415</span>
-<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">e</span> = <span style="color:#ae81ff">2.7182</span>
-</code></pre></div><p>声明了<code>pi</code>和<code>e</code>这两个常量之后，在整个程序运行期间它们的值都不能再发生变化了。</p>
-<p>多个常量也可以一起声明：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">const</span> (
-    <span style="color:#a6e22e">pi</span> = <span style="color:#ae81ff">3.1415</span>
-    <span style="color:#a6e22e">e</span> = <span style="color:#ae81ff">2.7182</span>
-)
-</code></pre></div><p>const同时声明多个常量时，如果省略了值则表示和上面一行的值相同。</p>
-<p>例如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">const</span> (
-    <span style="color:#a6e22e">n1</span> = <span style="color:#ae81ff">100</span>
-    <span style="color:#a6e22e">n2</span>
-    <span style="color:#a6e22e">n3</span>
-)
-</code></pre></div>]]></content:encoded>
+<p><a href="https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B8%B8%E9%87%8F/">Go语言基础之变量与常量</a></p>
+<p><a href="https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">Go语言基础之基本数据类型</a></p>
+<p><a href="https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%BF%90%E7%AE%97%E7%AC%A6/">Go语言基础之运算符</a></p>
+<p><a href="https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/">Go语言基础之流程控制</a></p>
+<p><a href="https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%95%B0%E7%BB%84/">Go语言基础之数组</a></p>
+<p><a href="https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%88%87%E7%89%87/">Go语言基础之切片</a></p>
+<p><a href="https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8Bmap/">Go语言基础之map</a></p>
+<p><a href="https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%87%BD%E6%95%B0/">Go语言基础之函数</a></p>
+<p><a href="https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%8C%87%E9%92%88/">Go语言基础之指针</a></p>
+<p><a href="https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%BB%93%E6%9E%84%E4%BD%93%EF%BC%88%E4%B8%80%EF%BC%89/">Go语言基础之结构体（一）</a></p>
+<p><a href="https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%BB%93%E6%9E%84%E4%BD%93%EF%BC%88%E4%BA%8C%EF%BC%89/">Go语言基础之结构体（二）</a></p>
+<p><a href="https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%8E%A5%E5%8F%A3/">Go语言基础之接口</a></p>
+<p><a href="https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%B9%B6%E5%8F%91/">Go语言基础之并发</a></p>]]></content:encoded>
     </item>
     
     <item>
       <title>Go语言基础之并发</title>
       <link>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%B9%B6%E5%8F%91/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 18 Mar 2021 22:33:51 +0800</pubDate>
       
       <guid>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%B9%B6%E5%8F%91/</guid>
       <description>并发</description>
@@ -1254,9 +755,399 @@ exit status <span style="color:#ae81ff">2</span>
     </item>
     
     <item>
+      <title>Go语言基础之map</title>
+      <link>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8Bmap/</link>
+      <pubDate>Tue, 16 Mar 2021 18:33:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8Bmap/</guid>
+      <description>Map</description>
+      <content:encoded><![CDATA[<p>Go语言中提供的映射关系容器为<code>map</code>，其内部使用<code>散列表（hash）</code>实现。</p>
+<h1 id="map">map</h1>
+<p>map是一种无序的基于<code>key-value</code>的数据结构，Go语言中的map是引用类型，必须初始化才能使用。</p>
+<h2 id="map定义">map定义</h2>
+<p>Go语言中 <code>map</code>的定义语法如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">KeyType</span>]<span style="color:#a6e22e">ValueType</span>
+</code></pre></div><p>其中，</p>
+<ul>
+<li>KeyType:表示键的类型。</li>
+<li>ValueType:表示键对应的值的类型。</li>
+</ul>
+<p>map类型的变量默认初始值为nil，需要使用make()函数来分配内存。语法为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">make(<span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">KeyType</span>]<span style="color:#a6e22e">ValueType</span>, [<span style="color:#a6e22e">cap</span>])
+</code></pre></div><p>其中cap表示map的容量，该参数虽然不是必须的，但是我们应该在初始化map的时候就为其指定一个合适的容量。</p>
+<h2 id="map基本使用">map基本使用</h2>
+<p>map中的数据都是成对出现的，map的基本使用示例代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">scoreMap</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">8</span>)
+	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;张三&#34;</span>] = <span style="color:#ae81ff">90</span>
+	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;小明&#34;</span>] = <span style="color:#ae81ff">100</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">scoreMap</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;小明&#34;</span>])
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;type of a:%T\n&#34;</span>, <span style="color:#a6e22e">scoreMap</span>)
+}
+</code></pre></div><p>输出：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">map<span style="color:#f92672">[</span>小明:100 张三:90<span style="color:#f92672">]</span>
+<span style="color:#ae81ff">100</span>
+type of a:map<span style="color:#f92672">[</span>string<span style="color:#f92672">]</span>int
+</code></pre></div><p>map也支持在声明的时候填充元素，例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">userInfo</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>{
+		<span style="color:#e6db74">&#34;username&#34;</span>: <span style="color:#e6db74">&#34;沙河小王子&#34;</span>,
+		<span style="color:#e6db74">&#34;password&#34;</span>: <span style="color:#e6db74">&#34;123456&#34;</span>,
+	}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">userInfo</span>) <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h2 id="判断某个键是否存在">判断某个键是否存在</h2>
+<p>Go语言中有个判断map中键是否存在的特殊写法，格式如下:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">value</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">key</span>]
+</code></pre></div><p>举个例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">scoreMap</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">int</span>)
+	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;张三&#34;</span>] = <span style="color:#ae81ff">90</span>
+	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;小明&#34;</span>] = <span style="color:#ae81ff">100</span>
+	<span style="color:#75715e">// 如果key存在ok为true,v为对应的值；不存在ok为false,v为值类型的零值
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">v</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;张三&#34;</span>]
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ok</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">v</span>)
+	} <span style="color:#66d9ef">else</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;查无此人&#34;</span>)
+	}
+}
+</code></pre></div><h2 id="map的遍历">map的遍历</h2>
+<p>Go语言中使用<code>for range</code>遍历map。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">scoreMap</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">int</span>)
+	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;张三&#34;</span>] = <span style="color:#ae81ff">90</span>
+	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;小明&#34;</span>] = <span style="color:#ae81ff">100</span>
+	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;娜扎&#34;</span>] = <span style="color:#ae81ff">60</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">scoreMap</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span>)
+	}
+}
+</code></pre></div><p>但我们只想遍历key的时候，可以按下面的写法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">scoreMap</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">int</span>)
+	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;张三&#34;</span>] = <span style="color:#ae81ff">90</span>
+	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;小明&#34;</span>] = <span style="color:#ae81ff">100</span>
+	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;娜扎&#34;</span>] = <span style="color:#ae81ff">60</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">scoreMap</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">k</span>)
+	}
+}
+</code></pre></div><p><strong>注意：</strong> 遍历map时的元素顺序与添加键值对的顺序无关。</p>
+<h2 id="使用delete函数删除键值对">使用delete()函数删除键值对</h2>
+<p>使用<code>delete()</code>内建函数从map中删除一组键值对，<code>delete()</code>函数的格式如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">delete(<span style="color:#66d9ef">map</span>, <span style="color:#a6e22e">key</span>)
+</code></pre></div><p>其中，</p>
+<ul>
+<li>map:表示要删除键值对的map</li>
+<li>key:表示要删除的键值对的键</li>
+</ul>
+<p>示例代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>(){
+	<span style="color:#a6e22e">scoreMap</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">int</span>)
+	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;张三&#34;</span>] = <span style="color:#ae81ff">90</span>
+	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;小明&#34;</span>] = <span style="color:#ae81ff">100</span>
+	<span style="color:#a6e22e">scoreMap</span>[<span style="color:#e6db74">&#34;娜扎&#34;</span>] = <span style="color:#ae81ff">60</span>
+	delete(<span style="color:#a6e22e">scoreMap</span>, <span style="color:#e6db74">&#34;小明&#34;</span>)<span style="color:#75715e">//将小明:100从map中删除
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">k</span>,<span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">scoreMap</span>{
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">k</span>, <span style="color:#a6e22e">v</span>)
+	}
+}
+</code></pre></div><h2 id="按照指定顺序遍历map">按照指定顺序遍历map</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Seed</span>(<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>().<span style="color:#a6e22e">UnixNano</span>()) <span style="color:#75715e">//初始化随机数种子
+</span><span style="color:#75715e"></span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">scoreMap</span> = make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">200</span>)
+
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">100</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">key</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;stu%02d&#34;</span>, <span style="color:#a6e22e">i</span>) <span style="color:#75715e">//生成stu开头的字符串
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">value</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">rand</span>.<span style="color:#a6e22e">Intn</span>(<span style="color:#ae81ff">100</span>)          <span style="color:#75715e">//生成0~99的随机整数
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">scoreMap</span>[<span style="color:#a6e22e">key</span>] = <span style="color:#a6e22e">value</span>
+	}
+	<span style="color:#75715e">//取出map中的所有key存入切片keys
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">keys</span> = make([]<span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">200</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">key</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">scoreMap</span> {
+		<span style="color:#a6e22e">keys</span> = append(<span style="color:#a6e22e">keys</span>, <span style="color:#a6e22e">key</span>)
+	}
+	<span style="color:#75715e">//对切片进行排序
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">sort</span>.<span style="color:#a6e22e">Strings</span>(<span style="color:#a6e22e">keys</span>)
+	<span style="color:#75715e">//按照排序后的key遍历map
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">key</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">keys</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">scoreMap</span>[<span style="color:#a6e22e">key</span>])
+	}
+}
+</code></pre></div><h2 id="元素为map类型的切片">元素为map类型的切片</h2>
+<p>下面的代码演示了切片中的元素为map类型时的操作：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">mapSlice</span> = make([]<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">3</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">value</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">mapSlice</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;index:%d value:%v\n&#34;</span>, <span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">value</span>)
+	}
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;after init&#34;</span>)
+	<span style="color:#75715e">// 对切片中的map元素进行初始化
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">mapSlice</span>[<span style="color:#ae81ff">0</span>] = make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">10</span>)
+	<span style="color:#a6e22e">mapSlice</span>[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;name&#34;</span>] = <span style="color:#e6db74">&#34;小王子&#34;</span>
+	<span style="color:#a6e22e">mapSlice</span>[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;password&#34;</span>] = <span style="color:#e6db74">&#34;123456&#34;</span>
+	<span style="color:#a6e22e">mapSlice</span>[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#34;address&#34;</span>] = <span style="color:#e6db74">&#34;沙河&#34;</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">value</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">mapSlice</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;index:%d value:%v\n&#34;</span>, <span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">value</span>)
+	}
+}
+</code></pre></div><h2 id="值为切片类型的map">值为切片类型的map</h2>
+<p>下面的代码演示了map中值为切片类型的操作：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">sliceMap</span> = make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>][]<span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">3</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">sliceMap</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;after init&#34;</span>)
+	<span style="color:#a6e22e">key</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;中国&#34;</span>
+	<span style="color:#a6e22e">value</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sliceMap</span>[<span style="color:#a6e22e">key</span>]
+	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+		<span style="color:#a6e22e">value</span> = make([]<span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>)
+	}
+	<span style="color:#a6e22e">value</span> = append(<span style="color:#a6e22e">value</span>, <span style="color:#e6db74">&#34;北京&#34;</span>, <span style="color:#e6db74">&#34;上海&#34;</span>)
+	<span style="color:#a6e22e">sliceMap</span>[<span style="color:#a6e22e">key</span>] = <span style="color:#a6e22e">value</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">sliceMap</span>)
+}
+</code></pre></div>]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Go语言基础之切片</title>
+      <link>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%88%87%E7%89%87/</link>
+      <pubDate>Tue, 16 Mar 2021 15:33:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%88%87%E7%89%87/</guid>
+      <description>Go切片</description>
+      <content:encoded><![CDATA[<p>本文主要介绍Go语言中切片（slice）及它的基本使用。</p>
+<h2 id="引入">引入</h2>
+<p>因为数组的长度是固定的并且数组长度属于类型的一部分，所以数组有很多的局限性。 例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">arraySum</span>(<span style="color:#a6e22e">x</span> [<span style="color:#ae81ff">3</span>]<span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span>{
+    <span style="color:#a6e22e">sum</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">x</span>{
+        <span style="color:#a6e22e">sum</span> = <span style="color:#a6e22e">sum</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">v</span>
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">sum</span>
+}
+</code></pre></div><p>这个求和函数只能接受<code>[3]int</code>类型，其他的都不支持。 再比如，</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">3</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>}
+</code></pre></div><p>数组a中已经有三个元素了，我们不能再继续往数组a中添加新元素了，这样就难受的一批。而切片可以很好的解决这个问题</p>
+<h2 id="切片">切片</h2>
+<p>切片（Slice）是一个拥有相同类型元素的可变长度的序列。它是基于数组类型做的一层封装。它非常灵活，支持自动扩容。</p>
+<h3 id="切片的定义">切片的定义</h3>
+<p>声明切片类型的基本语法如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">name</span> []<span style="color:#a6e22e">T</span>
+</code></pre></div><ul>
+<li>name:表示变量名</li>
+<li>T:表示切片中的元素类型</li>
+</ul>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#75715e">// 声明切片类型
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">a</span> []<span style="color:#66d9ef">string</span>              <span style="color:#75715e">//声明一个字符串切片
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">b</span> = []<span style="color:#66d9ef">int</span>{}             <span style="color:#75715e">//声明一个整型切片并初始化
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">c</span> = []<span style="color:#66d9ef">bool</span>{<span style="color:#66d9ef">false</span>, <span style="color:#66d9ef">true</span>} <span style="color:#75715e">//声明一个布尔切片并初始化
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">d</span> = []<span style="color:#66d9ef">bool</span>{<span style="color:#66d9ef">false</span>, <span style="color:#66d9ef">true</span>} <span style="color:#75715e">//声明一个布尔切片并初始化
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>)              <span style="color:#75715e">//[]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">b</span>)              <span style="color:#75715e">//[]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">c</span>)              <span style="color:#75715e">//[false true]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span>)       <span style="color:#75715e">//true
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span>)       <span style="color:#75715e">//false
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span>)       <span style="color:#75715e">//false
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// fmt.Println(c == d)   //切片是引用类型，不支持直接比较，只能和nil比较
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h3 id="切片的长度和容量">切片的长度和容量</h3>
+<p>切片拥有自己的长度和容量，我们可以通过使用内置的<code>len()</code>函数求长度，使用内置的<code>cap()</code>函数求切片的容量。</p>
+<h3 id="切片表达式">切片表达式</h3>
+<h4 id="简单切片表达式">简单切片表达式</h4>
+<p>切片的底层就是一个数组，所以我们可以基于数组通过切片表达式得到切片。 切片表达式中的<code>low</code>和<code>high</code>表示一个索引范围（左包含，右不包含），也就是下面代码中从数组a中选出<code>1&lt;=索引值&lt;4</code>的元素组成切片s，得到的切片<code>长度=high-low</code>，容量等于得到的切片的底层数组的容量。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">5</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
+	<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]  <span style="color:#75715e">// s := a[low:high]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;s:%v len(s):%v cap(s):%v\n&#34;</span>, <span style="color:#a6e22e">s</span>, len(<span style="color:#a6e22e">s</span>), cap(<span style="color:#a6e22e">s</span>))
+}
+</code></pre></div><p>输入结果如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">s:<span style="color:#f92672">[</span><span style="color:#ae81ff">2</span> 3<span style="color:#f92672">]</span> len<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>:2 cap<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>:4
+</code></pre></div><p>为了方便起见，可以省略切片表达式中的任何索引。省略了<code>low</code>则默认为0；省略了<code>high</code>则默认为切片操作数的长度:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">2</span>:]  <span style="color:#75715e">// 等同于 a[2:len(a)]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">a</span>[:<span style="color:#ae81ff">3</span>]  <span style="color:#75715e">// 等同于 a[0:3]
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">a</span>[:]   <span style="color:#75715e">// 等同于 a[0:len(a)]
+</span></code></pre></div><p>{% span red, 注意： %}</p>
+<p>对于数组或字符串，如果<code>0 &lt;= low &lt;= high &lt;= len(a)</code>，则索引合法，否则就会索引越界（out of range）。</p>
+<p>对切片再执行切片表达式时（切片再切片），<code>high</code>的上限边界是切片的容量<code>cap(a)</code>，而不是长度。<strong>常量索引</strong>必须是非负的，并且可以用int类型的值表示;对于数组或常量字符串，常量索引也必须在有效范围内。如果<code>low</code>和<code>high</code>两个指标都是常数，它们必须满足<code>low &lt;= high</code>。如果索引在运行时超出范围，就会发生运行时<code>panic</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">5</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
+	<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]  <span style="color:#75715e">// s := a[low:high]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;s:%v len(s):%v cap(s):%v\n&#34;</span>, <span style="color:#a6e22e">s</span>, len(<span style="color:#a6e22e">s</span>), cap(<span style="color:#a6e22e">s</span>))
+	<span style="color:#a6e22e">s2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s</span>[<span style="color:#ae81ff">3</span>:<span style="color:#ae81ff">4</span>]  <span style="color:#75715e">// 索引的上限是cap(s)而不是len(s)
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;s2:%v len(s2):%v cap(s2):%v\n&#34;</span>, <span style="color:#a6e22e">s2</span>, len(<span style="color:#a6e22e">s2</span>), cap(<span style="color:#a6e22e">s2</span>))
+}
+</code></pre></div><p>输出结果如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">s:<span style="color:#f92672">[</span><span style="color:#ae81ff">2</span> 3<span style="color:#f92672">]</span> len<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>:2 cap<span style="color:#f92672">(</span>s<span style="color:#f92672">)</span>:4
+s2:<span style="color:#f92672">[</span>5<span style="color:#f92672">]</span> len<span style="color:#f92672">(</span>s2<span style="color:#f92672">)</span>:1 cap<span style="color:#f92672">(</span>s2<span style="color:#f92672">)</span>:1
+</code></pre></div><h4 id="完整切片表达式">完整切片表达式</h4>
+<p>对于数组，指向数组的指针，或切片a(<strong>注意不能是字符串</strong>)支持完整切片表达式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">a</span>[<span style="color:#a6e22e">low</span> : <span style="color:#a6e22e">high</span> : <span style="color:#a6e22e">max</span>]
+</code></pre></div><p>上面的代码会构造与简单切片表达式<code>a[low: high]</code>相同类型、相同长度和元素的切片。另外，它会将得到的结果切片的容量设置为<code>max-low</code>。在完整切片表达式中只有第一个索引值（low）可以省略；它默认为0。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> [<span style="color:#ae81ff">5</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
+	<span style="color:#a6e22e">t</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>:<span style="color:#ae81ff">5</span>]
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;t:%v len(t):%v cap(t):%v\n&#34;</span>, <span style="color:#a6e22e">t</span>, len(<span style="color:#a6e22e">t</span>), cap(<span style="color:#a6e22e">t</span>))
+}
+</code></pre></div><p>输出结果如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">t:<span style="color:#f92672">[</span><span style="color:#ae81ff">2</span> 3<span style="color:#f92672">]</span> len<span style="color:#f92672">(</span>t<span style="color:#f92672">)</span>:2 cap<span style="color:#f92672">(</span>t<span style="color:#f92672">)</span>:4
+</code></pre></div><p>完整切片表达式需要满足的条件是<code>0 &lt;= low &lt;= high &lt;= max &lt;= cap(a)</code>，其他条件和简单切片表达式相同。</p>
+<h3 id="使用make函数构造切片">使用make()函数构造切片</h3>
+<p>我们上面都是基于数组来创建的切片，如果需要动态的创建一个切片，我们就需要使用内置的<code>make()</code>函数，格式如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">make<span style="color:#f92672">([]</span>T, size, cap<span style="color:#f92672">)</span>
+</code></pre></div><p>其中：</p>
+<ul>
+<li>T:切片的元素类型</li>
+<li>size:切片中元素的数量</li>
+<li>cap:切片的容量</li>
+</ul>
+<p>举个例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">10</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>)      <span style="color:#75715e">//[0 0]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(len(<span style="color:#a6e22e">a</span>)) <span style="color:#75715e">//2
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(cap(<span style="color:#a6e22e">a</span>)) <span style="color:#75715e">//10
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>上面代码中<code>a</code>的内部存储空间已经分配了10个，但实际上只用了2个。 容量并不会影响当前元素的个数，所以<code>len(a)</code>返回2，<code>cap(a)</code>则返回该切片的容量。</p>
+<h3 id="切片的本质">切片的本质</h3>
+<p>切片的本质就是对底层数组的封装，它包含了三个信息：底层数组的指针、切片的长度（len）和切片的容量（cap）。</p>
+<ul>
+<li>多个切片指向同一数组时，对任一切片进行操作时，都有可能对其他切片造成影响</li>
+</ul>
+<h3 id="切片不能直接比较">切片不能直接比较</h3>
+<p>切片之间是不能比较的，我们不能使用<code>==</code>操作符来判断两个切片是否含有全部相等元素。 切片唯一合法的比较操作是和<code>nil</code>比较。 一个<code>nil</code>值的切片并没有底层数组，一个<code>nil</code>值的切片的长度和容量都是0。但是我们不能说一个长度和容量都是0的切片一定是<code>nil</code>，例如下面的示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s1</span> []<span style="color:#66d9ef">int</span>         <span style="color:#75715e">//len(s1)=0;cap(s1)=0;s1==nil
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">s2</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{}        <span style="color:#75715e">//len(s2)=0;cap(s2)=0;s2!=nil
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">s3</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">0</span>) <span style="color:#75715e">//len(s3)=0;cap(s3)=0;s3!=nil
+</span></code></pre></div><p>所以要判断一个切片是否是空的，要是用<code>len(s) == 0</code>来判断，不应该使用<code>s == nil</code>来判断。</p>
+<h3 id="切片的赋值拷贝">切片的赋值拷贝</h3>
+<p>下面的代码中演示了拷贝前后两个变量共享底层数组，对一个切片的修改会影响另一个切片的内容，这点需要特别注意。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">s1</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">3</span>) <span style="color:#75715e">//[0 0 0]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">s2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s1</span>             <span style="color:#75715e">//将s1直接赋值给s2，s1和s2共用一个底层数组
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">s2</span>[<span style="color:#ae81ff">0</span>] = <span style="color:#ae81ff">100</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s1</span>) <span style="color:#75715e">//[100 0 0]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s2</span>) <span style="color:#75715e">//[100 0 0]
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h3 id="切片遍历">切片遍历</h3>
+<p>切片的遍历方式和数组是一致的，支持索引遍历和<code>for range</code>遍历。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">5</span>}
+
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; len(<span style="color:#a6e22e">s</span>); <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">s</span>[<span style="color:#a6e22e">i</span>])
+	}
+
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">value</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">s</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">index</span>, <span style="color:#a6e22e">value</span>)
+	}
+}
+</code></pre></div><h3 id="append方法为切片添加元素">append()方法为切片添加元素</h3>
+<p>Go语言的内建函数<code>append()</code>可以为切片动态添加元素。 可以一次添加一个元素，可以添加多个元素，也可以添加另一个切片中的元素（后面加…）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>(){
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> []<span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">s</span> = append(<span style="color:#a6e22e">s</span>, <span style="color:#ae81ff">1</span>)        <span style="color:#75715e">// [1]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">s</span> = append(<span style="color:#a6e22e">s</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>)  <span style="color:#75715e">// [1 2 3 4]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">s2</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>}  
+	<span style="color:#a6e22e">s</span> = append(<span style="color:#a6e22e">s</span>, <span style="color:#a6e22e">s2</span><span style="color:#f92672">...</span>)    <span style="color:#75715e">// [1 2 3 4 5 6 7]
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>**注意：**通过var声明的零值切片可以在<code>append()</code>函数直接使用，无需初始化。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> []<span style="color:#66d9ef">int</span>
+<span style="color:#a6e22e">s</span> = append(<span style="color:#a6e22e">s</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>)
+</code></pre></div><p>没有必要像下面的代码一样初始化一个切片再传入<code>append()</code>函数使用，</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">s</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{}  <span style="color:#75715e">// 没有必要初始化
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">s</span> = append(<span style="color:#a6e22e">s</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>)
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">s</span> = make([]<span style="color:#66d9ef">int</span>)  <span style="color:#75715e">// 没有必要初始化
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">s</span> = append(<span style="color:#a6e22e">s</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>)
+</code></pre></div><p>每个切片会指向一个底层数组，这个数组的容量够用就添加新增元素。当底层数组不能容纳新增的元素时，切片就会自动按照一定的策略进行“扩容”，此时该切片指向的底层数组就会更换。“扩容”操作往往发生在<code>append()</code>函数调用时，所以我们通常都需要用原变量接收append函数的返回值。</p>
+<p>举个例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#75715e">//append()添加元素和切片扩容
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">numSlice</span> []<span style="color:#66d9ef">int</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">10</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">numSlice</span> = append(<span style="color:#a6e22e">numSlice</span>, <span style="color:#a6e22e">i</span>)
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%v  len:%d  cap:%d  ptr:%p\n&#34;</span>, <span style="color:#a6e22e">numSlice</span>, len(<span style="color:#a6e22e">numSlice</span>), cap(<span style="color:#a6e22e">numSlice</span>), <span style="color:#a6e22e">numSlice</span>)
+	}
+}
+</code></pre></div><p>输出：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>  len:1  cap:1  ptr:0xc0000a8000
+<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> 1<span style="color:#f92672">]</span>  len:2  cap:2  ptr:0xc0000a8040
+<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> 2<span style="color:#f92672">]</span>  len:3  cap:4  ptr:0xc0000b2020
+<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> 3<span style="color:#f92672">]</span>  len:4  cap:4  ptr:0xc0000b2020
+<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> 4<span style="color:#f92672">]</span>  len:5  cap:8  ptr:0xc0000b6000
+<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5<span style="color:#f92672">]</span>  len:6  cap:8  ptr:0xc0000b6000
+<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> 6<span style="color:#f92672">]</span>  len:7  cap:8  ptr:0xc0000b6000
+<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> 7<span style="color:#f92672">]</span>  len:8  cap:8  ptr:0xc0000b6000
+<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">7</span> 8<span style="color:#f92672">]</span>  len:9  cap:16  ptr:0xc0000b8000
+<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">8</span> 9<span style="color:#f92672">]</span>  len:10  cap:16  ptr:0xc0000b8000
+</code></pre></div><p>从上面的结果可以看出：</p>
+<ol>
+<li><code>append()</code>函数将元素追加到切片的最后并返回该切片。</li>
+<li>切片numSlice的容量按照1，2，4，8，16这样的规则自动进行扩容，每次扩容后都是扩容前的2倍。</li>
+</ol>
+<p>append()函数还支持一次性追加多个元素。 例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">citySlice</span> []<span style="color:#66d9ef">string</span>
+<span style="color:#75715e">// 追加一个元素
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">citySlice</span> = append(<span style="color:#a6e22e">citySlice</span>, <span style="color:#e6db74">&#34;北京&#34;</span>)
+<span style="color:#75715e">// 追加多个元素
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">citySlice</span> = append(<span style="color:#a6e22e">citySlice</span>, <span style="color:#e6db74">&#34;上海&#34;</span>, <span style="color:#e6db74">&#34;广州&#34;</span>, <span style="color:#e6db74">&#34;深圳&#34;</span>)
+<span style="color:#75715e">// 追加切片
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;成都&#34;</span>, <span style="color:#e6db74">&#34;重庆&#34;</span>}
+<span style="color:#a6e22e">citySlice</span> = append(<span style="color:#a6e22e">citySlice</span>, <span style="color:#a6e22e">a</span><span style="color:#f92672">...</span>)
+<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">citySlice</span>) <span style="color:#75715e">//[北京 上海 广州 深圳 成都 重庆]
+</span></code></pre></div><h3 id="使用copy函数复制切片">使用copy()函数复制切片</h3>
+<p>首先我们来看一个问题：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
+	<span style="color:#a6e22e">b</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>) <span style="color:#75715e">//[1 2 3 4 5]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">b</span>) <span style="color:#75715e">//[1 2 3 4 5]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">b</span>[<span style="color:#ae81ff">0</span>] = <span style="color:#ae81ff">1000</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>) <span style="color:#75715e">//[1000 2 3 4 5]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">b</span>) <span style="color:#75715e">//[1000 2 3 4 5]
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>由于切片是引用类型，所以a和b其实都指向了同一块内存地址。修改b的同时a的值也会发生变化。</p>
+<p>Go语言内建的<code>copy()</code>函数可以迅速地将一个切片的数据复制到另外一个切片空间中，<code>copy()</code>函数的使用格式如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">copy<span style="color:#f92672">(</span>destSlice, srcSlice <span style="color:#f92672">[]</span>T<span style="color:#f92672">)</span>
+</code></pre></div><p>其中：</p>
+<ul>
+<li>srcSlice: 数据来源切片</li>
+<li>destSlice: 目标切片</li>
+</ul>
+<p>举个例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#75715e">// copy()复制切片
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
+	<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">int</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>)
+	copy(<span style="color:#a6e22e">c</span>, <span style="color:#a6e22e">a</span>)     <span style="color:#75715e">//使用copy()函数将切片a中的元素复制到切片c
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>) <span style="color:#75715e">//[1 2 3 4 5]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">c</span>) <span style="color:#75715e">//[1 2 3 4 5]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">c</span>[<span style="color:#ae81ff">0</span>] = <span style="color:#ae81ff">1000</span>
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>) <span style="color:#75715e">//[1 2 3 4 5]
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">c</span>) <span style="color:#75715e">//[1000 2 3 4 5]
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h3 id="从切片中删除元素">从切片中删除元素</h3>
+<p>Go语言中并没有删除切片元素的专用方法，我们可以使用切片本身的特性来删除元素。 代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#75715e">// 从切片中删除元素
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">33</span>, <span style="color:#ae81ff">34</span>, <span style="color:#ae81ff">35</span>, <span style="color:#ae81ff">36</span>, <span style="color:#ae81ff">37</span>}
+	<span style="color:#75715e">// 要删除索引为2的元素
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">a</span> = append(<span style="color:#a6e22e">a</span>[:<span style="color:#ae81ff">2</span>], <span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">3</span>:]<span style="color:#f92672">...</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>) <span style="color:#75715e">//[30 31 33 34 35 36 37]
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>总结一下就是：要从切片a中删除索引为<code>index</code>的元素，操作方法是<code>a = append(a[:index], a[index+1:]...)</code></p>]]></content:encoded>
+    </item>
+    
+    <item>
       <title>Go语言基础之数组</title>
       <link>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%95%B0%E7%BB%84/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 15 Mar 2021 18:33:51 +0800</pubDate>
       
       <guid>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%95%B0%E7%BB%84/</guid>
       <description>Go数组</description>
@@ -1391,7 +1282,7 @@ exit status <span style="color:#ae81ff">2</span>
     <item>
       <title>Go语言基础之运算符</title>
       <link>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%BF%90%E7%AE%97%E7%AC%A6/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 15 Mar 2021 15:33:51 +0800</pubDate>
       
       <guid>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E8%BF%90%E7%AE%97%E7%AC%A6/</guid>
       <description>Go运算符</description>
@@ -1581,6 +1472,116 @@ exit status <span style="color:#ae81ff">2</span>
 </tr>
 </tbody>
 </table>]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Go语言基础之变量与常量</title>
+      <link>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B8%B8%E9%87%8F/</link>
+      <pubDate>Sat, 13 Mar 2021 22:33:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%8F%98%E9%87%8F%E4%B8%8E%E5%B8%B8%E9%87%8F/</guid>
+      <description>常量与变量</description>
+      <content:encoded><![CDATA[<p>变量和常量是编程中必不可少的部分，也是很好理解的一部分。</p>
+<h3 id="标识符与关键字">标识符与关键字</h3>
+<h4 id="标识符">标识符</h4>
+<p>关于Go语言中的命名规则，与C类似。Go语言中标识符由字母、数字和<code>_</code>(下划线)组成，并且只能以字母和<code>_</code>开头。
+例如<code>aaa</code>,<code>_ </code>,<code>_123</code>,<code>a123</code></p>
+<h4 id="关键字">关键字</h4>
+<p>关键字是指编程语言中预先定义好的具有特殊含义的标识符。且不能将关键字和保留字作为变量名</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">//25个关键字
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">break</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">func</span> <span style="color:#66d9ef">interface</span> <span style="color:#66d9ef">select</span>
+<span style="color:#66d9ef">case</span> <span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">go</span> <span style="color:#66d9ef">map</span> <span style="color:#66d9ef">struct</span> 
+<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">continue</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">fallthrough</span>
+<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">goto</span> <span style="color:#f92672">package</span> <span style="color:#66d9ef">range</span> 
+<span style="color:#f92672">import</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">switch</span> <span style="color:#66d9ef">type</span> <span style="color:#66d9ef">var</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">//37个保留字
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">Constants</span>: <span style="color:#66d9ef">true</span> <span style="color:#66d9ef">false</span> <span style="color:#66d9ef">iota</span> <span style="color:#66d9ef">nil</span>
+
+<span style="color:#a6e22e">Types</span>: <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">int8</span> <span style="color:#66d9ef">int16</span> <span style="color:#66d9ef">int32</span> <span style="color:#66d9ef">int64</span> <span style="color:#66d9ef">uint</span> <span style="color:#66d9ef">uint8</span> <span style="color:#66d9ef">uint16</span> <span style="color:#66d9ef">uint32</span> <span style="color:#66d9ef">uint64</span> <span style="color:#66d9ef">uintptr</span> <span style="color:#66d9ef">float32</span> <span style="color:#66d9ef">float64</span> <span style="color:#66d9ef">complex128</span> <span style="color:#66d9ef">complex64</span> <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">byte</span> <span style="color:#66d9ef">rune</span> <span style="color:#66d9ef">string</span>
+
+<span style="color:#66d9ef">error</span> <span style="color:#a6e22e">Functions</span>: <span style="color:#a6e22e">make</span> <span style="color:#a6e22e">len</span> <span style="color:#a6e22e">cap</span> <span style="color:#a6e22e">new</span> <span style="color:#a6e22e">append</span> <span style="color:#a6e22e">copy</span> <span style="color:#a6e22e">close</span> <span style="color:#a6e22e">delete</span> <span style="color:#a6e22e">complex</span> <span style="color:#a6e22e">real</span> <span style="color:#a6e22e">imag</span> <span style="color:#a6e22e">panic</span> <span style="color:#a6e22e">recover</span>
+</code></pre></div><h3 id="变量">变量</h3>
+<h4 id="变量类型">变量类型</h4>
+<p>变量的功能是存储数据，不同类型的变量存储不同类型的数据。</p>
+<p>常见变量的数据类型有：整型、浮点型、布尔型等。</p>
+<p>Go语言中的每一个变量都有自己的类型，并且变量必须经过声明才能开始使用。</p>
+<h4 id="变量声明">变量声明</h4>
+<p>Go语言声明变量的格式为:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">变量名</span> <span style="color:#a6e22e">变量类型</span>
+</code></pre></div><p>例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">age</span> <span style="color:#66d9ef">int</span>
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">isOK</span> <span style="color:#66d9ef">bool</span>
+</code></pre></div><p>当然，在Go语言中，可以批量声明变量</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span>(
+    <span style="color:#a6e22e">a</span> <span style="color:#66d9ef">string</span>
+    <span style="color:#a6e22e">b</span> <span style="color:#66d9ef">int</span>
+    <span style="color:#a6e22e">c</span> <span style="color:#66d9ef">bool</span>
+    <span style="color:#a6e22e">d</span> <span style="color:#66d9ef">float32</span>
+)
+</code></pre></div><h4 id="变量初始化">变量初始化</h4>
+<p>Go语言在声明变量的时候，会自动对变量对应的内存区域进行初始化操作。每个变量会被初始化成其类型的默认值，例如： 整型和浮点型变量的默认值为<code>0</code>。 字符串变量的默认值为<code>空字符串</code>。 布尔型变量默认为<code>false</code>。 切片、函数、指针变量的默认为<code>nil</code>。</p>
+<p>当然我们也可在声明变量的时候为其指定初始值。变量初始化的标准格式如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">变量名</span> <span style="color:#a6e22e">类型</span> = <span style="color:#a6e22e">值</span>
+</code></pre></div><p>例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span> = <span style="color:#e6db74">&#34;Q1mi&#34;</span>
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">age</span> <span style="color:#66d9ef">int</span> = <span style="color:#ae81ff">18</span>
+</code></pre></div><p>同样，也支持多个变量初始化</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">age</span> = <span style="color:#e6db74">&#34;Q1mi&#34;</span>, <span style="color:#ae81ff">20</span>
+</code></pre></div><p>{% note info, 类型推导 %}</p>
+<p>有时候我们会将变量的类型省略，这个时候编译器会根据等号右边的值来推导变量的类型完成初始化。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;Q1mi&#34;</span>
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">age</span> = <span style="color:#ae81ff">18</span>
+</code></pre></div><p>{% note info, 短变量声明 %}</p>
+<p>在函数内部，可以使用更简略的<code>:=</code>方式声明并初始化变量。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+<span style="color:#75715e">// 全局变量m
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">m</span> = <span style="color:#ae81ff">100</span>
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">10</span>
+	<span style="color:#a6e22e">m</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">200</span> <span style="color:#75715e">// 此处声明局部变量m
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">m</span>, <span style="color:#a6e22e">n</span>)
+}
+</code></pre></div><p>{% note info, 匿名变量 %}
+在使用多重赋值时，如果想要忽略某个值，可以使用<code>匿名变量</code>。 匿名变量用一个下划线<code>_</code>表示。</p>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">test</span>() (<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">string</span>) {
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">10</span>, <span style="color:#e6db74">&#34;hahaha&#34;</span>
+}
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">x</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">test</span>()
+	<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">y</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">test</span>()
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;x=&#34;</span>, <span style="color:#a6e22e">x</span>)
+	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;y=&#34;</span>, <span style="color:#a6e22e">y</span>)
+}
+</code></pre></div><p>匿名变量不占用命名空间，不会分配内存，所以匿名变量之间不存在重复声明。</p>
+<p>注意事项：</p>
+<ul>
+<li>函数外的每个语句都必须以关键字开始（var、const、func等）</li>
+<li>:=不能使用在函数外。</li>
+<li>_多用于占位，表示忽略值。</li>
+</ul>
+<h3 id="常量">常量</h3>
+<p>相对于变量，常量是恒定不变的值，多用于定义程序运行期间不会改变的那些值。 常量的声明和变量声明非常类似，只是把<code>ar</code>换成了<code>const</code>，常量在定义的时候必须赋值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">pi</span> = <span style="color:#ae81ff">3.1415</span>
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">e</span> = <span style="color:#ae81ff">2.7182</span>
+</code></pre></div><p>声明了<code>pi</code>和<code>e</code>这两个常量之后，在整个程序运行期间它们的值都不能再发生变化了。</p>
+<p>多个常量也可以一起声明：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">const</span> (
+    <span style="color:#a6e22e">pi</span> = <span style="color:#ae81ff">3.1415</span>
+    <span style="color:#a6e22e">e</span> = <span style="color:#ae81ff">2.7182</span>
+)
+</code></pre></div><p>const同时声明多个常量时，如果省略了值则表示和上面一行的值相同。</p>
+<p>例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">const</span> (
+    <span style="color:#a6e22e">n1</span> = <span style="color:#ae81ff">100</span>
+    <span style="color:#a6e22e">n2</span>
+    <span style="color:#a6e22e">n3</span>
+)
+</code></pre></div>]]></content:encoded>
     </item>
     
   </channel>

@@ -4,11 +4,12 @@
     <title>数据类型 on Ther&#39;s Blog 👋</title>
     <link>https://www.niuwx.cn/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</link>
     <description>Recent content in 数据类型 on Ther&#39;s Blog 👋</description>
-    <generator>Hugo -- gohugo.io</generator><atom:link href="https://www.niuwx.cn/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 14 Mar 2021 15:33:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Go语言基础之基本数据类型</title>
       <link>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 14 Mar 2021 15:33:51 +0800</pubDate>
       
       <guid>https://www.niuwx.cn/posts/golang/go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</guid>
       <description>数据类型</description>
