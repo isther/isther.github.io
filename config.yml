@@ -108,8 +108,8 @@ menu:
         name: Home
         url: "/"
         weight: 10
-      - identifier: Archive
-        name: Archive
+      - identifier: Archives
+        name: Archives
         url: "/archive"
         weight: 20
       - identifier: Categories
