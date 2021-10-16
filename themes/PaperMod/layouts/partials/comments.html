@@ -3,18 +3,11 @@
 {{- /* Comments area end */ -}}
 
 
-<div id="container"></div>
-<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-var gitment = new Gitment({
-  id: '页面 ID', // 可选。默认为 location.href
-  owner: '28251536',
-  repo: '28251536.github.io',
-  oauth: {
-    client_id: '455f22a7e782c3d735e2',
-    client_secret: '49c1e5752ca5f5b46fd7b364775361d3b7b8cfbb',
-  },
-})
-gitment.render('container')
+<script src="https://utteranc.es/client.js"
+        repo="28251536/gittalk"
+        issue-term="title"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
 </script>
