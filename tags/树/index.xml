@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>树 on Ther&#39;s Blog</title>
+    <link>https://www.niuwx.cn/tags/%E6%A0%91/</link>
+    <description>Recent content in 树 on Ther&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 03 Feb 2021 19:33:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/%E6%A0%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>树（二）</title>
+      <link>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%BA%8C/</link>
+      <pubDate>Wed, 03 Feb 2021 19:33:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%BA%8C/</guid>
+      <description>简单介绍了一下树</description>
+      <content:encoded><![CDATA[<h3 id="树的遍历">树的遍历</h3>
+<p>上一节记录了树的递归遍历，递归是函数自身调用自身，大量压栈出栈，时间和空间开销较大，而这操作都是在栈上，如果数据规模较大很容易溢出。</p>
+<p>以下是树的非递归遍历方法：</p>
+<p>偷个懒用一下C++写，头文件要加上</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stack&gt;</span><span style="color:#75715e">
+</span></code></pre></div><h4 id="先序遍历">先序遍历</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">//先序遍历
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">PreorderNoneSecu</span>(PTree T) {
+	cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;先序非递归遍历&#34;</span><span style="color:#f92672">&lt;&lt;</span>endl;
+	PTree t <span style="color:#f92672">=</span> T;
+	stack<span style="color:#f92672">&lt;</span>PTree<span style="color:#f92672">&gt;</span> s;
+	<span style="color:#66d9ef">while</span>(t <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>s.empty()){
+		<span style="color:#66d9ef">while</span>(t){
+			cout <span style="color:#f92672">&lt;&lt;</span> t<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;<span style="color:#75715e">//拿到这个结点就直接打印
+</span><span style="color:#75715e"></span>			s.push(t);
+			t <span style="color:#f92672">=</span> t<span style="color:#f92672">-&gt;</span>left;
+		}
+
+		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>s.empty()){
+			t <span style="color:#f92672">=</span> s.top();
+			s.pop();			
+			t <span style="color:#f92672">=</span> t<span style="color:#f92672">-&gt;</span>right;
+		}
+	}
+
+	cout <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div><h4 id="中序遍历">中序遍历</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C++" data-lang="C++"><span style="color:#75715e">//中序非递归遍历
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">InorderNoneSecu</span>(PTree T) {
+	cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;中序非递归遍历&#34;</span><span style="color:#f92672">&lt;&lt;</span>endl;
+	PTree t <span style="color:#f92672">=</span> T;
+	stack<span style="color:#f92672">&lt;</span>PTree<span style="color:#f92672">&gt;</span> s;
+	<span style="color:#66d9ef">while</span>(t <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>s.empty()){
+		<span style="color:#66d9ef">while</span>(t){
+			s.push(t);
+			t <span style="color:#f92672">=</span> t<span style="color:#f92672">-&gt;</span>left;
+		}
+
+		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>s.empty()){
+			t <span style="color:#f92672">=</span> s.top();
+			s.pop();
+			cout <span style="color:#f92672">&lt;&lt;</span> t<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;<span style="color:#75715e">//遍历完左子树后再打印
+</span><span style="color:#75715e"></span>			t <span style="color:#f92672">=</span> t<span style="color:#f92672">-&gt;</span>right;
+		}
+	}
+
+	cout <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div><h4 id="后序遍历">后序遍历</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">//后序非递归遍历
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">PostorderNoneSecu</span>(PTree T) {
+	cout<span style="color:#f92672">&lt;&lt;</span><span style="color:#e6db74">&#34;后序非递归遍历&#34;</span><span style="color:#f92672">&lt;&lt;</span>endl;
+	PTree t <span style="color:#f92672">=</span> T;
+	stack<span style="color:#f92672">&lt;</span>PTree<span style="color:#f92672">&gt;</span> s;
+	stack<span style="color:#f92672">&lt;</span>PTree<span style="color:#f92672">&gt;</span> s2;
+	<span style="color:#66d9ef">while</span>(t <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>s.empty()){
+		<span style="color:#66d9ef">while</span>(t){
+			s.push(t);
+			s2.push(t);
+			t <span style="color:#f92672">=</span> t<span style="color:#f92672">-&gt;</span>right;
+		}
+
+		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>s.empty()){
+			t <span style="color:#f92672">=</span> s.top();
+			s.pop();
+			t <span style="color:#f92672">=</span> t<span style="color:#f92672">-&gt;</span>left;
+		}
+	}
+
+	<span style="color:#66d9ef">while</span>(<span style="color:#f92672">!</span>s2.empty()){
+		t <span style="color:#f92672">=</span> s2.top();
+		s2.pop();
+		cout <span style="color:#f92672">&lt;&lt;</span> t<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+	}
+
+	cout <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+</code></pre></div><p>后序遍历与先序遍历的顺序相反，那么可以先遍历右子树，也就是说将先序遍历的顺序逆过来压入s2中，，然后再根据栈的后进先出的特点，一一出栈。</p>]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>树（一）</title>
+      <link>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%80/</link>
+      <pubDate>Tue, 02 Feb 2021 16:33:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91%E4%B8%80/</guid>
+      <description>简单介绍了一下树</description>
+      <content:encoded><![CDATA[<p>树是n个结点的有限集，可以是空树（n == 0）也可以是非空树。</p>
+<p>对于非空树：</p>
+<p>1.有且仅有一个称之为根的结点。</p>
+<p>2.除根结点以外的其余结点可分为m个互不相交的有限集，其中每个集合本身也是一棵树，成为根的子树。</p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e6%a0%91%e5%bd%a2%e7%bb%93%e6%9e%84.jpg" alt=""  />
+</p>
+<h3 id="基本术语">基本术语</h3>
+<ul>
+<li>结点的度（Degree）：结点的子树个数</li>
+<li>树的度：树的所有结点最大的度</li>
+<li>叶结点（Leaf）：度为0的结点</li>
+<li>父结点（Parent）：有子树的结点是其子树的根结点的父结点</li>
+<li>子结点（Child）：若A结点是B结点的父结点，则称B结点为A结点的子结点；子结点也称孩子结点</li>
+<li>兄弟结点（Sibling）：具有同一父结点的个节点彼此是兄弟结点</li>
+<li>路径和路径长度：从结点n1到nk的路径为一个结点序列n1，n2，n3&hellip;nk。路径所包含边的个数为路径的长度</li>
+<li>祖先结点（Ancestor）：沿树根到某一结点路径上的所有结点都是这个结点的祖先结点</li>
+<li>子孙节点（Descendant）：某一结点的子树中的所有结点是这个结点的子孙</li>
+<li>结点的层次（Level）：规定根结点在第一层，其它任意节点层数是父结点层数加一</li>
+<li>树的深度（Depth）：树中所有结点中的最大层次</li>
+</ul>
+<h3 id="二叉树">二叉树</h3>
+<p>二叉树是一种树型结构，它的特点是每个结点至多只有两棵子树，并且，二叉树的子树有左右之分，其次序不能任意颠倒。</p>
+<h4 id="性质">性质</h4>
+<p>1.二叉树的第i层的最大节点数为<img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/imgi.svg" alt=""  />
+</p>
+<p>2.深度为k的二叉树最大结点数为<img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/imgk.svg" alt=""  />
+</p>
+<p>3.二叉树的终端节点数为n0，度数为2 的结点数为n2，则n0 = n2 +1</p>
+<p><strong>特殊的,</strong></p>
+<p>如果一个深度为 k 的二叉树，正好有  <img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/imgk.svg" alt=""  />
+个结点，那么这棵树就被称为<strong>满二叉树</strong>。</p>
+<p>如图所示：</p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e6%bb%a1%e4%ba%8c%e5%8f%89%e6%a0%91.jpg" alt=""  />
+</p>
+<p>如果一个二叉树，只有当第 i 层已经达到了<img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/imgi.svg" alt=""  />
+的最大值以后，才能往第 i + 1 层自左向右地添加结点，这棵树就被称为<strong>完全二叉树</strong>。</p>
+<p>那么，根据二叉树的性质二可得，具有n个结点的完全二叉树的深度为
+$$
+[log_2(n)]+1
+$$</p>
+<p>如图所示：</p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e5%ae%8c%e5%85%a8%e4%ba%8c%e5%8f%89%e6%a0%91.jpg" alt=""  />
+</p>
+<h4 id="二叉树的建立">二叉树的建立</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> Tree
+{
+	<span style="color:#66d9ef">int</span> data;
+	<span style="color:#66d9ef">struct</span> Tree <span style="color:#f92672">*</span>left;
+	<span style="color:#66d9ef">struct</span> Tree <span style="color:#f92672">*</span>right;
+} BiTree, <span style="color:#f92672">*</span>PTree;
+</code></pre></div><hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//创造一个结点
+</span><span style="color:#75715e"></span>PTree <span style="color:#a6e22e">CreatNode</span>(<span style="color:#66d9ef">int</span> value) {
+	PTree p <span style="color:#f92672">=</span> (PTree)malloc(<span style="color:#66d9ef">sizeof</span>(BiTree));
+	p<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">=</span> value;
+	p<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> p<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> NULL;
+	<span style="color:#66d9ef">return</span> p;
+}
+
+<span style="color:#75715e">//插入结点且排序，不存在有相同值的结点
+</span><span style="color:#75715e"></span>PTree <span style="color:#a6e22e">AddNode</span>(<span style="color:#66d9ef">int</span> value, PTree p) {
+	<span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> NULL) {
+		<span style="color:#66d9ef">return</span> CreatNode(value);
+	}
+
+	<span style="color:#66d9ef">if</span> (value <span style="color:#f92672">==</span> p<span style="color:#f92672">-&gt;</span>data) {
+		<span style="color:#66d9ef">return</span> p;
+	}
+
+	<span style="color:#66d9ef">if</span> (value <span style="color:#f92672">&lt;</span> p<span style="color:#f92672">-&gt;</span>data) {
+		<span style="color:#66d9ef">if</span> (p<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">==</span> NULL) {
+			p<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> CreatNode(value);
+			<span style="color:#66d9ef">return</span> p<span style="color:#f92672">-&gt;</span>left;
+		}
+		<span style="color:#66d9ef">else</span> {
+			<span style="color:#66d9ef">return</span> AddNode(value, p<span style="color:#f92672">-&gt;</span>left);
+		}
+	}
+	<span style="color:#66d9ef">else</span> {
+		<span style="color:#66d9ef">if</span> (p<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">==</span> NULL) {
+			p<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> CreatNode(value);
+			<span style="color:#66d9ef">return</span> p<span style="color:#f92672">-&gt;</span>right;
+		}
+		<span style="color:#66d9ef">else</span> {
+			<span style="color:#66d9ef">return</span> AddNode(value, p<span style="color:#f92672">-&gt;</span>right);
+		}
+	}
+}
+</code></pre></div><h4 id="遍历二叉树">遍历二叉树</h4>
+<p>递归遍历左子树、根节点、递归遍历右子树</p>
+<h5 id="先序遍历">先序遍历</h5>
+<p>输出根节点，递归遍历左子树，在递归遍历右子树</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Preorder</span>(PTree p) {
+	<span style="color:#66d9ef">if</span> (p <span style="color:#f92672">!=</span> NULL) {
+		printf(<span style="color:#e6db74">&#34;%d &#34;</span>, p<span style="color:#f92672">-&gt;</span>data);
+		Preorder(p<span style="color:#f92672">-&gt;</span>left);
+		Preorder(p<span style="color:#f92672">-&gt;</span>right);
+	}
+}
+</code></pre></div><h5 id="中序遍历">中序遍历</h5>
+<p>递归遍历左子树，输出根节点，在递归遍历右子树</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Midorder</span>(PTree p) {
+	<span style="color:#66d9ef">if</span> (p <span style="color:#f92672">!=</span> NULL) {
+		Midorder(p<span style="color:#f92672">-&gt;</span>left);
+		printf(<span style="color:#e6db74">&#34;%d &#34;</span>, p<span style="color:#f92672">-&gt;</span>data);
+		Midorder(p<span style="color:#f92672">-&gt;</span>right);
+	}
+}
+</code></pre></div><h5 id="后序遍历">后序遍历</h5>
+<p>递归遍历左子树，再递归遍历右子树，输出根节点</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Postorder</span>(PTree p) {
+	<span style="color:#66d9ef">if</span> (p <span style="color:#f92672">!=</span> NULL) {
+		Postorder(p<span style="color:#f92672">-&gt;</span>left);
+		Postorder(p<span style="color:#f92672">-&gt;</span>right);
+		printf(<span style="color:#e6db74">&#34;%d &#34;</span>, p<span style="color:#f92672">-&gt;</span>data);
+	}
+}
+</code></pre></div><h4 id="求二叉树的深度">求二叉树的深度</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">TreeHeight</span>(PTree p) {
+	<span style="color:#66d9ef">int</span> l, r;
+	<span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> NULL) {
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+	}
+	<span style="color:#66d9ef">else</span> {
+		l <span style="color:#f92672">=</span> TreeHeight(p<span style="color:#f92672">-&gt;</span>left);
+		r <span style="color:#f92672">=</span> TreeHeight(p<span style="color:#f92672">-&gt;</span>right);
+		<span style="color:#66d9ef">return</span> (l <span style="color:#f92672">&gt;</span> r <span style="color:#f92672">?</span> l : r) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+	}
+}
+</code></pre></div><hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#66d9ef">const</span> <span style="color:#f92672">*</span>argv[]) {<span style="color:#75715e">//测试
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> value;
+	PTree p <span style="color:#f92672">=</span> NULL;
+	printf(<span style="color:#e6db74">&#34;Please enter 10 numbers:&#34;</span>);
+	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>; <span style="color:#f92672">++</span>i) {
+		scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>value);
+		<span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> NULL) {
+			p <span style="color:#f92672">=</span> CreatNode(value);
+		}
+		<span style="color:#66d9ef">else</span> {
+			AddNode(value, p);
+		}
+	}
+
+	Preorder(p);
+	printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+	Midorder(p);
+	printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+	Postorder(p);
+	printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+
+	printf(<span style="color:#e6db74">&#34;The depth of the binary tree is：%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, TreeHeight(p));
+
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div>]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

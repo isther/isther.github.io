@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>栈 on Ther&#39;s Blog</title>
+    <link>https://www.niuwx.cn/tags/%E6%A0%88/</link>
+    <description>Recent content in 栈 on Ther&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 31 Jan 2021 23:38:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/%E6%A0%88/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>栈和队列</title>
+      <link>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/</link>
+      <pubDate>Sun, 31 Jan 2021 23:38:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/</guid>
+      <description>简单介绍了一下栈和队列</description>
+      <content:encoded><![CDATA[<h5 id="引入">引入</h5>
+<p>栈是一种重要的线性结构，是线性表（顺序表，链表）的一种具体形式，也就是说其可以通过顺序表或链表实现。</p>
+<p>顺序表或者链表可以像之前一样独立存在、处理数据，同时它们也可以是一些特殊的数据结构（栈、队列）的实现基础。</p>
+<!-- raw HTML omitted -->
+<h2 id="栈">栈</h2>
+<h3 id="定义">定义</h3>
+<p>栈是一个后进先出（LIFO）的线性表，其要求只在表尾进行数据的插入和删除等操作。也就是说，所谓栈其实就是一个线性表，但是它的操作上有一些特殊的要求和限制。如图</p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e6%a0%88%e7%a4%ba%e6%84%8f%e5%9b%be.jpg" alt=""  />
+</p>
+<p><strong>线性表有两种存储形式，顺序表储存和链表储存。</strong></p>
+<h3 id="顺序栈">顺序栈</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#define MAXSIZE 100
+</span><span style="color:#75715e">#define OK 1
+</span><span style="color:#75715e">#define ERROR 0
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">int</span> elem;
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">int</span> Status;
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> Stack{
+	elem<span style="color:#f92672">*</span> base;<span style="color:#75715e">//栈基
+</span><span style="color:#75715e"></span>	elem<span style="color:#f92672">*</span> top;<span style="color:#75715e">//栈顶
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> stacksize; <span style="color:#75715e">//栈的容量
+</span><span style="color:#75715e"></span>}Stack;
+
+</code></pre></div><h4 id="创建一个栈">创建一个栈</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">CreatStack</span>(Stack<span style="color:#f92672">*</span> s){
+	s<span style="color:#f92672">-&gt;</span>base <span style="color:#f92672">=</span> (elem<span style="color:#f92672">*</span>)malloc(<span style="color:#66d9ef">sizeof</span>(elem) <span style="color:#f92672">*</span> MAXSIZE);
+	<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>s<span style="color:#f92672">-&gt;</span>base) <span style="color:#66d9ef">return</span> ERROR;
+	s<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">=</span> s<span style="color:#f92672">-&gt;</span>base;
+	s<span style="color:#f92672">-&gt;</span>stacksize <span style="color:#f92672">=</span> MAXSIZE;  	
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="入栈">入栈</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">PushStack</span>(Stack<span style="color:#f92672">*</span> s, elem e){
+	<span style="color:#66d9ef">if</span>(s<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">-</span> s<span style="color:#f92672">-&gt;</span>base <span style="color:#f92672">&gt;=</span> s<span style="color:#f92672">-&gt;</span>stacksize){
+		s<span style="color:#f92672">-&gt;</span>base <span style="color:#f92672">=</span> (elem<span style="color:#f92672">*</span>)realloc(s<span style="color:#f92672">-&gt;</span>base, <span style="color:#66d9ef">sizeof</span>(elem) <span style="color:#f92672">*</span> MAXSIZE);
+		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>s<span style="color:#f92672">-&gt;</span>base) <span style="color:#66d9ef">return</span> ERROR;
+
+		s<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">=</span> s<span style="color:#f92672">-&gt;</span>base <span style="color:#f92672">+</span> s<span style="color:#f92672">-&gt;</span>stacksize;
+		s<span style="color:#f92672">-&gt;</span>stacksize <span style="color:#f92672">+=</span>MAXSIZE;	
+	}
+
+	<span style="color:#f92672">*</span>(s<span style="color:#f92672">-&gt;</span>top) <span style="color:#f92672">=</span> e;
+	s<span style="color:#f92672">-&gt;</span>top<span style="color:#f92672">++</span>;
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="出栈">出栈</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">PopStack</span>(Stack<span style="color:#f92672">*</span>s,elem <span style="color:#f92672">*</span>e){
+	<span style="color:#66d9ef">if</span>(s<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">==</span> s<span style="color:#f92672">-&gt;</span>base) <span style="color:#66d9ef">return</span> ERROR;
+	<span style="color:#f92672">*</span>e <span style="color:#f92672">=</span> <span style="color:#f92672">*--</span>(s<span style="color:#f92672">-&gt;</span>top);
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="清空">清空</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">CleanStack</span>(Stack<span style="color:#f92672">*</span> s){
+	s<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">=</span> s<span style="color:#f92672">-&gt;</span>base;
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="销毁">销毁</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">DestroyStack</span>(Stack<span style="color:#f92672">*</span> s){
+	free(s<span style="color:#f92672">-&gt;</span>base);
+	s<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">=</span> s<span style="color:#f92672">-&gt;</span>base <span style="color:#f92672">=</span> NULL;
+	s<span style="color:#f92672">-&gt;</span>stacksize <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="获取当前容量">获取当前容量</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">GetSize</span>(Stack<span style="color:#f92672">*</span> s){
+	<span style="color:#66d9ef">return</span> s<span style="color:#f92672">-&gt;</span>stacksize;
+}
+</code></pre></div><h3 id="链表栈">链表栈</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#define OK 1
+</span><span style="color:#75715e">#define ERROR 0
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">int</span> elem;
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">int</span> Status;
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> Node<span style="color:#75715e">//定义链表结构
+</span><span style="color:#75715e"></span>{
+	elem data;<span style="color:#75715e">//数据域
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">struct</span> Node<span style="color:#f92672">*</span> next;<span style="color:#75715e">//指针域
+</span><span style="color:#75715e"></span>}Node, <span style="color:#f92672">*</span> LNode;
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> Stack
+{
+	LNode top;
+	LNode base;
+}Stack,<span style="color:#f92672">*</span>Pstack;
+</code></pre></div><h4 id="创建一个栈-1">创建一个栈</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Pstack <span style="color:#a6e22e">CreatStack</span>(){
+	Pstack stack <span style="color:#f92672">=</span> (Pstack)malloc(<span style="color:#66d9ef">sizeof</span>(Stack));
+	<span style="color:#66d9ef">if</span>(stack <span style="color:#f92672">==</span> NULL){
+		<span style="color:#66d9ef">return</span> NULL;
+	}
+	
+	stack<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">=</span> stack<span style="color:#f92672">-&gt;</span>base <span style="color:#f92672">=</span> NULL;
+
+	<span style="color:#66d9ef">return</span> stack;
+}
+</code></pre></div><h4 id="入栈-1">入栈</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">PushStack</span>(Pstack <span style="color:#f92672">*</span>stack, elem e){
+	Node<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> (LNode)malloc(<span style="color:#66d9ef">sizeof</span>(Node));
+	<span style="color:#66d9ef">if</span>(p <span style="color:#f92672">==</span> NULL){
+		<span style="color:#66d9ef">return</span> ERROR;
+	}
+	p<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">=</span> e;
+	p<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> (<span style="color:#f92672">*</span>stack)<span style="color:#f92672">-&gt;</span>top;
+	(<span style="color:#f92672">*</span>stack)<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">=</span> p;
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="出栈-1">出栈</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">PopStack</span>(Pstack <span style="color:#f92672">*</span>stack){
+	Node<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> (<span style="color:#f92672">*</span>stack)<span style="color:#f92672">-&gt;</span>top;
+	<span style="color:#66d9ef">if</span>(p <span style="color:#f92672">==</span> (<span style="color:#f92672">*</span>stack)<span style="color:#f92672">-&gt;</span>base){
+		printf(<span style="color:#e6db74">&#34;栈已空&#34;</span>);
+		<span style="color:#66d9ef">return</span> ERROR;
+	}
+	(<span style="color:#f92672">*</span>stack)<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">=</span> p<span style="color:#f92672">-&gt;</span>next;
+	printf(<span style="color:#e6db74">&#34;%d &#34;</span>,p<span style="color:#f92672">-&gt;</span>data);
+	free(p);
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="判断是否为空">判断是否为空</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">IsEmptyStack</span>(Pstack stack){
+	<span style="color:#66d9ef">return</span> (stack<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">==</span> stack<span style="color:#f92672">-&gt;</span>base);
+}
+</code></pre></div><h4 id="清空-1">清空</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">CleanStack</span>(Pstack <span style="color:#f92672">*</span>stack){
+	Node<span style="color:#f92672">*</span>p <span style="color:#f92672">=</span> (<span style="color:#f92672">*</span>stack)<span style="color:#f92672">-&gt;</span>top;
+	<span style="color:#66d9ef">while</span>(p){
+		(<span style="color:#f92672">*</span>stack)<span style="color:#f92672">-&gt;</span>top <span style="color:#f92672">=</span> p<span style="color:#f92672">-&gt;</span>next; 
+		free(p);
+		p <span style="color:#f92672">=</span> (<span style="color:#f92672">*</span>stack)<span style="color:#f92672">-&gt;</span>top;
+	}
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="销毁-1">销毁</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">DestroyStack</span>(Pstack <span style="color:#f92672">*</span>stack){
+	CleanStack(stack);
+
+	free(<span style="color:#f92672">*</span>stack);
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test</span>(){<span style="color:#75715e">//测试
+</span><span style="color:#75715e"></span>	Pstack stack <span style="color:#f92672">=</span> CreatStack();
+
+	printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, IsEmptyStack(stack));
+
+	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>; <span style="color:#f92672">++</span>i){
+		PushStack(<span style="color:#f92672">&amp;</span>stack, i);
+	}
+
+	printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, IsEmptyStack(stack));
+
+	<span style="color:#75715e">/*出栈*/</span>
+	<span style="color:#75715e">// for (int i = 0; i &lt; 10; ++i){
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 	PopStack(&amp;stack);
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// }
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// printf(&#34;%\n&#34;);
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// printf(&#34;%d\n&#34;, IsEmptyStack(stack));
+</span><span style="color:#75715e"></span>	
+	<span style="color:#75715e">/*清空*/</span>
+	CleanStack(<span style="color:#f92672">&amp;</span>stack);
+
+	printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, IsEmptyStack(stack));
+	printf(<span style="color:#e6db74">&#34;%p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,stack);
+
+	DestroyStack(<span style="color:#f92672">&amp;</span>stack);
+
+	printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, IsEmptyStack(stack));
+	printf(<span style="color:#e6db74">&#34;%p</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>,stack);
+
+}
+</code></pre></div><h3 id="栈与递归">栈与递归</h3>
+<p><strong>递归：函数自己调用自己</strong></p>
+<ul>
+<li>函数定义是递归的——斐波那契数列</li>
+<li>数据结构是递归的——单链表、树</li>
+<li>问题解法是递归的——汉诺塔、</li>
+</ul>
+<h4 id="函数的调用">函数的调用</h4>
+<p>函数被调用之前，</p>
+<ol>
+<li>系统需要将实参以及返回地址传递给被调用的函数进行保存</li>
+<li>将被调用的函数的局部变量分配到储存区</li>
+<li>将控制转移到被调用的函数的入口</li>
+</ol>
+<p>从被调用函数返回到调用函数之前，</p>
+<ol>
+<li>保存被调用函数的计算结果</li>
+<li>释放被调用函数中的数据区</li>
+<li>依照被调用函数的保存的返回地址将控制转移至此</li>
+</ol>
+<h2 id="队列">队列</h2>
+<h3 id="定义-1">定义</h3>
+<p>队列也是一种重要的线性结构。与栈相同，实现一个队列也需要顺序表或者链表作为基础。但是与栈不同的是，队列是一种先进先出（FIFO）的线性表。其要求所有的数据从队列的一段进入，从队列的另一端离开。在队列中，允许插入数据的一端叫做队尾（rear），允许数据离开的一端叫做队头（front）。如图所示</p>
+<p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img%e9%98%9f%e5%88%97.jpg" alt=""  />
+</p>
+<h2 id="链队列">链队列</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#define OK 1
+</span><span style="color:#75715e">#define ERROR 0
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">int</span> elem;
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">int</span> Status;
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> QNode {
+	elem data;			<span style="color:#75715e">//数据域
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">struct</span> QNode<span style="color:#f92672">*</span>next;	<span style="color:#75715e">//指针域
+</span><span style="color:#75715e"></span>} QNode, <span style="color:#f92672">*</span>PNode;
+
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+	PNode front;		<span style="color:#75715e">//队头指针
+</span><span style="color:#75715e"></span>	PNode rear;			<span style="color:#75715e">//队尾指针
+</span><span style="color:#75715e"></span>} LinkQueue;
+</code></pre></div><h4 id="创建一个队列">创建一个队列</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">CreatQueue</span>(LinkQueue <span style="color:#f92672">*</span>q) {
+	q<span style="color:#f92672">-&gt;</span>front <span style="color:#f92672">=</span> q<span style="color:#f92672">-&gt;</span>rear <span style="color:#f92672">=</span> (PNode)malloc(<span style="color:#66d9ef">sizeof</span>(QNode));
+
+	<span style="color:#66d9ef">if</span> (q<span style="color:#f92672">-&gt;</span>front <span style="color:#f92672">==</span> NULL) {
+		<span style="color:#66d9ef">return</span> ERROR;
+	}
+
+	q<span style="color:#f92672">-&gt;</span>front<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> NULL;
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img1.jpg" alt=""  />
+</p>
+<h4 id="入队">入队</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">PushQueue</span>(LinkQueue <span style="color:#f92672">*</span>q, elem e) {
+	QNode <span style="color:#f92672">*</span>p <span style="color:#f92672">=</span> (PNode)malloc(<span style="color:#66d9ef">sizeof</span>(QNode));
+	<span style="color:#66d9ef">if</span> (p <span style="color:#f92672">==</span> NULL) {
+		<span style="color:#66d9ef">return</span> ERROR;
+	}
+	p<span style="color:#f92672">-&gt;</span>data <span style="color:#f92672">=</span> e;
+	p<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> NULL;
+	q<span style="color:#f92672">-&gt;</span>rear<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> p;
+	q<span style="color:#f92672">-&gt;</span>rear <span style="color:#f92672">=</span> p;
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><p><img loading="lazy" src="https://cdn.jsdelivr.net/gh/28251536/cloudimg@master/img2.jpg" alt=""  />
+</p>
+<h4 id="出队">出队</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">PopQueue</span>(LinkQueue <span style="color:#f92672">*</span>q) {
+	<span style="color:#66d9ef">if</span> (q<span style="color:#f92672">-&gt;</span>front <span style="color:#f92672">==</span> q<span style="color:#f92672">-&gt;</span>rear) {
+		<span style="color:#66d9ef">return</span> ERROR;
+	}
+
+	QNode<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> q<span style="color:#f92672">-&gt;</span>front<span style="color:#f92672">-&gt;</span>next;
+	printf(<span style="color:#e6db74">&#34;%d &#34;</span>, p<span style="color:#f92672">-&gt;</span>data);
+	q<span style="color:#f92672">-&gt;</span>front<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> p<span style="color:#f92672">-&gt;</span>next;
+	<span style="color:#66d9ef">if</span> (q<span style="color:#f92672">-&gt;</span>rear <span style="color:#f92672">==</span> p) q<span style="color:#f92672">-&gt;</span>rear <span style="color:#f92672">=</span> q<span style="color:#f92672">-&gt;</span>front;
+
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div><h4 id="销毁-2">销毁</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">Status <span style="color:#a6e22e">DestroyQueue</span>(LinkQueue <span style="color:#f92672">*</span>q) {
+	<span style="color:#66d9ef">while</span> (q<span style="color:#f92672">-&gt;</span>front) {
+		q<span style="color:#f92672">-&gt;</span>rear <span style="color:#f92672">=</span> q<span style="color:#f92672">-&gt;</span>front<span style="color:#f92672">-&gt;</span>next;
+		free(q<span style="color:#f92672">-&gt;</span>front);
+		q<span style="color:#f92672">-&gt;</span>front <span style="color:#f92672">=</span> q<span style="color:#f92672">-&gt;</span>rear;
+	}
+	<span style="color:#66d9ef">return</span> OK;
+}
+</code></pre></div>]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

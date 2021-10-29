@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>内连接 on Ther&#39;s Blog</title>
+    <link>https://www.niuwx.cn/tags/%E5%86%85%E8%BF%9E%E6%8E%A5/</link>
+    <description>Recent content in 内连接 on Ther&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 29 Jul 2021 20:02:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/%E5%86%85%E8%BF%9E%E6%8E%A5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MySQL多表操作</title>
+      <link>https://www.niuwx.cn/posts/mysql/mysql%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Thu, 29 Jul 2021 20:02:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/mysql/mysql%E5%A4%9A%E8%A1%A8%E6%93%8D%E4%BD%9C/</guid>
+      <description>简单介绍了一下MySQL多表操作</description>
+      <content:encoded><![CDATA[<p><strong>多表</strong>：因为单表会出现数据冗余，所以采用多表的方式</p>
+<h3 id="联合查询">联合查询</h3>
+<h4 id="联合查询-1">联合查询</h4>
+<ul>
+<li>
+<p><code>union</code>，是指将多个查询结果合并成一个结果显示</p>
+</li>
+<li>
+<p>联合查询是针对查询结果的合并（多条select语句合并）</p>
+</li>
+<li>
+<p>联合查询语法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">select</span> <span style="color:#960050;background-color:#1e0010">查询</span> <span style="color:#75715e"># 决定字段表
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">union</span> <span style="color:#960050;background-color:#1e0010">查询选项</span>
+<span style="color:#66d9ef">select</span> <span style="color:#960050;background-color:#1e0010">查询</span>
+...
+</code></pre></div></li>
+<li>
+<p>联合查询要求：联合查询是结果联合显示</p>
+<ul>
+<li>多个联合查询的字段结果数量一致</li>
+<li>联合查询的字段来源于第一个查询语句的字段</li>
+</ul>
+</li>
+<li>
+<p>查询选项：与<code>select</code>选项一样</p>
+<ul>
+<li><code>all</code>：保留所有记录</li>
+<li><code>distinct</code>：保留去重记录（默认）</li>
+</ul>
+</li>
+</ul>
+<h5 id="示例">示例</h5>
+<ol>
+<li>
+<p>创建一个表，并插入数据</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> t2 <span style="color:#66d9ef">like</span> t1;
+
+<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t2 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#39;犬夜叉&#39;</span>, <span style="color:#e6db74">&#39;男&#39;</span>, <span style="color:#ae81ff">200</span>, <span style="color:#e6db74">&#39;神妖1班&#39;</span>),
+  (<span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#39;日暮戈薇&#39;</span>, <span style="color:#e6db74">&#39;女&#39;</span>, <span style="color:#ae81ff">16</span>, <span style="color:#e6db74">&#39;现代1班&#39;</span>),
+  (<span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#39;桔梗&#39;</span>, <span style="color:#e6db74">&#39;女&#39;</span>, <span style="color:#ae81ff">88</span>, <span style="color:#e6db74">&#39;法师1班&#39;</span>),
+  (<span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#39;弥勒&#39;</span>, <span style="color:#e6db74">&#39;男&#39;</span>, <span style="color:#ae81ff">28</span>, <span style="color:#e6db74">&#39;法师2班&#39;</span>),
+  (<span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#39;珊瑚&#39;</span>, <span style="color:#e6db74">&#39;女&#39;</span>, <span style="color:#ae81ff">20</span>, <span style="color:#e6db74">&#39;法师2班&#39;</span>),
+  (<span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#39;七宝&#39;</span>, <span style="color:#e6db74">&#39;保密&#39;</span>, <span style="color:#ae81ff">5</span>, <span style="color:#e6db74">&#39;宠物1班&#39;</span>),
+  (<span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#39;杀生丸&#39;</span>, <span style="color:#e6db74">&#39;男&#39;</span>, <span style="color:#ae81ff">220</span>, <span style="color:#e6db74">&#39;神妖1班&#39;</span>),
+  (<span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#39;铃&#39;</span>, <span style="color:#e6db74">&#39;女&#39;</span>, <span style="color:#ae81ff">4</span>, <span style="color:#e6db74">&#39;现代1班&#39;</span>),
+  (<span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#39;钢牙&#39;</span>, <span style="color:#e6db74">&#39;男&#39;</span>, <span style="color:#ae81ff">68</span>, <span style="color:#e6db74">&#39;神妖1班&#39;</span>),
+  (<span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#39;奈落&#39;</span>, <span style="color:#e6db74">&#39;男&#39;</span>, <span style="color:#ae81ff">255</span>, <span style="color:#e6db74">&#39;神妖1班&#39;</span>),
+  (<span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#39;神乐&#39;</span>, <span style="color:#e6db74">&#39;女&#39;</span>, <span style="color:#ae81ff">15</span>, <span style="color:#e6db74">&#39;神妖2班&#39;</span>);
+</code></pre></div><pre><code> t1与t2结构一致，可以理解为因为数据量较大，拆分到两个表中
+</code></pre>
+</li>
+<li>
+<p>使用联合查询两张表的数据拼接到一起显示</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1
+<span style="color:#66d9ef">union</span>
+<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> form t2;
+</code></pre></div></li>
+<li>
+<p>联合查询选项默认是<code>distinct</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1
+<span style="color:#66d9ef">union</span>
+<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t2;
+
+<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1
+<span style="color:#66d9ef">union</span> <span style="color:#66d9ef">all</span>
+<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t2;
+</code></pre></div></li>
+<li>
+<p>联合查询不要求字段类型一致，只对数量要求一致，而且字段名称与第一条查询语句相关</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">select</span> name <span style="color:#66d9ef">from</span> t1
+<span style="color:#66d9ef">union</span>
+<span style="color:#66d9ef">select</span> age <span style="color:#66d9ef">from</span> t2;
+</code></pre></div><p>如果数据不能与字段对应，那么查询没有意义</p>
+</li>
+</ol>
+<h4 id="联合查询排序">联合查询排序</h4>
+<ul>
+<li>针对联合查询的结果进行排序</li>
+<li><code>order by</code>本身是对内存结果进行排序，<code>union</code>的优先级高于<code>order by</code>，所以<code>order by</code>默认是对<code>union</code>结果进行排序</li>
+<li>如果想对单独<code>select</code>的结果进行排序，需要两个步骤
+<ul>
+<li>将需要排序的<code>select</code>指令进行括号包裹（括号使用order by）</li>
+<li><code>order by</code>必须配合<code>limit</code>才能生效（limit一个足够大的数值即可）</li>
+</ul>
+</li>
+</ul>
+<h5 id="示例-1">示例</h5>
+<ol>
+<li>
+<p>将t1和t2表的结果使用年龄降序排序</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1
+<span style="color:#66d9ef">union</span> <span style="color:#66d9ef">all</span>
+<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t2
+<span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> age <span style="color:#66d9ef">desc</span>;
+</code></pre></div></li>
+<li>
+<p>t1表按年龄降序排序，t2表按年龄升序排序</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 无效方式
+</span><span style="color:#75715e"></span>(<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> age <span style="color:#66d9ef">desc</span>)
+<span style="color:#66d9ef">union</span>
+(<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> age <span style="color:#66d9ef">asc</span>);
+
+<span style="color:#75715e"># 有效方式
+</span><span style="color:#75715e"></span>(<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> age <span style="color:#66d9ef">desc</span> <span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">9999</span>)
+<span style="color:#66d9ef">union</span>
+(<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t2 <span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> age <span style="color:#66d9ef">asc</span> <span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">9999</span>);
+</code></pre></div></li>
+</ol>
+<h3 id="连接查询">连接查询</h3>
+<h4 id="交叉连接">交叉连接</h4>
+<ul>
+<li><code>cross join</code>，不需要任何条件的连接</li>
+<li>交叉连接产生的效果就是笛卡尔积
+<ul>
+<li>左表的每一条记录都会与右表的所有记录连接并保存</li>
+</ul>
+</li>
+<li>交叉连接没有实际数据价值，只是丰富了连接查询的完整性</li>
+</ul>
+<h5 id="示例-2">示例</h5>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 交叉连接t1和t2表
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">cross</span> <span style="color:#66d9ef">join</span> t2;
+</code></pre></div><h4 id="内连接">内连接</h4>
+<ul>
+<li><code>[inner] join</code>，将两张表根据指定的条件连接起来，严格连接</li>
+<li>内连接是将一张表的每一个记录去另外一张表根据条件匹配
+<ul>
+<li>匹配成功：保留连接的数据</li>
+<li>匹配失败：都不保留</li>
+</ul>
+</li>
+<li>内连接语法：<code>左表 join 右表 on 连接条件</code></li>
+</ul>
+<h5 id="示例-3">示例</h5>
+<ol>
+<li>
+<p>设计学生表和专业表：学生对专业多对一关系</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 学生表
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> <span style="color:#a6e22e">t1</span>(
+	id <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> <span style="color:#66d9ef">auto_increment</span>,
+	name <span style="color:#66d9ef">varchar</span>(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>,
+	course_no <span style="color:#66d9ef">int</span>
+)<span style="color:#66d9ef">charset</span> utf8;
+
+<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t1 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;student1&#39;</span>,<span style="color:#ae81ff">1</span>),
+(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;student2&#39;</span>,<span style="color:#ae81ff">1</span>),
+(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;student3&#39;</span>,<span style="color:#ae81ff">2</span>),
+(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;student4&#39;</span>,<span style="color:#ae81ff">3</span>),
+(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;student5&#39;</span>,<span style="color:#ae81ff">1</span>),
+(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;student6&#39;</span>,<span style="color:#66d9ef">default</span>);
+
+<span style="color:#75715e"># 专业表
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> <span style="color:#a6e22e">t2</span>(
+	id <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> <span style="color:#66d9ef">auto_increment</span>,
+	name <span style="color:#66d9ef">varchar</span>(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span> <span style="color:#66d9ef">unique</span>
+)<span style="color:#66d9ef">charset</span> utf8;
+
+<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t2 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Computer&#39;</span>),(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Software&#39;</span>),(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Network&#39;</span>);
+</code></pre></div></li>
+<li>
+<p>获取已经选择了专业的学生信息，包括所选专业</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 学生和专业在两个表中，所以需要连表
+</span><span style="color:#75715e"># 学生必须有专业，而专业也必须存在，所以是内连接
+</span><span style="color:#75715e"># 连接条件：专业编号
+</span><span style="color:#75715e"># 两张表有两个字段冲突：id,name,所以需要使用别名
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> t1.<span style="color:#f92672">*</span>,t2.name <span style="color:#66d9ef">as</span> course_name <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">inner</span> <span style="color:#66d9ef">join</span> t2 <span style="color:#66d9ef">on</span> t1.course_no <span style="color:#f92672">=</span> t2.id;
+
+<span style="color:#75715e"># 表名的使用也可以使用别名
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> s.<span style="color:#f92672">*</span>,c.name <span style="color:#66d9ef">as</span> c_name <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">as</span> s <span style="color:#66d9ef">inner</span> <span style="color:#66d9ef">join</span> t2 c <span style="color:#66d9ef">on</span> s.course_no <span style="color:#f92672">=</span> c.id;
+</code></pre></div></li>
+</ol>
+<h4 id="外连接">外连接</h4>
+<ul>
+<li><code>outer join</code>，是一种不严格的连接方式</li>
+<li>外连接分为两种
+<ul>
+<li>左连接：<code>left join</code></li>
+<li>右连接：<code>right join</code></li>
+</ul>
+</li>
+<li>外连接有主表和从表之分
+<ul>
+<li>左连接：左表为主表</li>
+<li>右连接：右表为主表</li>
+</ul>
+</li>
+<li>外连接是将主表的记录去匹配从表的记录
+<ul>
+<li>匹配成功保留</li>
+<li>全表匹配失败：也保留，只是从表字段置空</li>
+</ul>
+</li>
+</ul>
+<h5 id="示例-4">示例</h5>
+<ol>
+<li>
+<p>查出学生所有信息，包括所在班级（左连接）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 主要数据是学生，而且是全部学生：外连接、且学生表为主表
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> s.<span style="color:#f92672">*</span>,c.name c_name <span style="color:#66d9ef">from</span> t1 s <span style="color:#66d9ef">left</span> <span style="color:#66d9ef">join</span> t2 c <span style="color:#66d9ef">on</span> s.course_no <span style="color:#f92672">=</span> c.id;
+</code></pre></div></li>
+<li>
+<p>查出所有班级里的所有学生</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e">#主表是班级
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> s.<span style="color:#f92672">*</span>,c.name c_name <span style="color:#66d9ef">from</span> t1 s <span style="color:#66d9ef">right</span> <span style="color:#66d9ef">join</span> t2 c <span style="color:#66d9ef">on</span> s.course_no <span style="color:#f92672">=</span> c.id;
+</code></pre></div></li>
+</ol>
+<h4 id="自然连接">自然连接</h4>
+<ul>
+<li><code>natural join</code>，是一种自动寻找连接条件的连接查询</li>
+<li>自然连接不是一种特殊的连接方式，而是自动匹配条件的连接</li>
+<li>自然连接包含
+<ul>
+<li>自然内连接：<code>natural join</code></li>
+<li>自然外连接：<code>natural left/right join</code></li>
+</ul>
+</li>
+<li>自然连接条件匹配模式：自动寻找相同字段名作为连接条件</li>
+</ul>
+<h5 id="示例-5">示例</h5>
+<ol>
+<li>
+<p>自然连接t1和t2表</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">natural</span> <span style="color:#66d9ef">join</span> t2;
+</code></pre></div></li>
+<li>
+<p>自然连接是不管字段是否有关系，只管名字是否相同，如果想要自然连接成功，那么字段的设计就必须非常规范</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> <span style="color:#a6e22e">t11</span>(
+	s_id <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> <span style="color:#66d9ef">auto_increment</span>,
+	s_name <span style="color:#66d9ef">varchar</span>(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>,
+	c_id <span style="color:#66d9ef">int</span> comment <span style="color:#e6db74">&#39;课程id&#39;</span>
+)<span style="color:#66d9ef">charset</span> utf8;
+<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t11 <span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1;
+
+<span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> <span style="color:#a6e22e">t22</span>(
+	c_id <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> <span style="color:#66d9ef">auto_increment</span>,
+	c_name <span style="color:#66d9ef">varchar</span>(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span> <span style="color:#66d9ef">unique</span>
+)<span style="color:#66d9ef">charset</span> utf8;
+<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t22 <span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t2;
+
+<span style="color:#75715e"># 自然连接 成功
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t11 <span style="color:#66d9ef">natural</span> <span style="color:#66d9ef">join</span> t22;
+</code></pre></div></li>
+</ol>
+<h4 id="using-关键字">using 关键字</h4>
+<ul>
+<li>连接查询时，如果是同名字段作为连接条件，<code>using</code>可以代替<code>on</code>出现，且比<code>on</code>更好
+<ul>
+<li><code>using</code>是针对同名字段（using(id) === A.id = B.id）</li>
+<li><code>using</code>关键字使用后会自动合并对应字段为一个</li>
+<li><code>using</code>可以同时使用多个字段作为条件</li>
+</ul>
+</li>
+</ul>
+<h5 id="示例-6">示例</h5>
+<p>查询t11中所有学生信息，包括所在班级名字</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">select</span> s.<span style="color:#f92672">*</span>,c.c_name <span style="color:#66d9ef">from</span> t11 s <span style="color:#66d9ef">left</span> <span style="color:#66d9ef">join</span> t22 c <span style="color:#66d9ef">using</span>(c_id);
+<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t11 s <span style="color:#66d9ef">left</span> <span style="color:#66d9ef">join</span> t22 c <span style="color:#66d9ef">using</span>(c_id);
+</code></pre></div><h3 id="子查询">子查询</h3>
+<h4 id="子查询分类">子查询分类</h4>
+<ul>
+<li>根据子查询<strong>出现的位置</strong>或者<strong>产生的数据效果</strong>分类
+<ul>
+<li>位置分类
+<ul>
+<li><code>from</code>子查询：子查询出现在from后做数据源</li>
+<li><code>where</code>子查询：子查询出现在where后做数据条件</li>
+</ul>
+</li>
+<li>按子查询得到的结果分类
+<ul>
+<li>标量子查询：子查询返回的结果是一行一列（一个数据）</li>
+<li>列子查询：子查询返回的结果是一列多行（一列数据）</li>
+<li>行子查询：子查询返回的结果是一行多列（一行数据）</li>
+<li>表子查询：子查询返回的结果是一个二维表</li>
+<li><code>exists</code>子查询：子查询返回的结果是布尔结果（验证型）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>子查询都需要使用括号<code>()</code>包裹，必要时需要对子查询结果进行别名处理（from子查询）</li>
+</ul>
+<h4 id="标量子查询">标量子查询</h4>
+<ul>
+<li>通常是用来做其他查询的条件</li>
+</ul>
+<h5 id="示例-7">示例</h5>
+<p>获取computer专业的所有学生</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 数据目标：学生表t11
+</span><span style="color:#75715e"># 条件：专业名字，不在t11中
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t11 <span style="color:#66d9ef">where</span> c_id <span style="color:#f92672">=</span> (<span style="color:#66d9ef">select</span> c_id <span style="color:#66d9ef">from</span> t_22 <span style="color:#66d9ef">where</span> c_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Computer&#39;</span>);
+</code></pre></div><h4 id="列子查询">列子查询</h4>
+<ul>
+<li>通常是用来做查询条件的</li>
+</ul>
+<h5 id="示例-8">示例</h5>
+<p>获取所有有学生的班级信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 数据获取目标是班级信息
+</span><span style="color:#75715e"># 数据获取条件是在学生表中的班级id，是多个
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t22 <span style="color:#66d9ef">where</span> c_id <span style="color:#66d9ef">in</span> (<span style="color:#66d9ef">select</span> c_id <span style="color:#66d9ef">from</span> t11);
+</code></pre></div><h4 id="行子查询">行子查询</h4>
+<ul>
+<li>子查询返回的结果是一行多列</li>
+<li>行子查询需要条件中构造元素
+<ul>
+<li><code>(元素1),(元素2),...(元素N)</code></li>
+</ul>
+</li>
+<li>行子查询通常也是用来作为主查询的条件</li>
+</ul>
+<h5 id="示例-9">示例</h5>
+<p>获取学生表中性别和年龄都和弥勒相同的学生信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 查询条件有多个：性别和年龄
+</span><span style="color:#75715e"># 数据的条件的来源在另一张表中
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e"># 解决思路：两个标量子查询
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">where</span> gender <span style="color:#f92672">=</span> (<span style="color:#66d9ef">select</span> gender <span style="color:#66d9ef">from</span> t2 <span style="color:#66d9ef">where</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;弥勒&#39;</span>) <span style="color:#66d9ef">and</span> age <span style="color:#f92672">=</span> (<span style="color:#66d9ef">select</span> <span style="color:#66d9ef">from</span> t2 <span style="color:#66d9ef">where</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;弥勒&#39;</span>);
+</code></pre></div><ul>
+<li>以上查询方式使用了两次子查询，效率降低</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 构造条件行元素(gender,age)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">where</span> (gender,age) <span style="color:#f92672">=</span> (<span style="color:#66d9ef">select</span> gender,age <span style="color:#66d9ef">from</span> t2 <span style="color:#66d9ef">where</span> name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;弥勒&#39;</span>);
+</code></pre></div><h4 id="表子查询">表子查询</h4>
+<ul>
+<li>表子查询多出现在<code>from</code>之后，当作数据源</li>
+<li>表子查询通常是为了想对数据进行一次加工处理，然后再交给外部进行二次加工处理</li>
+</ul>
+<h5 id="示例-10">示例</h5>
+<p>获取学生表中每个班级里年龄最大的学生信息，然后按年龄降序排序显示</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 尝试直接解决
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#a6e22e">any_value</span>(name),<span style="color:#a6e22e">max</span>(age) m_age, clas_name <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">group</span> <span style="color:#66d9ef">by</span> class_name <span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> m_age <span style="color:#66d9ef">desc</span>;
+</code></pre></div><ul>
+<li>分组统计中<code>any_value()</code>取的是分组后的第一条数据，而需要的是最大</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 解决方案：要入在分组之前将所有班级里的学生本身是降序排序，那么分组的第一条数据就是满足条件的数据，但是问题是order by必须出现在group by之后
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#a6e22e">any_value</span>(name),<span style="color:#a6e22e">max</span>(age),class_name <span style="color:#66d9ef">from</span> (<span style="color:#66d9ef">select</span> name,age,class_name <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> age <span style="color:#66d9ef">desc</span>) <span style="color:#66d9ef">as</span> t <span style="color:#66d9ef">group</span> <span style="color:#66d9ef">by</span> class_name;
+</code></pre></div><ul>
+<li>依然无效，原因是MySQL7之后若要子查询中``order by<code>生效，需要像联合查询一样，加上</code>limit`</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">select</span> <span style="color:#a6e22e">any_value</span>(name),<span style="color:#a6e22e">max</span>(age),class_name <span style="color:#66d9ef">from</span> (<span style="color:#66d9ef">select</span> name,age,class_name <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> age <span style="color:#66d9ef">desc</span> <span style="color:#66d9ef">limit</span> <span style="color:#ae81ff">99999</span>) <span style="color:#66d9ef">as</span> t <span style="color:#66d9ef">group</span> <span style="color:#66d9ef">by</span> class_name;
+</code></pre></div><h4 id="exists子查询">exists子查询</h4>
+<ul>
+<li><code>exists</code>子查询通常是作为<code>where</code>条件使用
+<ul>
+<li><code>where exists(子查询)</code></li>
+</ul>
+</li>
+</ul>
+<h5 id="示例-11">示例</h5>
+<p>获取所有学生的班级信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 获取的数据是班级表t22
+</span><span style="color:#75715e"># 班级是否有学生需要在t11中确认，并不需要t11提供任何数据显示
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t22 c <span style="color:#66d9ef">where</span> <span style="color:#66d9ef">exists</span>(<span style="color:#66d9ef">select</span> c_id <span style="color:#66d9ef">from</span> t11 <span style="color:#66d9ef">where</span> c.c_id <span style="color:#f92672">=</span> c_id);
+</code></pre></div><h4 id="比较方式">比较方式</h4>
+<ul>
+<li>特定的比较方式都是基于比较符号一起使用的</li>
+<li><code>all</code>：满足后面全部条件
+<ul>
+<li><code>&gt;all(结果集)</code>：数据要大于结果集中的全部数据</li>
+</ul>
+</li>
+<li><code>any</code>：满足任何条件
+<ul>
+<li><code>=any(结果集)</code>：数据只要与结果集中的任何一个元素相等</li>
+</ul>
+</li>
+<li><code>some</code>：满足任意条件(与any完全一样)</li>
+<li>结果集：可以是直接的数据也可以是子查询的结果（通常是列子查询）</li>
+</ul>
+<h5 id="示例-12">示例</h5>
+<p>找出t1表中与t2表中年龄相同的信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 数据获取在t1表
+</span><span style="color:#75715e"># 数据条件在t2表
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e"># 解决方案1：使用in列子查询
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">where</span> age <span style="color:#66d9ef">in</span> (<span style="color:#66d9ef">select</span> <span style="color:#66d9ef">distinct</span> age <span style="color:#66d9ef">from</span> t2);
+
+<span style="color:#75715e"># 解决方案2：使用exists子查询
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">where</span> <span style="color:#66d9ef">exists</span>(<span style="color:#66d9ef">select</span> id <span style="color:#66d9ef">from</span> t2 <span style="color:#66d9ef">where</span> t1.age <span style="color:#f92672">=</span> age);
+
+<span style="color:#75715e"># 解决方案3：使用any或者some匹配（列子查询）
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">where</span> age <span style="color:#f92672">=</span> <span style="color:#a6e22e">some</span>(<span style="color:#66d9ef">select</span> age <span style="color:#66d9ef">from</span> t2);
+</code></pre></div>]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

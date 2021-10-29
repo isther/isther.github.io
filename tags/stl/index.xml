@@ -1,0 +1,846 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>STL on Ther&#39;s Blog</title>
+    <link>https://www.niuwx.cn/tags/stl/</link>
+    <description>Recent content in STL on Ther&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 04 Feb 2021 16:01:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/stl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>STL</title>
+      <link>https://www.niuwx.cn/posts/%E7%AE%97%E6%B3%95/stl/</link>
+      <pubDate>Thu, 04 Feb 2021 16:01:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/%E7%AE%97%E6%B3%95/stl/</guid>
+      <description>简单介绍了一下STL</description>
+      <content:encoded><![CDATA[<p>STL是一个C++模板库，里面包含算法（algorithms）、容器（containers）、函数（functions）、迭代器（iterator）</p>
+<h3 id="容器">容器</h3>
+<p>使用容器时要在头文件中引入</p>
+<h4 id="序列式容器">序列式容器</h4>
+<p><strong>序列的元素的位置是由进入容器的时间和地点决定的</strong></p>
+<h5 id="vector">vector</h5>
+<p>vector简单点说就是一个动态数组，vector实现动态增长，当插入新元素的时候，如果空间不足，那么vector会重新申请更大的一块内存空间。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#define _CRT_SECURE_NO_WARNINGS
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">PrintVector</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> v) {
+    <span style="color:#66d9ef">for</span> (vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator it <span style="color:#f92672">=</span> v.begin(); it <span style="color:#f92672">!=</span> v.end(); it<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>it <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    }
+
+    cout <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+<span style="color:#75715e">//初始化
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test01</span>() {
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v1;  <span style="color:#75715e">//默认构造
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">int</span> arr[] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">40</span>};
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v2(arr, arr <span style="color:#f92672">+</span> <span style="color:#66d9ef">sizeof</span>(arr) <span style="color:#f92672">/</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>));
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v3(v2.begin(), v2.end());
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v4(v3);
+
+    PrintVector(v2);
+    PrintVector(v3);
+    PrintVector(v4);
+}
+
+<span style="color:#75715e">//常用赋值操作
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test02</span>() {
+    <span style="color:#66d9ef">int</span> arr[] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">40</span>};
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v1(arr, arr <span style="color:#f92672">+</span> <span style="color:#66d9ef">sizeof</span>(arr) <span style="color:#f92672">/</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>));
+
+    <span style="color:#75715e">//成员方法
+</span><span style="color:#75715e"></span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v2;
+    v2.assign(v1.begin(), v1.end());
+
+    <span style="color:#75715e">//重载=
+</span><span style="color:#75715e"></span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v3;
+    v3 <span style="color:#f92672">=</span> v2;
+
+    <span style="color:#66d9ef">int</span> arr1[] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">200</span>, <span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">400</span>};
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v4(arr1, arr1 <span style="color:#f92672">+</span> <span style="color:#66d9ef">sizeof</span>(arr1) <span style="color:#f92672">/</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>));
+
+    PrintVector(v1);
+    PrintVector(v2);
+    PrintVector(v3);
+    PrintVector(v4);
+
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;---------------&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    <span style="color:#75715e">//交换
+</span><span style="color:#75715e"></span>    v4.swap(v1);
+    PrintVector(v1);
+    PrintVector(v2);
+    PrintVector(v3);
+    PrintVector(v4);
+}
+
+<span style="color:#75715e">//大小操作
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test03</span>() {
+    <span style="color:#66d9ef">int</span> arr[] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">200</span>, <span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">400</span>};
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v1(arr, arr <span style="color:#f92672">+</span> <span style="color:#66d9ef">sizeof</span>(arr) <span style="color:#f92672">/</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>));
+
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;size: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> v1.size() <span style="color:#f92672">&lt;&lt;</span> endl;
+    <span style="color:#66d9ef">if</span> (v1.empty()) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;空&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    } <span style="color:#66d9ef">else</span> {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;不空&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+
+    PrintVector(v1);
+    v1.resize(<span style="color:#ae81ff">2</span>);
+    PrintVector(v1);
+    v1.resize(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">1</span>);  <span style="color:#75715e">//不写默认零
+</span><span style="color:#75715e"></span>    PrintVector(v1);
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10000</span>; i<span style="color:#f92672">++</span>) {
+        v1.push_back(i);
+    }
+
+    cout <span style="color:#f92672">&lt;&lt;</span> v1.size() <span style="color:#f92672">&lt;&lt;</span> endl;      <span style="color:#75715e">//长度、大小
+</span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> v1.capacity() <span style="color:#f92672">&lt;&lt;</span> endl;  <span style="color:#75715e">//容量
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">//vector存取数据
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test04</span>() {
+    <span style="color:#66d9ef">int</span> arr[] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">200</span>, <span style="color:#ae81ff">300</span>, <span style="color:#ae81ff">400</span>};
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v1(arr, arr <span style="color:#f92672">+</span> <span style="color:#66d9ef">sizeof</span>(arr) <span style="color:#f92672">/</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">int</span>));
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> v1.size(); i<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> v1[i] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> endl;
+
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;-----------&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> v1.size(); i<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> v1.at(i) <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> endl;
+
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;front: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> v1.front() <span style="color:#f92672">&lt;&lt;</span> endl;  <span style="color:#75715e">//第一个元素
+</span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;back: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> v1.back() <span style="color:#f92672">&lt;&lt;</span> endl;    <span style="color:#75715e">//最后一个元素
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">//插入和删除
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test05</span>() {
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v;
+    v.push_back(<span style="color:#ae81ff">10</span>);
+    v.push_back(<span style="color:#ae81ff">20</span>);
+
+    <span style="color:#75715e">//头插法
+</span><span style="color:#75715e"></span>    v.insert(v.begin(), <span style="color:#ae81ff">30</span>);
+
+    <span style="color:#75715e">//尾插法
+</span><span style="color:#75715e"></span>    v.insert(v.end(), <span style="color:#ae81ff">40</span>);
+
+    PrintVector(v);
+
+    v.insert(v.begin() <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">100</span>);  <span style="color:#75715e">//插到第二个位置
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//vector支持随机访问
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">//支持数组下标，一般都支持随机访问
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//迭代器可以直接+-操作
+</span><span style="color:#75715e"></span>
+    PrintVector(v);
+
+    <span style="color:#75715e">//删除
+</span><span style="color:#75715e"></span>    v.erase(v.begin());
+    PrintVector(v);
+
+    v.erase(v.begin() <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, v.end());
+    PrintVector(v);
+
+    v.clear();
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;size: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> v.size() <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+<span style="color:#75715e">//巧用swap缩减空间
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test06</span>() {
+    <span style="color:#75715e">//vector添加元素 自动增长 那么，删除元素的时候，会自动减少吗
+</span><span style="color:#75715e"></span>
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">100000</span>; i<span style="color:#f92672">++</span>) {
+        v.push_back(i);
+    }
+
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;size: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> v.size() <span style="color:#f92672">&lt;&lt;</span> endl;
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;capacity: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> v.capacity() <span style="color:#f92672">&lt;&lt;</span> endl;
+
+    v.resize(<span style="color:#ae81ff">10</span>);
+
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;----------&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;size: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> v.size() <span style="color:#f92672">&lt;&lt;</span> endl;
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;capacity: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> v.capacity() <span style="color:#f92672">&lt;&lt;</span> endl;
+
+    <span style="color:#75715e">//收缩空间
+</span><span style="color:#75715e"></span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(v).swap(v);
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;----------&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;size: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> v.size() <span style="color:#f92672">&lt;&lt;</span> endl;
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;capacity: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> v.capacity() <span style="color:#f92672">&lt;&lt;</span> endl;
+    PrintVector(v);
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test07</span>() {
+    <span style="color:#75715e">//reserve预留空间 resize区别
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> num <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> address <span style="color:#f92672">=</span> NULL;
+    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v;
+
+    v.reserve(<span style="color:#ae81ff">100000</span>);  <span style="color:#75715e">//预先分配
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">100000</span>; i<span style="color:#f92672">++</span>) {
+        v.push_back(i);
+        <span style="color:#66d9ef">if</span> (address <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>v[<span style="color:#ae81ff">0</span>]) {
+            num<span style="color:#f92672">++</span>;
+        }
+    }
+
+    cout <span style="color:#f92672">&lt;&lt;</span> num <span style="color:#f92672">&lt;&lt;</span> endl;
+
+    <span style="color:#75715e">//如果你知道容器大概需要的空间，预先分配空间，可以减少时间浪费吗，提高程序运行效率
+</span><span style="color:#75715e"></span>}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#75715e">//test01();
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//test02();
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//test03();
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//test04();
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//test05();
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//test06();
+</span><span style="color:#75715e"></span>    test07();
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h5 id="deque">deque</h5>
+<p>deque表示双端队列，即可以从前端或者后端这两端进行数据的插入和删除</p>
+<ul>
+<li>分段连续的内存空间</li>
+<li>支持随机访问</li>
+<li>指定位置插入，会引起数据移动</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#define _CRT_SECURE_NO_WARNINGS
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;deque&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">PrintDeque</span>(deque<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> d) {
+    <span style="color:#66d9ef">for</span> (deque<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator it <span style="color:#f92672">=</span> d.begin(); it <span style="color:#f92672">!=</span> d.end(); it<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>it <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    }
+}
+
+<span style="color:#75715e">//初始化
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test01</span>() {
+    deque<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> d1;
+    deque<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> d2(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">5</span>);
+    deque<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> d3(d2.begin(), d2.end());
+    deque<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> d4(d3);
+
+    <span style="color:#75715e">//打印
+</span><span style="color:#75715e"></span>    PrintDeque(d4);
+    cout <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+<span style="color:#75715e">//赋值、大小操作
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test02</span>() {
+    deque<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> d1;
+    deque<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> d2;
+    deque<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> d3;
+    d1.assign(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">5</span>);
+    d2.assign(d1.begin(), d1.end());  <span style="color:#75715e">//迭代器指定区间赋值
+</span><span style="color:#75715e"></span>    d3 <span style="color:#f92672">=</span> d2;                          <span style="color:#75715e">//等号赋值
+</span><span style="color:#75715e"></span>
+    d1.swap(d2);  <span style="color:#75715e">//交换两个空间的元素
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">if</span> (d1.empty()) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;空&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    } <span style="color:#66d9ef">else</span> {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;不空&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+
+    d1.resize(<span style="color:#ae81ff">5</span>);  <span style="color:#75715e">//有十个，后五个扔掉
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">//插入和删除
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test03</span>() {
+    deque<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> d1;
+    d1.push_back(<span style="color:#ae81ff">100</span>);
+    d1.push_front(<span style="color:#ae81ff">200</span>);
+    d1.push_back(<span style="color:#ae81ff">300</span>);
+    d1.push_back(<span style="color:#ae81ff">400</span>);
+    d1.push_front(<span style="color:#ae81ff">500</span>);
+    <span style="color:#75715e">//500 200 100 300 400
+</span><span style="color:#75715e"></span>
+    PrintDeque(d1);
+
+    <span style="color:#66d9ef">int</span> val <span style="color:#f92672">=</span> d1.front();  <span style="color:#75715e">//拿到第一个数据
+</span><span style="color:#75715e"></span>    d1.pop_front();        <span style="color:#75715e">//删除第一个，无返回值
+</span><span style="color:#75715e"></span>
+    val <span style="color:#f92672">=</span> d1.back();
+    d1.pop_back();  <span style="color:#75715e">//删除最后一个元素
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#75715e">//test01();
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//test02();
+</span><span style="color:#75715e"></span>    test03();
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h5 id="list">list</h5>
+<ul>
+<li>双向链表</li>
+<li>链表是由一系列节点组成的，节点包括两个域，一个数据域，一个指针域。</li>
+<li>链表内存是非连续的，添加删除元素 时间复杂度是常数项 不需要移动元素</li>
+<li>链表需要额外空间保留节点关系</li>
+<li>不支持随机访问，故不能使用算法提供的sort()来进行排序，但可以调用其成员方法</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#define _CRT_SECURE_NO_WARNINGS
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;list&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#75715e">//初始化
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test01</span>() {
+    list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> l1;
+    list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> l2(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>);
+    list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> l3(l2);
+    list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> l4(l3.begin(), l3.end());
+
+    <span style="color:#75715e">//打印
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator it <span style="color:#f92672">=</span> l4.begin(); it <span style="color:#f92672">!=</span> l4.end(); it<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>it <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    }
+
+    cout <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+<span style="color:#75715e">//插入和删除
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test02</span>() {
+    list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> l;
+    l.push_back(<span style="color:#ae81ff">100</span>);
+    l.push_front(<span style="color:#ae81ff">200</span>);
+    l.insert(l.begin(), <span style="color:#ae81ff">300</span>);
+    l.insert(l.end(), <span style="color:#ae81ff">200</span>);
+
+    list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator it <span style="color:#f92672">=</span> l.begin();
+    it<span style="color:#f92672">++</span>;
+    l.insert(it, <span style="color:#ae81ff">500</span>);
+
+    <span style="color:#75715e">//删除
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//l.pop_back();
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//l.pop_front();
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">//l.erase(l.begin(), l.end());
+</span><span style="color:#75715e"></span>
+    l.remove(<span style="color:#ae81ff">200</span>);  <span style="color:#75715e">//删除匹配的所有值
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">for</span> (list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator it <span style="color:#f92672">=</span> l.begin(); it <span style="color:#f92672">!=</span> l.end(); it<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>it <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    }
+
+    cout <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+<span style="color:#75715e">//赋值操作
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test03</span>() {
+    list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> l;
+    l.assign(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>);
+
+    list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> l2;
+    l2 <span style="color:#f92672">=</span> l;
+
+    list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> l3;
+    l3.swap(l);
+}
+
+<span style="color:#75715e">//反转
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test04</span>() {
+    list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> l;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>; i<span style="color:#f92672">++</span>) {
+        l.push_back(i);
+    }
+
+    <span style="color:#66d9ef">for</span> (list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator it <span style="color:#f92672">=</span> l.begin(); it <span style="color:#f92672">!=</span> l.end(); it<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>it <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> endl;
+
+    l.reverse();  <span style="color:#75715e">//容器元素反转
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">for</span> (list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator it <span style="color:#f92672">=</span> l.begin(); it <span style="color:#f92672">!=</span> l.end(); it<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>it <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    }
+}
+
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">Mycompare</span>(<span style="color:#66d9ef">int</span> val1, <span style="color:#66d9ef">int</span> val2) {
+    <span style="color:#66d9ef">return</span> val1 <span style="color:#f92672">&gt;</span> val2;
+}
+
+<span style="color:#75715e">//排序
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test05</span>() {
+    list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> l;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>; i<span style="color:#f92672">++</span>) {
+        l.push_back(rand() <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>);
+    }
+    <span style="color:#66d9ef">for</span> (list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator it <span style="color:#f92672">=</span> l.begin(); it <span style="color:#f92672">!=</span> l.end(); it<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>it <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> endl;
+
+    l.sort();
+
+    <span style="color:#66d9ef">for</span> (list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator it <span style="color:#f92672">=</span> l.begin(); it <span style="color:#f92672">!=</span> l.end(); it<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>it <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> endl;
+
+    <span style="color:#75715e">//从大到小
+</span><span style="color:#75715e"></span>    l.sort(Mycompare);
+
+    <span style="color:#66d9ef">for</span> (list<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator it <span style="color:#f92672">=</span> l.begin(); it <span style="color:#f92672">!=</span> l.end(); it<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>it <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> endl;
+
+    <span style="color:#75715e">//算法sort  只支持可随机访问的容器 链表没有
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//list的sort是自己的成员函数不是算法
+</span><span style="color:#75715e"></span>}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#75715e">//test01();
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//test02();
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//test04();
+</span><span style="color:#75715e"></span>    test05();
+
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h5 id="queue">queue</h5>
+<ul>
+<li>先进先出</li>
+<li>不提供迭代器，不能遍历，不支持随机访问</li>
+<li>push 入队（队尾）</li>
+<li>pop 出队（队头）</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#define _CRT_SECURE_NO_WARNINGS
+</span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;queue&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test01</span>() {
+	queue<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> q;<span style="color:#75715e">//创建队列
+</span><span style="color:#75715e"></span>
+	q.push(<span style="color:#ae81ff">10</span>);
+	q.push(<span style="color:#ae81ff">20</span>);
+	q.push(<span style="color:#ae81ff">30</span>);
+	q.push(<span style="color:#ae81ff">40</span>);
+
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;队尾元素: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> q.back() <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	<span style="color:#75715e">//输出顺序 10,20,30,40
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">while</span> (q.size() <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>){
+		cout <span style="color:#f92672">&lt;&lt;</span> q.front() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;<span style="color:#75715e">//输出队头
+</span><span style="color:#75715e"></span>		q.pop();<span style="color:#75715e">//删除队头
+</span><span style="color:#75715e"></span>	}
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	test01();
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h5 id="stack">stack</h5>
+<ul>
+<li>先进后出</li>
+<li>push 压栈</li>
+<li>pop 出栈</li>
+<li>栈不提供迭代器，不能遍历，不支持随机访问，只能通过top从栈顶获取和删除元素</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#define _CRT_SECURE_NO_WARNINGS
+</span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stack&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test01</span>(){
+
+	<span style="color:#75715e">//初始化
+</span><span style="color:#75715e"></span>	stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> s1;
+	stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> s2(s1);
+
+	<span style="color:#75715e">//stack操作
+</span><span style="color:#75715e"></span>	s1.push(<span style="color:#ae81ff">10</span>);
+	s1.push(<span style="color:#ae81ff">20</span>);
+	s1.push(<span style="color:#ae81ff">30</span>);
+	s1.push(<span style="color:#ae81ff">100</span>);
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;栈顶元素：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> s1.top() <span style="color:#f92672">&lt;&lt;</span> endl;
+	s1.pop();<span style="color:#75715e">//删除栈顶元素
+</span><span style="color:#75715e"></span>
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;栈顶元素：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> s1.top() <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	<span style="color:#75715e">//打印栈容器数据
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>s1.empty()) {
+		cout <span style="color:#f92672">&lt;&lt;</span> s1.top() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+		s1.pop();
+	}
+
+	cout <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;size:&#34;</span> <span style="color:#f92672">&lt;&lt;</span> s1.size() <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	test01();
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h4 id="关联式容器">关联式容器</h4>
+<p><strong>容器的规则是固定的，与元素进入容器的时间和地点无关</strong></p>
+<h5 id="setmultiset">set/multiset</h5>
+<p>set表示集合，集合是存储排序键的关联式容器，且每个键值都是唯一的，可以插入或删除但是不能更改</p>
+<ul>
+<li>以红黑树为底层机制，查找效率非常好</li>
+<li>set中不允许重复元素，multiset中允许重复元素</li>
+<li>不可通过迭代器改变set元素的值，会破坏set组织</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#define _CRT_SECURE_NO_WARNINGS
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;set&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#75715e">//仿函数  类
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Mycompare</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span>()(<span style="color:#66d9ef">int</span> v1, <span style="color:#66d9ef">int</span> v2) <span style="color:#66d9ef">const</span> {  <span style="color:#75715e">//此处注意，要加const限定符
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> v1 <span style="color:#f92672">&gt;</span> v2;
+    }
+};
+
+<span style="color:#75715e">//set容器初始化
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test01</span>() {
+    set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, Mycompare<span style="color:#f92672">&gt;</span> s1;
+    s1.insert(<span style="color:#ae81ff">8</span>);
+    s1.insert(<span style="color:#ae81ff">10</span>);
+    s1.insert(<span style="color:#ae81ff">4</span>);
+    s1.insert(<span style="color:#ae81ff">6</span>);
+    s1.insert(<span style="color:#ae81ff">5</span>);
+    s1.insert(<span style="color:#ae81ff">1</span>);
+    s1.insert(<span style="color:#ae81ff">3</span>);
+    s1.insert(<span style="color:#ae81ff">2</span>);  <span style="color:#75715e">//自动进行排序，默认从小到大
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">for</span> (set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator it <span style="color:#f92672">=</span> s1.begin(); it <span style="color:#f92672">!=</span> s1.end(); it<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>it <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+    }
+    cout <span style="color:#f92672">&lt;&lt;</span> endl;
+
+    <span style="color:#75715e">//从大到小排序怎么办？
+</span><span style="color:#75715e"></span><span style="color:#75715e">#if 0</span><span style="color:#75715e">
+</span><span style="color:#75715e">	//赋值
+</span><span style="color:#75715e">	set&lt;int&gt; s2;
+</span><span style="color:#75715e">	s2 = s1;
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">	//删除
+</span><span style="color:#75715e">	s1.erase(s1.begin());
+</span><span style="color:#75715e">	s1.erase(6);
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">	for (set&lt;int&gt;::iterator it = s1.begin(); it != s1.end(); it++) {
+</span><span style="color:#75715e">		cout &lt;&lt; *it &lt;&lt; &#34; &#34;;
+</span><span style="color:#75715e">	}
+</span><span style="color:#75715e">	cout &lt;&lt; endl;
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">	cout &lt;&lt; &#34;size = &#34; &lt;&lt; s2.size() &lt;&lt; endl;
+</span><span style="color:#75715e">	s2.clear();
+</span><span style="color:#75715e">	cout &lt;&lt; &#34;size = &#34; &lt;&lt; s2.size() &lt;&lt; endl;
+</span><span style="color:#75715e"></span><span style="color:#75715e">
+</span><span style="color:#75715e">#endif
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">//set查找
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test02</span>() {
+    <span style="color:#75715e">//实值
+</span><span style="color:#75715e"></span>    set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> s1;
+    s1.insert(<span style="color:#ae81ff">8</span>);
+    s1.insert(<span style="color:#ae81ff">10</span>);
+    s1.insert(<span style="color:#ae81ff">4</span>);
+    s1.insert(<span style="color:#ae81ff">6</span>);
+    s1.insert(<span style="color:#ae81ff">5</span>);
+    s1.insert(<span style="color:#ae81ff">1</span>);
+    s1.insert(<span style="color:#ae81ff">3</span>);
+    s1.insert(<span style="color:#ae81ff">2</span>);
+
+    set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator ret <span style="color:#f92672">=</span> s1.find(<span style="color:#ae81ff">4</span>);
+
+    <span style="color:#66d9ef">if</span> (ret <span style="color:#f92672">==</span> s1.end()) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;没找到&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    } <span style="color:#66d9ef">else</span> {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>ret <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+
+    <span style="color:#75715e">//找到第一个大于等于的元素
+</span><span style="color:#75715e"></span>    ret <span style="color:#f92672">=</span> s1.lower_bound(<span style="color:#ae81ff">4</span>);
+    <span style="color:#66d9ef">if</span> (ret <span style="color:#f92672">==</span> s1.end()) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;没找到&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    } <span style="color:#66d9ef">else</span> {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>ret <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+
+    <span style="color:#75715e">//找到第一个大于的元素
+</span><span style="color:#75715e"></span>    ret <span style="color:#f92672">=</span> s1.upper_bound(<span style="color:#ae81ff">4</span>);
+    <span style="color:#66d9ef">if</span> (ret <span style="color:#f92672">==</span> s1.end()) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;没找到&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    } <span style="color:#66d9ef">else</span> {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>ret <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+
+    <span style="color:#75715e">//equal_range 返回lower_bound和upper_bound的值
+</span><span style="color:#75715e"></span>    pair<span style="color:#f92672">&lt;</span>set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator, set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator<span style="color:#f92672">&gt;</span> pret <span style="color:#f92672">=</span> s1.equal_range(<span style="color:#ae81ff">4</span>);
+    <span style="color:#66d9ef">if</span> (pret.first <span style="color:#f92672">==</span> s1.end()) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;没找到&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    } <span style="color:#66d9ef">else</span> {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;找到&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>pret.first <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+
+    <span style="color:#66d9ef">if</span> (pret.second <span style="color:#f92672">==</span> s1.end()) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;没找到&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    } <span style="color:#66d9ef">else</span> {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;找到&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">*</span>pret.second <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    Person(<span style="color:#66d9ef">int</span> id, <span style="color:#66d9ef">int</span> age) <span style="color:#f92672">:</span> id(id), age(age){};
+
+    <span style="color:#66d9ef">int</span> id;
+    <span style="color:#66d9ef">int</span> age;
+};
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonCompare</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span>()(<span style="color:#66d9ef">const</span> Person<span style="color:#f92672">&amp;</span> p1, <span style="color:#66d9ef">const</span> Person<span style="color:#f92672">&amp;</span> p2) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> p1.age <span style="color:#f92672">&gt;</span> p2.age;
+    }
+};
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test03</span>() {
+    set<span style="color:#f92672">&lt;</span>Person, PersonCompare<span style="color:#f92672">&gt;</span> sp;
+
+    Person p1(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">20</span>), p2(<span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">40</span>), p3(<span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">60</span>);
+
+    sp.insert(p1);
+    sp.insert(p2);
+    sp.insert(p3);
+
+    <span style="color:#66d9ef">for</span> (set<span style="color:#f92672">&lt;</span>Person, PersonCompare<span style="color:#f92672">&gt;::</span>iterator it <span style="color:#f92672">=</span> sp.begin(); it <span style="color:#f92672">!=</span> sp.end(); it<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#f92672">*</span>it).id <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;   &#34;</span> <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#f92672">*</span>it).age <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+
+    <span style="color:#75715e">//查找
+</span><span style="color:#75715e"></span>    Person p4(<span style="color:#ae81ff">90</span>, <span style="color:#ae81ff">20</span>);
+    set<span style="color:#f92672">&lt;</span>Person, PersonCompare<span style="color:#f92672">&gt;::</span>iterator ret <span style="color:#f92672">=</span> sp.find(p4);  <span style="color:#75715e">//可找到，对应p1，按照age排序就按照age查找
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (ret <span style="color:#f92672">==</span> sp.end()) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;没找到&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    } <span style="color:#66d9ef">else</span> {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;找到&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+        cout <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#f92672">*</span>ret).id <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;   &#34;</span> <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#f92672">*</span>ret).age <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#75715e">//test01();
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//test02();
+</span><span style="color:#75715e"></span>    test03();
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h6 id="对组">对组</h6>
+<p>将两个值合并成一个值</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#define _CRT_SECURE_NO_WARNINGS
+</span><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test01</span>() {
+	pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> pair1(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">20</span>);
+	cout <span style="color:#f92672">&lt;&lt;</span> pair1.first <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;   &#34;</span> <span style="color:#f92672">&lt;&lt;</span> pair1.second <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, string<span style="color:#f92672">&gt;</span> pair2 <span style="color:#f92672">=</span> make_pair(<span style="color:#ae81ff">10</span>, <span style="color:#e6db74">&#34;aaa&#34;</span>);
+	cout <span style="color:#f92672">&lt;&lt;</span> pair2.first <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;   &#34;</span> <span style="color:#f92672">&lt;&lt;</span> pair2.second <span style="color:#f92672">&lt;&lt;</span> endl;
+
+	pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, string<span style="color:#f92672">&gt;</span> pair3 <span style="color:#f92672">=</span> pair2;
+	cout <span style="color:#f92672">&lt;&lt;</span> pair3.first <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;   &#34;</span> <span style="color:#f92672">&lt;&lt;</span> pair3.second <span style="color:#f92672">&lt;&lt;</span> endl;
+
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	test01();
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h5 id="mapmultimap">map/multimap</h5>
+<ul>
+<li>map与set区别，map具有键值和实值</li>
+<li>所有元素根据键值自动排序</li>
+<li>pair的第一个元素成为键值，第二个元素成为实值</li>
+<li>map也是以红黑树为底层实现机制</li>
+<li>不可以通过map的迭代器修改map键值，键值关系到容器内元素的排列顺序，任意改变键值会破坏容器的排列规则，但是可以改变实值</li>
+<li>multimap允许相同键值存在，map不允许</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;map&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+
+<span style="color:#75715e">//map初始化
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test01</span>() {
+    <span style="color:#75715e">//map容器模板参数：第一个参数key的类型，第二个参数value的类型
+</span><span style="color:#75715e"></span>    map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> m;
+
+    <span style="color:#75715e">//插入数据  pair.first  对应key，pair.second   对应value
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//第一种
+</span><span style="color:#75715e"></span>    pair<span style="color:#f92672">&lt;</span>map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator, <span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> ret <span style="color:#f92672">=</span> m.insert(pair<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>));  <span style="color:#75715e">//放入匿名对象
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (ret.second) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;第一次插入成功&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    } <span style="color:#66d9ef">else</span> {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;插入失败&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+
+    <span style="color:#75715e">//第二种
+</span><span style="color:#75715e"></span>    ret <span style="color:#f92672">=</span> m.insert(make_pair(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">20</span>));
+    <span style="color:#66d9ef">if</span> (ret.second) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;第二次插入成功&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    } <span style="color:#66d9ef">else</span> {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;插入失败&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+
+    <span style="color:#75715e">//第三种
+</span><span style="color:#75715e"></span>    m.insert(map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>value_type(<span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>));
+
+    <span style="color:#75715e">//第四种
+</span><span style="color:#75715e"></span>    m[<span style="color:#ae81ff">40</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">40</span>;
+    m[<span style="color:#ae81ff">10</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>;
+    <span style="color:#75715e">//如果key不存在，创建pair并插入
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//如果key存在，修改value实值
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">//打印
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator it <span style="color:#f92672">=</span> m.begin(); it <span style="color:#f92672">!=</span> m.end(); it<span style="color:#f92672">++</span>) {
+        <span style="color:#75715e">//*it取出来一个pair
+</span><span style="color:#75715e"></span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;key = &#34;</span> <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#f92672">*</span>it).first <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;, value = &#34;</span> <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#f92672">*</span>it).second <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+
+    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;m[60] = &#34;</span> <span style="color:#f92672">&lt;&lt;</span> m[<span style="color:#ae81ff">60</span>] <span style="color:#f92672">&lt;&lt;</span> endl;
+    <span style="color:#75715e">//访问一个不存再的key，那么map会将这个key插入到map中，对应的value默认为零
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">for</span> (map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator it <span style="color:#f92672">=</span> m.begin(); it <span style="color:#f92672">!=</span> m.end(); it<span style="color:#f92672">++</span>) {
+        <span style="color:#75715e">//*it取出来一个pair
+</span><span style="color:#75715e"></span>        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;key = &#34;</span> <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#f92672">*</span>it).first <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;, value = &#34;</span> <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#f92672">*</span>it).second <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+}
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyKey</span> {
+<span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+    MyKey(<span style="color:#66d9ef">int</span> index, <span style="color:#66d9ef">int</span> id) <span style="color:#f92672">:</span> index(index), id(id) {}
+
+    <span style="color:#66d9ef">int</span> index;
+    <span style="color:#66d9ef">int</span> id;
+};
+
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">mycompare</span> {
+    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">operator</span>()(MyKey key1, MyKey key2) <span style="color:#66d9ef">const</span> {
+        <span style="color:#66d9ef">return</span> key1.index <span style="color:#f92672">&gt;</span> key2.index;
+    }
+};
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test02</span>() {
+    map<span style="color:#f92672">&lt;</span>MyKey, <span style="color:#66d9ef">int</span>, mycompare<span style="color:#f92672">&gt;</span> m;  <span style="color:#75715e">//需要排序，自定义类型，给定一个排序方法
+</span><span style="color:#75715e"></span>
+    m.insert(make_pair(MyKey(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>), <span style="color:#ae81ff">2</span>));
+
+    m.insert(make_pair(MyKey(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>), <span style="color:#ae81ff">2</span>));
+
+    <span style="color:#66d9ef">for</span> (map<span style="color:#f92672">&lt;</span>MyKey, <span style="color:#66d9ef">int</span>, mycompare<span style="color:#f92672">&gt;::</span>iterator it <span style="color:#f92672">=</span> m.begin(); it <span style="color:#f92672">!=</span> m.end(); it<span style="color:#f92672">++</span>) {
+        cout <span style="color:#f92672">&lt;&lt;</span> it<span style="color:#f92672">-&gt;</span>first.index <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;;&#34;</span> <span style="color:#f92672">&lt;&lt;</span> it<span style="color:#f92672">-&gt;</span>first.id <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;;&#34;</span> <span style="color:#f92672">&lt;&lt;</span> it<span style="color:#f92672">-&gt;</span>second <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+}
+
+<span style="color:#75715e">//equal_range
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test03</span>() {
+    map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> m;
+    m.insert(make_pair(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>));
+    m.insert(make_pair(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">5</span>));
+    m.insert(make_pair(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">6</span>));
+
+    pair<span style="color:#f92672">&lt;</span>map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator, map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>iterator<span style="color:#f92672">&gt;</span> ret <span style="color:#f92672">=</span> m.equal_range(<span style="color:#ae81ff">2</span>);
+
+    <span style="color:#66d9ef">if</span> (ret.first<span style="color:#f92672">-&gt;</span>second) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;找到lower_bound&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    } <span style="color:#66d9ef">else</span> {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;没有找到&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+
+    <span style="color:#66d9ef">if</span> (ret.second<span style="color:#f92672">-&gt;</span>second) {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;找到upper_bound&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    } <span style="color:#66d9ef">else</span> {
+        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;没有找到&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#75715e">//test01();
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//test02();
+</span><span style="color:#75715e"></span>    test03();
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><h4 id="对比">对比</h4>
+<table>
+<thead>
+<tr>
+<th>容器</th>
+<th>vector</th>
+<th>deque</th>
+<th>list</th>
+<th>set</th>
+<th>multiset</th>
+<th>map</th>
+<th>multimap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>典型内存结构</td>
+<td>单端数组</td>
+<td>双端数组</td>
+<td>双向链表</td>
+<td>二叉树</td>
+<td>二叉树</td>
+<td>二叉树</td>
+<td>二叉树</td>
+</tr>
+<tr>
+<td>可随机存取</td>
+<td>是</td>
+<td>是</td>
+<td>否</td>
+<td>否</td>
+<td>否</td>
+<td>对key而言：是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>元素搜寻速度</td>
+<td>慢</td>
+<td>慢</td>
+<td>非常慢</td>
+<td>快</td>
+<td>快</td>
+<td>对key而言：快</td>
+<td>对key而言：快</td>
+</tr>
+<tr>
+<td>元素安插移除</td>
+<td>尾端</td>
+<td>头尾两端</td>
+<td>任何位置</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="迭代器">迭代器</h3>
+<p>可以理解为指针，对指针的操作基本可以对迭代器操作，但实际上，迭代器是一个类，这个类封装了一个指针</p>
+<h3 id="算法">算法</h3>
+<p>通过有限的步骤解决问题的方法</p>]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

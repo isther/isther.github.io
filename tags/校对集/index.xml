@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>校对集 on Ther&#39;s Blog</title>
+    <link>https://www.niuwx.cn/tags/%E6%A0%A1%E5%AF%B9%E9%9B%86/</link>
+    <description>Recent content in 校对集 on Ther&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 16 Jul 2021 10:31:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/%E6%A0%A1%E5%AF%B9%E9%9B%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>字符集、校对集</title>
+      <link>https://www.niuwx.cn/posts/mysql/%E5%AD%97%E7%AC%A6%E9%9B%86%E5%92%8C%E6%A0%A1%E5%AF%B9%E9%9B%86/</link>
+      <pubDate>Fri, 16 Jul 2021 10:31:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/mysql/%E5%AD%97%E7%AC%A6%E9%9B%86%E5%92%8C%E6%A0%A1%E5%AF%B9%E9%9B%86/</guid>
+      <description>简单介绍了一下字符集校对集</description>
+      <content:encoded><![CDATA[<h3 id="字符集">字符集</h3>
+<p>了解字符集的概念，掌握MySQL数据库存储数据的字符集逻辑以及设置方式</p>
+<h4 id="字符集的概念">字符集的概念</h4>
+<ul>
+<li>字符集根据不同国家的符号不同，有不同的字符集</li>
+<li>不同的字符集占用的存储空间不一样，存储的底层也不一样</li>
+<li>不同字符集之间可以进行转换</li>
+<li>常见字符集
+<ul>
+<li>ASCⅡ：美国信息交换标准码，一般英文符号，一个字节存储</li>
+<li>latin1：拉丁文字符集，一个字节存储，ISO-8859-1的别名，能够向下兼容ASCIⅡ</li>
+<li>GB2312：信息交换用汉字编码字符集，是中国1981年的一套国际规范，2个字节存储</li>
+<li>GBK：汉字内码拓展规范（1995年），两个字节表示</li>
+<li>Unicode：万国码（统一码），使用同一的编码方式来解决传统的局限，1994年出现</li>
+<li>UTF-8：针对Unicode的可变长度字符编码，采用1-6个字节编码Unicode字符 （目前通用编码规则）。建议使用UTF-8字符集进行数据存储。（MySQL8中建议使用UTF8MB4）</li>
+</ul>
+</li>
+</ul>
+<h5 id="示例">示例</h5>
+<p>ASCⅡ码表</p>
+<h4 id="mysql字符集">MySQL字符集</h4>
+<ul>
+<li>MySQL内部对象可以在各个层级设置字符集</li>
+<li>MySQL内部对象存在字符集继承：字段-&gt;表-&gt;数据库-&gt;DBMS</li>
+<li>MySQL内部内嵌几乎所有主流字符集</li>
+<li>数据存储的最终字符集由字段控制</li>
+<li>客户端与服务器进行交互时，需要明确告知服务器客户端自己的字符集（数据格式）</li>
+</ul>
+<h5 id="示例-1">示例</h5>
+<p>查看MySQL支持的所有字符集</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">show</span> <span style="color:#66d9ef">charset</span>;
+</code></pre></div><h4 id="乱码问题解决">乱码问题解决</h4>
+<ul>
+<li>
+<p>乱码原因1：数据在存储的时候已经变成乱码</p>
+<ul>
+<li>客户端字符集与服务端解析字符集不一致</li>
+<li>读取时想转成其他字符集均会错误</li>
+</ul>
+</li>
+<li>
+<p>乱码原因2：数据存储时正确，但是读取时解析成错误字符集</p>
+<ul>
+<li>客户端能解析的字符集与服务器提供的字符集不一致</li>
+</ul>
+</li>
+<li>
+<p>乱码解决方案：不论存储还是读取，都提前告知服务器当前客户端的字符集</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">set</span> names <span style="color:#960050;background-color:#1e0010">客户端字符集</span>;
+</code></pre></div></li>
+</ul>
+<h4 id="字符集设置原理">字符集设置原理</h4>
+<ul>
+<li>MySQL服务器提供了变量来记录客户端的字符集</li>
+<li>MySQL对应的存储字符集的变量可以修改</li>
+<li><code>set names 字符集</code>就是对变量的修改，总共有三个
+<ul>
+<li><code>character_set_client</code>：客户端提供的数据的字符集</li>
+<li><code>character_set_results</code>：客户端需要服务端提供的数据的字符集</li>
+<li><code>character_set_connection</code>：连接使用的字符集，内部数据操作</li>
+</ul>
+</li>
+</ul>
+<h5 id="示例-2">示例</h5>
+<ol>
+<li>
+<p>查看系统内部存储这些记录字符集的信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">show</span> variables <span style="color:#66d9ef">like</span> <span style="color:#e6db74">&#39;character_set%&#39;</span> <span style="color:#75715e">#  %表示通配符，匹配后续不确定的数据
+</span></code></pre></div></li>
+<li>
+<p>修改客户端字符变量，保证数据正常存进服务端</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">set</span> character_set_client <span style="color:#f92672">=</span> gbk;
+</code></pre></div></li>
+<li>
+<p>修改客户端解析字符集变量，保证数据正常被客户端查看</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">set</span> character_set_results <span style="color:#f92672">=</span> gbk;
+</code></pre></div></li>
+<li>
+<p>使用<code>set names 字符集</code>批量修改，保证客户端被服务端正确理解，同时客户端也能正常解析</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">set</span> names gbk;
+</code></pre></div></li>
+</ol>
+<h3 id="校对集">校对集</h3>
+<h4 id="校对集概念">校对集概念</h4>
+<ul>
+<li>数据比较时对应的规则</li>
+<li>校对集依赖字符集</li>
+<li>校对集的校对方式分为三种：
+<ul>
+<li>大小写不敏感：<code>_ci</code>,<code>case insensitive</code></li>
+<li>大小写敏感：<code>_cs</code>，<code>case sensitive</code></li>
+<li>二进制比较：<code>_bin</code>,<code>binary</code>（大小写敏感）</li>
+</ul>
+</li>
+<li>校对集是在进行数据比较的时候触发</li>
+</ul>
+<h5 id="示例-3">示例</h5>
+<ol>
+<li>
+<p><code>_ci</code>，大小写不敏感</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># A 和 a是相同的，不存在谁大谁小
+</span></code></pre></div></li>
+<li>
+<p><code>_cs</code>，大小写敏感</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># A 和 a有大小关系，所以不同
+</span></code></pre></div></li>
+<li>
+<p><code>_bin</code>，二进制比较</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># A 的二进制 01000001
+</span><span style="color:#75715e"># a 的二进制 01100001
+</span><span style="color:#75715e"># 二进制按位比较，所以不同
+</span></code></pre></div></li>
+</ol>
+<h4 id="校对集设置">校对集设置</h4>
+<ul>
+<li>
+<p>校对规则可以在MySQL四层对象设计</p>
+<ul>
+<li>DBMS：系统配置</li>
+<li>DB：数据库指定（库选项）</li>
+<li>Table：标指定（表选项）</li>
+<li>Filed：字段指定（字段选项，一般不用）</li>
+</ul>
+</li>
+<li>
+<p>校对集从Field到DBMS继承：优先级Field最高</p>
+</li>
+<li>
+<p>每个校对集都有字符集对应的默认规则</p>
+</li>
+<li>
+<p>校对集设置语法</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">collate</span> <span style="color:#960050;background-color:#1e0010">校对集规则</span>;
+</code></pre></div></li>
+</ul>
+<h5 id="示例-4">示例</h5>
+<ol>
+<li>
+<p>查看MySQL支持的所有校对集</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">show</span> collation;
+</code></pre></div></li>
+<li>
+<p>在数据库层设置校对集（常用）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">database</span> test_4 <span style="color:#66d9ef">charset</span> utf8MB4 <span style="color:#66d9ef">collate</span> utf8MB4_bin;
+</code></pre></div></li>
+<li>
+<p>在数据表层设计校对集</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> <span style="color:#a6e22e">t_4</span>(
+	id <span style="color:#66d9ef">int</span>,
+    name <span style="color:#66d9ef">varchar</span>(<span style="color:#ae81ff">10</span>)
+) <span style="color:#66d9ef">charset</span> utf8Mb4 <span style="color:#66d9ef">collate</span> utf8MB4_bin;
+</code></pre></div></li>
+<li>
+<p>在字段层设计校对集（一般不常用）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> <span style="color:#a6e22e">t_4</span>(
+	id <span style="color:#66d9ef">int</span>,
+    name <span style="color:#66d9ef">varchar</span>(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">collate</span> utf8Mb4_bin
+)<span style="color:#66d9ef">charset</span> utf8MB4;
+</code></pre></div></li>
+</ol>
+<h4 id="校对集应用">校对集应用</h4>
+<ul>
+<li>校对集的应用通常是通过<strong>数据比较</strong>触发：<code>order by 字段</code></li>
+<li>数据表中数据一旦产生，校对集的修改就无效</li>
+</ul>
+<h5 id="示例-5">示例</h5>
+<ol>
+<li>
+<p>创建校对规则数据表并插入数据</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 创建默认校对规则表（不区分大小写）
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#a6e22e">t1</span>(
+    name <span style="color:#66d9ef">varchar</span>(<span style="color:#ae81ff">1</span>)
+)<span style="color:#66d9ef">CHARSET</span> utf8Mb4;
+
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> t1 <span style="color:#66d9ef">values</span>(<span style="color:#e6db74">&#34;B&#34;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> t1 <span style="color:#66d9ef">values</span>(<span style="color:#e6db74">&#34;A&#34;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> t1 <span style="color:#66d9ef">values</span>(<span style="color:#e6db74">&#34;b&#34;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> t1 <span style="color:#66d9ef">values</span>(<span style="color:#e6db74">&#34;a&#34;</span>);
+
+<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> name;
+<span style="color:#75715e">#执行结果
+</span><span style="color:#75715e"></span>A
+a
+B
+b
+
+<span style="color:#75715e"># 创建二进制校对规则（区分大小写）
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#a6e22e">t2</span>(
+    name <span style="color:#66d9ef">varchar</span>(<span style="color:#ae81ff">1</span>)
+)<span style="color:#66d9ef">charset</span> utf8MB4 <span style="color:#66d9ef">collate</span> utf8MB4_bin;
+
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> t2 <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#34;B&#34;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> t2 <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#34;A&#34;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> t2 <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#34;b&#34;</span>);
+<span style="color:#66d9ef">INSERT</span> <span style="color:#66d9ef">INTO</span> t2 <span style="color:#66d9ef">VALUES</span>(<span style="color:#e6db74">&#34;a&#34;</span>);
+
+<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t2 <span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> name;
+<span style="color:#75715e">#执行结果
+</span><span style="color:#75715e"></span>A
+B
+a
+b
+</code></pre></div></li>
+<li>
+<p>触发校对：排序<code>order by</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> name;
+<span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t2 <span style="color:#66d9ef">order</span> <span style="color:#66d9ef">by</span> name;
+</code></pre></div></li>
+<li>
+<p>数据已经存在的表重新修改校对规则</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> t1 <span style="color:#66d9ef">collate</span> utf8MB4_general_ci;
+<span style="color:#75715e"># 不会报错，但是实际校对规则依旧不变
+</span></code></pre></div></li>
+</ol>
+<p>校对集的触发自动的，只要数据在进行比较的时候就会自动触发设定的校对规则。</p>]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

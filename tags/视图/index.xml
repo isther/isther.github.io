@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>视图 on Ther&#39;s Blog</title>
+    <link>https://www.niuwx.cn/tags/%E8%A7%86%E5%9B%BE/</link>
+    <description>Recent content in 视图 on Ther&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 30 Jul 2021 10:02:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/%E8%A7%86%E5%9B%BE/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MySQL安全管理</title>
+      <link>https://www.niuwx.cn/posts/mysql/mysql%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Fri, 30 Jul 2021 10:02:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/mysql/mysql%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86/</guid>
+      <description>简单介绍了一下数据库</description>
+      <content:encoded><![CDATA[<p>结构-&gt;执行-&gt;管理-&gt;用户</p>
+<h3 id="外键约束">外键约束</h3>
+<p><strong>概念</strong>：<code>foreign key</code>，表中<strong>指向外部主键</strong>的字段</p>
+<ul>
+<li>外键必须要通过语法指定才能称之为外键
+<ul>
+<li><code>[constraint 外键名] foreign key (当前表字段名) references 外部表(主键字段)</code></li>
+</ul>
+</li>
+<li>外键构成条件
+<ul>
+<li>外键字段必须与对应表的主键字段类型一致</li>
+<li>外键字段本身要求是一个索引（创建外键会自动生成一个索引）</li>
+</ul>
+</li>
+</ul>
+<h5 id="示例">示例</h5>
+<ol>
+<li>
+<p>创建专业表和学生表，学生表中的专业id指向专业表id</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 专业表
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">table</span> <span style="color:#a6e22e">t1</span> (
+	id <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> <span style="color:#66d9ef">AUTO_INCREMENT</span>,
+	name <span style="color:#66d9ef">varchar</span>(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span> <span style="color:#66d9ef">unique</span>
+) <span style="color:#66d9ef">charset</span> utf8;
+
+<span style="color:#75715e"># 学生表
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> <span style="color:#a6e22e">t2</span>(
+	id <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> <span style="color:#66d9ef">AUTO_INCREMENT</span>,
+	name <span style="color:#66d9ef">varchar</span>(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>,
+	c_id <span style="color:#66d9ef">int</span> comment <span style="color:#e6db74">&#39;指向专业表t1的主键&#39;</span>
+	<span style="color:#66d9ef">constraint</span> <span style="color:#f92672">`</span>c_id<span style="color:#f92672">`</span> <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">KEY</span>(c_id) <span style="color:#66d9ef">REFERENCES</span> <span style="color:#a6e22e">t1</span>(id)
+) <span style="color:#66d9ef">charset</span> utf8;
+</code></pre></div><p>外键可以不指定名字，系统会自动生成</p>
+</li>
+</ol>
+<h4 id="外键约束-1">外键约束</h4>
+<ul>
+<li>当表建立外键关系后，外键就会对主表和子表里的数据产生约束效果</li>
+<li>外键约束的是写操作（默认操作）
+<ul>
+<li>新增：子表插入的数据对应的外键必须在主表存在</li>
+<li>修改：主表的记录如果在子表存在，那么主表的主键不能修改（其他字段可修改）</li>
+<li>删除：主表的记录如果在子表存在，那么主表的主键不能删除</li>
+</ul>
+</li>
+<li>外键约束控制：外键可以定义时控制外键的约束作用
+<ul>
+<li>控制类型
+<ul>
+<li><code>on update</code>：父表更新时子表的表现</li>
+<li><code>on delete</code>：父表删除时子表的表现</li>
+</ul>
+</li>
+<li>控制方式
+<ul>
+<li><code>cascade</code>：级联操作，父表操作后自编跟随操作</li>
+<li><code>set null</code>：置空操作，父表操作后，子表关联的外键字段置空</li>
+<li><code>restrict/no action</code>：严格模式，不允许父表操作（默认）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="示例-1">示例</h5>
+<ol>
+<li>
+<p>子表不能插入主表不存在的数据</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t2 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Tony&#39;</span>,<span style="color:#ae81ff">2</span>);<span style="color:#75715e"># 此时父表中还没有id=2的记录，错误
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t1 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;English&#39;</span>);
+<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t2 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Peny&#39;</span>,<span style="color:#ae81ff">1</span>);
+</code></pre></div></li>
+<li>
+<p>默认的外键产生后，主键不能更新被关联的主键字段或者删除被关联的主键记录</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 错误
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">update</span> t1 <span style="color:#66d9ef">set</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+<span style="color:#66d9ef">delete</span> <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">where</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</code></pre></div></li>
+<li>
+<p>限制外键约束，一般使用更新级联，删除置空</p>
+<ul>
+<li><code>on update cascade</code>：更新级联</li>
+<li><code>on delete set null</code>：删除置空</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> <span style="color:#a6e22e">t3</span>(
+    id <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> <span style="color:#66d9ef">AUTO_INCREMENT</span>,
+    name <span style="color:#66d9ef">varchar</span>(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span> <span style="color:#66d9ef">unique</span>
+)<span style="color:#66d9ef">charset</span> utf8;
+
+<span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> <span style="color:#a6e22e">t4</span>(
+    id <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> <span style="color:#66d9ef">AUTO_INCREMENT</span>,
+    name <span style="color:#66d9ef">varchar</span>(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>,
+    c_id <span style="color:#66d9ef">int</span> , <span style="color:#75715e"># 如果允许置空，就不能not null
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">FOREIGN</span> <span style="color:#66d9ef">KEY</span>(c_id) <span style="color:#66d9ef">references</span> <span style="color:#a6e22e">t3</span>(id) <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">update</span> <span style="color:#66d9ef">cascade</span> <span style="color:#66d9ef">on</span> <span style="color:#66d9ef">delete</span> <span style="color:#66d9ef">set</span> <span style="color:#66d9ef">null</span>
+)<span style="color:#66d9ef">charset</span> utf8;
+
+<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t3 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Chinese&#39;</span>),(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Computer&#39;</span>);
+<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t4 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Tony&#39;</span>,<span style="color:#ae81ff">1</span>),(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Lily&#39;</span>,<span style="color:#ae81ff">2</span>);
+</code></pre></div><ul>
+<li>子表依然不允许插入父表不存在的外键</li>
+<li>但是可以插入外键为Null的数据</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 错误
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t2 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Lilei&#39;</span>,<span style="color:#ae81ff">3</span>);
+
+<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t2 <span style="color:#a6e22e">vlaues</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Lilei&#39;</span>,<span style="color:#66d9ef">null</span>);
+</code></pre></div><ul>
+<li>父表的更新（主键）会让关联的外键自动级联更新</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">update</span> t1 <span style="color:#66d9ef">set</span> id  <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span> <span style="color:#66d9ef">where</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</code></pre></div></li>
+</ol>
+<h4 id="外键管理">外键管理</h4>
+<ul>
+<li>
+<p>在表创建后期维护外键</p>
+</li>
+<li>
+<p>新增外键</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">add</span> [<span style="color:#66d9ef">constraint</span> <span style="color:#f92672">`</span><span style="color:#960050;background-color:#1e0010">外键名</span><span style="color:#f92672">`</span>] <span style="color:#66d9ef">foreign</span> <span style="color:#66d9ef">key</span>(<span style="color:#960050;background-color:#1e0010">外键字段</span>) <span style="color:#66d9ef">references</span> <span style="color:#960050;background-color:#1e0010">表名</span>(<span style="color:#960050;background-color:#1e0010">主键</span>) [<span style="color:#66d9ef">on</span> <span style="color:#960050;background-color:#1e0010">外键约束</span>]
+</code></pre></div></li>
+<li>
+<p>删除外键</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">alter</span> <span style="color:#66d9ef">table</span> <span style="color:#960050;background-color:#1e0010">表名</span> <span style="color:#66d9ef">drop</span> <span style="color:#66d9ef">foreign</span> <span style="color:#66d9ef">key</span> <span style="color:#960050;background-color:#1e0010">外键名</span>;
+</code></pre></div></li>
+<li>
+<p>更新外键：先删除后新增</p>
+</li>
+</ul>
+<h3 id="事务安全">事务安全</h3>
+<p><strong>事务</strong>：要做的某个事情</p>
+<ul>
+<li>
+<p>计算机中的事务是指某个程序执行单元（写操作）</p>
+</li>
+<li>
+<p>事务安全：当事务执行后，保障事务的执行是有效的，而不会导致数据错乱</p>
+</li>
+<li>
+<p>事务安全通常针对的是一连串的操作（多个事务）而产生的统一结果</p>
+</li>
+<li>
+<p>MySQL中默认的写操作是直接写入的</p>
+<ul>
+<li>执行写操作SQL</li>
+<li>同步到数据表</li>
+</ul>
+</li>
+</ul>
+<h5 id="示例-2">示例</h5>
+<p>银行转账</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> <span style="color:#a6e22e">t1</span>(
+	id <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> <span style="color:#66d9ef">auto_increment</span>,
+	<span style="color:#f92672">`</span>name<span style="color:#f92672">`</span> <span style="color:#66d9ef">varchar</span>(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>,
+	account <span style="color:#66d9ef">decimal</span>(<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">default</span> <span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">00</span>
+)<span style="color:#66d9ef">charset</span> utf8;
+
+<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t1 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Tom&#39;</span>,<span style="color:#ae81ff">10000</span>),(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Lucy&#39;</span>,<span style="color:#ae81ff">100</span>);
+
+<span style="color:#75715e"># Tom扣钱
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">update</span> t1 <span style="color:#66d9ef">set</span> account <span style="color:#f92672">=</span> account <span style="color:#f92672">-</span> <span style="color:#ae81ff">100</span> <span style="color:#66d9ef">where</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+<span style="color:#75715e"># Lucy收钱
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">update</span> t1 <span style="color:#66d9ef">set</span> account <span style="color:#f92672">=</span> account <span style="color:#f92672">+</span> <span style="color:#ae81ff">1000</span>;
+</code></pre></div><ul>
+<li>扣钱，收钱两步都成功转账才叫成功</li>
+<li>为了保障两步都成功才能叫事务安全</li>
+</ul>
+<h4 id="事务处理">事务处理</h4>
+<ul>
+<li>利用手动或者手动方式实现事务管理</li>
+<li>自动事务处理：系统默认，操作结束直接同步到数据表（事务关闭状态）
+<ul>
+<li>系统控制：变量<code>autocommit</code>（值为ON，自动提交）</li>
+</ul>
+</li>
+<li>手动事务处理
+<ul>
+<li>开启事务：<code>start transaction</code></li>
+<li>关闭事务：
+<ul>
+<li>提交事务：<code>commit</code>，同步到数据表，同时清空日志数据</li>
+<li>回滚事务：<code>rollback</code> 只清空日志数据</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>事务回滚：在长事务执行中，可以在某个已经成功的节点设置回滚点，后续回滚的可以回到某个成功点
+<ul>
+<li>设置回滚点：<code>savepoint 回滚点名字</code></li>
+<li>回滚到回滚点：<code>rollback to 回滚点名字</code></li>
+</ul>
+</li>
+</ul>
+<h5 id="示例-3">示例</h5>
+<ol>
+<li>
+<p>手动事务：启用事务转账，成功提交事务</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 开启事务
+</span><span style="color:#75715e"></span>start transaction;
+
+<span style="color:#75715e"># Tom扣钱
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">update</span> t1 <span style="color:#66d9ef">set</span> account <span style="color:#f92672">=</span> account <span style="color:#f92672">-</span> <span style="color:#ae81ff">1000</span>;
+
+<span style="color:#75715e"># Lucy收钱
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">update</span> t1 <span style="color:#66d9ef">set</span> account <span style="color:#f92672">=</span> account <span style="color:#f92672">+</span> <span style="color:#ae81ff">1000</span>;
+
+<span style="color:#75715e"># 提交事务
+</span><span style="color:#75715e"></span>commit;
+</code></pre></div></li>
+<li>
+<p>手动事务：启用事务转账，成功提交事务（回滚点）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 开启事务
+</span><span style="color:#75715e"></span>start transaction;
+
+<span style="color:#75715e"># Tom扣钱
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">update</span> t1 <span style="color:#66d9ef">set</span> account <span style="color:#f92672">=</span> account <span style="color:#f92672">-</span> <span style="color:#ae81ff">1000</span> <span style="color:#66d9ef">where</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+
+<span style="color:#75715e"># 设置回滚点
+</span><span style="color:#75715e"></span>savepoint spl;
+
+<span style="color:#75715e"># Lucy收钱
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">update</span> t1 <span style="color:#66d9ef">set</span> account <span style="color:#f92672">=</span> account <span style="color:#f92672">+</span> <span style="color:#ae81ff">1000</span> <span style="color:#66d9ef">where</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+
+<span style="color:#75715e"># 操作失败回到回滚点
+</span><span style="color:#75715e"></span>rollback spl;
+
+<span style="color:#66d9ef">update</span> t1 <span style="color:#66d9ef">set</span> account <span style="color:#f92672">=</span> account <span style="color:#f92672">-</span> <span style="color:#ae81ff">1000</span> <span style="color:#66d9ef">where</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+
+<span style="color:#75715e"># 提交事务
+</span><span style="color:#75715e"></span>commit;
+</code></pre></div></li>
+<li>
+<p>自动事务</p>
+<ul>
+<li>MySQL默认自动提交事务，事务一旦发生就会立即写入数据表</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">show</span> variables <span style="color:#66d9ef">like</span> <span style="color:#e6db74">&#39;autucommit&#39;</span>;
+</code></pre></div><ul>
+<li>关闭自动提交事务（当前设置级别用户级：当前用户当此连接有效）</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">set</span> autocommit <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</code></pre></div><ul>
+<li>手动提交事务</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t1 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Liu&#39;</span>,<span style="color:#ae81ff">1000</span>);
+commit;
+</code></pre></div></li>
+</ol>
+<h4 id="事务特点">事务特点</h4>
+<ul>
+<li>ACID四大特性</li>
+<li>原子性(Atomicity)：一个事务操作是一个整体，不可拆分，要么都成功，要么都失败</li>
+<li>一致性(Consistency)：事务执行之前和执行之后都必须处于一致性状态，数据的完整性没有被破坏（事务逻辑的准确性）</li>
+<li>隔离性(Isolation)：事务操作过程中，其他事务不可见</li>
+<li>持久性(Durability)：事务一旦提交，结果不可改变</li>
+</ul>
+<h3 id="预处理">预处理</h3>
+<p><strong>预处理</strong>：prepare statement，一种预先编译SQL指令的方式</p>
+<ul>
+<li>预处理不同于直接处理，是将要执行的SQL指令先发送给服务器编译，然后通过指令执行
+<ul>
+<li>发送预处理：<code>prepare 预处理名字 from '要执行的SQL指令'</code></li>
+<li>执行预处理：<code>execute 预处理名字</code></li>
+</ul>
+</li>
+<li>预处理管理
+<ul>
+<li>预处理属于会话级别：即当前用户当次连接有效（断开会被服务器清理掉）</li>
+<li>删除预处理：<code>deallocate | drop 预处理名字</code></li>
+</ul>
+</li>
+</ul>
+<h5 id="示例-4">示例</h5>
+<p>查询学生的SQL指令需要重复执行很多次</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 普通操作
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1;
+
+<span style="color:#75715e"># 预处理操作：发送预处理
+</span><span style="color:#75715e"></span>prepare pl <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;select * from t1&#39;</span>;
+
+<span style="color:#75715e"># 预处理操作：执行预处理
+</span><span style="color:#75715e"></span>execute pl;
+ 
+<span style="color:#75715e"># 删除预处理
+</span><span style="color:#75715e"></span>deallocate <span style="color:#f92672">|</span> <span style="color:#66d9ef">drop</span> pl;
+</code></pre></div><h4 id="预处理传参">预处理传参</h4>
+<ul>
+<li>
+<p>在执行预处理的时候传入预处理需要的可变数据</p>
+</li>
+<li>
+<p>一般预处理都不会是固定死的SQL指令，而是具有一些数据可变的执行（条件）</p>
+<ul>
+<li>
+<p>可变数据的位置使用占位符<code>?</code>占位</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">prepare <span style="color:#960050;background-color:#1e0010">预处理名字</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;预处理指令  变化部分使用?代替&#39;</span>
+</code></pre></div></li>
+</ul>
+</li>
+<li>
+<p>在执行预处理的时候将实际数据传进去代替占位符执行SQL</p>
+<ul>
+<li>
+<p>数据存储到变量（预处理传入的值必须是变量保存的）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">set</span> <span style="color:#f92672">@</span><span style="color:#960050;background-color:#1e0010">变量名</span> <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">值</span>
+</code></pre></div></li>
+<li>
+<p>使用using关键字传参</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql">execute <span style="color:#960050;background-color:#1e0010">预处理名字</span> <span style="color:#66d9ef">using</span> <span style="color:#f92672">@</span><span style="color:#960050;background-color:#1e0010">变量名</span>
+</code></pre></div></li>
+<li>
+<p>数据传入的顺序与预处理中占位符的顺序一致</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="示例-5">示例</h5>
+<p>向表中插入数据</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 准备预处理：涉及参数
+</span><span style="color:#75715e"></span>prepare t1 <span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;insert into t1 values(null,?,?,?,?)&#39;</span>;
+
+<span style="color:#75715e"># 设置变量并传入参数
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">set</span> <span style="color:#f92672">@</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;药师兜&#39;</span>;
+<span style="color:#66d9ef">set</span> <span style="color:#f92672">@</span>gender <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;男&#39;</span>;
+<span style="color:#66d9ef">set</span> <span style="color:#f92672">@</span>age <span style="color:#f92672">=</span> <span style="color:#ae81ff">23</span>;
+<span style="color:#66d9ef">set</span> <span style="color:#f92672">@</span>class_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;木叶1班&#39;</span>;
+
+<span style="color:#75715e">#执行预处理
+</span><span style="color:#75715e"></span>execute t1 <span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">using</span> <span style="color:#f92672">@</span>name,<span style="color:#f92672">@</span>gender,<span style="color:#f92672">@</span>age,<span style="color:#f92672">@@</span>class_name;
+</code></pre></div><h3 id="视图">视图</h3>
+<p><strong>视图</strong>：view，一种由select指令组成的虚拟表</p>
+<ul>
+<li>
+<p>视图时虚拟表，可以使用表管理（结构管理）</p>
+<ul>
+<li>为视图提供数据的表叫做基表</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 创建视图
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> view <span style="color:#960050;background-color:#1e0010">视图名字</span> <span style="color:#66d9ef">as</span> select指令;
+
+<span style="color:#75715e"># 访问视图：一般都是查询
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*/</span><span style="color:#960050;background-color:#1e0010">字段名</span> <span style="color:#66d9ef">from</span> <span style="color:#960050;background-color:#1e0010">视图名字</span>;
+</code></pre></div><ul>
+<li>
+<p>视图有结构，但不存储数据</p>
+<ul>
+<li>结构：select选择的字段</li>
+<li>数据：访问视图时执行的select指令</li>
+</ul>
+</li>
+<li>
+<p>对外部系统提供数据支撑(保护基表数据)</p>
+</li>
+</ul>
+<h5 id="示例-6">示例</h5>
+<ol>
+<li>
+<p>需要对外提供一个学生详情的数据，经常使用，可以利用视图实现</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 对外提供数据，要保护数据本身的安全
+</span><span style="color:#75715e"># 需要长期使用
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e"># 创建视图
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> view v_student_info <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">left</span> <span style="color:#66d9ef">join</span> t2 <span style="color:#66d9ef">using</span>(c_id);
+
+<span style="color:#75715e"># 使用视图：像表一样使用
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> v_student_info;
+</code></pre></div></li>
+<li>
+<p>有些复杂的SQL又是经常用到的，如多张表的连表操作：可以利用视图实现</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#75715e"># 院系表
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> <span style="color:#a6e22e">t1</span>(
+	id <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> <span style="color:#66d9ef">auto_increment</span>,
+	<span style="color:#f92672">`</span>name<span style="color:#f92672">`</span> <span style="color:#66d9ef">varchar</span>(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>
+)<span style="color:#66d9ef">charset</span> utf8;
+
+<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t1 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;语言系&#39;</span>),(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;考古系&#39;</span>);
+
+<span style="color:#75715e"># 专业表
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> <span style="color:#a6e22e">t2</span>(
+	id <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> <span style="color:#66d9ef">auto_increment</span>,
+	<span style="color:#f92672">`</span>name<span style="color:#f92672">`</span> <span style="color:#66d9ef">varchar</span>(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>,
+	s_id <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span> comment <span style="color:#e6db74">&#39;学院id&#39;</span>
+)<span style="color:#66d9ef">charset</span> utf8;
+
+<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t2 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;English&#39;</span>,<span style="color:#ae81ff">1</span>),(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Chinese&#39;</span>,<span style="color:#ae81ff">1</span>);
+
+<span style="color:#75715e"># 学生表
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span> <span style="color:#a6e22e">t3</span>(
+	id <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span> <span style="color:#66d9ef">auto_increment</span>,
+	<span style="color:#f92672">`</span>name<span style="color:#f92672">`</span> <span style="color:#66d9ef">varchar</span>(<span style="color:#ae81ff">50</span>) <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span>,
+	s_id <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span> comment <span style="color:#e6db74">&#39;专业id&#39;</span>
+)<span style="color:#66d9ef">charset</span> utf8;
+
+<span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> t3 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Lilei&#39;</span>,<span style="color:#ae81ff">2</span>),(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Hanmeimei&#39;</span>,<span style="color:#ae81ff">2</span>),(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;Tony&#39;</span>,<span style="color:#ae81ff">1</span>);
+
+
+<span style="color:#75715e"># 获取所有学生的明细信息
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">select</span> stu.<span style="color:#f92672">*</span>,sub.name <span style="color:#66d9ef">as</span> sub_name,sub.s_id <span style="color:#66d9ef">as</span> sch_id,sch.name <span style="color:#66d9ef">as</span> sch_name <span style="color:#66d9ef">from</span> t3 <span style="color:#66d9ef">as</span> stu <span style="color:#66d9ef">left</span> <span style="color:#66d9ef">join</span> t2 sub <span style="color:#66d9ef">on</span> stu.s_id <span style="color:#f92672">=</span> sub.id <span style="color:#66d9ef">left</span> <span style="color:#66d9ef">join</span> t1 sch <span style="color:#66d9ef">on</span> sub.s_id <span style="color:#f92672">=</span> sch.id;
+
+<span style="color:#75715e"># 以视图保存这类复杂指令，后续可以直接访问视图
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">create</span> view v_student_detail <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">select</span> stu.<span style="color:#f92672">*</span>,sub.name <span style="color:#66d9ef">as</span> sub_name,sub.s_id <span style="color:#66d9ef">as</span> sch_id,sch.name <span style="color:#66d9ef">as</span> sch_name <span style="color:#66d9ef">from</span> t3 <span style="color:#66d9ef">as</span> stu <span style="color:#66d9ef">left</span> <span style="color:#66d9ef">join</span> t2 sub <span style="color:#66d9ef">on</span> stu.s_id <span style="color:#f92672">=</span> sub.id <span style="color:#66d9ef">left</span> <span style="color:#66d9ef">join</span> t1 sch <span style="color:#66d9ef">on</span> sub.s_id <span style="color:#f92672">=</span> sch.id;
+</code></pre></div></li>
+</ol>
+<h4 id="视图管理">视图管理</h4>
+<ul>
+<li>
+<p>视图查看：显示视图结构和具体视图信息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">show</span> <span style="color:#66d9ef">tables</span>; <span style="color:#75715e">#查看全部视图
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">show</span> <span style="color:#66d9ef">create</span> <span style="color:#66d9ef">table</span><span style="color:#f92672">/</span>view <span style="color:#960050;background-color:#1e0010">视图名字</span>; <span style="color:#75715e"># 查看视图创建指令
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">desc</span> <span style="color:#960050;background-color:#1e0010">视图名字</span>; <span style="color:#75715e"># 查看视图结构
+</span></code></pre></div></li>
+<li>
+<p>视图修改：更改视图逻辑</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">alter</span> view <span style="color:#960050;background-color:#1e0010">视图名</span> <span style="color:#66d9ef">as</span> <span style="color:#960050;background-color:#1e0010">新的查询命令</span>;
+<span style="color:#66d9ef">create</span> <span style="color:#66d9ef">or</span> <span style="color:#66d9ef">replace</span> view <span style="color:#960050;background-color:#1e0010">视图名</span> <span style="color:#66d9ef">as</span> <span style="color:#960050;background-color:#1e0010">新的查询命令</span> <span style="color:#75715e"># 创建新的或者替换新的
+</span></code></pre></div></li>
+<li>
+<p>删除视图</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">drop</span> view <span style="color:#960050;background-color:#1e0010">视图名</span>;
+</code></pre></div></li>
+</ul>
+<h4 id="视图的数据操作">视图的数据操作</h4>
+<ul>
+<li>
+<p>视图所有的数据操作都是最终对基表的数据操作</p>
+</li>
+<li>
+<p>视图操作条件</p>
+<ul>
+<li>
+<p>多基表视图：不允许操作</p>
+</li>
+<li>
+<p>单基表视图：允许增删改</p>
+<ul>
+<li>新增条件：视图的字段必须包含基表中所有不允许为空的字段</li>
+</ul>
+</li>
+<li>
+<p><code>with check option</code>：操作检查规则</p>
+<ul>
+<li>默认不需要这个规则（创建视图时指定）：视图操作只要满足前面上述条件即可</li>
+<li>增加此规则：视图的数据操作后，必须要保证该视图还能把通过视图操作的数据查出来（否则失败）</li>
+</ul>
+</li>
+</ul>
+<h5 id="示例-7">示例</h5>
+</li>
+</ul>
+<ol>
+<li>
+<p>增加一个单表视图和多表视图</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">create</span> view v_student_1 <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">select</span> s_id,s_name <span style="color:#66d9ef">from</span> t1;
+<span style="color:#66d9ef">create</span> view v_student_2 <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">select</span> s.<span style="color:#f92672">*</span>,c.c_name <span style="color:#66d9ef">from</span> t1 s <span style="color:#66d9ef">left</span> <span style="color:#66d9ef">join</span> t2 c <span style="color:#66d9ef">using</span>(c_id);
+<span style="color:#66d9ef">create</span> <span style="color:#66d9ef">or</span> <span style="color:#66d9ef">replace</span> view v_student_3 <span style="color:#66d9ef">as</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> t1 <span style="color:#66d9ef">where</span> c_id <span style="color:#66d9ef">is</span> <span style="color:#66d9ef">not</span> <span style="color:#66d9ef">null</span> <span style="color:#66d9ef">with</span> <span style="color:#66d9ef">check</span> <span style="color:#66d9ef">option</span>;
+</code></pre></div></li>
+<li>
+<p>新增数据</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> v_student_1 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;student7&#39;</span>); <span style="color:#75715e"># 正确：视图包含所有必有字段
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> v_student_2 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;student8&#39;</span>,<span style="color:#66d9ef">null</span>,<span style="color:#66d9ef">null</span>) <span style="color:#75715e"># 错误：不可插入
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> v_student_3 <span style="color:#66d9ef">values</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;student8&#39;</span>,<span style="color:#66d9ef">null</span>) <span style="color:#75715e"># 错误：check option，因为第三个字段c_id为null,不符合视图筛选条件，查不出来
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">insert</span> <span style="color:#66d9ef">into</span> v_student_3 <span style="color:#a6e22e">valeus</span>(<span style="color:#66d9ef">null</span>,<span style="color:#e6db74">&#39;student9&#39;</span>,<span style="color:#ae81ff">1</span>) <span style="color:#75715e"># 正确
+</span></code></pre></div></li>
+<li>
+<p>更新数据</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">update</span> v_student_1 <span style="color:#66d9ef">set</span> s_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;boy&#39;</span> <span style="color:#66d9ef">where</span> s_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>;
+<span style="color:#66d9ef">update</span> v_student_2 <span style="color:#66d9ef">set</span> s_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;boy&#39;</span> <span style="color:#66d9ef">where</span> s_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>; <span style="color:#75715e"># 错误：不可修改 
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">update</span> v_student_3 <span style="color:#66d9ef">set</span> c_id <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span> <span style="color:#66d9ef">where</span> s_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; <span style="color:#75715e"># 错误：check option，修改后c_id为null，变得不符合视图筛选条件
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">update</span> v_student_3 <span style="color:#66d9ef">set</span> s_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;boy&#39;</span> <span style="color:#66d9ef">where</span> s_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</code></pre></div></li>
+<li>
+<p>删除数据</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">delete</span> <span style="color:#66d9ef">from</span> v_student_1 <span style="color:#66d9ef">where</span> s_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+<span style="color:#66d9ef">delete</span> <span style="color:#66d9ef">from</span> v_student_2 <span style="color:#66d9ef">where</span> s_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>; <span style="color:#75715e"># 错误：不可修改
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">delete</span> <span style="color:#66d9ef">from</span> v_student_3 <span style="color:#66d9ef">where</span> s_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; <span style="color:#75715e"># 可以删除，check option不影响删除操作
+</span></code></pre></div></li>
+</ol>
+<h4 id="视图算法">视图算法</h4>
+<ul>
+<li>
+<p>视图在执行过程中对于内部的<code>select</code>指令的处理方式</p>
+</li>
+<li>
+<p>视图算法在创建视图时指定</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">create</span> ALGORITHM <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">算法</span> view <span style="color:#960050;background-color:#1e0010">视图名字</span> <span style="color:#66d9ef">as</span> select指令;
+</code></pre></div></li>
+<li>
+<p>视图算法一共有三种</p>
+<ul>
+<li><code>undefined</code>：默认的，未定义算法，即系统自动选择算法</li>
+<li><code>merge</code>：合并算法，就是将视图外部查询语句跟视图内部select语句合并执行，效率高（系统优先选择）</li>
+<li><code>temptable</code>：临时表算法，即系统将视图的select语句查出来先得出一张临时表，然后外部再查询（temptable算法视图不允许写操作）</li>
+</ul>
+</li>
+</ul>
+<h3 id="数据备份与还原">数据备份与还原</h3>
+<h4 id="表数据备份">表数据备份</h4>
+<ul>
+<li>单独针对表里的<strong>数据部分</strong>进行备份（数据导出）</li>
+<li>将数据从表中查出，按照一定格式存储到外部文件
+<ul>
+<li>字段格式化：<code>fields</code>
+<ul>
+<li><code>terminated by</code>：字段数据结束后使用的符号，默认是空格</li>
+<li><code>enclosed by</code>：字段数据包裹，默认什么都没有</li>
+<li><code>escaped by</code>：特殊字符的处理，默认是转义</li>
+</ul>
+</li>
+<li>行格式化：<code>lines</code>
+<ul>
+<li><code>terminated by</code>：行结束符号，默认是\n，自动换行</li>
+<li><code>starting by</code>：行开始符号，默认没有</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">select</span> <span style="color:#960050;background-color:#1e0010">字段列表</span><span style="color:#f92672">|*</span> <span style="color:#66d9ef">into</span> <span style="color:#66d9ef">outfile</span> <span style="color:#e6db74">&#39;外部文件路径&#39;</span>
+	[fields <span style="color:#66d9ef">terminated</span> <span style="color:#66d9ef">by</span> <span style="color:#960050;background-color:#1e0010">格式</span> <span style="color:#66d9ef">enclosed</span> <span style="color:#66d9ef">by</span> <span style="color:#960050;background-color:#1e0010">格式</span>]
+	[<span style="color:#66d9ef">lines</span> <span style="color:#66d9ef">terminated</span> <span style="color:#66d9ef">by</span> <span style="color:#960050;background-color:#1e0010">格式</span> <span style="color:#66d9ef">starting</span> <span style="color:#66d9ef">by</span> <span style="color:#960050;background-color:#1e0010">格式</span>]
+<span style="color:#66d9ef">from</span> <span style="color:#960050;background-color:#1e0010">数据表</span>;
+</code></pre></div><ul>
+<li>表数据备份不限定数据的来源是一张表还是多张表（可以连表）</li>
+</ul>
+<h4 id="表数据还原">表数据还原</h4>
+<ul>
+<li>将<strong>符合数据结构</strong>的数据导入到数据表中（数据导入）</li>
+<li>将一定格式的数据按照一定的解析方式解析成符合表字段格式的数据导入到数据表
+<ul>
+<li>字段处理</li>
+<li>行处理</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-mysql" data-lang="mysql"><span style="color:#66d9ef">load</span> data <span style="color:#66d9ef">infile</span> <span style="color:#e6db74">&#39;数据文件所在路径&#39;</span> <span style="color:#66d9ef">into</span> <span style="color:#66d9ef">table</span> <span style="color:#960050;background-color:#1e0010">表名</span>
+	[fields <span style="color:#66d9ef">terminated</span> <span style="color:#66d9ef">by</span> <span style="color:#960050;background-color:#1e0010">格式</span> <span style="color:#66d9ef">enclosed</span> <span style="color:#66d9ef">by</span> <span style="color:#960050;background-color:#1e0010">格式</span>]
+	[<span style="color:#66d9ef">lines</span> <span style="color:#66d9ef">terminated</span> <span style="color:#66d9ef">by</span> <span style="color:#960050;background-color:#1e0010">格式</span> <span style="color:#66d9ef">starting</span> <span style="color:#66d9ef">by</span> <span style="color:#960050;background-color:#1e0010">格式</span>]
+	[(<span style="color:#960050;background-color:#1e0010">字段列表</span>)];
+</code></pre></div><ul>
+<li>数据文件来源
+<ul>
+<li>表数据备份的数据文件</li>
+<li>外部获取或者制作的符合格式的数据</li>
+</ul>
+</li>
+</ul>
+<h4 id="文件备份">文件备份</h4>
+<ul>
+<li>直接对数据表进行文件保留，属于物理备份</li>
+<li>文件备份操作简单，直接将数据表（或者数据库文件夹）进行保存迁移</li>
+<li>MySQL中不同表存储引擎产生的文件不一致，保存手段也不一致
+<ul>
+<li>InnoDB：表结构文件再ibd文件夹中，数据和索引存储在外部统一的ibdata文件夹中</li>
+<li>MyIsam：每张表的数据、结构和索引都是独立文件，直接找到三个文件迁移即可</li>
+</ul>
+</li>
+</ul>
+<h4 id="文件还原">文件还原</h4>
+<ul>
+<li>利用备份的文件，替换出现问题的文件，还原到备份前的良好状态</li>
+<li>直接将备份文件放到相应位置即可</li>
+<li>文件还原影响
+<ul>
+<li>InnoDB：单表结构，整库数据，知识和整库备份还原，否则会影响其他InnoDB存储表</li>
+<li>MyIsam：单表备份，单表还原，不影响其他任何数据</li>
+</ul>
+</li>
+</ul>
+<p>​</p>]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>
