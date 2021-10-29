@@ -95,6 +95,11 @@ params:
       url: "https://github.com/28251536"
     - name: "qq"
       url: "https://wpa.qq.com/msgrd?v=3&uin=28251536&site=qqq&menu=yes"
+    - name: "email"
+      url: "mailto:28251536@qq.com"
+    - name: "steam"
+      url: "https://steamcommunity.com/profiles/76561198821264534/"
+    
 
 outputs:
     home:
