@@ -149,10 +149,10 @@ Windows oh-my-zsh 命令行出现乱码的原因及解决办法
 </a>
 </div>
 </footer>
-<div id=git-comments></div>
-<link rel=stylesheet href=https://imsun.github.io/gitment/style/default.css>
-<script src=https://imsun.github.io/gitment/dist/gitment.browser.js></script>
-<script>var gitment=new Gitment({id:'',owner:'28251536',repo:'28251536.github.io',oauth:{client_id:'020fa7d4d09265f4eb67',client_secret:'daf983fb3389a31844a71c76302ec38b6ac97182'}});gitment.render('git-comments')</script>
+<div id=gitalk-container></div>
+<link rel=stylesheet href=https://unpkg.com/gitalk/dist/gitalk.css>
+<script src=https://unpkg.com/gitalk/dist/gitalk.min.js></script>
+<script>var gitalk=new Gitalk({clientID:'020fa7d4d09265f4eb67',clientSecret:'daf983fb3389a31844a71c76302ec38b6ac97182',repo:'28251536.github.io',owner:'28251536',admin:['GitHub repo owner and collaborators, only these guys can initialize github issues'],id:location.pathname,distractionFreeMode:!1});gitalk.render('gitalk-container')</script>
 </article>
 </main>
 <footer class=footer>
