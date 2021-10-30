@@ -5,25 +5,58 @@
     <link>https://www.niuwx.cn/posts/</link>
     <description>Recent content in Posts on Ther&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 12 Jan 2021 22:33:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 29 Oct 2021 21:33:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Windows oh-my-zsh 命令行出现乱码的原因及解决办法</title>
+      <link>https://www.niuwx.cn/posts/zsh/zsh/</link>
+      <pubDate>Sat, 16 Oct 2021 10:42:38 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/zsh/zsh/</guid>
+      <description>&lt;p&gt;本文以Oh-my-zsh为例，Oh-my-post同样适用。&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>本文以Oh-my-zsh为例，Oh-my-post同样适用。</p>
+<p>如图，使用Windows Terminal连接服务器使用Zsh命令行时，会出现乱码，导致主题无法正常显示。</p>
+<p><img loading="lazy" src="/zsh_error.png" alt=""  />
+</p>
+<h3 id="解决方法">解决方法</h3>
+<p>安装<a href="https://www.nerdfonts.com/">Nerd Fonts</a>，下载喜欢的字体然后右键选择“为所有用户安装”，打开Windows Terminal修改settings.json中的&quot;fontFace&quot;项为Nerd字体即可，注意要更改为其显示的<strong>正式名称</strong>。</p>
+<p><img loading="lazy" src="/zsh_ok.png" alt=""  />
+</p>
+<p><img loading="lazy" src="/posh_ok.png" alt=""  />
+</p>]]></content:encoded>
+    </item>
+    
     <item>
       <title>Hello Test</title>
-      <link>https://www.niuwx.cn/posts/hello/hello-test/</link>
+      <link>https://www.niuwx.cn/posts/hello-test/</link>
       <pubDate>Tue, 12 Jan 2021 22:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/posts/hello/hello-test/</guid>
+      <guid>https://www.niuwx.cn/posts/hello-test/</guid>
       <description>Desc Text.</description>
       <content:encoded><![CDATA[<p><strong>This is a test for hugo.</strong></p>
 <h2 id="1">1</h2>
 <h3 id="2">2</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<p><strong>Test</strong></p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 
 <span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 
 <span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>(){
     <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Hello World&#34;</span>)
 }
-</code></pre></div>]]></content:encoded>
+</code></pre></td></tr></table>
+</div>
+</div>]]></content:encoded>
     </item>
     
   </channel>
