@@ -28,6 +28,7 @@ params:
   ShowCodeCopyButtons: true
   ShowFullTextinRSS: true
   defaultTheme: "auto"
+  math: true
 
   disableThemeToggle: false
   disableSpecial1stPost: false
