@@ -2,8 +2,44 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://www.niuwx.cn/tags/algorithm/</loc>
+    <lastmod>2021-11-29T13:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/categories/algorithm/</loc>
+    <lastmod>2021-11-29T13:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/posts/algorithm/</loc>
+    <lastmod>2021-11-29T13:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/tags/c/</loc>
+    <lastmod>2021-11-29T13:33:51+08:00</lastmod>
+  </url><url>
     <loc>https://www.niuwx.cn/categories/</loc>
-    <lastmod>2021-10-29T21:33:51+08:00</lastmod>
+    <lastmod>2021-11-29T13:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/tags/codeforces/</loc>
+    <lastmod>2021-11-29T13:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/tags/cpp/</loc>
+    <lastmod>2021-11-29T13:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/posts/algorithm/deltix-round-autumn-2021-open-for-everyone-rated-div.-1-&#43;-div.-2/</loc>
+    <lastmod>2021-11-29T13:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/tags/div.1/</loc>
+    <lastmod>2021-11-29T13:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/tags/div.2/</loc>
+    <lastmod>2021-11-29T13:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/posts/</loc>
+    <lastmod>2021-11-29T13:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/tags/</loc>
+    <lastmod>2021-11-29T13:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/</loc>
+    <lastmod>2021-11-29T13:33:51+08:00</lastmod>
   </url><url>
     <loc>https://www.niuwx.cn/tags/docker/</loc>
     <lastmod>2021-10-29T21:33:51+08:00</lastmod>
@@ -21,15 +57,6 @@
     <lastmod>2021-10-29T21:33:51+08:00</lastmod>
   </url><url>
     <loc>https://www.niuwx.cn/posts/go/</loc>
-    <lastmod>2021-10-29T21:33:51+08:00</lastmod>
-  </url><url>
-    <loc>https://www.niuwx.cn/posts/</loc>
-    <lastmod>2021-10-29T21:33:51+08:00</lastmod>
-  </url><url>
-    <loc>https://www.niuwx.cn/tags/</loc>
-    <lastmod>2021-10-29T21:33:51+08:00</lastmod>
-  </url><url>
-    <loc>https://www.niuwx.cn/</loc>
     <lastmod>2021-10-29T21:33:51+08:00</lastmod>
   </url><url>
     <loc>https://www.niuwx.cn/tags/oh-my-zsh/</loc>

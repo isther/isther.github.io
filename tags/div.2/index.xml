@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Div.2 on Ther&#39;s Blog</title>
+    <link>https://www.niuwx.cn/tags/div.2/</link>
+    <description>Recent content in Div.2 on Ther&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 29 Nov 2021 13:33:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/div.2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deltix Round, Autumn 2021 (open for everyone, rated, Div. 1 &#43; Div. 2)</title>
+      <link>https://www.niuwx.cn/posts/algorithm/deltix-round-autumn-2021-open-for-everyone-rated-div.-1-&#43;-div.-2/</link>
+      <pubDate>Mon, 29 Nov 2021 13:33:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/algorithm/deltix-round-autumn-2021-open-for-everyone-rated-div.-1-&#43;-div.-2/</guid>
+      <description>&lt;p&gt;做题笔记。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2021.11.28 22:35  &amp;ndash;  2021.11.29  1.00&lt;/strong&gt;&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>做题笔记。</p>
+<p><strong>2021.11.28 22:35  &ndash;  2021.11.29  1.00</strong></p>
+<p>第一次参加Codeforces的比赛，太菜了&hellip;</p>
+<h3 id="a-divide-and-multiplyhttpscodeforcescomcontest1609problema"><a href="https://codeforces.com/contest/1609/problem/A">A. Divide and Multiply</a></h3>
+<h4 id="题意">题意</h4>
+<p>据说是500分的题，难度不是很大。大概题意是给一组数，每次操作可以将一个数（必须是偶数）除<code>2</code>，同时将另一个数乘<code>2</code>，求执行最佳操作之后数组和的最大值。</p>
+<h4 id="思路">思路</h4>
+<ol>
+<li>找到数组元素<code>a[i]</code>因式分解后<code>2</code>的个数$t_i$，$a[i] /= 2*t_i$，处理之后得到了<code>2</code>的个数和<code>t</code>，且所有数组元素都为奇数。</li>
+<li>找到处理后的所有数组元素的最大值，乘$2^t$即可得到最大项，加上其余数组元素即可得到最大数组和。</li>
+</ol>
+<h4 id="代码">代码</h4>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> ll;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>;
+
+<span style="color:#66d9ef">int</span> n;
+ll arr[maxn];
+
+ll <span style="color:#a6e22e">fast</span>(ll a, ll base, ll power) {
+    ll ans <span style="color:#f92672">=</span> a;
+    <span style="color:#66d9ef">while</span> (power) {
+        <span style="color:#66d9ef">if</span> (power <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>)
+            ans <span style="color:#f92672">*=</span> base;
+        base <span style="color:#f92672">*=</span> base;
+        power <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
+    }
+    <span style="color:#66d9ef">return</span> ans;
+}
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#66d9ef">const</span> <span style="color:#f92672">*</span>argv[]) {
+    <span style="color:#66d9ef">int</span> t;
+    scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>t);
+    <span style="color:#66d9ef">while</span> (t<span style="color:#f92672">--</span>) {
+        scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>n);
+        <span style="color:#66d9ef">int</span> max <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        ll power <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">//long long 防爆
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+            scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>arr[i]);
+
+            <span style="color:#66d9ef">while</span> (arr[i] <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+                arr[i] <span style="color:#f92672">/=</span> <span style="color:#ae81ff">2</span>;
+                power<span style="color:#f92672">++</span>;
+            }
+
+            <span style="color:#66d9ef">if</span> (arr[i] <span style="color:#f92672">&gt;</span> arr[max])
+                max <span style="color:#f92672">=</span> i;
+            ans <span style="color:#f92672">+=</span> arr[i];
+        }
+        ans <span style="color:#f92672">+=</span> fast(arr[max], <span style="color:#ae81ff">2</span>, power) <span style="color:#f92672">-</span> arr[max];<span style="color:#75715e">//猥琐一点加了快速幂防止超时
+</span><span style="color:#75715e"></span>        cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="b-william-the-vigilanthttpscodeforcescomcontest1609problemb"><a href="https://codeforces.com/contest/1609/problem/B">B. William the Vigilant</a></h3>
+<h4 id="题意-1">题意</h4>
+<p>给一个字符串<code>s</code>，只包含字符a、b、c，再给定一个数字<code>q</code>，接下来给出<code>q</code>组操作<code>(pos,c)</code>，每次操作将字符串<code>s</code>中第<code>pos</code>个字符变成给出的字符<code>c</code>，然后输出改变后的字符串还需要最少修改几个字符使得这个字符串没有子串<code>abc</code>。</p>
+<h4 id="思路-1">思路</h4>
+<p>这题暴力遍历会超时。可以提前统计字串数量，每一次操作分情况讨论<code>abc</code>字串的数量变化。</p>
+<h4 id="代码-1">代码</h4>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">72
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">73
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">74
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">75
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">76
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">77
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> ll;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> n, q;
+string s;
+<span style="color:#66d9ef">int</span> pos;
+<span style="color:#66d9ef">char</span> c;
+<span style="color:#66d9ef">int</span> ans;
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+    ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>)
+        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&lt;</span> n <span style="color:#f92672">&amp;&amp;</span> s[i] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span>)
+            ans<span style="color:#f92672">++</span>;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">find</span>() {
+    pos <span style="color:#f92672">=</span> pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">if</span> (s[pos] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span>) {
+        <span style="color:#66d9ef">if</span> (s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span>)
+            <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;a&#39;</span>)
+                ans<span style="color:#f92672">--</span>;
+
+        <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span>)
+            ans<span style="color:#f92672">++</span>;
+
+        <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span>)
+            ans<span style="color:#f92672">++</span>;
+    }
+
+    <span style="color:#66d9ef">if</span> (s[pos] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span>) {
+        <span style="color:#66d9ef">if</span> (s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span>)
+            <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;b&#39;</span>)
+                ans<span style="color:#f92672">--</span>;
+
+        <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span>)
+            ans<span style="color:#f92672">++</span>;
+
+        <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span>)
+            ans<span style="color:#f92672">++</span>;
+    }
+
+    <span style="color:#66d9ef">if</span> (s[pos] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span>) {
+        <span style="color:#66d9ef">if</span> (s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span>)
+            <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;c&#39;</span>)
+                ans<span style="color:#f92672">--</span>;
+
+        <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span>)
+            ans<span style="color:#f92672">++</span>;
+
+        <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span>)
+            ans<span style="color:#f92672">++</span>;
+    }
+
+    s[pos] <span style="color:#f92672">=</span> c;
+    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
+    scanf(<span style="color:#e6db74">&#34;%d %c&#34;</span>, <span style="color:#f92672">&amp;</span>pos, <span style="color:#f92672">&amp;</span>c);
+
+    find();
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    scanf(<span style="color:#e6db74">&#34;%d%d&#34;</span>, <span style="color:#f92672">&amp;</span>n, <span style="color:#f92672">&amp;</span>q);
+    cin <span style="color:#f92672">&gt;&gt;</span> s;
+
+    init();
+    <span style="color:#66d9ef">while</span> (q<span style="color:#f92672">--</span>) {
+        solve();
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="c-complex-market-analysishttpscodeforcescomcontest1609problemc"><a href="https://codeforces.com/contest/1609/problem/C">C. Complex Market Analysis</a></h3>
+<h4 id="题意-2">题意</h4>
+<p>题目比较好理解，给定<code>n</code>, <code>e</code>和一个含<code>n</code>个元素的数组。</p>
+<p><code>(i,k)</code>需要满足以下条件：</p>
+<ol>
+<li>$1&lt;=i,k$</li>
+<li>$i+e*k&lt;=n$</li>
+<li>$a_i \cdot a_{i+e} \cdot a_{i+2<em>e} \cdot &hellip; \cdot a_{i+k</em>e}$是一个质数。</li>
+</ol>
+<p>求出满足条件的<code>(i,k)</code>的对数。</p>
+<h4 id="思路-2">思路</h4>
+<p>考虑到第三个条件的限制，需要满足多项式的每一项<code>有且只有</code>一个质数，其他项都为<code>1</code>。刚开始做就是暴力遍历，但是超时，需要继续剪枝。考虑到有且只有一个质数，那么可以从质数下手，去找满足条件的<code>1</code>，这样消耗就会小很多。</p>
+<h4 id="代码-2">代码</h4>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> ll;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e6</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>;
+
+<span style="color:#66d9ef">int</span> n, e;
+<span style="color:#66d9ef">int</span> arr[maxn];
+<span style="color:#66d9ef">int</span> prime[maxn];
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">isprime</span>() {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> maxn; i<span style="color:#f92672">++</span>)
+        prime[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    prime[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;</span> maxn; i<span style="color:#f92672">++</span>) {
+        <span style="color:#66d9ef">if</span> (prime[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; j <span style="color:#f92672">*</span> i <span style="color:#f92672">&lt;</span> maxn; j<span style="color:#f92672">++</span>) {
+                prime[i <span style="color:#f92672">*</span> j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            }
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
+    ll cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        <span style="color:#75715e">//******************************
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (prime[arr[i]] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) { <span style="color:#75715e">//找到质数
+</span><span style="color:#75715e"></span>            ll l <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, r <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> e; t <span style="color:#f92672">&lt;=</span> n; t <span style="color:#f92672">+=</span> e) {<span style="color:#75715e">//向右找1
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> (arr[t] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+                    r<span style="color:#f92672">++</span>;
+                <span style="color:#66d9ef">else</span>
+                    <span style="color:#66d9ef">break</span>;
+            }
+
+            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> i <span style="color:#f92672">-</span> e; t <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; t <span style="color:#f92672">-=</span> e) {<span style="color:#75715e">//向左找1
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> (arr[t] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+                    l<span style="color:#f92672">++</span>;
+                <span style="color:#66d9ef">else</span>
+                    <span style="color:#66d9ef">break</span>;
+            }
+
+            cnt <span style="color:#f92672">+=</span> l <span style="color:#f92672">+</span> r <span style="color:#f92672">+</span> l <span style="color:#f92672">*</span> r; <span style="color:#75715e">//统计答案
+</span><span style="color:#75715e"></span>        }
+        <span style="color:#75715e">//******************************
+</span><span style="color:#75715e"></span>    }
+    cout <span style="color:#f92672">&lt;&lt;</span> cnt <span style="color:#f92672">&lt;&lt;</span> endl;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    isprime();<span style="color:#75715e">//数据范围1e6，质数筛打表节约判断时间
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> t;
+    scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>t);
+    <span style="color:#66d9ef">while</span> (t<span style="color:#f92672">--</span>) {
+        scanf(<span style="color:#e6db74">&#34;%d%d&#34;</span>, <span style="color:#f92672">&amp;</span>n, <span style="color:#f92672">&amp;</span>e);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+            scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>arr[i]);
+        }
+        solve();
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>统计答案这一步，这个质数左边有<code>l</code>个<code>1</code>，右边有<code>r</code>个<code>1</code>。</p>
+<ol>
+<li>只考虑左边及质数，共<code>l</code>种情况。</li>
+<li>只考虑质数及右边，共<code>r</code>种情况。</li>
+<li>考虑左边+质数+右边，共<code>l*r</code>种情况。</li>
+</ol>
+<h3 id="d-social-networkhttpscodeforcescomcontest1609problemd"><a href="https://codeforces.com/contest/1609/problem/D">D. Social Network</a></h3>
+<h4 id="题意-3">题意</h4>
+<p>共<code>n</code>个人，<code>d</code>个关系对<code>(a,b)</code>，每个关系对可以介绍<code>a</code>和<code>b</code>两个人认识， 每次介绍之后输出熟人最多的数量。</p>
+<p>题目有个坑点，在分析第二个样例的时候可以发现第四次操作，<code>1</code>、<code>4</code>连接之后，答案明明应该是<code>3</code>，但是正确答案却是<code>4</code>。</p>
+<p>题目中还有一句话需要注意：</p>
+<p><img loading="lazy" src="C:%5cUsers%5cGjh%5cDocuments%5cWorkSpace%5cBlog%5cblog%5cstatic%5csocial_network.png" alt=""  />
+</p>
+<p><img loading="lazy" src="social_network.png" alt="social_network"  />
+</p>
+<p>即如果<code>1</code>、<code>4</code>已经认识，那么就把<code>1</code>或<code>4</code>介绍给另一个大连通块认识。</p>
+<h4 id="思路-3">思路</h4>
+<p>并查集，先检查是否在同一连通块，如果在同一连通块，那就与另一个大连通块连通。</p>
+<h4 id="代码-3">代码</h4>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> ll;
+<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1005</span>;
+
+<span style="color:#66d9ef">int</span> n, d;
+<span style="color:#66d9ef">int</span> parent[maxn];
+<span style="color:#66d9ef">int</span> temp[maxn];
+<span style="color:#66d9ef">int</span> sz[maxn];
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
+        parent[i] <span style="color:#f92672">=</span> i;
+        sz[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">find</span>(<span style="color:#66d9ef">int</span> x) {
+    <span style="color:#66d9ef">return</span> x <span style="color:#f92672">==</span> parent[x] <span style="color:#f92672">?</span> x : parent[x] <span style="color:#f92672">=</span> find(parent[x]);
+}
+
+<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">merge</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y) {
+    x <span style="color:#f92672">=</span> find(x);
+    y <span style="color:#f92672">=</span> find(y);
+
+    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">!=</span> y) {
+        parent[x] <span style="color:#f92672">=</span> y;
+        sz[y] <span style="color:#f92672">+=</span> sz[x];
+        <span style="color:#66d9ef">return</span> true;
+    }
+    <span style="color:#66d9ef">return</span> false;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#66d9ef">const</span> <span style="color:#f92672">*</span>argv[]) {
+    scanf(<span style="color:#e6db74">&#34;%d%d&#34;</span>, <span style="color:#f92672">&amp;</span>n, <span style="color:#f92672">&amp;</span>d);
+    init();
+
+    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#75715e">//大连通块数量
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, x, y; i <span style="color:#f92672">&lt;</span> d; i<span style="color:#f92672">++</span>) {
+        scanf(<span style="color:#e6db74">&#34;%d%d&#34;</span>, <span style="color:#f92672">&amp;</span>x, <span style="color:#f92672">&amp;</span>y);
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>merge(x, y))
+            cnt<span style="color:#f92672">++</span>;
+
+        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> temp;
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>)
+            <span style="color:#66d9ef">if</span> (parent[i] <span style="color:#f92672">==</span> i)
+                temp.push_back(sz[i]);
+
+        sort(temp.rbegin(), temp.rend());
+        cout <span style="color:#f92672">&lt;&lt;</span> accumulate(temp.begin(), temp.begin() <span style="color:#f92672">+</span> cnt, <span style="color:#ae81ff">0</span>) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></td></tr></table>
+</div>
+</div>]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>
