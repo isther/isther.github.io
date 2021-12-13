@@ -1,5 +1,5 @@
 ---
-title: "Deltix Round, Autumn 2021 (open for everyone, rated, Div. 1 + Div. 2)"
+title: "Deltix Round, Autumn 2021 (Div. 1 + Div. 2)"
 date: 2021-11-29T13:33:51+08:00
 categories: ["Algorithm"]
 tags: ["CPP", "C", "Algorithm", "Codeforces", "Div.1", "Div.2"]
@@ -20,7 +20,7 @@ canonicalURL: "https://www.niuwx.cn/"
 
 做题笔记。
 
-**2021.11.28 22:35  --  2021.11.29  1.00**
+**2021.11.28 22:35  --  2021.11.29  1:00**
 
 <!--more-->
 
@@ -186,7 +186,7 @@ int main() {
 
 1. $1<=i,k$
 2. $i+e*k<=n$
-3. $a_i \cdot a_{i+e} \cdot a_{i+2*e} \cdot ... \cdot a_{i+k*e}$是一个质数。
+3. $a_i \cdot a_{i+e} \cdot a_{i+2e} \cdot... \cdot a_{i+ke}$ 是一个质数。
 
 求出满足条件的`(i,k)`的对数。
 
@@ -277,9 +277,7 @@ int main() {
 
 题目中还有一句话需要注意：
 
-![](C:\Users\Gjh\Documents\WorkSpace\Blog\blog\static\social_network.png)
-
-![social_network](social_network.png)
+![social_network](/social_network.png)
 
 即如果`1`、`4`已经认识，那么就把`1`或`4`介绍给另一个大连通块认识。
 
