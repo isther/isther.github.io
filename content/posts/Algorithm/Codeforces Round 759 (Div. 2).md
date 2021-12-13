@@ -1,5 +1,5 @@
 ---
-title: "Codeforces Round #759 (Div. 2)"
+title: "Codeforces Round 759 (Div. 2)"
 date: 2021-12-13T12:50:51+08:00
 categories: ["Algorithm"]
 tags: ["CPP", "C", "Algorithm", "Codeforces", "Div.2"]
