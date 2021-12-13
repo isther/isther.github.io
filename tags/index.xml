@@ -5,11 +5,11 @@
     <link>https://www.niuwx.cn/tags/</link>
     <description>Recent content in Tags on Ther&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 29 Nov 2021 13:33:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 13 Dec 2021 12:50:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Algorithm</title>
       <link>https://www.niuwx.cn/tags/algorithm/</link>
-      <pubDate>Mon, 29 Nov 2021 13:33:51 +0800</pubDate>
+      <pubDate>Mon, 13 Dec 2021 12:50:51 +0800</pubDate>
       
       <guid>https://www.niuwx.cn/tags/algorithm/</guid>
       <description></description>
@@ -19,7 +19,7 @@
     <item>
       <title>C</title>
       <link>https://www.niuwx.cn/tags/c/</link>
-      <pubDate>Mon, 29 Nov 2021 13:33:51 +0800</pubDate>
+      <pubDate>Mon, 13 Dec 2021 12:50:51 +0800</pubDate>
       
       <guid>https://www.niuwx.cn/tags/c/</guid>
       <description></description>
@@ -29,7 +29,7 @@
     <item>
       <title>Codeforces</title>
       <link>https://www.niuwx.cn/tags/codeforces/</link>
-      <pubDate>Mon, 29 Nov 2021 13:33:51 +0800</pubDate>
+      <pubDate>Mon, 13 Dec 2021 12:50:51 +0800</pubDate>
       
       <guid>https://www.niuwx.cn/tags/codeforces/</guid>
       <description></description>
@@ -39,9 +39,19 @@
     <item>
       <title>CPP</title>
       <link>https://www.niuwx.cn/tags/cpp/</link>
-      <pubDate>Mon, 29 Nov 2021 13:33:51 +0800</pubDate>
+      <pubDate>Mon, 13 Dec 2021 12:50:51 +0800</pubDate>
       
       <guid>https://www.niuwx.cn/tags/cpp/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Div.2</title>
+      <link>https://www.niuwx.cn/tags/div.2/</link>
+      <pubDate>Mon, 13 Dec 2021 12:50:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/tags/div.2/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
@@ -52,16 +62,6 @@
       <pubDate>Mon, 29 Nov 2021 13:33:51 +0800</pubDate>
       
       <guid>https://www.niuwx.cn/tags/div.1/</guid>
-      <description></description>
-      <content:encoded><![CDATA[]]></content:encoded>
-    </item>
-    
-    <item>
-      <title>Div.2</title>
-      <link>https://www.niuwx.cn/tags/div.2/</link>
-      <pubDate>Mon, 29 Nov 2021 13:33:51 +0800</pubDate>
-      
-      <guid>https://www.niuwx.cn/tags/div.2/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>

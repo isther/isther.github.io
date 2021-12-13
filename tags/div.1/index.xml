@@ -7,15 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Mon, 29 Nov 2021 13:33:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/div.1/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Deltix Round, Autumn 2021 (open for everyone, rated, Div. 1 &#43; Div. 2)</title>
-      <link>https://www.niuwx.cn/posts/algorithm/deltix-round-autumn-2021-open-for-everyone-rated-div.-1-&#43;-div.-2/</link>
+      <title>Deltix Round, Autumn 2021 (Div. 1 &#43; Div. 2)</title>
+      <link>https://www.niuwx.cn/posts/algorithm/deltix-round-autumn-2021-div.-1-&#43;-div.-2/</link>
       <pubDate>Mon, 29 Nov 2021 13:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/posts/algorithm/deltix-round-autumn-2021-open-for-everyone-rated-div.-1-&#43;-div.-2/</guid>
+      <guid>https://www.niuwx.cn/posts/algorithm/deltix-round-autumn-2021-div.-1-&#43;-div.-2/</guid>
       <description>&lt;p&gt;做题笔记。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;2021.11.28 22:35  &amp;ndash;  2021.11.29  1.00&lt;/strong&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;strong&gt;2021.11.28 22:35  &amp;ndash;  2021.11.29  1:00&lt;/strong&gt;&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>做题笔记。</p>
-<p><strong>2021.11.28 22:35  &ndash;  2021.11.29  1.00</strong></p>
+<p><strong>2021.11.28 22:35  &ndash;  2021.11.29  1:00</strong></p>
 <p>第一次参加Codeforces的比赛，太菜了&hellip;</p>
 <h3 id="a-divide-and-multiplyhttpscodeforcescomcontest1609problema"><a href="https://codeforces.com/contest/1609/problem/A">A. Divide and Multiply</a></h3>
 <h4 id="题意">题意</h4>
@@ -291,7 +291,7 @@ string s;
 <ol>
 <li>$1&lt;=i,k$</li>
 <li>$i+e*k&lt;=n$</li>
-<li>$a_i \cdot a_{i+e} \cdot a_{i+2<em>e} \cdot &hellip; \cdot a_{i+k</em>e}$是一个质数。</li>
+<li>$a_i \cdot a_{i+e} \cdot a_{i+2e} \cdot&hellip; \cdot a_{i+ke}$ 是一个质数。</li>
 </ol>
 <p>求出满足条件的<code>(i,k)</code>的对数。</p>
 <h4 id="思路-2">思路</h4>
@@ -438,9 +438,7 @@ string s;
 <p>共<code>n</code>个人，<code>d</code>个关系对<code>(a,b)</code>，每个关系对可以介绍<code>a</code>和<code>b</code>两个人认识， 每次介绍之后输出熟人最多的数量。</p>
 <p>题目有个坑点，在分析第二个样例的时候可以发现第四次操作，<code>1</code>、<code>4</code>连接之后，答案明明应该是<code>3</code>，但是正确答案却是<code>4</code>。</p>
 <p>题目中还有一句话需要注意：</p>
-<p><img loading="lazy" src="C:%5cUsers%5cGjh%5cDocuments%5cWorkSpace%5cBlog%5cblog%5cstatic%5csocial_network.png" alt=""  />
-</p>
-<p><img loading="lazy" src="social_network.png" alt="social_network"  />
+<p><img loading="lazy" src="/social_network.png" alt="social_network"  />
 </p>
 <p>即如果<code>1</code>、<code>4</code>已经认识，那么就把<code>1</code>或<code>4</code>介绍给另一个大连通块认识。</p>
 <h4 id="思路-3">思路</h4>
