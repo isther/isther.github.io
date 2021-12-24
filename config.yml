@@ -55,7 +55,7 @@ params:
 
         🌱 I’m currently learning **Golang、Docker**
 
-        👨‍💻 All of my projects are available at [https://github.com/28251536](https://github.com/28251536)
+        👨‍💻 All of my projects are available at [https://github.com/isther](https://github.com/isther)
 
         📝 I regularly write articles on [https://www.niuwx.cn](https://www.niuwx.cn)
 
@@ -74,7 +74,7 @@ params:
 
   socialIcons: # optional
     - name: "github"
-      url: "https://github.com/28251536"
+      url: "https://github.com/isther"
     - name: "qq"
       url: "https://wpa.qq.com/msgrd?v=3&uin=28251536&site=qqq&menu=yes"
     - name: "email"
