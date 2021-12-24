@@ -83,7 +83,7 @@ params:
       url: "https://steamcommunity.com/profiles/76561198821264534/"
   
   editPost:
-    URL: "https://github.com/28251536/28251536.github.io/tree/master/content"
+    URL: "https://github.com/isther/isther.github.io/tree/master/content"
     Text: "Suggest Changes" # edit text
     appendFilePath: true # to append file path to Edit link
 
