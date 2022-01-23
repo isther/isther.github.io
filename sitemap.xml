@@ -2,50 +2,41 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://www.niuwx.cn/tags/algorithm/</loc>
-    <lastmod>2021-12-13T12:50:51+08:00</lastmod>
-  </url><url>
-    <loc>https://www.niuwx.cn/categories/algorithm/</loc>
-    <lastmod>2021-12-13T12:50:51+08:00</lastmod>
-  </url><url>
-    <loc>https://www.niuwx.cn/posts/algorithm/</loc>
-    <lastmod>2021-12-13T12:50:51+08:00</lastmod>
-  </url><url>
-    <loc>https://www.niuwx.cn/tags/c/</loc>
-    <lastmod>2021-12-13T12:50:51+08:00</lastmod>
+    <loc>https://www.niuwx.cn/tags/amd/</loc>
+    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
   </url><url>
     <loc>https://www.niuwx.cn/categories/</loc>
-    <lastmod>2021-12-13T12:50:51+08:00</lastmod>
+    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
   </url><url>
-    <loc>https://www.niuwx.cn/tags/codeforces/</loc>
-    <lastmod>2021-12-13T12:50:51+08:00</lastmod>
+    <loc>https://www.niuwx.cn/tags/kde/</loc>
+    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
   </url><url>
-    <loc>https://www.niuwx.cn/posts/algorithm/codeforces-round-759-div.-2/</loc>
-    <lastmod>2021-12-13T12:50:51+08:00</lastmod>
+    <loc>https://www.niuwx.cn/tags/linux/</loc>
+    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
   </url><url>
-    <loc>https://www.niuwx.cn/tags/cpp/</loc>
-    <lastmod>2021-12-13T12:50:51+08:00</lastmod>
+    <loc>https://www.niuwx.cn/tags/manjaro/</loc>
+    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
   </url><url>
-    <loc>https://www.niuwx.cn/tags/div.2/</loc>
-    <lastmod>2021-12-13T12:50:51+08:00</lastmod>
+    <loc>https://www.niuwx.cn/categories/manjaro/</loc>
+    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/posts/other/manjaro_amd_nvidia/</loc>
+    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/tags/nvidia/</loc>
+    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/posts/other/</loc>
+    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
   </url><url>
     <loc>https://www.niuwx.cn/posts/</loc>
-    <lastmod>2021-12-13T12:50:51+08:00</lastmod>
+    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
   </url><url>
     <loc>https://www.niuwx.cn/tags/</loc>
-    <lastmod>2021-12-13T12:50:51+08:00</lastmod>
+    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
   </url><url>
     <loc>https://www.niuwx.cn/</loc>
-    <lastmod>2021-12-13T12:50:51+08:00</lastmod>
-  </url><url>
-    <loc>https://www.niuwx.cn/posts/algorithm/educational-codeforces-round-118-rated-for-div.-2/</loc>
-    <lastmod>2021-12-02T13:33:51+08:00</lastmod>
-  </url><url>
-    <loc>https://www.niuwx.cn/posts/algorithm/deltix-round-autumn-2021-div.-1-&#43;-div.-2/</loc>
-    <lastmod>2021-11-29T13:33:51+08:00</lastmod>
-  </url><url>
-    <loc>https://www.niuwx.cn/tags/div.1/</loc>
-    <lastmod>2021-11-29T13:33:51+08:00</lastmod>
+    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
   </url><url>
     <loc>https://www.niuwx.cn/tags/docker/</loc>
     <lastmod>2021-10-29T21:33:51+08:00</lastmod>
@@ -91,6 +82,8 @@
   </url><url>
     <loc>https://www.niuwx.cn/friends/</loc>
     <priority>0</priority>
+  </url><url>
+    <loc>https://www.niuwx.cn/posts/algorithm/</loc>
   </url><url>
     <loc>https://www.niuwx.cn/archive/</loc>
   </url><url>
