@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>杂项 on Ther&#39;s Blog</title>
+    <link>https://www.niuwx.cn/categories/%E6%9D%82%E9%A1%B9/</link>
+    <description>Recent content in 杂项 on Ther&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 16 Oct 2021 10:42:38 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/categories/%E6%9D%82%E9%A1%B9/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Windows oh-my-zsh 命令行出现乱码的原因及解决办法</title>
+      <link>https://www.niuwx.cn/posts/zsh/zsh/</link>
+      <pubDate>Sat, 16 Oct 2021 10:42:38 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/posts/zsh/zsh/</guid>
+      <description>&lt;p&gt;本文以Oh-my-zsh为例，Oh-my-post同样适用。&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<p>本文以Oh-my-zsh为例，Oh-my-post同样适用。</p>
+<p>如图，使用Windows Terminal连接服务器使用Zsh命令行时，会出现乱码，导致主题无法正常显示。</p>
+<p><img loading="lazy" src="/zsh_error.png" alt=""  />
+</p>
+<h3 id="解决方法">解决方法</h3>
+<p>安装<a href="https://www.nerdfonts.com/">Nerd Fonts</a>，下载喜欢的字体然后右键选择“为所有用户安装”，打开Windows Terminal修改settings.json中的&quot;fontFace&quot;项为Nerd字体即可，注意要更改为其显示的<strong>正式名称</strong>。</p>
+<p><img loading="lazy" src="/zsh_ok.png" alt=""  />
+</p>
+<p><img loading="lazy" src="/posh_ok.png" alt=""  />
+</p>]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>

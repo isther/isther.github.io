@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tags on Ther&#39;s Blog</title>
+    <link>https://www.niuwx.cn/tags/</link>
+    <description>Recent content in Tags on Ther&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 13 Dec 2021 12:50:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Algorithm</title>
+      <link>https://www.niuwx.cn/tags/algorithm/</link>
+      <pubDate>Mon, 13 Dec 2021 12:50:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/tags/algorithm/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>C</title>
+      <link>https://www.niuwx.cn/tags/c/</link>
+      <pubDate>Mon, 13 Dec 2021 12:50:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/tags/c/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Codeforces</title>
+      <link>https://www.niuwx.cn/tags/codeforces/</link>
+      <pubDate>Mon, 13 Dec 2021 12:50:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/tags/codeforces/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>CPP</title>
+      <link>https://www.niuwx.cn/tags/cpp/</link>
+      <pubDate>Mon, 13 Dec 2021 12:50:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/tags/cpp/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Div.2</title>
+      <link>https://www.niuwx.cn/tags/div.2/</link>
+      <pubDate>Mon, 13 Dec 2021 12:50:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/tags/div.2/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Div.1</title>
+      <link>https://www.niuwx.cn/tags/div.1/</link>
+      <pubDate>Mon, 29 Nov 2021 13:33:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/tags/div.1/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Docker</title>
+      <link>https://www.niuwx.cn/tags/docker/</link>
+      <pubDate>Fri, 29 Oct 2021 21:33:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/tags/docker/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Go</title>
+      <link>https://www.niuwx.cn/tags/go/</link>
+      <pubDate>Fri, 29 Oct 2021 21:33:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/tags/go/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>oh my zsh</title>
+      <link>https://www.niuwx.cn/tags/oh-my-zsh/</link>
+      <pubDate>Sat, 16 Oct 2021 10:42:38 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/tags/oh-my-zsh/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Windows</title>
+      <link>https://www.niuwx.cn/tags/windows/</link>
+      <pubDate>Sat, 16 Oct 2021 10:42:38 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/tags/windows/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>zsh</title>
+      <link>https://www.niuwx.cn/tags/zsh/</link>
+      <pubDate>Sat, 16 Oct 2021 10:42:38 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/tags/zsh/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+    <item>
+      <title>Hello</title>
+      <link>https://www.niuwx.cn/tags/hello/</link>
+      <pubDate>Tue, 12 Jan 2021 22:33:51 +0800</pubDate>
+      
+      <guid>https://www.niuwx.cn/tags/hello/</guid>
+      <description></description>
+      <content:encoded><![CDATA[]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>
