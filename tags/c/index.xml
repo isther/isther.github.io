@@ -5,28 +5,21 @@
     <link>https://www.niuwx.cn/tags/c/</link>
     <description>Recent content in C on Ther&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 13 Dec 2021 12:50:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/c/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 30 Jan 2022 21:33:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/c/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Codeforces Round 759 (Div. 2)</title>
-      <link>https://www.niuwx.cn/posts/algorithm/codeforces-round-759-div.-2/</link>
-      <pubDate>Mon, 13 Dec 2021 12:50:51 +0800</pubDate>
+      <title>Linux C之进程</title>
+      <link>https://www.niuwx.cn/posts/linux/linux_c_1/</link>
+      <pubDate>Sun, 30 Jan 2022 21:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/posts/algorithm/codeforces-round-759-div.-2/</guid>
-      <description>&lt;p&gt;做题笔记。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;2021.12.12 23:15  &amp;ndash;  2021.12.13  01:15&lt;/strong&gt;&lt;/p&gt;</description>
-      <content:encoded><![CDATA[<p>做题笔记。</p>
-<p><strong>2021.12.12 23:15  &ndash;  2021.12.13  01:15</strong></p>
-<h3 id="a-life-of-a-flowerhttpscodeforcescomcontest1585problema"><a href="https://codeforces.com/contest/1585/problem/A">A. Life of a Flower</a></h3>
-<h4 id="题意">题意</h4>
-<p>给花浇水，纯模拟，有以下要求：</p>
-<ul>
-<li>连续两天不浇水，花会死。</li>
-<li>如果浇水，花长高<code>1cm</code>。</li>
-<li>连续两天浇水，花长高<code>5cm</code>而非<code>1cm</code>。</li>
-</ul>
-<h4 id="思路">思路</h4>
-<p>纯模拟，依次处理每天的浇水情况就可以。</p>
-<h4 id="代码">代码</h4>
+      <guid>https://www.niuwx.cn/posts/linux/linux_c_1/</guid>
+      <description>&lt;h2 id=&#34;初识进程和线程&#34;&gt;初识进程和线程&lt;/h2&gt;
+&lt;h3 id=&#34;认识进程&#34;&gt;认识进程&lt;/h3&gt;
+&lt;p&gt;在Linux系统中，每一个进程都有自己的ID，就如同人的身份证一样。Linux中有一个数据类型pid_t，它定义了进程的ID。&lt;/p&gt;</description>
+      <content:encoded><![CDATA[<h2 id="初识进程和线程">初识进程和线程</h2>
+<h3 id="认识进程">认识进程</h3>
+<p>在Linux系统中，每一个进程都有自己的ID，就如同人的身份证一样。Linux中有一个数据类型pid_t，它定义了进程的ID。</p>
+<h4 id="fork">fork()</h4>
+<p>首先看下如何创建新的进程，这里需要用到<code>fork()</code>函数，其返回值类型为<code>pid_t</code>。</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -52,1152 +45,730 @@
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-
-<span style="color:#75715e">#define int long long
-</span><span style="color:#75715e">#define lson 2 * i
-</span><span style="color:#75715e">#define rson 2 * i + 1
-</span><span style="color:#75715e">#define LS l, mid, lson
-</span><span style="color:#75715e">#define RS mid + 1, r, rson
-</span><span style="color:#75715e">#define UP(i, x, y) for (int i = x; i &lt; y; i++)
-</span><span style="color:#75715e">#define DOWN(i, x, y) for (int i = x; i &gt; y; i--)
-</span><span style="color:#75715e">#define MS(a, x) memset(a, x, sizeof(a))
-</span><span style="color:#75715e">#define GCD(x, y) __gcd(x, y)
-</span><span style="color:#75715e">#define INF 0x3f3f3f3f
-</span><span style="color:#75715e">#define EPS 1e-8
-</span><span style="color:#75715e">#define MOD 1e9 + 7
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>;
-
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">read</span>() {
-    <span style="color:#66d9ef">int</span> x;
-    cin <span style="color:#f92672">&gt;&gt;</span> x;
-    <span style="color:#66d9ef">return</span> x;
-}
-<span style="color:#75715e">/*********Solve**********/</span>
-vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v;
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
-    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> read();
-
-    v.clear();
-    UP(i, <span style="color:#ae81ff">0</span>, n) {
-        v.push_back(read());
-    }
-
-    <span style="color:#66d9ef">int</span> sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> v[<span style="color:#ae81ff">0</span>];
-    UP(i, <span style="color:#ae81ff">1</span>, n) {
-        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>v[i] <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>v[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
-            printf(<span style="color:#e6db74">&#34;-1</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-            <span style="color:#66d9ef">return</span>;
-        }
-
-        <span style="color:#66d9ef">if</span> (v[i]) {
-            <span style="color:#66d9ef">if</span> (v[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) {
-                sum <span style="color:#f92672">+=</span> <span style="color:#ae81ff">5</span>;
-            } <span style="color:#66d9ef">else</span> {
-                sum <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;
-            }
-        }
-    }
-    cout <span style="color:#f92672">&lt;&lt;</span> sum <span style="color:#f92672">&lt;&lt;</span> endl;
-}
-
-main() {
-    <span style="color:#75715e">// ios::sync_with_stdio(0);
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> read();
-    <span style="color:#75715e">// int t = 1;
-</span><span style="color:#75715e"></span>
-    <span style="color:#66d9ef">while</span> (t<span style="color:#f92672">--</span>) {
-        solve();
-    }
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-}
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="b-array-eversionhttpscodeforcescomcontest1585problemb"><a href="https://codeforces.com/contest/1585/problem/B">B. Array Eversion</a></h3>
-<h4 id="题意-1">题意</h4>
-<p>给出数组<code>a</code>，进行以下操作：</p>
-<p>令$x=a_n$，进行变换，使得<code>x</code>左侧的所有元素都小于<code>x</code>，右侧的所有元素都大于<code>x</code>，并且不能改变元素的相对位置。</p>
-<p>进行<code>k</code>次操作之后，数组将不会改变。</p>
-<p>求最小的<code>k</code>。</p>
-<h4 id="思路-1">思路</h4>
-<p>先以这个样例为例进行分析<code>(2,5,1,4,3)</code>，变换一次之后<code>(2,1,3,5,4)</code>，再进行一次变换<code>(2,1,3,4,5)</code>，此时无需再次进行变换。可以发现，如果最后一位并不是最大值时，则可以继续进行变换。</p>
-<p>既然每次都要求以数组的最后一个数为基准，那可以从后往前遍历，不断寻找符合条件的<code>x</code>，如果<code>a[i]&gt;x</code>，则说明又可以进行一次变换。</p>
-<h4 id="代码-1">代码</h4>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-
-<span style="color:#75715e">#define int long long
-</span><span style="color:#75715e">#define lson 2 * i
-</span><span style="color:#75715e">#define rson 2 * i + 1
-</span><span style="color:#75715e">#define LS l, mid, lson
-</span><span style="color:#75715e">#define RS mid + 1, r, rson
-</span><span style="color:#75715e">#define UP(i, x, y) for (int i = x; i &lt; y; i++)
-</span><span style="color:#75715e">#define DOWN(i, x, y) for (int i = x; i &gt; y; i--)
-</span><span style="color:#75715e">#define MS(a, x) memset(a, x, sizeof(a))
-</span><span style="color:#75715e">#define GCD(x, y) __gcd(x, y)
-</span><span style="color:#75715e">#define INF 0x3f3f3f3f
-</span><span style="color:#75715e">#define EPS 1e-8
-</span><span style="color:#75715e">#define MOD 1e9 + 7
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>;
-
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">read</span>() {
-    <span style="color:#66d9ef">int</span> x;
-    cin <span style="color:#f92672">&gt;&gt;</span> x;
-    <span style="color:#66d9ef">return</span> x;
-}
-<span style="color:#75715e">/*********Solve**********/</span>
-vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v;
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
-    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> read();
-
-    v.clear();
-    UP(i, <span style="color:#ae81ff">0</span>, n) {
-        v.push_back(read());
-    }
-
-    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> v[n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
-    DOWN(i, n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
-        <span style="color:#66d9ef">if</span> (v[i] <span style="color:#f92672">&gt;</span> x) {
-            ans<span style="color:#f92672">++</span>;
-            x <span style="color:#f92672">=</span> v[i];
-        }
-    }
-    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
-}
-
-main() {
-    <span style="color:#75715e">// ios::sync_with_stdio(0);
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> read();
-    <span style="color:#75715e">// int t = 1;
-</span><span style="color:#75715e"></span>
-    <span style="color:#66d9ef">while</span> (t<span style="color:#f92672">--</span>) {
-        solve();
-    }
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-}
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="c-minimize-distancehttpscodeforcescomcontest1585problemc"><a href="https://codeforces.com/contest/1585/problem/C">C. Minimize Distance</a></h3>
-<h4 id="题意-2">题意</h4>
-<p>在一条坐标轴上搬运货物，n为需要送货的地点，k为一次可以携带的货物数量，每次都是从原点出发，送完最后一次货物无需回到原点，求最小路程。</p>
-<h4 id="思路-2">思路</h4>
-<p>由于给出的坐标有正有负，都是从原点出发，所以可以将正负两边拆成两次来考虑，求出总和之后，再将正负两边最大的一个坐标减去。</p>
-<p>模拟貌似有点问题，上DP。</p>
-<p>考虑<code>x&gt;0</code>的情况，将坐标升序排序，设$dp_i$为送完前<code>i</code>个点的最小路程，则有转移方程$dp_i=dp_{i-k}+2*x_i$。</p>
-<h4 id="代码-2">代码</h4>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-
-<span style="color:#75715e">#define int long long
-</span><span style="color:#75715e">#define lson 2 * i
-</span><span style="color:#75715e">#define rson 2 * i + 1
-</span><span style="color:#75715e">#define LS l, mid, lson
-</span><span style="color:#75715e">#define RS mid + 1, r, rson
-</span><span style="color:#75715e">#define UP(i, x, y) for (int i = x; i &lt; y; i++)
-</span><span style="color:#75715e">#define DOWN(i, x, y) for (int i = x; i &gt; y; i--)
-</span><span style="color:#75715e">#define MS(a, x) memset(a, x, sizeof(a))
-</span><span style="color:#75715e">#define GCD(x, y) __gcd(x, y)
-</span><span style="color:#75715e">#define INF 0x3f3f3f3f
-</span><span style="color:#75715e">#define EPS 1e-8
-</span><span style="color:#75715e">#define MOD 1e9 + 7
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>;
-
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">read</span>() {
-    <span style="color:#66d9ef">int</span> x;
-    cin <span style="color:#f92672">&gt;&gt;</span> x;
-    <span style="color:#66d9ef">return</span> x;
-}
-<span style="color:#75715e">/*********Solve**********/</span>
-multiset<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v1;
-multiset<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v2;
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
-    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> read(), k <span style="color:#f92672">=</span> read();
-    v1.clear(), v2.clear();
-
-    <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    UP(i, <span style="color:#ae81ff">0</span>, n) {
-        <span style="color:#66d9ef">int</span> temp <span style="color:#f92672">=</span> read();
-        <span style="color:#66d9ef">if</span> (temp <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>)
-            v1.insert(temp);
-        <span style="color:#66d9ef">else</span>
-            v2.insert(abs(temp));
-        m <span style="color:#f92672">=</span> max(m, abs(temp));
-    }
-    <span style="color:#66d9ef">int</span> sum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    <span style="color:#66d9ef">auto</span> count <span style="color:#f92672">=</span> [<span style="color:#f92672">&amp;</span>](multiset<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v) {
-        <span style="color:#66d9ef">int</span> sz <span style="color:#f92672">=</span> v.size();
-        <span style="color:#66d9ef">int</span> dp[sz <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
-        dp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-
-        UP(i, <span style="color:#ae81ff">1</span>, sz <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) {
-            dp[i] <span style="color:#f92672">=</span> (i <span style="color:#f92672">-</span> k <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">?</span> dp[i <span style="color:#f92672">-</span> k] <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> (<span style="color:#f92672">*</span>v.begin());
-            v.erase(v.begin());
-        }
-        sum <span style="color:#f92672">+=</span> dp[sz];
-    };
-
-    count(v1), count(v2);
-    cout <span style="color:#f92672">&lt;&lt;</span> sum <span style="color:#f92672">-</span> m <span style="color:#f92672">&lt;&lt;</span> endl;
-}
-
-main() {
-    <span style="color:#75715e">// ios::sync_with_stdio(0);
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> read();
-    <span style="color:#75715e">// int t = 1;
-</span><span style="color:#75715e"></span>
-    <span style="color:#66d9ef">while</span> (t<span style="color:#f92672">--</span>) {
-        solve();
-    }
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-}
-</code></pre></td></tr></table>
-</div>
-</div>]]></content:encoded>
-    </item>
-    
-    <item>
-      <title>Educational Codeforces Round 118 (Rated for Div. 2)</title>
-      <link>https://www.niuwx.cn/posts/algorithm/educational-codeforces-round-118-rated-for-div.-2/</link>
-      <pubDate>Thu, 02 Dec 2021 13:33:51 +0800</pubDate>
-      
-      <guid>https://www.niuwx.cn/posts/algorithm/educational-codeforces-round-118-rated-for-div.-2/</guid>
-      <description>&lt;p&gt;做题笔记。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;2021.12.01 22:35  &amp;ndash;  2021.12.02  0.30&lt;/strong&gt;&lt;/p&gt;</description>
-      <content:encoded><![CDATA[<p>做题笔记。</p>
-<p><strong>2021.12.01 22:35  &ndash;  2021.12.02  0.30</strong></p>
-<h3 id="a-long-comparisonhttpscodeforcescomcontest1613problema"><a href="https://codeforces.com/contest/1613/problem/A">A. Long Comparison</a></h3>
-<h4 id="题意">题意</h4>
-<p>给出两个数字，这两个数字都遵循特定的格式，在$x$末尾追加$p$个<code>0</code>，比较这两个数的大小。</p>
-<h4 id="思路">思路</h4>
-<p>固定<code>x</code>的长度，比较<code>p</code>即可。</p>
-<h4 id="代码">代码</h4>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-<span style="color:#75715e">#define INF 0x3f3f3f3f
-</span><span style="color:#75715e">#define int long long
-</span><span style="color:#75715e">#define maxn 1e5 + 5
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">int</span> x[<span style="color:#ae81ff">3</span>];
-<span style="color:#66d9ef">int</span> p[<span style="color:#ae81ff">3</span>];
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">read</span>() {
-    <span style="color:#66d9ef">int</span> x;
-    cin <span style="color:#f92672">&gt;&gt;</span> x;
-    <span style="color:#66d9ef">return</span> x;
-}
-
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">read</span>(<span style="color:#66d9ef">int</span> i) {
-    x[i] <span style="color:#f92672">=</span> read(), p[i] <span style="color:#f92672">=</span> read();
-
-    <span style="color:#66d9ef">while</span> (x[i] <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1e6</span>) {
-        x[i] <span style="color:#f92672">*=</span> <span style="color:#ae81ff">10</span>;
-        p[i]<span style="color:#f92672">--</span>;
-    }
-}
-
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
-    read(<span style="color:#ae81ff">1</span>);
-    read(<span style="color:#ae81ff">2</span>);
-
-    <span style="color:#66d9ef">if</span> (p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;</span> p[<span style="color:#ae81ff">2</span>]) {
-        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;&lt;&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
-    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (p[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;</span> p[<span style="color:#ae81ff">2</span>]) {
-        cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;&gt;&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/types.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/unistd.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">get_pid</span>() {
+    pid_t pid <span style="color:#f92672">=</span> fork();
+    <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+        printf(<span style="color:#e6db74">&#34;fork error</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        exit(<span style="color:#ae81ff">1</span>);
+    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+        printf(<span style="color:#e6db74">&#34;parent: the pid is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid);
+        <span style="color:#66d9ef">while</span> (<span style="color:#ae81ff">1</span>)
+            ;
     } <span style="color:#66d9ef">else</span> {
-        <span style="color:#66d9ef">if</span> (x[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;</span> x[<span style="color:#ae81ff">2</span>])
-            cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;&lt;&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
-        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (x[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">&gt;</span> x[<span style="color:#ae81ff">2</span>])
-            cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;&gt;&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
-        <span style="color:#66d9ef">else</span>
-            cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;=&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+        printf(<span style="color:#e6db74">&#34;child: this pid is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid);
+        <span style="color:#66d9ef">while</span> (<span style="color:#ae81ff">1</span>)
+            ;
     }
 }
-
-main() {
-    <span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> read();
-    <span style="color:#66d9ef">while</span> (t<span style="color:#f92672">--</span>) {
-        solve();
-    }
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-}
-
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="b-absent-remainderhttpscodeforcescomcontest1613problemb"><a href="https://codeforces.com/contest/1613/problem/B">B. Absent Remainder</a></h3>
-<h4 id="题意-1">题意</h4>
-<p>给出数组元素数量和一个数组，输出<code>[n/2]</code>组<code>a[i],a[j]</code>，需满足：</p>
-<ul>
-<li>$a[i] \ne a[j]$</li>
-<li>$a_i\mod a_j \ne a_i(i = 1&hellip;n)$</li>
-</ul>
-<h4 id="思路-1">思路</h4>
-<p>排序之后找到最小元素，其余元素对其取模不可能等于数组中其他元素。</p>
-<h4 id="代码-1">代码</h4>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-<span style="color:#75715e">#define INF 0x3f3f3f3f
-</span><span style="color:#75715e">#define int long long
-</span><span style="color:#75715e">#define maxn 1e5 + 5
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">read</span>() {
-    <span style="color:#66d9ef">int</span> x;
-    cin <span style="color:#f92672">&gt;&gt;</span> x;
-    <span style="color:#66d9ef">return</span> x;
-}
-
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
-    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> read();
-
-    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v;
-    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>)
-        v.push_back(read());
-
-    sort(v.begin(), v.end());
-    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> v.size(); i<span style="color:#f92672">++</span>) {
-        cout <span style="color:#f92672">&lt;&lt;</span> v[i] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> v[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&lt;&lt;</span> endl;
-        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">++</span>cnt <span style="color:#f92672">==</span> n <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>)
-            <span style="color:#66d9ef">return</span>;
-    }
-}
-
-main() {
-    <span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> read();
-    <span style="color:#66d9ef">while</span> (t<span style="color:#f92672">--</span>) {
-        solve();
-    }
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-}
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="c-poisoned-daggerhttpscodeforcescomcontest1613problemc"><a href="https://codeforces.com/contest/1613/problem/C">C. Poisoned Dagger</a></h3>
-<h4 id="题意-2">题意</h4>
-<p>恶龙有<code>h</code>滴血，勇士丢出匕首攻击恶龙，匕首不会直接对恶龙造成伤害，但是有中毒效果，在接下来的<code>harm</code>秒内，恶龙每秒掉1滴血。中毒效果不会叠加。</p>
-<p>例如：<code>k=4</code>，勇士在2，4，10秒时攻击恶龙(10滴血)。第<code>2</code>秒，第<code>3</code>秒各掉一滴血，到了第<code>4</code>秒，效果刷新，每秒掉一滴血到第<code>7</code>秒</p>
-<p>，第<code>8</code>秒，第<code>9</code>秒不掉血，从第<code>10</code>秒开始掉血，一直到第 <code>13</code>秒，恶龙死亡。</p>
-<p>给出勇士攻击次数以及攻击的时间点，恶龙的血量，求最小的<code>harm</code>。</p>
-<h4 id="思路-2">思路</h4>
-<p>二分。</p>
-<h4 id="代码-2">代码</h4>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-<span style="color:#75715e">#define INF 0x3f3f3f3f
-</span><span style="color:#75715e">#define int long long
-</span><span style="color:#75715e">#define maxn 1e5 + 5
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">int</span> n;
-<span style="color:#66d9ef">int</span> h;
-vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> v;
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">read</span>() {
-    <span style="color:#66d9ef">int</span> x;
-    cin <span style="color:#f92672">&gt;&gt;</span> x;
-    <span style="color:#66d9ef">return</span> x;
-}
-
-<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">judge</span>(<span style="color:#66d9ef">int</span> mid) {
-    <span style="color:#66d9ef">int</span> sum <span style="color:#f92672">=</span> mid;
-
-    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> v.size(); i<span style="color:#f92672">++</span>) {
-        sum <span style="color:#f92672">+=</span> min(v[i], mid);
-    }
-    <span style="color:#66d9ef">return</span> sum <span style="color:#f92672">&gt;=</span> h;
-}
-
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
-    n <span style="color:#f92672">=</span> read(), h <span style="color:#f92672">=</span> read();
-
-    v.clear();
-    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> w;
-    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
-        w.push_back(read());
-        <span style="color:#66d9ef">if</span> (i)
-            v.push_back(w[i] <span style="color:#f92672">-</span> w[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]);
-    }
-
-    <span style="color:#66d9ef">int</span> l <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, r <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e18</span>;
-    <span style="color:#66d9ef">while</span> (l <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> r) {
-        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l <span style="color:#f92672">+</span> r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
-        <span style="color:#66d9ef">if</span> (judge(mid))
-            r <span style="color:#f92672">=</span> mid;
-        <span style="color:#66d9ef">else</span>
-            l <span style="color:#f92672">=</span> mid;
-    }
-    <span style="color:#66d9ef">if</span> (judge(l))
-        cout <span style="color:#f92672">&lt;&lt;</span> l <span style="color:#f92672">&lt;&lt;</span> endl;
-    <span style="color:#66d9ef">else</span>
-        cout <span style="color:#f92672">&lt;&lt;</span> r <span style="color:#f92672">&lt;&lt;</span> endl;
-}
-
-main() {
-    <span style="color:#66d9ef">int</span> t;
-    cin <span style="color:#f92672">&gt;&gt;</span> t;
-    <span style="color:#66d9ef">while</span> (t<span style="color:#f92672">--</span>) {
-        solve();
-    }
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-}
-</code></pre></td></tr></table>
-</div>
-</div>]]></content:encoded>
-    </item>
-    
-    <item>
-      <title>Deltix Round, Autumn 2021 (Div. 1 &#43; Div. 2)</title>
-      <link>https://www.niuwx.cn/posts/algorithm/deltix-round-autumn-2021-div.-1-&#43;-div.-2/</link>
-      <pubDate>Mon, 29 Nov 2021 13:33:51 +0800</pubDate>
-      
-      <guid>https://www.niuwx.cn/posts/algorithm/deltix-round-autumn-2021-div.-1-&#43;-div.-2/</guid>
-      <description>&lt;p&gt;做题笔记。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;2021.11.28 22:35  &amp;ndash;  2021.11.29  1:00&lt;/strong&gt;&lt;/p&gt;</description>
-      <content:encoded><![CDATA[<p>做题笔记。</p>
-<p><strong>2021.11.28 22:35  &ndash;  2021.11.29  1:00</strong></p>
-<p>第一次参加Codeforces的比赛，太菜了&hellip;</p>
-<h3 id="a-divide-and-multiplyhttpscodeforcescomcontest1609problema"><a href="https://codeforces.com/contest/1609/problem/A">A. Divide and Multiply</a></h3>
-<h4 id="题意">题意</h4>
-<p>据说是500分的题，难度不是很大。大概题意是给一组数，每次操作可以将一个数（必须是偶数）除<code>2</code>，同时将另一个数乘<code>2</code>，求执行最佳操作之后数组和的最大值。</p>
-<h4 id="思路">思路</h4>
-<ol>
-<li>找到数组元素<code>a[i]</code>因式分解后<code>2</code>的个数$t_i$，$a[i] /= 2*t_i$，处理之后得到了<code>2</code>的个数和<code>t</code>，且所有数组元素都为奇数。</li>
-<li>找到处理后的所有数组元素的最大值，乘$2^t$即可得到最大项，加上其余数组元素即可得到最大数组和。</li>
-</ol>
-<h4 id="代码">代码</h4>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> ll;
-<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>;
-
-<span style="color:#66d9ef">int</span> n;
-ll arr[maxn];
-
-ll <span style="color:#a6e22e">fast</span>(ll a, ll base, ll power) {
-    ll ans <span style="color:#f92672">=</span> a;
-    <span style="color:#66d9ef">while</span> (power) {
-        <span style="color:#66d9ef">if</span> (power <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">1</span>)
-            ans <span style="color:#f92672">*=</span> base;
-        base <span style="color:#f92672">*=</span> base;
-        power <span style="color:#f92672">&gt;&gt;=</span> <span style="color:#ae81ff">1</span>;
-    }
-    <span style="color:#66d9ef">return</span> ans;
-}
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#66d9ef">const</span> <span style="color:#f92672">*</span>argv[]) {
-    <span style="color:#66d9ef">int</span> t;
-    scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>t);
-    <span style="color:#66d9ef">while</span> (t<span style="color:#f92672">--</span>) {
-        scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>n);
-        <span style="color:#66d9ef">int</span> max <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-        ll power <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-        ll ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">//long long 防爆
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
-            scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>arr[i]);
-
-            <span style="color:#66d9ef">while</span> (arr[i] <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-                arr[i] <span style="color:#f92672">/=</span> <span style="color:#ae81ff">2</span>;
-                power<span style="color:#f92672">++</span>;
-            }
-
-            <span style="color:#66d9ef">if</span> (arr[i] <span style="color:#f92672">&gt;</span> arr[max])
-                max <span style="color:#f92672">=</span> i;
-            ans <span style="color:#f92672">+=</span> arr[i];
-        }
-        ans <span style="color:#f92672">+=</span> fast(arr[max], <span style="color:#ae81ff">2</span>, power) <span style="color:#f92672">-</span> arr[max];<span style="color:#75715e">//猥琐一点加了快速幂防止超时
-</span><span style="color:#75715e"></span>        cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
-    }
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-}
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="b-william-the-vigilanthttpscodeforcescomcontest1609problemb"><a href="https://codeforces.com/contest/1609/problem/B">B. William the Vigilant</a></h3>
-<h4 id="题意-1">题意</h4>
-<p>给一个字符串<code>s</code>，只包含字符a、b、c，再给定一个数字<code>q</code>，接下来给出<code>q</code>组操作<code>(pos,c)</code>，每次操作将字符串<code>s</code>中第<code>pos</code>个字符变成给出的字符<code>c</code>，然后输出改变后的字符串还需要最少修改几个字符使得这个字符串没有子串<code>abc</code>。</p>
-<h4 id="思路-1">思路</h4>
-<p>这题暴力遍历会超时。可以提前统计字串数量，每一次操作分情况讨论<code>abc</code>字串的数量变化。</p>
-<h4 id="代码-1">代码</h4>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">72
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">73
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">74
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">75
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">76
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">77
-</span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> ll;
-<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e5</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>;
-
-<span style="color:#66d9ef">int</span> n, q;
-string s;
-<span style="color:#66d9ef">int</span> pos;
-<span style="color:#66d9ef">char</span> c;
-<span style="color:#66d9ef">int</span> ans;
-
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
-    ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>)
-        <span style="color:#66d9ef">if</span> (i <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&lt;</span> n <span style="color:#f92672">&amp;&amp;</span> s[i] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span>)
-            ans<span style="color:#f92672">++</span>;
-}
-
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">find</span>() {
-    pos <span style="color:#f92672">=</span> pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
-    <span style="color:#66d9ef">if</span> (s[pos] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span>) {
-        <span style="color:#66d9ef">if</span> (s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span>)
-            <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;a&#39;</span>)
-                ans<span style="color:#f92672">--</span>;
-
-        <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span>)
-            ans<span style="color:#f92672">++</span>;
-
-        <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span>)
-            ans<span style="color:#f92672">++</span>;
-    }
-
-    <span style="color:#66d9ef">if</span> (s[pos] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span>) {
-        <span style="color:#66d9ef">if</span> (s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span>)
-            <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;b&#39;</span>)
-                ans<span style="color:#f92672">--</span>;
-
-        <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span>)
-            ans<span style="color:#f92672">++</span>;
-
-        <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span>)
-            ans<span style="color:#f92672">++</span>;
-    }
-
-    <span style="color:#66d9ef">if</span> (s[pos] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span>) {
-        <span style="color:#66d9ef">if</span> (s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span>)
-            <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;c&#39;</span>)
-                ans<span style="color:#f92672">--</span>;
-
-        <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span>)
-            ans<span style="color:#f92672">++</span>;
-
-        <span style="color:#66d9ef">if</span> (c <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> s[pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;c&#39;</span>)
-            ans<span style="color:#f92672">++</span>;
-    }
-
-    s[pos] <span style="color:#f92672">=</span> c;
-    cout <span style="color:#f92672">&lt;&lt;</span> ans <span style="color:#f92672">&lt;&lt;</span> endl;
-}
-
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
-    scanf(<span style="color:#e6db74">&#34;%d %c&#34;</span>, <span style="color:#f92672">&amp;</span>pos, <span style="color:#f92672">&amp;</span>c);
-
-    find();
-}
-
 <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-    scanf(<span style="color:#e6db74">&#34;%d%d&#34;</span>, <span style="color:#f92672">&amp;</span>n, <span style="color:#f92672">&amp;</span>q);
-    cin <span style="color:#f92672">&gt;&gt;</span> s;
-
-    init();
-    <span style="color:#66d9ef">while</span> (q<span style="color:#f92672">--</span>) {
-        solve();
-    }
+    get_pid();
     <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
-
 </code></pre></td></tr></table>
 </div>
-</div><h3 id="c-complex-market-analysishttpscodeforcescomcontest1609problemc"><a href="https://codeforces.com/contest/1609/problem/C">C. Complex Market Analysis</a></h3>
-<h4 id="题意-2">题意</h4>
-<p>题目比较好理解，给定<code>n</code>, <code>e</code>和一个含<code>n</code>个元素的数组。</p>
-<p><code>(i,k)</code>需要满足以下条件：</p>
-<ol>
-<li>$1&lt;=i,k$</li>
-<li>$i+e*k&lt;=n$</li>
-<li>$a_i \cdot a_{i+e} \cdot a_{i+2e} \cdot&hellip; \cdot a_{i+ke}$ 是一个质数。</li>
-</ol>
-<p>求出满足条件的<code>(i,k)</code>的对数。</p>
-<h4 id="思路-2">思路</h4>
-<p>考虑到第三个条件的限制，需要满足多项式的每一项<code>有且只有</code>一个质数，其他项都为<code>1</code>。刚开始做就是暴力遍历，但是超时，需要继续剪枝。考虑到有且只有一个质数，那么可以从质数下手，去找满足条件的<code>1</code>，这样消耗就会小很多。</p>
-<h4 id="代码-2">代码</h4>
+</div><p>执行结果：</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> ll;
-<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e6</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>;
-
-<span style="color:#66d9ef">int</span> n, e;
-<span style="color:#66d9ef">int</span> arr[maxn];
-<span style="color:#66d9ef">int</span> prime[maxn];
-
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">isprime</span>() {
-    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> maxn; i<span style="color:#f92672">++</span>)
-        prime[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
-    prime[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-
-    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;</span> maxn; i<span style="color:#f92672">++</span>) {
-        <span style="color:#66d9ef">if</span> (prime[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
-            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; j <span style="color:#f92672">*</span> i <span style="color:#f92672">&lt;</span> maxn; j<span style="color:#f92672">++</span>) {
-                prime[i <span style="color:#f92672">*</span> j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-            }
-    }
-}
-
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span>() {
-    ll cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
-        <span style="color:#75715e">//******************************
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (prime[arr[i]] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) { <span style="color:#75715e">//找到质数
-</span><span style="color:#75715e"></span>            ll l <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, r <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> e; t <span style="color:#f92672">&lt;=</span> n; t <span style="color:#f92672">+=</span> e) {<span style="color:#75715e">//向右找1
-</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> (arr[t] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
-                    r<span style="color:#f92672">++</span>;
-                <span style="color:#66d9ef">else</span>
-                    <span style="color:#66d9ef">break</span>;
-            }
-
-            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> i <span style="color:#f92672">-</span> e; t <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">1</span>; t <span style="color:#f92672">-=</span> e) {<span style="color:#75715e">//向左找1
-</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> (arr[t] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
-                    l<span style="color:#f92672">++</span>;
-                <span style="color:#66d9ef">else</span>
-                    <span style="color:#66d9ef">break</span>;
-            }
-
-            cnt <span style="color:#f92672">+=</span> l <span style="color:#f92672">+</span> r <span style="color:#f92672">+</span> l <span style="color:#f92672">*</span> r; <span style="color:#75715e">//统计答案
-</span><span style="color:#75715e"></span>        }
-        <span style="color:#75715e">//******************************
-</span><span style="color:#75715e"></span>    }
-    cout <span style="color:#f92672">&lt;&lt;</span> cnt <span style="color:#f92672">&lt;&lt;</span> endl;
-}
-
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-    isprime();<span style="color:#75715e">//数据范围1e6，质数筛打表节约判断时间
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> t;
-    scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>t);
-    <span style="color:#66d9ef">while</span> (t<span style="color:#f92672">--</span>) {
-        scanf(<span style="color:#e6db74">&#34;%d%d&#34;</span>, <span style="color:#f92672">&amp;</span>n, <span style="color:#f92672">&amp;</span>e);
-        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
-            scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>arr[i]);
-        }
-        solve();
-    }
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-}
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">parent: the pid is <span style="color:#ae81ff">20580</span>
+child: this pid is <span style="color:#ae81ff">0</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>统计答案这一步，这个质数左边有<code>l</code>个<code>1</code>，右边有<code>r</code>个<code>1</code>。</p>
-<ol>
-<li>只考虑左边及质数，共<code>l</code>种情况。</li>
-<li>只考虑质数及右边，共<code>r</code>种情况。</li>
-<li>考虑左边+质数+右边，共<code>l*r</code>种情况。</li>
-</ol>
-<h3 id="d-social-networkhttpscodeforcescomcontest1609problemd"><a href="https://codeforces.com/contest/1609/problem/D">D. Social Network</a></h3>
-<h4 id="题意-3">题意</h4>
-<p>共<code>n</code>个人，<code>d</code>个关系对<code>(a,b)</code>，每个关系对可以介绍<code>a</code>和<code>b</code>两个人认识， 每次介绍之后输出熟人最多的数量。</p>
-<p>题目有个坑点，在分析第二个样例的时候可以发现第四次操作，<code>1</code>、<code>4</code>连接之后，答案明明应该是<code>3</code>，但是正确答案却是<code>4</code>。</p>
-<p>题目中还有一句话需要注意：</p>
-<p><img loading="lazy" src="/social_network.png" alt="social_network"  />
+</div><p>执行结果中有两条输出，分别是父进程和子进程。</p>
+<p>通过命令行执行<code>htop</code>找到对应的进程，我们可以发现父子进程都有其特定的pid，那么为什么程序会输出0呢？</p>
+<p><img loading="lazy" src="/htop.png" alt="htop.png"  />
 </p>
-<p>即如果<code>1</code>、<code>4</code>已经认识，那么就把<code>1</code>或<code>4</code>介绍给另一个大连通块认识。</p>
-<h4 id="思路-3">思路</h4>
-<p>并查集，先检查是否在同一连通块，如果在同一连通块，那就与另一个大连通块连通。</p>
-<h4 id="代码-3">代码</h4>
+<p>实际上，在调用<code>fork()</code>函数之后，程序创建了一个子进程，程序本身成为了父进程。</p>
+<p>而<code>fork()</code>的返回值代表什么意义呢？</p>
+<ul>
+<li>负数：创建子进程失败。</li>
+<li>零：在子进程中，<code>fork()</code>返回0</li>
+<li>正数：在父进程中，<code>fork()</code>返回子进程的pid</li>
+</ul>
+<p>至此，以上的疑惑也就迎刃而解了，在这里介绍两个进程相关的函数：</p>
+<ul>
+<li><code>getpid()</code>：获取当前进程的pid</li>
+<li><code>getppid()</code>：获取当前进程的父进程的pid</li>
+</ul>
+<p>接下来再看这段程序：</p>
+<p>增加了一个全局变量和一个函数内部的局部变量。</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/types.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/unistd.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> global_var <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">get_pid</span>() {
+    pid_t pid <span style="color:#f92672">=</span> fork();
+    <span style="color:#66d9ef">int</span> var <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+    <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+        printf(<span style="color:#e6db74">&#34;fork error</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        exit(<span style="color:#ae81ff">1</span>);
+    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+        printf(<span style="color:#e6db74">&#34;parent: this pid is %d, global_var = %d, var = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid, global_var, var);
+        exit(<span style="color:#ae81ff">0</span>);
+    } <span style="color:#66d9ef">else</span> {
+        global_var<span style="color:#f92672">--</span>;
+        var<span style="color:#f92672">++</span>;
+        printf(<span style="color:#e6db74">&#34;child: this pid is %d, global_var = %d, var = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid, global_var, var);
+
+        exit(<span style="color:#ae81ff">0</span>);
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    get_pid();
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>执行结果：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">parent: this pid is 22982, global_var <span style="color:#f92672">=</span> 2, var <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+child: this pid is 0, global_var <span style="color:#f92672">=</span> 1, var <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在子进程中，<code>global_var</code>与<code>var</code>分别执行的加减操作，但是在父进程中，这两个变量的值都未发生改变，这是为什么呢？</p>
+<p>原因在于：执行<code>fork()</code>函数时，子进程复制了父进程的所有资源，包括内存等等。因此，父子进程属于不同的内存空间，那么子进程中变量发生改变时，父进程中的变量必然不会改变。</p>
+<h4 id="vfork">vfork()</h4>
+<p>除了<code>fork()</code>函数，还有一个<code>vfork()</code>函数，同样是系统调用函数，用来创建子进程。但是这二者是有区别的：<code>vfork()</code>函数在创建子进程时，父子进程共享地址空间。因此子进程中修改的全局变量在父进程中也会被修改。</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/types.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/unistd.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> global_var <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">get_pid</span>() {
+    pid_t pid <span style="color:#f92672">=</span> vfork();
+    <span style="color:#66d9ef">int</span> var <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+    printf(<span style="color:#e6db74">&#34;pid = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid());
+    printf(<span style="color:#e6db74">&#34;global_var = %d, var = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, global_var, var);
+    <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+        printf(<span style="color:#e6db74">&#34;fork error</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        exit(<span style="color:#ae81ff">1</span>);
+    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+        printf(<span style="color:#e6db74">&#34;parent: this pid is %d, global_var = %d, var = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid, global_var, var);
+        exit(<span style="color:#ae81ff">0</span>);
+    } <span style="color:#66d9ef">else</span> {
+        global_var<span style="color:#f92672">--</span>;
+        var<span style="color:#f92672">++</span>;
+        printf(<span style="color:#e6db74">&#34;child: this pid is %d, global_var = %d, var = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid, global_var, var);
+        exit(<span style="color:#ae81ff">0</span>);
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    get_pid();
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>执行结果：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pid <span style="color:#f92672">=</span> <span style="color:#ae81ff">25371</span>
+global_var <span style="color:#f92672">=</span> 2, var <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+child: this pid is 0, global_var <span style="color:#f92672">=</span> 1, var <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>
+pid <span style="color:#f92672">=</span> <span style="color:#ae81ff">25370</span>
+global_var <span style="color:#f92672">=</span> 1, var <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+parent: this pid is 25371, global_var <span style="color:#f92672">=</span> 1, var <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="execv">execv()</h4>
+<p>在<code>fork()</code>与<code>vfork()</code>中，子进程与父进程都运行同样的代码。如果需要子进程执行不同的操作，就要用到<code>execv()</code>函数了</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//parent.c
+</span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> argv[]) {
+    execv(<span style="color:#e6db74">&#34;child&#34;</span>, argv);
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//child.c
+</span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> argv[]) {
+    puts(<span style="color:#e6db74">&#34;welcome!&#34;</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> argc; i<span style="color:#f92672">++</span>) {
+        puts(argv[i]);
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>分别编译两个c文件，执行<code>parent.c</code>编译得到的可执行文件：<code>./parent 1 2 3</code>。</p>
+<p>执行结果：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">welcome!
+./parent
+<span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">2</span>
+<span style="color:#ae81ff">3</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="进程等待">进程等待</h3>
+<p>进程等待就是同步父子进程。可以通过调用<code>wait()</code>函数来实现。</p>
+<p><code>wait()</code>函数的工作原理是首先判断子进程是否存在， 如果创建失败，子进程不存在，那么就直接退出进程，并提示相关错误信息。如果创建成功，<code>wait()</code>函数将父进程挂起，知道子进程结束，并返回结束的状态和最后结束的子进程的pid。</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/types.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;wait.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">exit_s</span>(<span style="color:#66d9ef">int</span> status) {
+    <span style="color:#66d9ef">if</span> (WIFEXITED(status)) {
+        printf(<span style="color:#e6db74">&#34;normal exist, status = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, WEXITSTATUS(status));
+    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (WIFSIGNALED(status)) {
+        printf(<span style="color:#e6db74">&#34;signal exit! status = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, WTERMSIG(status));
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">wait_test</span>() {
+    pid_t pid_a;
+    <span style="color:#66d9ef">int</span> status;
+    <span style="color:#66d9ef">int</span> ret;
+
+    pid_a <span style="color:#f92672">=</span> fork();
+    <span style="color:#66d9ef">if</span> (pid_a <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+        printf(<span style="color:#e6db74">&#34;child process error</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        exit(<span style="color:#ae81ff">0</span>);
+    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (pid_a <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+        printf(<span style="color:#e6db74">&#34;the pid of parent is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid());
+        printf(<span style="color:#e6db74">&#34;wait for child ...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        <span style="color:#66d9ef">int</span> pid_child <span style="color:#f92672">=</span> wait(<span style="color:#f92672">&amp;</span>status);
+        <span style="color:#66d9ef">if</span> (pid_child <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+            printf(<span style="color:#e6db74">&#34;i catch a child process with pid of %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid_child);
+        }
+        exit_s(status);
+    } <span style="color:#66d9ef">else</span> {
+        printf(<span style="color:#e6db74">&#34;the pid of child is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid());
+        sleep(<span style="color:#ae81ff">3</span>);
+        exit(<span style="color:#ae81ff">2</span>);
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    wait_test();
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>执行结果：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">the pid of parent is <span style="color:#ae81ff">46045</span>
+wait <span style="color:#66d9ef">for</span> child ...
+the pid of child is <span style="color:#ae81ff">46046</span>
+i catch a child process with pid of <span style="color:#ae81ff">46046</span>
+normal exist, status <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在子进程中调用<code>sleep()</code>函数，睡眠3秒，只有子进程完成睡眠，才能正常退出并被父进程捕捉到。在此期间父进程会继续等待下去。在wait函数中会将子进程的状态保存到<code>status</code>中。</p>
+<p>在处理<code>status</code>的<code>exit_s()</code>函数中，调用了几个宏：</p>
+<ul>
+<li><code>WIFEXITED</code>：当子进程正常退出时，返回真值</li>
+<li><code>WEXITSTATUS</code>：返回子进程正常退出时的状态</li>
+<li><code>WTERMSIG</code>：用于子进程被信号终止的情况</li>
+</ul>
+<p>如果在程序执行过程中子进程异常退出，会是怎样的情况呢？</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/types.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;wait.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">exit_s</span>(<span style="color:#66d9ef">int</span> status) {
+    <span style="color:#66d9ef">if</span> (WIFEXITED(status)) {
+        printf(<span style="color:#e6db74">&#34;normal exist, status = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, WEXITSTATUS(status));
+    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (WIFSIGNALED(status)) {
+        printf(<span style="color:#e6db74">&#34;signal exit! status = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, WTERMSIG(status));
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">wait_test</span>() {
+    pid_t pid_a;
+    <span style="color:#66d9ef">int</span> status;
+    <span style="color:#66d9ef">int</span> ret;
+
+    pid_a <span style="color:#f92672">=</span> fork();
+    <span style="color:#66d9ef">if</span> (pid_a <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+        printf(<span style="color:#e6db74">&#34;child process error</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        exit(<span style="color:#ae81ff">0</span>);
+    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (pid_a <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+        printf(<span style="color:#e6db74">&#34;the pid of parent is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid());
+        printf(<span style="color:#e6db74">&#34;wait child ...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        <span style="color:#66d9ef">int</span> pid_child <span style="color:#f92672">=</span> wait(<span style="color:#f92672">&amp;</span>status);
+        <span style="color:#66d9ef">if</span> (pid_child <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+            printf(<span style="color:#e6db74">&#34;i catch a child process with pid of %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid_child);
+        }
+        exit_s(status);
+    } <span style="color:#66d9ef">else</span> {
+        printf(<span style="color:#e6db74">&#34;the pid of child is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid());
+        <span style="color:#75715e">// sleep(3);
+</span><span style="color:#75715e"></span>        pid_t pid <span style="color:#f92672">=</span> getpid();
+        kill(pid, <span style="color:#ae81ff">9</span>);
+        exit(<span style="color:#ae81ff">2</span>);
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    wait_test();
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>执行结果：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">the pid of parent is <span style="color:#ae81ff">46749</span>
+wait child ...
+the pid of child is <span style="color:#ae81ff">46750</span>
+i catch a child process with pid of <span style="color:#ae81ff">46750</span>
+signal exit! status <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="线程">线程</h3>
+<p>需要先了解一下进程和线程的区别：</p>
+<ul>
+<li>进程是资源分配的最小单位，每个进程都占有独立内存空间。</li>
+<li>线程是程序执行的最小单位，多个线程共享同一个内存空间。</li>
+<li>一个进程由几个线程组成，线程与同属一个进程的其他线程共享当前进程拥有的全部资源。</li>
+</ul>
+<p>那么，线程有哪些优势呢？</p>
+<ul>
+<li>线程不需要额外的内存申请</li>
+<li>线程共享进程内的数据，访问数据方便，而进程则需要通过通信的方式进行。</li>
+</ul>
+<p>在linux下，进程使用<code>ps</code>命令查看，<code>线程</code>则通过<code>top</code>命令来查看。还可以通过<code>top -p pid</code>来查看某个进程内的线程。</p>
+<p>先看一个创建进程的例子：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;pthread.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">thread1</span>(<span style="color:#66d9ef">void</span>) {
+    <span style="color:#66d9ef">int</span> i;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>; i<span style="color:#f92672">++</span>) {
+        printf(<span style="color:#e6db74">&#34;this is the first thread</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        sleep(<span style="color:#ae81ff">1</span>);
+    }
+}
+
+<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">thread2</span>(<span style="color:#66d9ef">void</span>) {
+    <span style="color:#66d9ef">int</span> i;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>; i<span style="color:#f92672">++</span>) {
+        printf(<span style="color:#e6db74">&#34;this is the second thread</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        sleep(<span style="color:#ae81ff">1</span>);
+    }
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">int</span> ret <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    pthread_t id1, id2;
+    pthread_create(<span style="color:#f92672">&amp;</span>id1, NULL, (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)thread1, NULL);
+    pthread_create(<span style="color:#f92672">&amp;</span>id2, NULL, (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)thread2, NULL);
+    pthread_join(id1, NULL);
+    pthread_join(id2, NULL);
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>在这里，<code>thread1</code>和<code>thread2</code>两个函数分别属于不同的线程。</p>
+<p><code>pthread_t</code>是线程的id。</p>
+<p><code>pthread_create()</code>是创建线程的函数，参数分别是：参数id，线程属性，线程运行函数的起始地址，运行函数的参数。</p>
+<p>注意，由于<code>pthread</code>并非Linux系统的默认库，而是POSIX线程库，所以在编译的时候需要加上<code>-lpthread</code>来显式链接该库：<code>gcc -g main.c -lpthread</code>。</p>
+<p>执行结果：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">this is the first thread
+this is the second thread
+this is the first thread
+this is the second thread
+this is the first thread
+this is the second thread
+this is the first thread
+this is the second thread
+this is the first thread
+this is the second thread
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="进程间通信">进程间通信</h2>
+<p>进程间的通信包括管道、共享内存、信号量通信、消息队列、套借口(socket)和全双工管道通信。</p>
+<h3 id="管道">管道</h3>
+<p>管道顾名思义，就如同水管一样，当水从水管的一端流向另一端的时候，水流是单方向的。某一时刻只能从单方向传递数据，不能双向传递，这种就是半双工模式。半双工模式只能一端写数据，一端读数据，先来看一个半双工的例子：</p>
+<ol>
+<li>在父进程中通过<code>pipe()</code>函数创建一个管道，得到管道读端ppe[0]，写端ppe[1]。</li>
+<li>在父进程中调用<code>fork()</code>产生一个子进程</li>
+<li>在子进程中关闭ppe[0]，往ppe[1]中写入数据，在父进程中关闭ppe[1]，从ppe[0]中读取数据。</li>
+</ol>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;wait.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">pipe_test</span>() {
+    <span style="color:#66d9ef">int</span> ppe[<span style="color:#ae81ff">2</span>];
+
+    <span style="color:#66d9ef">if</span> (pipe(ppe) <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+        perror(<span style="color:#e6db74">&#34;not create a new process!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+    }
+
+    <span style="color:#66d9ef">int</span> pid <span style="color:#f92672">=</span> fork();
+    <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+        close(ppe[<span style="color:#ae81ff">0</span>]);
+        printf(<span style="color:#e6db74">&#34;child process send message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+
+        <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>message <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;happy new year!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        write(ppe[<span style="color:#ae81ff">1</span>], message, strlen(message));
+    } <span style="color:#66d9ef">else</span> {
+        close(ppe[<span style="color:#ae81ff">1</span>]);
+        sleep(<span style="color:#ae81ff">2</span>);
+        printf(<span style="color:#e6db74">&#34;parent process receive message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        <span style="color:#66d9ef">char</span> message[<span style="color:#ae81ff">100</span>];
+        <span style="color:#66d9ef">int</span> line <span style="color:#f92672">=</span> read(ppe[<span style="color:#ae81ff">0</span>], message, <span style="color:#ae81ff">100</span>);
+        write(STDOUT_FILENO, message, line);
+        wait(NULL);
+        exit(<span style="color:#ae81ff">0</span>);
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    pipe_test();
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>执行结果：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">child process send message
+parent process receive message
+happy new year!
+</code></pre></td></tr></table>
+</div>
+</div><p>上面这个例子演示了单向通信，如果我们需要双向通信：父进程在读的同时也给子进程写。要实现这样的功能，就必须建立两个管道：一个管道从父进程流向子进程，一个管道从子进程流向父进程。</p>
+<p>代码如下：</p>
 <div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
@@ -1255,62 +826,189 @@ string s;
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c++" data-lang="c++"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bits/stdc++.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
-<span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> ll;
-<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> maxn <span style="color:#f92672">=</span> <span style="color:#ae81ff">1005</span>;
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;wait.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">pipe_test</span>() {
+    <span style="color:#66d9ef">int</span> ppea[<span style="color:#ae81ff">2</span>], ppeb[<span style="color:#ae81ff">2</span>];
 
-<span style="color:#66d9ef">int</span> n, d;
-<span style="color:#66d9ef">int</span> parent[maxn];
-<span style="color:#66d9ef">int</span> temp[maxn];
-<span style="color:#66d9ef">int</span> sz[maxn];
-
-<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span>() {
-    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>) {
-        parent[i] <span style="color:#f92672">=</span> i;
-        sz[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">if</span> (pipe(ppea) <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> pipe(ppeb) <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+        perror(<span style="color:#e6db74">&#34;not create a new process!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
     }
+
+    <span style="color:#66d9ef">int</span> pid <span style="color:#f92672">=</span> fork();
+    <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
+        perror(<span style="color:#e6db74">&#34;not create a new process !&#34;</span>);
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+        close(ppea[<span style="color:#ae81ff">0</span>]);
+        printf(<span style="color:#e6db74">&#34;child process send message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>message_send <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;happy new year!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        write(ppea[<span style="color:#ae81ff">1</span>], message_send, strlen(message_send));
+
+        sleep(<span style="color:#ae81ff">2</span>);
+
+        close(ppeb[<span style="color:#ae81ff">1</span>]);
+        printf(<span style="color:#e6db74">&#34;child process receive message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        <span style="color:#66d9ef">char</span> message_receive[<span style="color:#ae81ff">100</span>];
+        <span style="color:#66d9ef">int</span> line <span style="color:#f92672">=</span> read(ppeb[<span style="color:#ae81ff">0</span>], message_receive, <span style="color:#ae81ff">100</span>);
+        write(STDOUT_FILENO, message_receive, line);
+        exit(<span style="color:#ae81ff">0</span>);
+    } <span style="color:#66d9ef">else</span> {
+        close(ppea[<span style="color:#ae81ff">1</span>]);
+        sleep(<span style="color:#ae81ff">2</span>);
+        printf(<span style="color:#e6db74">&#34;parent process receive message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        <span style="color:#66d9ef">char</span> message_receive[<span style="color:#ae81ff">100</span>];
+        <span style="color:#66d9ef">int</span> line <span style="color:#f92672">=</span> read(ppea[<span style="color:#ae81ff">0</span>], message_receive, <span style="color:#ae81ff">100</span>);
+        write(STDOUT_FILENO, message_receive, line);
+
+        close(ppeb[<span style="color:#ae81ff">0</span>]);
+        printf(<span style="color:#e6db74">&#34;parent process send message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>message_send <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;happy new year my child!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+        write(ppeb[<span style="color:#ae81ff">1</span>], message_send, strlen(message_send));
+        exit(<span style="color:#ae81ff">0</span>);
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
 
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">find</span>(<span style="color:#66d9ef">int</span> x) {
-    <span style="color:#66d9ef">return</span> x <span style="color:#f92672">==</span> parent[x] <span style="color:#f92672">?</span> x : parent[x] <span style="color:#f92672">=</span> find(parent[x]);
-}
-
-<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">merge</span>(<span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y) {
-    x <span style="color:#f92672">=</span> find(x);
-    y <span style="color:#f92672">=</span> find(y);
-
-    <span style="color:#66d9ef">if</span> (x <span style="color:#f92672">!=</span> y) {
-        parent[x] <span style="color:#f92672">=</span> y;
-        sz[y] <span style="color:#f92672">+=</span> sz[x];
-        <span style="color:#66d9ef">return</span> true;
-    }
-    <span style="color:#66d9ef">return</span> false;
-}
-
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#66d9ef">const</span> <span style="color:#f92672">*</span>argv[]) {
-    scanf(<span style="color:#e6db74">&#34;%d%d&#34;</span>, <span style="color:#f92672">&amp;</span>n, <span style="color:#f92672">&amp;</span>d);
-    init();
-
-    <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#75715e">//大连通块数量
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, x, y; i <span style="color:#f92672">&lt;</span> d; i<span style="color:#f92672">++</span>) {
-        scanf(<span style="color:#e6db74">&#34;%d%d&#34;</span>, <span style="color:#f92672">&amp;</span>x, <span style="color:#f92672">&amp;</span>y);
-        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>merge(x, y))
-            cnt<span style="color:#f92672">++</span>;
-
-        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> temp;
-        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>)
-            <span style="color:#66d9ef">if</span> (parent[i] <span style="color:#f92672">==</span> i)
-                temp.push_back(sz[i]);
-
-        sort(temp.rbegin(), temp.rend());
-        cout <span style="color:#f92672">&lt;&lt;</span> accumulate(temp.begin(), temp.begin() <span style="color:#f92672">+</span> cnt, <span style="color:#ae81ff">0</span>) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> endl;
-    }
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    pipe_test();
     <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
 </code></pre></td></tr></table>
 </div>
-</div>]]></content:encoded>
+</div><p>执行结果：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">child process send message
+parent process receive message
+happy new year!
+parent process send message
+child process receive message
+happy new year my child!
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="命令管道">命令管道</h3>
+<p>上个部分介绍了管道，然而管道只能在有关联的进程中进行通信，也就是父子进程之间。那如果不相关的两个进程间也需要进行通信，这里就需要用到命令管道了，通常称为<code>FIFO</code>。通过这个名称可以知道命令管道遵循先进先出的原则，与数据结构中的队列类似。</p>
+<p>创建一个命令管道有两种方法：</p>
+<ul>
+<li>通过shell命令创建</li>
+<li>通过函数创建命名管道</li>
+</ul>
+<h4 id="shell命令创建命名管道">shell命令创建命名管道</h4>
+<ol>
+<li>首先通过<code>mkfifo</code>创建一个管道文件test：<code>mkfifo test</code></li>
+<li>通过<code>cat ./test</code>查看，此时，管道文件中没有任何数据</li>
+<li>打开另一个终端，向FIFO中写入数据：<code>echo &quot;hello fifo&quot; &gt; ./test</code></li>
+<li>再次通过<code>cat ./test</code>查看，将会得到之前写入的数据。</li>
+</ol>
+<h4 id="函数创建命名管道">函数创建命名管道</h4>
+<p>下面通过c来实现命令管道：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//write.c
+</span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;fcntl.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">mkfifo_write</span>() {
+    <span style="color:#66d9ef">int</span> ppe <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;./fifo&#34;</span>, O_RDWR);
+    printf(<span style="color:#e6db74">&#34;write the message:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+
+    <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> message <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;hello world</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+    write(ppe, message, strlen(message));
+    close(ppe);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+    mkfifo_write();
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">//read.c
+</span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;fcntl.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">mkfifo_read</span>() {
+    <span style="color:#66d9ef">char</span> message[<span style="color:#ae81ff">100</span>];
+
+    <span style="color:#66d9ef">int</span> ppe <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;./fifo&#34;</span>, O_RDWR);
+    printf(<span style="color:#e6db74">&#34;read the message:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+    <span style="color:#66d9ef">int</span> line <span style="color:#f92672">=</span> read(ppe, message, <span style="color:#ae81ff">100</span>);
+    close(ppe);
+    write(STDOUT_FILENO, message, line);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> argv[]) {
+    mkfifo_read();
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>编译后，开启两个终端，一个终端先执行<code>./read</code>，另一个终端再执行<code>./write</code>，第一个终端中就会显示发出的信息。</p>]]></content:encoded>
     </item>
     
   </channel>

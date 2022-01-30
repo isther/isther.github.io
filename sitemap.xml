@@ -2,16 +2,49 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://www.niuwx.cn/tags/c/</loc>
+    <lastmod>2022-01-30T21:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/categories/c/</loc>
+    <lastmod>2022-01-30T21:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/categories/</loc>
+    <lastmod>2022-01-30T21:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/tags/linux/</loc>
+    <lastmod>2022-01-30T21:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/categories/linux/</loc>
+    <lastmod>2022-01-30T21:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/posts/linux/</loc>
+    <lastmod>2022-01-30T21:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/posts/linux/linux_c_1/</loc>
+    <lastmod>2022-01-30T21:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/posts/</loc>
+    <lastmod>2022-01-30T21:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/tags/</loc>
+    <lastmod>2022-01-30T21:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/</loc>
+    <lastmod>2022-01-30T21:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/tags/%E7%AE%A1%E9%81%93/</loc>
+    <lastmod>2022-01-30T21:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/tags/%E7%BA%BF%E7%A8%8B/</loc>
+    <lastmod>2022-01-30T21:33:51+08:00</lastmod>
+  </url><url>
+    <loc>https://www.niuwx.cn/tags/%E8%BF%9B%E7%A8%8B/</loc>
+    <lastmod>2022-01-30T21:33:51+08:00</lastmod>
+  </url><url>
     <loc>https://www.niuwx.cn/tags/amd/</loc>
     <lastmod>2022-01-23T09:33:51+08:00</lastmod>
   </url><url>
-    <loc>https://www.niuwx.cn/categories/</loc>
-    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
-  </url><url>
     <loc>https://www.niuwx.cn/tags/kde/</loc>
-    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
-  </url><url>
-    <loc>https://www.niuwx.cn/tags/linux/</loc>
     <lastmod>2022-01-23T09:33:51+08:00</lastmod>
   </url><url>
     <loc>https://www.niuwx.cn/tags/manjaro/</loc>
@@ -27,15 +60,6 @@
     <lastmod>2022-01-23T09:33:51+08:00</lastmod>
   </url><url>
     <loc>https://www.niuwx.cn/posts/other/</loc>
-    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
-  </url><url>
-    <loc>https://www.niuwx.cn/posts/</loc>
-    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
-  </url><url>
-    <loc>https://www.niuwx.cn/tags/</loc>
-    <lastmod>2022-01-23T09:33:51+08:00</lastmod>
-  </url><url>
-    <loc>https://www.niuwx.cn/</loc>
     <lastmod>2022-01-23T09:33:51+08:00</lastmod>
   </url><url>
     <loc>https://www.niuwx.cn/tags/docker/</loc>
@@ -62,7 +86,7 @@
     <loc>https://www.niuwx.cn/tags/windows/</loc>
     <lastmod>2021-10-16T10:42:38+08:00</lastmod>
   </url><url>
-    <loc>https://www.niuwx.cn/posts/zsh/zsh/</loc>
+    <loc>https://www.niuwx.cn/posts/other/zsh/</loc>
     <lastmod>2021-10-16T10:42:38+08:00</lastmod>
   </url><url>
     <loc>https://www.niuwx.cn/tags/zsh/</loc>
