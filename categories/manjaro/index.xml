@@ -20,7 +20,7 @@
 配置：
   sudo vim /etc/sddm.conf，找到DisplayCommand和DisplayStopCommand，行首加#注释。
   sudo vim /etc/optimus-manager/optimus-manager.conf，添加以下内容：
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30  [amd] DRI=3 driver=modesetting tearfree= [intel] DRI=3 accel= driver=modesetting modeset=yes tearfree= [nvidia] DPI=96 PAT=yes allow_external_gpus=no dynamic_power_management=no ignore_abi=no modeset=yes options=overclocking [optimus] auto_logout=yes pci_power_control=no pci_remove=no pci_reset=no startup_auto_battery_mode=integrated startup_auto_extpower_mode=nvidia startup_mode=nvidia switching=none     sudo vim /etc/default/grub，在GRUB_CMDLINE_LINUX_DEFAULT中增加nvidia-drm.</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30  [amd] DRI=3 driver=modesetting tearfree=  [intel] DRI=3 accel= driver=modesetting modeset=yes tearfree=  [nvidia] DPI=96 PAT=yes allow_external_gpus=no dynamic_power_management=no ignore_abi=no modeset=yes options=overclocking  [optimus] auto_logout=yes pci_power_control=no pci_remove=no pci_reset=no startup_auto_battery_mode=integrated startup_auto_extpower_mode=nvidia startup_mode=nvidia switching=none     sudo vim /etc/default/grub，在GRUB_CMDLINE_LINUX_DEFAULT中增加nvidia-drm.</description>
       <content:encoded><![CDATA[<p>前段时间换了系统，开始使用Manjaro，但是驱动问题搞得很头疼，在这里记录一下解决双显卡(amd+nvidia)的显示问题。</p>
 <p>由于Manjaro自带了<code>mhwd</code>，所以下载驱动还是很方便的。但是下载了<code>video-hybrid-amd-nvidia-prime</code>之后，外界显示器会时常卡顿，切换到<code>video-nvidia</code>之后，笔记本的显示器又亮不了。</p>
 <p>需要使用<code>optimus-manager</code>。</p>
@@ -33,71 +33,71 @@
 </li>
 <li>
 <p><code>sudo vim /etc/optimus-manager/optimus-manager.conf</code>，添加以下内容：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">[<span style="color:#ae81ff">amd]</span>
-<span style="color:#ae81ff">DRI=3</span>
-<span style="color:#ae81ff">driver=modesetting</span>
-<span style="color:#ae81ff">tearfree=</span>
-
-[<span style="color:#ae81ff">intel]</span>
-<span style="color:#ae81ff">DRI=3</span>
-<span style="color:#ae81ff">accel=</span>
-<span style="color:#ae81ff">driver=modesetting</span>
-<span style="color:#ae81ff">modeset=yes</span>
-<span style="color:#ae81ff">tearfree=</span>
-
-[<span style="color:#ae81ff">nvidia]</span>
-<span style="color:#ae81ff">DPI=96</span>
-<span style="color:#ae81ff">PAT=yes</span>
-<span style="color:#ae81ff">allow_external_gpus=no</span>
-<span style="color:#ae81ff">dynamic_power_management=no</span>
-<span style="color:#ae81ff">ignore_abi=no</span>
-<span style="color:#ae81ff">modeset=yes</span>
-<span style="color:#ae81ff">options=overclocking</span>
-
-[<span style="color:#ae81ff">optimus]</span>
-<span style="color:#ae81ff">auto_logout=yes</span>
-<span style="color:#ae81ff">pci_power_control=no</span>
-<span style="color:#ae81ff">pci_remove=no</span>
-<span style="color:#ae81ff">pci_reset=no</span>
-<span style="color:#ae81ff">startup_auto_battery_mode=integrated</span>
-<span style="color:#ae81ff">startup_auto_extpower_mode=nvidia</span>
-<span style="color:#ae81ff">startup_mode=nvidia</span>
-<span style="color:#ae81ff">switching=none</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>[<span style="color:#ae81ff">amd]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">DRI=3</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">driver=modesetting</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">tearfree=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">intel]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">DRI=3</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">accel=</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">driver=modesetting</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">modeset=yes</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">tearfree=</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">nvidia]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">DPI=96</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">PAT=yes</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">allow_external_gpus=no</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">dynamic_power_management=no</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">ignore_abi=no</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">modeset=yes</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">options=overclocking</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">optimus]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">auto_logout=yes</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">pci_power_control=no</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">pci_remove=no</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">pci_reset=no</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">startup_auto_battery_mode=integrated</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">startup_auto_extpower_mode=nvidia</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">startup_mode=nvidia</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">switching=none</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div></li>
 <li>
