@@ -18,9 +18,9 @@
 官方文档
 安装：yay -S optimus-manager
 配置：
-  sudo vim /etc/sddm.conf，找到DisplayCommand和DisplayStopCommand，行首加#注释。
-  sudo vim /etc/optimus-manager/optimus-manager.conf，添加以下内容：
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30  [amd] DRI=3 driver=modesetting tearfree=  [intel] DRI=3 accel= driver=modesetting modeset=yes tearfree=  [nvidia] DPI=96 PAT=yes allow_external_gpus=no dynamic_power_management=no ignore_abi=no modeset=yes options=overclocking  [optimus] auto_logout=yes pci_power_control=no pci_remove=no pci_reset=no startup_auto_battery_mode=integrated startup_auto_extpower_mode=nvidia startup_mode=nvidia switching=none     sudo vim /etc/default/grub，在GRUB_CMDLINE_LINUX_DEFAULT中增加nvidia-drm.</description>
+sudo vim /etc/sddm.conf，找到DisplayCommand和DisplayStopCommand，行首加#注释。
+sudo vim /etc/optimus-manager/optimus-manager.conf，添加以下内容：
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 [amd] DRI=3 driver=modesetting tearfree= [intel] DRI=3 accel= driver=modesetting modeset=yes tearfree= [nvidia] DPI=96 PAT=yes allow_external_gpus=no dynamic_power_management=no ignore_abi=no modeset=yes options=overclocking [optimus] auto_logout=yes pci_power_control=no pci_remove=no pci_reset=no startup_auto_battery_mode=integrated startup_auto_extpower_mode=nvidia startup_mode=nvidia switching=none sudo vim /etc/default/grub，在GRUB_CMDLINE_LINUX_DEFAULT中增加nvidia-drm.</description>
       <content:encoded><![CDATA[<p>前段时间换了系统，开始使用Manjaro，但是驱动问题搞得很头疼，在这里记录一下解决双显卡(amd+nvidia)的显示问题。</p>
 <p>由于Manjaro自带了<code>mhwd</code>，所以下载驱动还是很方便的。但是下载了<code>video-hybrid-amd-nvidia-prime</code>之后，外界显示器会时常卡顿，切换到<code>video-nvidia</code>之后，笔记本的显示器又亮不了。</p>
 <p>需要使用<code>optimus-manager</code>。</p>
