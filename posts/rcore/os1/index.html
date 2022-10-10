@@ -1,0 +1,1081 @@
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>rCore-os1-应用程序与基本执行环境 | Ther's Blog -- 个人笔记</title><meta name=keywords content="rCore"><meta name=description content="Desc Text."><meta name=author content="Ther"><link rel=canonical href=https://www.niuwx.cn/><meta name=google-site-verification content="XYZabc"><link crossorigin=anonymous href=/assets/css/stylesheet.min.83c4eb6d61e6a4176992e4a4ce8786fc30bd40032ba8663ec5d11e285a965766.css integrity="sha256-g8TrbWHmpBdpkuSkzoeG/DC9QAMrqGY+xdEeKFqWV2Y=" rel="preload stylesheet" as=style><link rel=icon href=https://www.niuwx.cn/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://www.niuwx.cn/favicon.ico><link rel=icon type=image/png sizes=32x32 href=https://www.niuwx.cn/favicon.ico><link rel=apple-touch-icon href=https://www.niuwx.cn/favicon.ico><link rel=mask-icon href=https://www.niuwx.cn/favicon.ico><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><meta name=generator content="Hugo 0.104.3"><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css integrity=sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js integrity=sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx crossorigin=anonymous></script>
+<script defer src=https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js integrity=sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR crossorigin=anonymous></script>
+<script>document.addEventListener("DOMContentLoaded",function(){renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!1}],throwOnError:!1})})</script><script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(e,t,n,s,o,i,a){e.GoogleAnalyticsObject=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-123-45","auto"),ga("send","pageview"))</script><meta property="og:title" content="rCore-os1-应用程序与基本执行环境"><meta property="og:description" content="Desc Text."><meta property="og:type" content="article"><meta property="og:url" content="https://www.niuwx.cn/posts/rcore/os1/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-10-09T10:00:00+08:00"><meta property="article:modified_time" content="2022-10-09T10:00:00+08:00"><meta property="og:site_name" content="Ther's Blog"><meta name=twitter:card content="summary"><meta name=twitter:title content="rCore-os1-应用程序与基本执行环境"><meta name=twitter:description content="Desc Text."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://www.niuwx.cn/posts/"},{"@type":"ListItem","position":2,"name":"rCore","item":"https://www.niuwx.cn/posts/rcore/"},{"@type":"ListItem","position":3,"name":"rCore-os1-应用程序与基本执行环境","item":"https://www.niuwx.cn/posts/rcore/os1/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"rCore-os1-应用程序与基本执行环境","name":"rCore-os1-应用程序与基本执行环境","description":"Desc Text.","keywords":["rCore"],"articleBody":"从零开始使用Rust写一个基于RISC-V架构的类Unix内核.\n前置知识:\nRust基础语法和一些进阶语法（Trait、函数式编程，Unsafe） Git 简单汇编 参考文档:\nrCore rCore-Tutorial-v3 构建应用程序 1 cargo new os 执行此命令创建一个名为os的项目。\n1 2 3 fn main() { println!(\"Hello, world!\"); } 创建项目后os/src/main.rs中已经有了“Hello, world!”的代码。\n1 cargo run 打开os文件夹后，执行此命令后可以看到控制台输出Hello, world!。\n但是，我们享受到的编程和执行程序如此方便背后有着从硬件到软件的多种机制的支持。尤其是对于应用程序的运行，需要有一个强大的执行环境来帮助。\n应用程序执行环境 现代通用操作系统上的应用程序运行需要下面多层次的执行环境栈的支持:\n我们的应用位于最上层，可以通过调用不同编程语言提供的标准库或者其他第三方库对外提供的功能强大的函数接口，使得仅需少量的代码就能完成复杂的功能。实际上这些库属于应用程序的执行环境(Execution Environment)，在我们通常不会注意到的地方，它们还会在执行应用之前完成一些初始化工作，并在应用程序执行的时候对它进行监控。\n从内核/操作系统的角度来看，它上面的一切都属于用户态，而它自身属于内核态。无论用户态应用如何编写，某些功能总要直接或者间接的通过内核/操作系统提供的系统调用(System Call)来实现。因此系统调用充当了用户和内核之间的边界。\n内核作为用户态的执行环境，它不仅要提供系统调用接口，还需要对用户态应用的执行进行监控的管理。\n平台与目标三元组 现代编译器工具集以C编译器为例，主要工作流程如下：\n1 2 3 4 1. 预处理: 源代码(source code) -\u003e 预处理器(preprocessor) -\u003e 宏展开的源代码 2. 编译: 宏展开的源代码 -\u003e 编译器(compiler) -\u003e 汇编程序 3. 汇编: 汇编程序 -\u003e 汇编器(assembler) -\u003e 目标代码(object code) 4. 链接: 目标代码 -\u003e 链接器(linker) -\u003e 可执行文件(executables) 编译应用程序时，编译器将其源代码通过编译、链接得到的可执行文件时需要知道程序要在哪个平台运行。这些平台主要指CPU类型、操作系统类型和标准运行时库的组合。\n我们通过``目标三元组(Target triple)`来描述一个目标平台。它一般包括CPU架构、CPU厂商、操作系统和运行时库。\n我们可以通过rustc来输出rust的默认配置信息：\n1 2 3 4 5 6 7 8 $ rustc --version --verbose rustc 1.63.0 (4b91a6ea7 2022-08-08) binary: rustc commit-hash: 4b91a6ea7258a947e59c6522cd5898e7c0a6a88f commit-date: 2022-08-08 host: aarch64-apple-darwin release: 1.63.0 LLVM version: 14.0.5 执行结果中，host表明默认目标平台是aarch64-apple-darwin,CPU架构是aarch64,供应商是apple,操作系统是darwin。\n我们想要在另一个硬件平台上运行Hello, world!，这与之前的默认平台不同，CPU架构需要从aarch64换到risc-v。\n通过rustc来输出Rust编译器支持那些基于risc-v的平台:\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 $ rustc --print target-list | grep riscv riscv32gc-unknown-linux-gnu riscv32gc-unknown-linux-musl riscv32i-unknown-none-elf riscv32im-unknown-none-elf riscv32imac-unknown-none-elf riscv32imac-unknown-xous-elf riscv32imc-esp-espidf riscv32imc-unknown-none-elf riscv64gc-unknown-freebsd riscv64gc-unknown-linux-gnu riscv64gc-unknown-linux-musl riscv64gc-unknown-none-elf riscv64imac-unknown-none-elf 修改目标平台 我们希望将程序一直到RICV目标平台riscv64gc-unknown-none-elf上运行。\nPS: riscv64gc-unknown-none-elf 的CPU架构是riscv64gc，厂商是unknown，操作系统是none， elf表示没有标准的运行时库。没有任何系统调用的封装支持，但可以生成ELF格式的执行程序。我们不选择有linux-gnu支持的riscv64gc-unknown-linux-gnu，是因为我们的目标是开发操作系统内核，而非在linux系统上运行的应用程序。 使用cargo编译或编译运行时，可以使用 --target 来支持不同平台。\n1 cargo run --target riscv64gc-unknown-none-elf 执行此命令后报错，是由于目标平台上没有Rust标准库std，也不存在任何受OS支持的系统调用，这样的平台我们称为裸机平台(bare-metal)。\n既然不支持rust的std标准库，那为什么要使用rust呢？ 除了std之外，rust还有一个不需要任何操作系统支持的核心库core，它包含了rust相当一部分的核心机制。\n移除标准库依赖 接下来将移植上述的Hello, world!程序到RV64GC平台，所以我们要移除程序对Rust std标准库的依赖 ，\n因为Rust std标准库需要操作系统内核的支持。我们需要添加能够支持应用的裸机级别的库操作系统(LibOS)。\n由于后续需要rustc编译器缺省生成RISC-V 64 的目标代码，首先需要给rustc添加一个target: riscv64gc-unknown-none-elf\n1 $ rustup target add riscv64gc-unknown-none-elf 然后在os目录下新建.cargo目录，再次目录下创建config文件\n1 2 3 # os/.cargo/config [build] target = \"riscv64gc-unknown-none-elf\" 做此调整之后，Cargo默认会使用riscv64gc作为目标平台。\n之后执行cargo build输出如下:\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 $ cargo build Compiling os v0.1.0 (/Users/ther/WorkSpace/rCore/os) error[E0463]: can't find crate for `std` | = note: the `riscv64gc-unknown-none-elf` target may not support the standard library = note: `std` is required by `os` because it does not declare `#![no_std]` error: cannot find macro `println` in this scope --\u003e src/main.rs:2:5 | 2 | println!(\"Hello, world!\"); | ^^^^^^^ error: `#[panic_handler]` function required, but not found For more information about this error, try `rustc --explain E0463`. error: could not compile `os` due to 3 previous errors 我们来解释报错信息:\n第一个error表示没有找到标准库std。具体原因报错信息也做了解释，riscv64gc-unknown-none-elf作为目标平台，并不支持标准库std。可以使用#![no_std]来告诉Rust编译器不使用std标准库而是使用``core`。 第二个error表示没有找到println!宏。这是由于之前println!宏由std标准库提供，此时并不能支持std标准库，而我们也没能自己实现。 第三个error是由于没能找到panic!宏的具体实现，这个原因有点类似于第二个error的原因。使用Rust编写程序时，我们常常会遇到一些无法恢复的致命错误，导致程序无法继续运行，这时会手动或自动调用panic!宏来打印错误的位置。所以Rust编译器在编译程序时，从安全性考虑，需要有panic!宏的具体实现。在std标准库中提供了panic!的具体实现，但是在更底层的核心库core中只有一个panic!宏的空壳，所以我们需要先自行实现一个简陋的panic处理函数。报错信息中也给出了提示，使用#[panic_handler]。 1 2 3 4 5 // os/src/main.rs #![no_std] mod lang_items; fn main() {} 1 2 3 4 5 6 7 // os/src/lang_items.rs use core::panic::PanicInfo; #[panic_handler] fn panic(_info: \u0026PanicInfo) -\u003e ! { loop {} } 执行cargo build后依旧会报错:\n1 2 3 4 5 $ cargo build Compiling os v0.1.0 (/Users/ther/WorkSpace/rCore/os) error: requires `start` lang_item error: could not compile `rCore` due to previous error 编译器提示我们缺少了一个名为start的语义项。之前提到语言标准哭和三方库作为应用程序的执行环境，需要负责在执行应用程序之前进行一些初始化工作，然后才跳转到应用程序的入口点（跳转到我们编写的main函数）开始执行。实际上start语义项代表了std标准库在执行应用程序之前需要进行的一些初始化工作。由于我们禁用了标准库，编译器也就找不到这项功能的实现了。\n最简单的解决方案就是直接不让编译器使用这项功能。\n1 2 3 4 5 // os/src/main.rs #![no_std] #![no_main] mod lang_items; //在开头加入设置#![no_main]告诉编译器我们没有一般意义上的main函数，并删除原来的main函数。 1 2 3 $ cargo build Compiling os v0.1.0 (/Users/ther/WorkSpace/rCore/os) Finished dev [unoptimized + debuginfo] target(s) in 0.05s 至此，我们成功的移除了标准库依赖，通过了编译器检查并生成执行码。但是原有的功能却被弱化甚至删除，接下来我们会以自己的方式来重塑这些基本功能。\n分析被移除标准库的程序 对于上面这个被移除标准库的应用程序，通过了编译器的检查和编译，形成了二进制代码。但这个二进制代码是怎样的，它能否被正常执行呢？为了分析这些程序，首先需要安装 cargo-binutils 工具集：\n1 2 $ cargo install cargo-binutils $ rustup component add llvm-tools-preview 我们可以通过各种工具来分析目前的程序\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 # 文件格式 $ file target/riscv64gc-unknown-none-elf/debug/os target/riscv64gc-unknown-none-elf/debug/os: ELF 64-bit LSB executable, UCB RISC-V, RVC, double-float ABI, version 1 (SYSV), statically linked, with debug_info, not stripped # 对二进制程序os的分析可以看出它好像是一个合法的RISC-V可执行程序 # 文件头信息 $ rust-readobj -h target/riscv64gc-unknown-none-elf/debug/os File: target/riscv64gc-unknown-none-elf/debug/os Format: elf64-littleriscv Arch: riscv64 AddressSize: 64bit LoadName: ElfHeader { Ident { Magic: (7F 45 4C 46) Class: 64-bit (0x2) DataEncoding: LittleEndian (0x1) FileVersion: 1 OS/ABI: SystemV (0x0) ABIVersion: 0 Unused: (00 00 00 00 00 00 00) } Type: Executable (0x2) Machine: EM_RISCV (0xF3) Version: 1 Entry: 0x0 ProgramHeaderOffset: 0x40 SectionHeaderOffset: 0x1B40 Flags [ (0x5) EF_RISCV_FLOAT_ABI_DOUBLE (0x4) EF_RISCV_RVC (0x1) ] HeaderSize: 64 ProgramHeaderEntrySize: 56 ProgramHeaderCount: 3 SectionHeaderEntrySize: 64 SectionHeaderCount: 14 StringTableSectionIndex: 12 } # 通过rust-readobj工具进一步分析，发现入口地址Entry是0x0 # 反汇编导出汇编程序 $ rust-objdump -S target/riscv64gc-unknown-none-elf/debug/os target/riscv64gc-unknown-none-elf/debug/os:\tfile format elf64-littleriscv # 经过反汇编，并没有生成汇编代码，所以基本可以断定，这个二进制程序虽然合法，但它是一个空程序。 QEMU模拟器 我们编写的内核主要在Qemu模拟器上运行来检验其正确性。\n1 2 3 4 5 6 # 此命令用于启动Qemu并运行我们的内核 $\tqemu-system-riscv64 \\ # 模拟64位RISC-V架构的计算机 -machine virt \\ # 将模拟的64位RISC-V计算机设置为名为virt的虚拟计算机 -nographic \\ # 表示不需要提供图形界面 -bios ../bootloader/rustsbi.bin \\ # Qemu开机时用来初始化的引导加载程序bootloader -device loader,file=target/riscv64gc-unknown-none-elf/release/os.bin,addr=0x80200000 # loader属性可以在Qemu开机前将宿主机的文件载入到指定物理内存地址。 virt平台，物理内存的起始物理地址为0x80000000，物理内存的默认大小为128MiB，物理内存可以通过-m进行调整。\n计算机加电之后的启动流程可以分成若干个阶段，每个阶段由一层软件负责，承担相应的初始化工作，并在此之后跳转到下一层软件的入口地址，也就是将计算机的控制权移交给下一层软件。Qemu模拟的启动流程分为三个阶段：\n由固化在Qemu中的一小段汇编程序负责 由bootloader负责 由内核镜像负责。 在使用上述命令启动Qemu后，bootloader将被加载到物理地址以0x80000000开头的区域，同时内核镜像将被加载到物理地址以0x80200000开头的区域。\n程序内存布局与编译流程 程序内存布局 将源代码编译为可执行文件后，这些看似杂乱无章的字节可以被分成代码和数据两部分：\n代码部分由一条条可以被CPU解码并执行的指令组成 数据部分只是被CPU视作可读写的内存空间 实际上，我们还可以根据具体功能将这两个部分划分为更小的单位：段(Section)。不同的段被编译器放在内存不同的位置上，这就构成了程序的内存布局。一种典型的程序相对内存布局如下：\n.text：代码段，存放程序所有的汇编代码 .rodata：已初始化数据段，只读全局数据，通常是一些常熟或者是常量字符串 .data：已初始化数据段，可修改的全局数据 .bss：未初始化数据段，保存程序中为初始化的全局变量，通常由程序的加载者代为进行数据零初始化 heap：堆，用于存放程序运行时动态分配的数据，向高地址增长 stack：栈，不仅用于函数调用上下文的保存与恢复，每个函数作用域的局部变量也被编译器放在它的栈帧内，向低地址增长 编译流程 从源代码到可执行文件的编译流程可以被细化成多个阶段：\n编译-\u003e汇编-\u003e链接 汇编器输出的每个目标文件都有一个独立的内存布局，它描述了目标文件内各段所在的位置。而链接器所做的事情就是将所有输入的目标文件整合成一个整体的内存布局：\n首先将不同目标文件的段在目标内存布局中重新排布，内存布局存在冲突则合并消除冲突 其次将符号替换为具体地址 内核的第一条指令 1 2 3 4 5 # os/src/entry.asm .section .text.entry # 表示将后面的内容放到名为.text.entry 的段中 .global _start # 告知编译器，这是一个全局符号，可以被其他目标文件使用 _start: li x1, 100 # 向寄存器x1中加载一个立即数100 在main.rs中嵌入这段汇编代码\n1 2 3 4 5 6 7 // os/src/main.rs #![no_std] #![no_main] mod lang_items; use core::arch::global_asm; global_asm!(include_str!(\"entry.asm\")); 调整内核的内存布局 为了实现与Qemu的正确对接，我们可以通过链接脚本调整链接器的行为。\n1 2 3 4 5 6 7 8 9 # os/.cargo/config [build] target = \"riscv64gc-unknown-none-elf\" [taaarget.riscv64gc-unknown-none-elf] rustflags = [ \"-Clink-arg=-Tsrc/linker.ld\", \"-Cforce-frame-pointers=yes\", ] 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 # os/src/linker.ld OUTPUT_ARCH(riscv) # 设置目标平台 ENTRY(_start) # 设置整个程序的入口点，_start为entry.asm中定义的全局符号 BASE_ADDRESS = 0x80200000; # 定义常量 SECTIONS { . = BASE_ADDRESS; skernel = .; stext = .; .text : { *(.text.entry) # * *(.text .text.*) } . = ALIGN(4K); etext = .; srodata = .; .rodata : { *(.rodata .rodata.*) *(.srodata .srodata.*) } . = ALIGN(4K); erodata = .; sdata = .; .data : { *(.data .data.*) *(.sdata .sdata.*) } . = ALIGN(4K); edata = .; .bss : { *(.bss.stack) sbss = .; *(.bss .bss.*) *(.sbss .sbss.*) } . = ALIGN(4K); ebss = .; ekernel = .; /DISCARD/ : { *(.eh_frame) } } 之后执行命令:\n1 2 3 $ cargo build --release Compiling os v0.1.0 (/Users/ther/WorkSpace/rCore/os) Finished release [optimized] target(s) in 0.40s 上述命令以release模式生成了内核可执行文件，它的位置在 target/riscv64gc-unknown-none-elf/release/os。\n手动加载内核可执行文件 上面得到的内核可执行文件完全符合了我们对于内存布局的要求，但是不能将其直接提交给Qemu使用，因为它除了实际会用到的代码和数据段之外，还会有一些多余的元数据，这些元数据无法被Qemu在加载文件时利用，且会使代码和数据段被加载到错误的位置。如下图所示：\n如果直接将内核可执行文件os加载到Qemu内存的0x80200000处，由于内核可执行文件的开头是一段缘数据，这会导致Qemu内存在0x80200000无法找到内核第一条指令，也就意味着RustSBI无法正常将计算机控制权转交给内核。\n执行命令可丢弃内核可执行文件中的元数据得到内核镜像:\n1 $ rust-objcopy --strip-all target/riscv64gc-unknown-none-elf/debug/os -O binary target/riscv64gc-unknown-none-elf/os.bin 基于GDB验证启动流程 1 2 3 4 5 6 $ qemu-system-riscv64 \\ -machine virt \\ -nographic \\ -bios ../bootloader/rustsbi.bin \\ -device loader,file=target/riscv64gc-unknown-none-elf/release/os.bin,addr=0x80200000 \\ -s -S 上述命令在之前提到的启动Qemu模拟器的命令的基础上加了-s、-S两个参数：\n-s：使Qemu监听本地TCP端口1234等待GDB客户端连接 -S：使Qemu在收到GDB的请求后再开始运行 启动GDB客户端连接到Qemu：\n1 2 3 4 $ riscv64-unknown-elf-gdb \\ -ex 'file target/riscv64gc-unknown-none-elf/release/os' \\ -ex 'set arch riscv:rv64' \\ -ex 'target remote localhost:1234' 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 (gdb) b *0x80200000 # 在0x80200000处打个断点 Breakpoint 1 at 0x80200000 (gdb) c Continuing. Breakpoint 1, 0x0000000080200000 in ?? () (gdb) x/5i $pc =\u003e 0x80200000:\tli\tra,100 # 可以看到我们entry.asm中的 li x1, 100，ra是寄存器x1的别名 0x80200004:\tunimp 0x80200006:\tunimp 0x80200008:\tunimp 0x8020000a:\tunimp (gdb) si # 继续执行下一条指令 0x0000000080200004 in ?? () (gdb) p/d $x1 # 以十进制打印寄存器x1的值 $1 = 100 (gdb) p/x $sp # 检查此时栈指针sp的值 $2 = 0x0 为内核支持函数调用 经过上述流程，我们已经成功的在Qemu上执行了内核的第一条指令，它是我们在entry.asm中手写的汇编代码得到的。但是我们的目的并不是使用汇编来编写内核，绝大部分功能还是要是用Rust来实现。\n不过为了将控制权转交给我们使用Rust编写的内核入口，我们还是需要编写部分汇编代码。和之前一样，这些汇编代码还是放在entry.asm中并在控制权被转交给内核后最先被执行，但是它们的功能会较之前更加复杂：\n首先设置栈，使得在内核中进行函数调用 之后直接调用使用Rust编写的内核入口点，从而控制权便被移交给了Rust代码 函数调用与栈 首先从汇编指令的级别分析一段程序的执行，假设CPU一次执行的指令的物理地址序列为${a_n}$。\n其中最简单的就是CPU一条一条连续向下执行指令，但执行序列并不总是符合这种模式，当位于物理地址${a_n}$的指令是一条跳转指令时，该模式可能被破坏。跳转指令对应于我们在程序中构造的控制流(Control Flow)的多种不同结构，比如分支结构和循环结构，用来实现这两种结构的跳转指令，只需实现跳转功能，也就是将pc寄存器设置到一个指定地址即可。\n另一种控制流结构则显得更加复杂：函数调用(Function Call)。同样使用汇编指令来分析函数调用的过程，在调用函数时，需要有一条指令跳转到被调用函数的位置，但是在被调用函数返回时，我们需要返回到那条掉转过来的指令的下一条继续执行。如果是之前提到的两种结构，执行结束后返回的地址在编译期已确定，但是对于函数调用来说，在对应的函数调用发生之前是不知道的，也就是说函数调用的返回跳转是跳转到一个函数调用发生时才能确定的地址。\n对此，指令集必须给用于函数调用的跳转指令一些额外的能力，而不只是单纯的跳转。在RISC-V架构上，有两条指令即符合这样的特征：\n指令 指令功能 jal rd, imm[20:1] rd\u003c-pc+4pc\u003c-pc+imm jalr rd, (imm[11:0])rs rd\u003c-pc+4pc\u003c-rs+imm rs：表示源寄存器(Source Register) imm：表示立即数(Immediate)，是一个常数，与源寄存器构成了输入部分 rd：表示目标寄存器(Destination Register)，它是指令的输出部分 从中可以看出，这两条指令在设置pc寄存器完成跳转指令之前，将当前跳转指令的下一条指令地址保存在了rd寄存器中。在RISC-V架构中，通常使用ra寄存器作为rd对应的具体寄存器，因此在函数返回的时候，直接跳转回ra保存的地址即可。\n在进行函数调用时，通过jalr指令保存返回地址并实现跳转；在函数调用结束返回时，通过ret伪指令回到跳转之前的下一条指令继续执行。这样，RISC-V的两条指令就实现了函数调用流程的核心机制。\n由于我们在ra寄存器中保存返回地址，要保证在函数执行的全程不发生变化，否则ret之后就会跳转到错误的位置。事实上编译器除了函数调用的相关指令外确实是基本不使用ra寄存器，也就是说在函数中没有调用其他函数，那ra的值不会发生变化。但是在实际编写代码的过程中，我们常常有函数多层嵌套调用的场景，如果我们试图在函数F中调用函数G，那么在跳转到函数G的同时，ra会被覆盖成这条指令的下一条地址，而ra之前所保存的函数F的返回地址将永久丢失。\n因此，为了能够正确实现嵌套函数调用的控制流，我们必须通过某种方式来保证在一个函数调用子函数的前后，ra寄存器的值不发生变化。但实际上，这并不仅仅局限于ra一个寄存器，而是作用于所有的通用寄存器。由于编译器是独立编译每个函数的， 因此一个函数并不知道它所调用的子函数修改了哪些寄存器。而对于一个函数而言，在调用子函数的过程中某些寄存器的值被覆盖的确会对这个函数的执行产生影响。\n我们将由于函数调用，在控制流转移前后需要保持不变的寄存器集合称之为函数调用上下文(Function Call Context)。\n由于每个CPU只有一套寄存器，所以我们若想在调用子函数时保持函数上下文不变，就需要物理内存的辅助。确切的说，就是在子函数调用之前，我们需要在物理内存中的一个区域保存(Save)函数调用上下文中的寄存器；而在子函数执行完毕后，我们会从内存中上述同样的区域读取并恢复(Restore)函数调用上下文中的寄存器。实际上，这一工作由子函数的调用者和被调用者共同完成。函数调用上下文中的寄存器被分为如下两类:\n被调用者保存(Callee-Saved)寄存器: 被调用的函数可能会覆盖这些寄存器，需要被调用者函数来保存的寄存器。即由被调用的函数来保证调用前后，这些寄存器保持不变。 调用者保存(Caller-Saved)寄存器: 被调用的函数可能会覆盖这些寄存器，需要调用者函数来保存的寄存器。即由发起调用的函数来保证调用前后，这些寄存器保持不变。 具体过程如下：\n调用函数: 首先保存不希望在函数调用过程中发生变化的调用者保存寄存器，然后通过jal/jalr指令调用子函数，返回之后恢复这些寄存器。 被调用函数: 在被调用函数的起始，先保存函数执行过程中被用到的被调用者保存寄存器，然后执行函数，在函数退出之前恢复这些寄存器。 调用规范 调用规范(Calling Convention)约定在某个指令集架构上，某种编程语言的函数调用如何实现。它包括以下内容：\n函数的输入参数和返回值参数如何传递 函数调用上下文中调用者/被调用者保存寄存器的划分 其它的在函数调用流程中对于寄存器的使用方法 RISC-V架构上的C语言调用规范\n栈 之前提到的函数调用时需要在物理内存中保存上下文中的寄存器，实际上，这块物理内存更加确切的名字是栈(Stack)。sp寄存器用来保存栈指针(Stack Pointer)，它指向内存中的栈顶地址。在RISC-V架构中，栈从高地址向低地址增长。在一个函数中，作为起始的开场代码负责分配一块新的栈空间，即将sp的值减小相应的字节数，于是物理地址区间$[新sp, 旧sp)$对应的物理内存的一部分便可以被这个函数用来进行函数调用上下问的保存/恢复，这块物理地址被称为这个函数的栈帧(Stackframe)。同理，函数中的结尾代码负责将开场代码分配的栈帧回收，也就是将sp的值增加相同的字节数以回到分配之前的状态。这同样也解释了为何sp是一个被调用者保存的寄存器。\n在合适的编译选项设置之下，一个函数的栈帧内容可能如下所示：\n它的开头和结尾分别在sp(x2)和fp(s0)所指向的地址。按照地址从高到低分别由以下内容，它们都是通过sp加上一个偏移量来访问的:\nra寄存器保存其返回之后的跳转地址，调用者保存寄存器 父亲栈帧的结束地址fp，被调用者保存寄存器 其他被调用者保存寄存器s1～s11 函数所使用到的局部变量 因此，栈上多个fp信息实际上保存了一条完整的函数调用链，通过适当的方式我们可以实现对函数调用关系的跟踪。\n至此，此节基本说明了函数调用如何实现。不过我们暂时可以忽略这些细节，我们只需在初始化阶段完成栈道设置，也就是设置好栈指针sp寄存器，编译器会帮助我们自动完成后面的函数调用相关机制的代码生成。\n分配并使用启动栈 1 2 3 4 5 6 7 8 9 10 11 12 13 # os/src/entry.asm .section .text.entry .global _start _start: la sp, boot_stack_top # 将指针sp设置为之前分配的启动栈栈顶地址 call rust_main # 调用Rust编写的内核入口点rust_main,将控制权交给Rust代码 .section .bss.stack # 将这块空间放置在一个名为.bss.stack的段中 .global boot_stack boot_stack: .space 4096*16 # 预留4096*16字节64KiB的空间用作程序的栈空间 .global boot_stack_top boot_stack_top: 1 2 3 4 5 6 7 # os/src/linker.ld .bss : { *(.bss.stack) # .bss.stack段被汇集到.bss段中 sbss = .; *(.bss .bss.*) *(.sbss .sbss.*) } 1 2 3 4 5 6 7 8 9 10 11 12 // os/src/main.rs #![no_std] #![no_main] mod lang_items; use core::arch::global_asm; global_asm!(include_str!(\"entry.asm\")); #[no_mangle] pub fn rust_main() -\u003e ! { loop {} } 在main.rs中，通过宏对rust_main标记，避免编译器对它的名字进行混淆，否则在链接的时候，entry.asm将找不到main.rs提供的外部符号rust_main，导致链接失败。在rust_main的开场白中，我们将第一次在栈上分配栈帧并保存函数调用上下文，它是内核运行全程最深的栈帧。\n我们顺便完成对.bss段的清零，这是内核初始化很重要的一部分，在使用任何被分配到.bss段的全局变量之前我们需要确保.bss段已被清零。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 // os/src/main.rs #![no_std] #![no_main] mod lang_items; use core::arch::global_asm; global_asm!(include_str!(\"entry.asm\")); #[no_mangle] pub fn rust_main() -\u003e ! { clear_bss(); loop {} } fn clear_bss() { extern \"C\" { fn sbss(); fn ebss(); } (sbss as usize..ebss as usize).for_each(|p| unsafe { (p as *mut u8).write_volatile(0) }) } 链接脚本linker.ld给出了全局符号sbss和ebss，并指出了需要被清零的.bss段的起始和终止地址。所以只需遍历该地址区间并逐字节清零即可。\n基于SBI服务完成输出和关机 使用RustSBI提供的服务 RustSBI介于底层硬件和内核之间，是内核的底层执行环境。RustSBI提供的执行环境除了为上层应用进行环境初始化，并将计算机控制权移交给内核，还有另一项职责：在上层应用运行时提供服务。当内核发出请求时，计算机转由RustSBI控制来响应内核的请求，待请求处理完毕后，计算机控制权会被交还给内核。但是由于内核并没有与RustSBI链接，内核无法通过函数调用请求RustSBI提供的服务，我们仅仅使用RustSBI构建后的可执行文件，因此内核对于RustSBI的符号一无所知。实际上，内核需要通过另一种复杂的方式来“调用”RustSBI服务：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 // os/src/sbi use core::arch::asm; #[inline(always)] fn sbi_call(which: usize, arg0: usize, arg1: usize, arg2: usize) -\u003e usize { let mut ret; unsafe { asm! { \"ecall\", inlateout(\"x10\") arg0=\u003eret, in(\"x11\") arg1, in(\"x12\") arg2, in(\"x17\") which, } } ret } 我们将内核与RustSBI通信的相关功能在子模块sbi中实现，因此需要在main.rs中加入mod sbi将该子模块加入项目中。\n在os/src/sbi.rs中：which表示请求RustSBI的服务类型，arg0~arg2表示传递给RustSBI的三个参数，而RustSBI在将请求处理完毕后，会给内核一个返回值，这个返回值也被sbi_all返回。\n我们可以在sbi.rs中定义RustSBI支持的服务类型常量：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 // os/src/sbi.rs #![allow(unused)] const SBI_SET_TIMER: usize = 0; const SBI_CONSOLE_PUTCHAR: usize = 1; const SBI_CONSOLE_GETCHAR: usize = 2; const SBI_CLEAR_IPI: usize = 3; const SBI_SEND_IPI: usize = 4; const SBI_REMOTE_FENCE_I: usize = 5; const SBI_REMOTE_SFENCE_VMA: usize = 6; const SBI_REMOTE_SFENCE_VMA_ASID: usize = 7; const SBI_SHUTDOWN: usize = 8; use core::arch::asm; #[inline(always)] fn sbi_call(which: usize, arg0: usize, arg1: usize, arg2: usize) -\u003e usize { let mut ret; unsafe { asm! { \"ecall\", inlateout(\"x10\") arg0 =\u003e ret, in(\"x11\") arg1, in(\"x12\") arg2, in(\"x17\") which, } } ret } 服务SBI_CONSOLE_PUTCHAR可以用来在屏幕上输出一个字符，我们可以将这个功能使用sbi_call函数来封装：\n1 2 3 pub fn console_putchar(c: usize) { sbi_call(SBI_CONSOLE_PUTCHAR, c, 0, 0); } SBI_SHUTDONW提供关机服务，同样可以封装：\n1 2 3 4 pub fn shutdown() -\u003e ! { sbi_call(SBI_SHUTDOWN, 0, 0, 0); panic!(\"It should shutdown!\") } 实现格式化输出 上面实现的console_putchar功能过于受限，如果想打印一行Hello,world!则需要多次调用。接下来我们尝试编写基于console_putchar的println!宏。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 // os/src/console.rs #![allow(unused)] use crate::sbi::console_putchar; use core::fmt::{self, Result, Write}; struct Stdout; impl Write for Stdout { fn write_str(\u0026mut self, s: \u0026str) -\u003e Result { for c in s.chars() { console_putchar(c as usize); } Ok(()) } } pub fn print(args: fmt::Arguments) { Stdout.write_fmt(args).unwrap(); } #[macro_export] macro_rules! print { ($fmt: literal $(, $($arg: tt)+)?) =\u003e { $crate::console::print(format_args!($fmt $(, $($arg)+)?)); } } #[macro_export] macro_rules! println { ($fmt: literal $(, $($arg: tt)+)?) =\u003e { $crate::console::print(format_args!(concat!($fmt, \"\\n\") $(, $($arg)+)?)); } } 处理致命错误 错误处理是编程中重要的一环，它能够保证程序的可靠性和可用性。Rust将错误分为可恢复和不可恢复错误两大类，这里我们主要关心不可恢复错误，在遇到不可恢复错误时，Rust程序会直接报错退出，使用panic!宏便会直接出发一个不可恢复错误并使得程序退出。在我们的内核中，目前不可恢复错误的处理机制还不完善：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 // os/src/lang_items.rss use crate::println; use crate::sbi::shutdown; use core::panic::PanicInfo; #[panic_handler] fn panic(info: \u0026PanicInfo) -\u003e ! { if let Some(location) = info.location() { println!( \"Panicked at {}:{} {}\", location.file(), location.line(), info.message().unwrap() ); } else { println!(\"Panicked: {}\", info.message().unwrap()); } shutdown() } 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 // os/src/main.rs #![no_std] #![no_main] #![feature(panic_info_message)] mod lang_items; mod sbi; #[macro_use] mod console; use core::arch::global_asm; global_asm!(include_str!(\"entry.asm\")); #[no_mangle] pub fn rust_main() -\u003e ! { clear_bss(); println!(\"Hello, world\"); panic!(\"Shutdown machine!\"); } fn clear_bss() { extern \"C\" { fn sbss(); fn ebss(); } (sbss as usize..ebss as usize).for_each(|p| unsafe { (p as *mut u8).write_volatile(0) }); } 注意：在main.rs中我们需要加入#![feature(panic_info_message)]才能通过PanicInfo::message获取报错信息。\n使用Qemu运行内核，可以得到结果：\n1 2 Hello, world Panicked at src/main.rs:18 Shutdown machine! 实践作业-实现彩色化LOG 详细原理：ANSI转义序列\n1 echo -e \"\\x1b[31mhello world\\x1b[0m\" 1 2 3 4 5 6 7 8 9 # Cargo.toml [package] name = \"os\" version = \"0.1.0\" edition = \"2021\" [dependencies] log = \"0.4\" 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 // os/src/logger.rs use log::{self, Level, LevelFilter, Log}; use crate::println; struct Logger; impl Log for Logger { fn enabled(\u0026self, _metadata: \u0026log::Metadata) -\u003e bool { true } fn log(\u0026self, record: \u0026log::Record) { if !self.enabled(record.metadata()) { return; } let color = match record.level() { Level::Error =\u003e 31, Level::Debug =\u003e 32, Level::Info =\u003e 34, Level::Trace =\u003e 90, Level::Warn =\u003e 93, }; println!( \"\\u{1B}[{}m[{:\u003e5}] {}\\u{1B}[0m\", color, record.level(), record.args(), ); } fn flush(\u0026self) {} } pub fn init() { static LOGGER: Logger = Logger; log::set_logger(\u0026LOGGER).unwrap(); log::set_max_level(match option_env!(\"LOG\") { Some(\"ERROR\") =\u003e LevelFilter::Error, Some(\"WARN\") =\u003e LevelFilter::Warn, Some(\"INFO\") =\u003e LevelFilter::Info, Some(\"DEBUG\") =\u003e LevelFilter::Debug, Some(\"TRACE\") =\u003e LevelFilter::Trace, _ =\u003e LevelFilter::Trace, }); } 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 // os/src/main.rs #![no_main] #![no_std] #![feature(panic_info_message)] mod lang_items; mod sbi; mod logger; use log::*; #[macro_use] mod console; core::arch::global_asm!(include_str!(\"entry.asm\")); #[no_mangle] pub fn rust_main() -\u003e ! { extern \"C\" { fn stext(); fn etext(); fn srodata(); fn erodata(); fn sdata(); fn edata(); fn sbss(); fn ebss(); fn boot_stack(); fn boot_stack_top(); } clear_bss(); logger::init(); error!(\"Hello, rCore!\"); info!(\".text [{:#x}, {:#x}]\", stext as usize, etext as usize); debug!(\".rodata [{:#x}, {:#x}]\", srodata as usize, erodata as usize); trace!(\".data [{:#x}, {:#x}]\", sdata as usize, edata as usize); warn!(\".bss [{:#x}, {:#x}]\", sbss as usize, ebss as usize); error!( \".stack [{:#x}, {:#x}]\", boot_stack as usize, boot_stack_top as usize ); panic!(\"Shutdown machine!\"); } fn clear_bss() { extern \"C\" { fn sbss(); fn ebss(); } (sbss as usize..ebss as usize).for_each(|p| unsafe { (p as *mut u8).write_volatile(0) }); } 运行结果如下：\n","wordCount":"2068","inLanguage":"en","datePublished":"2022-10-09T10:00:00+08:00","dateModified":"2022-10-09T10:00:00+08:00","author":{"@type":"Person","name":"Ther"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.niuwx.cn/posts/rcore/os1/"},"publisher":{"@type":"Organization","name":"Ther's Blog -- 个人笔记","logo":{"@type":"ImageObject","url":"https://www.niuwx.cn/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://www.niuwx.cn/ accesskey=h title="Ther's Blog -- 个人笔记 (Alt + H)">Ther's Blog -- 个人笔记</a>
+<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://www.niuwx.cn/ title=Home><span>Home</span></a></li><li><a href=https://www.niuwx.cn/archive title=Archives><span>Archives</span></a></li><li><a href=https://www.niuwx.cn/categories title=Categories><span>Categories</span></a></li><li><a href=https://www.niuwx.cn/tags title=Tags><span>Tags</span></a></li><li><a href=https://www.niuwx.cn/friends title=Friends><span>Friends</span></a></li><li><a href=https://www.niuwx.cn/search title="Search (Alt + /)" accesskey=/><span>Search</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://www.niuwx.cn/>Home</a>&nbsp;»&nbsp;<a href=https://www.niuwx.cn/posts/>Posts</a>&nbsp;»&nbsp;<a href=https://www.niuwx.cn/posts/rcore/>rCore</a></div><h1 class=post-title>rCore-os1-应用程序与基本执行环境</h1><div class=post-description>Desc Text.</div><div class=post-meta>October 9, 2022&nbsp;·&nbsp;10 min&nbsp;·&nbsp;Ther&nbsp;|&nbsp;<a href=https://github.com/isther/isther.github.io/tree/master/content/posts/rCore/os1.md rel="noopener noreferrer" target=_blank>Suggest Changes</a></div></header><div class=toc><details><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><ul><li><a href=#%e6%9e%84%e5%bb%ba%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f aria-label=构建应用程序>构建应用程序</a></li><li><a href=#%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e6%89%a7%e8%a1%8c%e7%8e%af%e5%a2%83 aria-label=应用程序执行环境>应用程序执行环境</a></li><li><a href=#%e5%b9%b3%e5%8f%b0%e4%b8%8e%e7%9b%ae%e6%a0%87%e4%b8%89%e5%85%83%e7%bb%84 aria-label=平台与目标三元组>平台与目标三元组</a></li><li><a href=#%e4%bf%ae%e6%94%b9%e7%9b%ae%e6%a0%87%e5%b9%b3%e5%8f%b0 aria-label=修改目标平台>修改目标平台</a></li><li><a href=#%e7%a7%bb%e9%99%a4%e6%a0%87%e5%87%86%e5%ba%93%e4%be%9d%e8%b5%96 aria-label=移除标准库依赖>移除标准库依赖</a></li><li><a href=#%e5%88%86%e6%9e%90%e8%a2%ab%e7%a7%bb%e9%99%a4%e6%a0%87%e5%87%86%e5%ba%93%e7%9a%84%e7%a8%8b%e5%ba%8f aria-label=分析被移除标准库的程序>分析被移除标准库的程序</a></li><li><a href=#qemu%e6%a8%a1%e6%8b%9f%e5%99%a8 aria-label=QEMU模拟器>QEMU模拟器</a></li><li><a href=#%e7%a8%8b%e5%ba%8f%e5%86%85%e5%ad%98%e5%b8%83%e5%b1%80%e4%b8%8e%e7%bc%96%e8%af%91%e6%b5%81%e7%a8%8b aria-label=程序内存布局与编译流程>程序内存布局与编译流程</a><ul><li><a href=#%e7%a8%8b%e5%ba%8f%e5%86%85%e5%ad%98%e5%b8%83%e5%b1%80 aria-label=程序内存布局>程序内存布局</a></li><li><a href=#%e7%bc%96%e8%af%91%e6%b5%81%e7%a8%8b aria-label=编译流程>编译流程</a></li></ul></li><li><a href=#%e5%86%85%e6%a0%b8%e7%9a%84%e7%ac%ac%e4%b8%80%e6%9d%a1%e6%8c%87%e4%bb%a4 aria-label=内核的第一条指令>内核的第一条指令</a></li><li><a href=#%e8%b0%83%e6%95%b4%e5%86%85%e6%a0%b8%e7%9a%84%e5%86%85%e5%ad%98%e5%b8%83%e5%b1%80 aria-label=调整内核的内存布局>调整内核的内存布局</a></li><li><a href=#%e6%89%8b%e5%8a%a8%e5%8a%a0%e8%bd%bd%e5%86%85%e6%a0%b8%e5%8f%af%e6%89%a7%e8%a1%8c%e6%96%87%e4%bb%b6 aria-label=手动加载内核可执行文件>手动加载内核可执行文件</a></li><li><a href=#%e5%9f%ba%e4%ba%8egdb%e9%aa%8c%e8%af%81%e5%90%af%e5%8a%a8%e6%b5%81%e7%a8%8b aria-label=基于GDB验证启动流程>基于GDB验证启动流程</a></li><li><a href=#%e4%b8%ba%e5%86%85%e6%a0%b8%e6%94%af%e6%8c%81%e5%87%bd%e6%95%b0%e8%b0%83%e7%94%a8 aria-label=为内核支持函数调用>为内核支持函数调用</a><ul><li><a href=#%e5%87%bd%e6%95%b0%e8%b0%83%e7%94%a8%e4%b8%8e%e6%a0%88 aria-label=函数调用与栈>函数调用与栈</a></li><li><a href=#%e8%b0%83%e7%94%a8%e8%a7%84%e8%8c%83 aria-label=调用规范>调用规范</a></li><li><a href=#%e6%a0%88 aria-label=栈>栈</a></li><li><a href=#%e5%88%86%e9%85%8d%e5%b9%b6%e4%bd%bf%e7%94%a8%e5%90%af%e5%8a%a8%e6%a0%88 aria-label=分配并使用启动栈>分配并使用启动栈</a></li></ul></li><li><a href=#%e5%9f%ba%e4%ba%8esbi%e6%9c%8d%e5%8a%a1%e5%ae%8c%e6%88%90%e8%be%93%e5%87%ba%e5%92%8c%e5%85%b3%e6%9c%ba aria-label=基于SBI服务完成输出和关机>基于SBI服务完成输出和关机</a><ul><li><a href=#%e4%bd%bf%e7%94%a8rustsbi%e6%8f%90%e4%be%9b%e7%9a%84%e6%9c%8d%e5%8a%a1 aria-label=使用RustSBI提供的服务>使用RustSBI提供的服务</a></li><li><a href=#%e5%ae%9e%e7%8e%b0%e6%a0%bc%e5%bc%8f%e5%8c%96%e8%be%93%e5%87%ba aria-label=实现格式化输出>实现格式化输出</a></li><li><a href=#%e5%a4%84%e7%90%86%e8%87%b4%e5%91%bd%e9%94%99%e8%af%af aria-label=处理致命错误>处理致命错误</a></li></ul></li><li><a href=#%e5%ae%9e%e8%b7%b5%e4%bd%9c%e4%b8%9a-%e5%ae%9e%e7%8e%b0%e5%bd%a9%e8%89%b2%e5%8c%96log aria-label=实践作业-实现彩色化LOG>实践作业-实现彩色化LOG</a></li></ul></div></details></div><div class=post-content><p>从零开始使用Rust写一个基于<code>RISC-V</code>架构的类Unix内核.</p><p>前置知识:</p><ul><li>Rust基础语法和一些进阶语法（Trait、函数式编程，Unsafe）</li><li>Git</li><li>简单汇编</li></ul><p>参考文档:</p><ul><li><a href=https://github.com/rcore-os/rCore>rCore</a></li><li><a href=https://github.com/rcore-os/rCore-Tutorial-v3>rCore-Tutorial-v3</a></li></ul><h2 id=构建应用程序>构建应用程序<a hidden class=anchor aria-hidden=true href=#构建应用程序>#</a></h2><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>cargo new os
+</span></span></code></pre></td></tr></table></div></div><p>执行此命令创建一个名为os的项目。</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>main</span>() {
+</span></span><span style=display:flex><span>    println!(<span style=color:#e6db74>&#34;Hello, world!&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><p>创建项目后<code>os/src/main.rs</code>中已经有了“Hello, world!”的代码。</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>cargo run
+</span></span></code></pre></td></tr></table></div></div><p>打开os文件夹后，执行此命令后可以看到控制台输出<code>Hello, world!</code>。</p><p>但是，我们享受到的编程和执行程序如此方便背后有着从硬件到软件的多种机制的支持。尤其是对于应用程序的运行，需要有一个强大的执行环境来帮助。</p><h2 id=应用程序执行环境>应用程序执行环境<a hidden class=anchor aria-hidden=true href=#应用程序执行环境>#</a></h2><p>现代通用操作系统上的应用程序运行需要下面多层次的执行环境栈的支持:</p><p><img loading=lazy src=/rCore/app-software-stack.png alt=app-software-stack></p><p>我们的应用位于最上层，可以通过调用不同编程语言提供的标准库或者其他第三方库对外提供的功能强大的函数接口，使得仅需少量的代码就能完成复杂的功能。实际上这些库属于应用程序的<code>执行环境(Execution Environment)</code>，在我们通常不会注意到的地方，它们还会在执行应用之前完成一些初始化工作，并在应用程序执行的时候对它进行监控。</p><p>从<code>内核/操作系统</code>的角度来看，它上面的一切都属于用户态，而它自身属于内核态。无论用户态应用如何编写，某些功能总要直接或者间接的通过<code>内核/操作系统</code>提供的<code>系统调用(System Call)</code>来实现。因此<code>系统调用</code>充当了用户和内核之间的边界。</p><p><strong>内核作为用户态的执行环境，它不仅要提供系统调用接口，还需要对用户态应用的执行进行监控的管理。</strong></p><h2 id=平台与目标三元组>平台与目标三元组<a hidden class=anchor aria-hidden=true href=#平台与目标三元组>#</a></h2><p>现代编译器工具集以C编译器为例，主要工作流程如下：</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>1. 预处理: 源代码<span style=color:#f92672>(</span>source code<span style=color:#f92672>)</span> -&gt; 预处理器<span style=color:#f92672>(</span>preprocessor<span style=color:#f92672>)</span> -&gt; 宏展开的源代码
+</span></span><span style=display:flex><span>2. 编译: 宏展开的源代码 -&gt; 编译器<span style=color:#f92672>(</span>compiler<span style=color:#f92672>)</span> -&gt; 汇编程序
+</span></span><span style=display:flex><span>3. 汇编: 汇编程序 -&gt; 汇编器<span style=color:#f92672>(</span>assembler<span style=color:#f92672>)</span> -&gt; 目标代码<span style=color:#f92672>(</span>object code<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>4. 链接: 目标代码 -&gt; 链接器<span style=color:#f92672>(</span>linker<span style=color:#f92672>)</span> -&gt; 可执行文件<span style=color:#f92672>(</span>executables<span style=color:#f92672>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>编译应用程序时，编译器将其源代码通过编译、链接得到的可执行文件时需要知道程序要在哪个平台运行。这些平台主要指CPU类型、操作系统类型和标准运行时库的组合。</p><p>我们通过``目标三元组(Target triple)`来描述一个目标平台。它一般包括CPU架构、CPU厂商、操作系统和运行时库。</p><p>我们可以通过rustc来输出rust的默认配置信息：</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">8
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ rustc --version --verbose
+</span></span><span style=display:flex><span>rustc 1.63.0 <span style=color:#f92672>(</span>4b91a6ea7 2022-08-08<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>binary: rustc
+</span></span><span style=display:flex><span>commit-hash: 4b91a6ea7258a947e59c6522cd5898e7c0a6a88f
+</span></span><span style=display:flex><span>commit-date: 2022-08-08
+</span></span><span style=display:flex><span>host: aarch64-apple-darwin
+</span></span><span style=display:flex><span>release: 1.63.0
+</span></span><span style=display:flex><span>LLVM version: 14.0.5
+</span></span></code></pre></td></tr></table></div></div><p>执行结果中，<code>host</code>表明默认目标平台是<code>aarch64-apple-darwin</code>,CPU架构是<code>aarch64</code>,供应商是<code>apple</code>,操作系统是<code>darwin</code>。</p><p>我们想要在另一个硬件平台上运行<code>Hello, world!</code>，这与之前的默认平台不同，CPU架构需要从<code>aarch64</code>换到<code>risc-v</code>。</p><p>通过rustc来输出Rust编译器支持那些基于risc-v的平台:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ rustc --print target-list | grep riscv
+</span></span><span style=display:flex><span>riscv32gc-unknown-linux-gnu
+</span></span><span style=display:flex><span>riscv32gc-unknown-linux-musl
+</span></span><span style=display:flex><span>riscv32i-unknown-none-elf
+</span></span><span style=display:flex><span>riscv32im-unknown-none-elf
+</span></span><span style=display:flex><span>riscv32imac-unknown-none-elf
+</span></span><span style=display:flex><span>riscv32imac-unknown-xous-elf
+</span></span><span style=display:flex><span>riscv32imc-esp-espidf
+</span></span><span style=display:flex><span>riscv32imc-unknown-none-elf
+</span></span><span style=display:flex><span>riscv64gc-unknown-freebsd
+</span></span><span style=display:flex><span>riscv64gc-unknown-linux-gnu
+</span></span><span style=display:flex><span>riscv64gc-unknown-linux-musl
+</span></span><span style=display:flex><span>riscv64gc-unknown-none-elf
+</span></span><span style=display:flex><span>riscv64imac-unknown-none-elf
+</span></span></code></pre></td></tr></table></div></div><h2 id=修改目标平台>修改目标平台<a hidden class=anchor aria-hidden=true href=#修改目标平台>#</a></h2><p>我们希望将程序一直到RICV目标平台<code>riscv64gc-unknown-none-elf</code>上运行。</p><ul><li><strong>PS</strong>: <code>riscv64gc-unknown-none-elf</code> 的CPU架构是<code>riscv64gc</code>，厂商是<code>unknown</code>，操作系统是<code>none</code>， elf表示没有标准的运行时库。没有任何系统调用的封装支持，但可以生成ELF格式的执行程序。我们不选择有linux-gnu支持的<code>riscv64gc-unknown-linux-gnu</code>，是因为我们的目标是开发操作系统内核，而非在linux系统上运行的应用程序。</li></ul><p>使用<code>cargo</code>编译或编译运行时，可以使用 <code>--target &lt;target triple></code>来支持不同平台。</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>cargo run --target riscv64gc-unknown-none-elf
+</span></span></code></pre></td></tr></table></div></div><p>执行此命令后报错，是由于目标平台上没有Rust标准库std，也不存在任何受OS支持的系统调用，这样的平台我们称为<code>裸机平台(bare-metal)</code>。</p><p>既然不支持rust的<code>std</code>标准库，那为什么要使用rust呢？
+除了<code>std</code>之外，rust还有一个不需要任何操作系统支持的核心库<code>core</code>，它包含了rust相当一部分的核心机制。</p><h2 id=移除标准库依赖>移除标准库依赖<a hidden class=anchor aria-hidden=true href=#移除标准库依赖>#</a></h2><p>接下来将移植上述的<code>Hello, world!</code>程序到RV64GC平台，所以我们要移除程序对<code>Rust std标准库</code>的依赖 ，</p><p>因为<code>Rust std标准库</code>需要操作系统内核的支持。我们需要添加能够支持应用的裸机级别的<code>库操作系统(LibOS)</code>。</p><p>由于后续需要<code>rustc</code>编译器缺省生成RISC-V 64 的目标代码，首先需要给rustc添加一个target: <code>riscv64gc-unknown-none-elf</code></p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ rustup target add riscv64gc-unknown-none-elf
+</span></span></code></pre></td></tr></table></div></div><p>然后在<code>os</code>目录下新建<code>.cargo</code>目录，再次目录下创建<code>config</code>文件</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># os/.cargo/config</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>build<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>target <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;riscv64gc-unknown-none-elf&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>做此调整之后，Cargo默认会使用<code>riscv64gc</code>作为目标平台。</p><hr><p>之后执行<code>cargo build</code>输出如下:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ cargo build         
+</span></span><span style=display:flex><span>   Compiling os v0.1.0 <span style=color:#f92672>(</span>/Users/ther/WorkSpace/rCore/os<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>error<span style=color:#f92672>[</span>E0463<span style=color:#f92672>]</span>: can<span style=color:#960050;background-color:#1e0010>&#39;</span>t find crate <span style=color:#66d9ef>for</span> <span style=color:#e6db74>`</span>std<span style=color:#e6db74>`</span>
+</span></span><span style=display:flex><span>  |
+</span></span><span style=display:flex><span>  <span style=color:#f92672>=</span> note: the <span style=color:#e6db74>`</span>riscv64gc-unknown-none-elf<span style=color:#e6db74>`</span> target may not support the standard library
+</span></span><span style=display:flex><span>  <span style=color:#f92672>=</span> note: <span style=color:#e6db74>`</span>std<span style=color:#e6db74>`</span> is required by <span style=color:#e6db74>`</span>os<span style=color:#e6db74>`</span> because it does not declare <span style=color:#e6db74>`</span><span style=color:#75715e>#![no_std]`</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>error: cannot find macro <span style=color:#e6db74>`</span>println<span style=color:#e6db74>`</span> in this scope
+</span></span><span style=display:flex><span> --&gt; src/main.rs:2:5
+</span></span><span style=display:flex><span>  |
+</span></span><span style=display:flex><span><span style=color:#ae81ff>2</span> |     println!<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Hello, world!&#34;</span><span style=color:#f92672>)</span>;
+</span></span><span style=display:flex><span>  |     ^^^^^^^
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>error: <span style=color:#e6db74>`</span><span style=color:#75715e>#[panic_handler]` function required, but not found</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>For more information about this error, try <span style=color:#e6db74>`</span>rustc --explain E0463<span style=color:#e6db74>`</span>.
+</span></span><span style=display:flex><span>error: could not compile <span style=color:#e6db74>`</span>os<span style=color:#e6db74>`</span> due to <span style=color:#ae81ff>3</span> previous errors
+</span></span></code></pre></td></tr></table></div></div><p>我们来解释报错信息:</p><ul><li>第一个error表示没有找到标准库std。具体原因报错信息也做了解释，<code>riscv64gc-unknown-none-elf</code>作为目标平台，并不支持标准库std。可以使用<code>#![no_std]</code>来告诉Rust编译器不使用<code>std标准库</code>而是使用``core`。</li><li>第二个error表示没有找到<code>println!</code>宏。这是由于之前<code>println!</code>宏由<code>std标准库</code>提供，此时并不能支持std标准库，而我们也没能自己实现。</li><li>第三个error是由于没能找到<code>panic!</code>宏的具体实现，这个原因有点类似于第二个error的原因。使用Rust编写程序时，我们常常会遇到一些无法恢复的致命错误，导致程序无法继续运行，这时会手动或自动调用<code>panic!</code>宏来打印错误的位置。所以Rust编译器在编译程序时，从安全性考虑，需要有<code>panic!</code>宏的具体实现。在<code>std标准库</code>中提供了<code>panic!</code>的具体实现，但是在更底层的<code>核心库core</code>中只有一个<code>panic!</code>宏的空壳，所以我们需要先自行实现一个简陋的panic处理函数。报错信息中也给出了提示，使用<code>#[panic_handler]</code>。</li></ul><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#75715e>// os/src/main.rs
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#75715e>#![no_std]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>mod</span> lang_items;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>main</span>() {}
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#75715e>// os/src/lang_items.rs
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>use</span> core::panic::PanicInfo;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#[panic_handler]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>panic</span>(_info: <span style=color:#66d9ef>&amp;</span><span style=color:#a6e22e>PanicInfo</span>) -&gt; <span style=color:#f92672>!</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>loop</span> {}
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><p>执行<code>cargo build</code>后依旧会报错:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ cargo build
+</span></span><span style=display:flex><span>   Compiling os v0.1.0 <span style=color:#f92672>(</span>/Users/ther/WorkSpace/rCore/os<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>error: requires <span style=color:#e6db74>`</span>start<span style=color:#e6db74>`</span> lang_item
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>error: could not compile <span style=color:#e6db74>`</span>rCore<span style=color:#e6db74>`</span> due to previous error
+</span></span></code></pre></td></tr></table></div></div><p>编译器提示我们缺少了一个名为<code>start</code>的语义项。之前提到语言标准哭和三方库作为应用程序的执行环境，需要负责在执行应用程序之前进行一些初始化工作，然后才跳转到应用程序的入口点（跳转到我们编写的main函数）开始执行。实际上<code>start</code>语义项代表了std标准库在执行应用程序之前需要进行的一些初始化工作。由于我们禁用了标准库，编译器也就找不到这项功能的实现了。</p><p>最简单的解决方案就是直接不让编译器使用这项功能。</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#75715e>// os/src/main.rs
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#75715e>#![no_std]</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#![no_main]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>mod</span> lang_items;
+</span></span><span style=display:flex><span><span style=color:#75715e>//在开头加入设置#![no_main]告诉编译器我们没有一般意义上的main函数，并删除原来的main函数。
+</span></span></span></code></pre></td></tr></table></div></div><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ cargo build 
+</span></span><span style=display:flex><span>   Compiling os v0.1.0 <span style=color:#f92672>(</span>/Users/ther/WorkSpace/rCore/os<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    Finished dev <span style=color:#f92672>[</span>unoptimized + debuginfo<span style=color:#f92672>]</span> target<span style=color:#f92672>(</span>s<span style=color:#f92672>)</span> in 0.05s
+</span></span></code></pre></td></tr></table></div></div><p>至此，我们成功的移除了标准库依赖，通过了编译器检查并生成执行码。但是原有的功能却被弱化甚至删除，接下来我们会以自己的方式来重塑这些基本功能。</p><h2 id=分析被移除标准库的程序>分析被移除标准库的程序<a hidden class=anchor aria-hidden=true href=#分析被移除标准库的程序>#</a></h2><p>对于上面这个被移除标准库的应用程序，通过了编译器的检查和编译，形成了二进制代码。但这个二进制代码是怎样的，它能否被正常执行呢？为了分析这些程序，首先需要安装 cargo-binutils 工具集：</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ cargo install cargo-binutils
+</span></span><span style=display:flex><span>$ rustup component add llvm-tools-preview
+</span></span></code></pre></td></tr></table></div></div><p>我们可以通过各种工具来分析目前的程序</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">30
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">34
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">35
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">36
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">37
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">38
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">39
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">40
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">41
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">42
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">43
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">44
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">45
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">46
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">47
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 文件格式</span>
+</span></span><span style=display:flex><span>$ file target/riscv64gc-unknown-none-elf/debug/os
+</span></span><span style=display:flex><span>target/riscv64gc-unknown-none-elf/debug/os: ELF 64-bit LSB executable, UCB RISC-V, RVC, double-float ABI, version <span style=color:#ae81ff>1</span> <span style=color:#f92672>(</span>SYSV<span style=color:#f92672>)</span>, statically linked, with debug_info, not stripped
+</span></span><span style=display:flex><span><span style=color:#75715e># 对二进制程序os的分析可以看出它好像是一个合法的RISC-V可执行程序</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 文件头信息</span>
+</span></span><span style=display:flex><span>$ rust-readobj -h target/riscv64gc-unknown-none-elf/debug/os
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>File: target/riscv64gc-unknown-none-elf/debug/os
+</span></span><span style=display:flex><span>Format: elf64-littleriscv
+</span></span><span style=display:flex><span>Arch: riscv64
+</span></span><span style=display:flex><span>AddressSize: 64bit
+</span></span><span style=display:flex><span>LoadName: &lt;Not found&gt;
+</span></span><span style=display:flex><span>ElfHeader <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>  Ident <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    Magic: <span style=color:#f92672>(</span>7F <span style=color:#ae81ff>45</span> 4C 46<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    Class: 64-bit <span style=color:#f92672>(</span>0x2<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    DataEncoding: LittleEndian <span style=color:#f92672>(</span>0x1<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    FileVersion: <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>    OS/ABI: SystemV <span style=color:#f92672>(</span>0x0<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    ABIVersion: <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>    Unused: <span style=color:#f92672>(</span><span style=color:#ae81ff>00</span> <span style=color:#ae81ff>00</span> <span style=color:#ae81ff>00</span> <span style=color:#ae81ff>00</span> <span style=color:#ae81ff>00</span> <span style=color:#ae81ff>00</span> 00<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>  Type: Executable <span style=color:#f92672>(</span>0x2<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>  Machine: EM_RISCV <span style=color:#f92672>(</span>0xF3<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>  Version: <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>  Entry: 0x0
+</span></span><span style=display:flex><span>  ProgramHeaderOffset: 0x40
+</span></span><span style=display:flex><span>  SectionHeaderOffset: 0x1B40
+</span></span><span style=display:flex><span>  Flags <span style=color:#f92672>[</span> <span style=color:#f92672>(</span>0x5<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    EF_RISCV_FLOAT_ABI_DOUBLE <span style=color:#f92672>(</span>0x4<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    EF_RISCV_RVC <span style=color:#f92672>(</span>0x1<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>  HeaderSize: <span style=color:#ae81ff>64</span>
+</span></span><span style=display:flex><span>  ProgramHeaderEntrySize: <span style=color:#ae81ff>56</span>
+</span></span><span style=display:flex><span>  ProgramHeaderCount: <span style=color:#ae81ff>3</span>
+</span></span><span style=display:flex><span>  SectionHeaderEntrySize: <span style=color:#ae81ff>64</span>
+</span></span><span style=display:flex><span>  SectionHeaderCount: <span style=color:#ae81ff>14</span>
+</span></span><span style=display:flex><span>  StringTableSectionIndex: <span style=color:#ae81ff>12</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 通过rust-readobj工具进一步分析，发现入口地址Entry是0x0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 反汇编导出汇编程序</span>
+</span></span><span style=display:flex><span>$ rust-objdump -S target/riscv64gc-unknown-none-elf/debug/os
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>target/riscv64gc-unknown-none-elf/debug/os:	file format elf64-littleriscv
+</span></span><span style=display:flex><span><span style=color:#75715e># 经过反汇编，并没有生成汇编代码，所以基本可以断定，这个二进制程序虽然合法，但它是一个空程序。</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=qemu模拟器>QEMU模拟器<a hidden class=anchor aria-hidden=true href=#qemu模拟器>#</a></h2><p>我们编写的内核主要在Qemu模拟器上运行来检验其正确性。</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 此命令用于启动Qemu并运行我们的内核</span>
+</span></span><span style=display:flex><span>$	qemu-system-riscv64 <span style=color:#ae81ff>\ </span><span style=color:#75715e># 模拟64位RISC-V架构的计算机</span>
+</span></span><span style=display:flex><span>    -machine virt <span style=color:#ae81ff>\ </span><span style=color:#75715e># 将模拟的64位RISC-V计算机设置为名为virt的虚拟计算机</span>
+</span></span><span style=display:flex><span>    -nographic <span style=color:#ae81ff>\ </span><span style=color:#75715e># 表示不需要提供图形界面</span>
+</span></span><span style=display:flex><span>    -bios ../bootloader/rustsbi.bin <span style=color:#ae81ff>\ </span><span style=color:#75715e># Qemu开机时用来初始化的引导加载程序bootloader</span>
+</span></span><span style=display:flex><span>    -device loader,file<span style=color:#f92672>=</span>target/riscv64gc-unknown-none-elf/release/os.bin,addr<span style=color:#f92672>=</span>0x80200000 <span style=color:#75715e># loader属性可以在Qemu开机前将宿主机的文件载入到指定物理内存地址。</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>virt</code>平台，物理内存的起始物理地址为<code>0x80000000</code>，物理内存的默认大小为<code>128MiB</code>，物理内存可以通过<code>-m</code>进行调整。</p><p>计算机加电之后的启动流程可以分成若干个阶段，每个阶段由一层软件负责，承担相应的初始化工作，并在此之后跳转到下一层软件的入口地址，也就是将计算机的控制权移交给下一层软件。Qemu模拟的启动流程分为三个阶段：</p><ul><li>由固化在Qemu中的一小段汇编程序负责</li><li>由bootloader负责</li><li>由内核镜像负责。</li></ul><p>在使用上述命令启动Qemu后，bootloader将被加载到物理地址以<code>0x80000000</code>开头的区域，同时内核镜像将被加载到物理地址以<code>0x80200000</code>开头的区域。</p><h2 id=程序内存布局与编译流程>程序内存布局与编译流程<a hidden class=anchor aria-hidden=true href=#程序内存布局与编译流程>#</a></h2><h3 id=程序内存布局>程序内存布局<a hidden class=anchor aria-hidden=true href=#程序内存布局>#</a></h3><p>将源代码编译为可执行文件后，这些看似杂乱无章的字节可以被分成代码和数据两部分：</p><ul><li>代码部分由一条条可以被CPU解码并执行的指令组成</li><li>数据部分只是被CPU视作可读写的内存空间</li></ul><p>实际上，我们还可以根据具体功能将这两个部分划分为更小的单位：<code>段(Section)</code>。不同的段被编译器放在内存不同的位置上，这就构成了程序的内存布局。一种典型的程序相对内存布局如下：</p><p><img loading=lazy src=/rCore/MemoryLayout.png alt=MemoryLayout></p><ul><li><code>.text</code>：代码段，存放程序所有的汇编代码</li><li><code>.rodata</code>：已初始化数据段，只读全局数据，通常是一些常熟或者是常量字符串</li><li><code>.data</code>：已初始化数据段，可修改的全局数据</li><li><code>.bss</code>：未初始化数据段，保存程序中为初始化的全局变量，通常由程序的加载者代为进行数据零初始化</li><li><code>heap</code>：堆，用于存放程序运行时动态分配的数据，向高地址增长</li><li><code>stack</code>：栈，不仅用于函数调用上下文的保存与恢复，每个函数作用域的局部变量也被编译器放在它的栈帧内，向低地址增长</li></ul><h3 id=编译流程>编译流程<a hidden class=anchor aria-hidden=true href=#编译流程>#</a></h3><p>从源代码到可执行文件的编译流程可以被细化成多个阶段：</p><ul><li>编译->汇编->链接</li></ul><p>汇编器输出的每个目标文件都有一个独立的内存布局，它描述了目标文件内各段所在的位置。而链接器所做的事情就是将所有输入的目标文件整合成一个整体的内存布局：</p><ul><li>首先将不同目标文件的段在目标内存布局中重新排布，内存布局存在冲突则合并消除冲突</li><li>其次将符号替换为具体地址</li></ul><h2 id=内核的第一条指令>内核的第一条指令<a hidden class=anchor aria-hidden=true href=#内核的第一条指令>#</a></h2><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span># os/src/entry.asm
+</span></span><span style=display:flex><span>	.section .text.entry # 表示将后面的内容放到名为.text.entry 的段中
+</span></span><span style=display:flex><span>	.global _start # 告知编译器，这是一个全局符号，可以被其他目标文件使用
+</span></span><span style=display:flex><span>_start:
+</span></span><span style=display:flex><span>	li x1, 100 # 向寄存器x1中加载一个立即数100
+</span></span></code></pre></td></tr></table></div></div><p>在<code>main.rs</code>中嵌入这段汇编代码</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#75715e>// os/src/main.rs
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#75715e>#![no_std]</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#![no_main]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>mod</span> lang_items;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>use</span> core::arch::global_asm;
+</span></span><span style=display:flex><span>global_asm!(include_str!(<span style=color:#e6db74>&#34;entry.asm&#34;</span>));
+</span></span></code></pre></td></tr></table></div></div><h2 id=调整内核的内存布局>调整内核的内存布局<a hidden class=anchor aria-hidden=true href=#调整内核的内存布局>#</a></h2><p>为了实现与Qemu的正确对接，我们可以通过链接脚本调整链接器的行为。</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">9
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-toml data-lang=toml><span style=display:flex><span><span style=color:#75715e># os/.cargo/config</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>[<span style=color:#a6e22e>build</span>]
+</span></span><span style=display:flex><span><span style=color:#a6e22e>target</span> = <span style=color:#e6db74>&#34;riscv64gc-unknown-none-elf&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>[<span style=color:#a6e22e>taaarget</span>.<span style=color:#a6e22e>riscv64gc-unknown-none-elf</span>]
+</span></span><span style=display:flex><span><span style=color:#a6e22e>rustflags</span> = [
+</span></span><span style=display:flex><span>	<span style=color:#e6db74>&#34;-Clink-arg=-Tsrc/linker.ld&#34;</span>, <span style=color:#e6db74>&#34;-Cforce-frame-pointers=yes&#34;</span>,
+</span></span><span style=display:flex><span>]
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">30
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">34
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">35
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">36
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">37
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">38
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">39
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">40
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">41
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">42
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">43
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">44
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">45
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">46
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">47
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">48
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">49
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">50
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span># os/src/linker.ld
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>OUTPUT_ARCH(riscv) # 设置目标平台
+</span></span><span style=display:flex><span>ENTRY(_start) # 设置整个程序的入口点，_start为entry.asm中定义的全局符号
+</span></span><span style=display:flex><span>BASE_ADDRESS = 0x80200000; # 定义常量
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>SECTIONS
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    . = BASE_ADDRESS;
+</span></span><span style=display:flex><span>    skernel = .;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    stext = .;
+</span></span><span style=display:flex><span>    .text : {
+</span></span><span style=display:flex><span>        *(.text.entry) # *
+</span></span><span style=display:flex><span>        *(.text .text.*)
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    . = ALIGN(4K);
+</span></span><span style=display:flex><span>    etext = .;
+</span></span><span style=display:flex><span>    srodata = .;
+</span></span><span style=display:flex><span>    .rodata : {
+</span></span><span style=display:flex><span>        *(.rodata .rodata.*)
+</span></span><span style=display:flex><span>        *(.srodata .srodata.*)
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    . = ALIGN(4K);
+</span></span><span style=display:flex><span>    erodata = .;
+</span></span><span style=display:flex><span>    sdata = .;
+</span></span><span style=display:flex><span>    .data : {
+</span></span><span style=display:flex><span>        *(.data .data.*)
+</span></span><span style=display:flex><span>        *(.sdata .sdata.*)
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    . = ALIGN(4K);
+</span></span><span style=display:flex><span>    edata = .;
+</span></span><span style=display:flex><span>    .bss : {
+</span></span><span style=display:flex><span>        *(.bss.stack)
+</span></span><span style=display:flex><span>        sbss = .;
+</span></span><span style=display:flex><span>        *(.bss .bss.*)
+</span></span><span style=display:flex><span>        *(.sbss .sbss.*)
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    . = ALIGN(4K);
+</span></span><span style=display:flex><span>    ebss = .;
+</span></span><span style=display:flex><span>    ekernel = .;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    /DISCARD/ : {
+</span></span><span style=display:flex><span>        *(.eh_frame)
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><p>之后执行命令:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ cargo build --release
+</span></span><span style=display:flex><span>   Compiling os v0.1.0 <span style=color:#f92672>(</span>/Users/ther/WorkSpace/rCore/os<span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>    Finished release <span style=color:#f92672>[</span>optimized<span style=color:#f92672>]</span> target<span style=color:#f92672>(</span>s<span style=color:#f92672>)</span> in 0.40s
+</span></span></code></pre></td></tr></table></div></div><p>上述命令以<code>release</code>模式生成了内核可执行文件，它的位置在<code> target/riscv64gc-unknown-none-elf/release/os</code>。</p><h2 id=手动加载内核可执行文件>手动加载内核可执行文件<a hidden class=anchor aria-hidden=true href=#手动加载内核可执行文件>#</a></h2><p>上面得到的内核可执行文件完全符合了我们对于内存布局的要求，但是不能将其直接提交给Qemu使用，因为它除了实际会用到的代码和数据段之外，还会有一些多余的元数据，这些元数据无法被Qemu在加载文件时利用，且会使代码和数据段被加载到错误的位置。如下图所示：</p><p><img loading=lazy src=/rCore/load-into-qemu.png alt=load-into-qemu></p><p>如果直接将内核可执行文件os加载到Qemu内存的<code>0x80200000</code>处，由于内核可执行文件的开头是一段缘数据，这会导致Qemu内存在<code>0x80200000</code>无法找到内核第一条指令，也就意味着RustSBI无法正常将计算机控制权转交给内核。</p><p>执行命令可丢弃内核可执行文件中的元数据得到内核镜像:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ rust-objcopy --strip-all target/riscv64gc-unknown-none-elf/debug/os -O binary target/riscv64gc-unknown-none-elf/os.bin
+</span></span></code></pre></td></tr></table></div></div><h2 id=基于gdb验证启动流程>基于GDB验证启动流程<a hidden class=anchor aria-hidden=true href=#基于gdb验证启动流程>#</a></h2><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ qemu-system-riscv64 <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -machine virt <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -nographic <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -bios ../bootloader/rustsbi.bin <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -device loader,file<span style=color:#f92672>=</span>target/riscv64gc-unknown-none-elf/release/os.bin,addr<span style=color:#f92672>=</span>0x80200000 <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>	-s -S
+</span></span></code></pre></td></tr></table></div></div><p>上述命令在之前提到的启动Qemu模拟器的命令的基础上加了<code>-s</code>、<code>-S</code>两个参数：</p><ul><li><code>-s</code>：使Qemu监听本地TCP端口1234等待GDB客户端连接</li><li><code>-S</code>：使Qemu在收到GDB的请求后再开始运行</li></ul><p>启动GDB客户端连接到Qemu：</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ riscv64-unknown-elf-gdb <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -ex <span style=color:#e6db74>&#39;file target/riscv64gc-unknown-none-elf/release/os&#39;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -ex <span style=color:#e6db74>&#39;set arch riscv:rv64&#39;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>    -ex <span style=color:#e6db74>&#39;target remote localhost:1234&#39;</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#f92672>(</span>gdb<span style=color:#f92672>)</span> b *0x80200000 <span style=color:#75715e># 在0x80200000处打个断点</span>
+</span></span><span style=display:flex><span>Breakpoint <span style=color:#ae81ff>1</span> at 0x80200000
+</span></span><span style=display:flex><span><span style=color:#f92672>(</span>gdb<span style=color:#f92672>)</span> c
+</span></span><span style=display:flex><span>Continuing.
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Breakpoint 1, 0x0000000080200000 in ?? <span style=color:#f92672>()</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>(</span>gdb<span style=color:#f92672>)</span> x/5i $pc
+</span></span><span style=display:flex><span><span style=color:#f92672>=</span>&gt; 0x80200000:	li	ra,100 <span style=color:#75715e># 可以看到我们entry.asm中的 li x1, 100，ra是寄存器x1的别名</span>
+</span></span><span style=display:flex><span>   0x80200004:	unimp
+</span></span><span style=display:flex><span>   0x80200006:	unimp
+</span></span><span style=display:flex><span>   0x80200008:	unimp
+</span></span><span style=display:flex><span>   0x8020000a:	unimp
+</span></span><span style=display:flex><span><span style=color:#f92672>(</span>gdb<span style=color:#f92672>)</span> si <span style=color:#75715e># 继续执行下一条指令</span>
+</span></span><span style=display:flex><span>0x0000000080200004 in ?? <span style=color:#f92672>()</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>(</span>gdb<span style=color:#f92672>)</span> p/d $x1 <span style=color:#75715e># 以十进制打印寄存器x1的值</span>
+</span></span><span style=display:flex><span>$1 <span style=color:#f92672>=</span> <span style=color:#ae81ff>100</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>(</span>gdb<span style=color:#f92672>)</span> p/x $sp <span style=color:#75715e># 检查此时栈指针sp的值</span>
+</span></span><span style=display:flex><span>$2 <span style=color:#f92672>=</span> 0x0
+</span></span></code></pre></td></tr></table></div></div><h2 id=为内核支持函数调用>为内核支持函数调用<a hidden class=anchor aria-hidden=true href=#为内核支持函数调用>#</a></h2><p>经过上述流程，我们已经成功的在Qemu上执行了内核的第一条指令，它是我们在<code>entry.asm</code>中手写的汇编代码得到的。但是我们的目的并不是使用汇编来编写内核，绝大部分功能还是要是用Rust来实现。</p><p>不过为了将控制权转交给我们使用Rust编写的内核入口，我们还是需要编写部分汇编代码。和之前一样，这些汇编代码还是放在<code>entry.asm</code>中并在控制权被转交给内核后最先被执行，但是它们的功能会较之前更加复杂：</p><ul><li>首先设置栈，使得在内核中进行函数调用</li><li>之后直接调用使用Rust编写的内核入口点，从而控制权便被移交给了Rust代码</li></ul><h3 id=函数调用与栈>函数调用与栈<a hidden class=anchor aria-hidden=true href=#函数调用与栈>#</a></h3><p>首先从汇编指令的级别分析一段程序的执行，假设CPU一次执行的指令的物理地址序列为${a_n}$。</p><p>其中最简单的就是CPU一条一条连续向下执行指令，但执行序列并不总是符合这种模式，当位于物理地址${a_n}$的指令是一条跳转指令时，该模式可能被破坏。跳转指令对应于我们在程序中构造的<code>控制流(Control Flow)</code>的多种不同结构，比如分支结构和循环结构，用来实现这两种结构的跳转指令，只需实现跳转功能，也就是将pc寄存器设置到一个指定地址即可。</p><p>另一种控制流结构则显得更加复杂：<code>函数调用(Function Call)</code>。同样使用汇编指令来分析函数调用的过程，在调用函数时，需要有一条指令跳转到被调用函数的位置，但是在被调用函数返回时，我们需要返回到那条掉转过来的指令的下一条继续执行。如果是之前提到的两种结构，执行结束后返回的地址在编译期已确定，但是对于函数调用来说，在对应的函数调用发生之前是不知道的，也就是说函数调用的返回跳转是跳转到一个函数调用发生时才能确定的地址。</p><p><img loading=lazy src=/rCore/function-call.png alt=function-call></p><p>对此，指令集必须给用于函数调用的跳转指令一些额外的能力，而不只是单纯的跳转。在RISC-V架构上，有两条指令即符合这样的特征：</p><table><thead><tr><th style=text-align:center>指令</th><th style=text-align:center>指令功能</th></tr></thead><tbody><tr><td style=text-align:center>jal rd, imm[20:1]</td><td style=text-align:center>rd&lt;-pc+4pc&lt;-pc+imm</td></tr><tr><td style=text-align:center>jalr rd, (imm[11:0])rs</td><td style=text-align:center>rd&lt;-pc+4pc&lt;-rs+imm</td></tr></tbody></table><ul><li><code>rs</code>：表示<code>源寄存器(Source Register)</code></li><li><code>imm</code>：表示<code>立即数(Immediate)</code>，是一个常数，与源寄存器构成了输入部分</li><li><code>rd</code>：表示<code>目标寄存器(Destination Register)</code>，它是指令的输出部分</li></ul><p>从中可以看出，这两条指令在设置pc寄存器完成跳转指令之前，将当前跳转指令的下一条指令地址保存在了rd寄存器中。在RISC-V架构中，通常使用<code>ra</code>寄存器作为<code>rd</code>对应的具体寄存器，因此在函数返回的时候，直接跳转回<code>ra</code>保存的地址即可。</p><p>在进行函数调用时，通过<code>jalr</code>指令保存返回地址并实现跳转；在函数调用结束返回时，通过<code>ret</code>伪指令回到跳转之前的下一条指令继续执行。这样，RISC-V的两条指令就实现了函数调用流程的核心机制。</p><p>由于我们在<code>ra</code>寄存器中保存返回地址，要保证在函数执行的全程不发生变化，否则<code>ret</code>之后就会跳转到错误的位置。事实上编译器除了函数调用的相关指令外确实是基本不使用<code>ra</code>寄存器，也就是说在函数中没有调用其他函数，那<code>ra</code>的值不会发生变化。但是在实际编写代码的过程中，我们常常有函数多层嵌套调用的场景，如果我们试图在函数F中调用函数G，那么在跳转到函数G的同时，<code>ra</code>会被覆盖成这条指令的下一条地址，而<code>ra</code>之前所保存的函数F的返回地址将永久丢失。</p><p>因此，为了能够正确实现嵌套函数调用的控制流，我们必须通过某种方式来保证在一个函数调用子函数的前后，<code>ra</code>寄存器的值不发生变化。但实际上，这并不仅仅局限于<code>ra</code>一个寄存器，而是作用于所有的通用寄存器。由于编译器是独立编译每个函数的， 因此一个函数并不知道它所调用的子函数修改了哪些寄存器。而对于一个函数而言，在调用子函数的过程中某些寄存器的值被覆盖的确会对这个函数的执行产生影响。</p><p>我们将由于函数调用，在控制流转移前后需要保持不变的寄存器集合称之为<code>函数调用上下文(Function Call Context)</code>。</p><p>由于每个CPU只有一套寄存器，所以我们若想在调用子函数时保持函数上下文不变，就需要物理内存的辅助。确切的说，就是在子函数调用之前，我们需要在物理内存中的一个区域<code>保存(Save)</code>函数调用上下文中的寄存器；而在子函数执行完毕后，我们会从内存中上述同样的区域读取并<code>恢复(Restore)</code>函数调用上下文中的寄存器。实际上，这一工作由子函数的调用者和被调用者共同完成。函数调用上下文中的寄存器被分为如下两类:</p><ul><li><code>被调用者保存(Callee-Saved)寄存器</code>: 被调用的函数可能会覆盖这些寄存器，需要被调用者函数来保存的寄存器。即由被调用的函数来保证调用前后，这些寄存器保持不变。</li><li><code>调用者保存(Caller-Saved)寄存器</code>: 被调用的函数可能会覆盖这些寄存器，需要调用者函数来保存的寄存器。即由发起调用的函数来保证调用前后，这些寄存器保持不变。</li></ul><p>具体过程如下：</p><ul><li>调用函数: 首先保存不希望在函数调用过程中发生变化的<code>调用者保存寄存器</code>，然后通过<code>jal/jalr</code>指令调用子函数，返回之后恢复这些寄存器。</li><li>被调用函数: 在被调用函数的起始，先保存函数执行过程中被用到的<code>被调用者保存寄存器</code>，然后执行函数，在函数退出之前恢复这些寄存器。</li></ul><h3 id=调用规范>调用规范<a hidden class=anchor aria-hidden=true href=#调用规范>#</a></h3><p><code>调用规范(Calling Convention)</code>约定在某个指令集架构上，某种编程语言的函数调用如何实现。它包括以下内容：</p><ul><li>函数的输入参数和返回值参数如何传递</li><li>函数调用上下文中调用者/被调用者保存寄存器的划分</li><li>其它的在函数调用流程中对于寄存器的使用方法</li></ul><p><a href=https://riscv.org/wp-content/uploads/2015/01/riscv-calling.pdf>RISC-V架构上的C语言调用规范</a></p><h3 id=栈>栈<a hidden class=anchor aria-hidden=true href=#栈>#</a></h3><p>之前提到的函数调用时需要在物理内存中保存上下文中的寄存器，实际上，这块物理内存更加确切的名字是<code>栈(Stack)</code>。<code>sp</code>寄存器用来保存<code>栈指针(Stack Pointer)</code>，它指向内存中的栈顶地址。在RISC-V架构中，栈从高地址向低地址增长。在一个函数中，作为起始的开场代码负责分配一块新的栈空间，即将<code>sp</code>的值减小相应的字节数，于是物理地址区间$[新sp, 旧sp)$对应的物理内存的一部分便可以被这个函数用来进行函数调用上下问的保存/恢复，这块物理地址被称为这个函数的<code>栈帧(Stackframe)</code>。同理，函数中的结尾代码负责将开场代码分配的栈帧回收，也就是将<code>sp</code>的值增加相同的字节数以回到分配之前的状态。这同样也解释了为何<code>sp</code>是一个被调用者保存的寄存器。</p><p>在合适的编译选项设置之下，一个函数的栈帧内容可能如下所示：</p><p><img loading=lazy src=/rCore/StackFrame.png alt=StackFrame></p><p>它的开头和结尾分别在<code>sp(x2)</code>和<code>fp(s0)</code>所指向的地址。按照地址从高到低分别由以下内容，它们都是通过<code>sp</code>加上一个偏移量来访问的:</p><ul><li><code>ra</code>寄存器保存其返回之后的跳转地址，调用者保存寄存器</li><li>父亲栈帧的结束地址<code>fp</code>，被调用者保存寄存器</li><li>其他被调用者保存寄存器<code>s1</code>～<code>s11</code></li><li>函数所使用到的局部变量</li></ul><p>因此，栈上多个<code>fp</code>信息实际上保存了一条完整的函数调用链，通过适当的方式我们可以实现对函数调用关系的跟踪。</p><p>至此，此节基本说明了函数调用如何实现。不过我们暂时可以忽略这些细节，我们只需在初始化阶段完成栈道设置，也就是设置好栈指针<code>sp</code>寄存器，编译器会帮助我们自动完成后面的函数调用相关机制的代码生成。</p><h3 id=分配并使用启动栈>分配并使用启动栈<a hidden class=anchor aria-hidden=true href=#分配并使用启动栈>#</a></h3><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span># os/src/entry.asm
+</span></span><span style=display:flex><span>	.section .text.entry
+</span></span><span style=display:flex><span>	.global _start
+</span></span><span style=display:flex><span>_start:
+</span></span><span style=display:flex><span>	la sp, boot_stack_top # 将指针sp设置为之前分配的启动栈栈顶地址
+</span></span><span style=display:flex><span>	call rust_main # 调用Rust编写的内核入口点rust_main,将控制权交给Rust代码
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	.section .bss.stack # 将这块空间放置在一个名为.bss.stack的段中
+</span></span><span style=display:flex><span>	.global boot_stack
+</span></span><span style=display:flex><span>boot_stack:
+</span></span><span style=display:flex><span>	.space 4096*16 # 预留4096*16字节64KiB的空间用作程序的栈空间
+</span></span><span style=display:flex><span>	.global boot_stack_top
+</span></span><span style=display:flex><span>boot_stack_top:
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback><span style=display:flex><span># os/src/linker.ld
+</span></span><span style=display:flex><span>	.bss : {
+</span></span><span style=display:flex><span>        *(.bss.stack) # .bss.stack段被汇集到.bss段中
+</span></span><span style=display:flex><span>        sbss = .;
+</span></span><span style=display:flex><span>        *(.bss .bss.*)
+</span></span><span style=display:flex><span>        *(.sbss .sbss.*)
+</span></span><span style=display:flex><span>    }
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#75715e>// os/src/main.rs
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#75715e>#![no_std]</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#![no_main]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>mod</span> lang_items;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>use</span> core::arch::global_asm;
+</span></span><span style=display:flex><span>global_asm!(include_str!(<span style=color:#e6db74>&#34;entry.asm&#34;</span>));
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#[no_mangle]</span> 
+</span></span><span style=display:flex><span><span style=color:#66d9ef>pub</span> <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>rust_main</span>() -&gt; <span style=color:#f92672>!</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>loop</span> {}
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><p>在<code>main.rs</code>中，通过宏对<code>rust_main</code>标记，避免编译器对它的名字进行混淆，否则在链接的时候，<code>entry.asm</code>将找不到<code>main.rs</code>提供的外部符号<code>rust_main</code>，导致链接失败。在<code>rust_main</code>的开场白中，我们将第一次在栈上分配栈帧并保存函数调用上下文，它是内核运行全程最深的栈帧。</p><p>我们顺便完成对<code>.bss</code>段的清零，这是内核初始化很重要的一部分，在使用任何被分配到<code>.bss</code>段的全局变量之前我们需要确保<code>.bss</code>段已被清零。</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#75715e>// os/src/main.rs
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#75715e>#![no_std]</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#![no_main]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>mod</span> lang_items;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>use</span> core::arch::global_asm;
+</span></span><span style=display:flex><span>global_asm!(include_str!(<span style=color:#e6db74>&#34;entry.asm&#34;</span>));
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#[no_mangle]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>pub</span> <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>rust_main</span>() -&gt; <span style=color:#f92672>!</span> {
+</span></span><span style=display:flex><span>    clear_bss();
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>loop</span> {}
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>clear_bss</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>extern</span> <span style=color:#e6db74>&#34;C&#34;</span> {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>sbss</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>ebss</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    (sbss <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span><span style=color:#f92672>..</span>ebss <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span>).for_each(<span style=color:#f92672>|</span>p<span style=color:#f92672>|</span> <span style=color:#66d9ef>unsafe</span> { (p <span style=color:#66d9ef>as</span> <span style=color:#f92672>*</span><span style=color:#66d9ef>mut</span> <span style=color:#66d9ef>u8</span>).write_volatile(<span style=color:#ae81ff>0</span>) })
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><p>链接脚本<code>linker.ld</code>给出了全局符号<code>sbss</code>和<code>ebss</code>，并指出了需要被清零的<code>.bss</code>段的起始和终止地址。所以只需遍历该地址区间并逐字节清零即可。</p><h2 id=基于sbi服务完成输出和关机>基于SBI服务完成输出和关机<a hidden class=anchor aria-hidden=true href=#基于sbi服务完成输出和关机>#</a></h2><h3 id=使用rustsbi提供的服务>使用RustSBI提供的服务<a hidden class=anchor aria-hidden=true href=#使用rustsbi提供的服务>#</a></h3><p>RustSBI介于底层硬件和内核之间，是内核的底层执行环境。RustSBI提供的执行环境除了为上层应用进行环境初始化，并将计算机控制权移交给内核，还有另一项职责：在上层应用运行时提供服务。当内核发出请求时，计算机转由RustSBI控制来响应内核的请求，待请求处理完毕后，计算机控制权会被交还给内核。但是由于内核并没有与RustSBI链接，内核无法通过函数调用请求RustSBI提供的服务，我们仅仅使用RustSBI构建后的可执行文件，因此内核对于RustSBI的符号一无所知。实际上，内核需要通过另一种复杂的方式来“调用”RustSBI服务：</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#75715e>// os/src/sbi
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>use</span> core::arch::asm;
+</span></span><span style=display:flex><span><span style=color:#75715e>#[inline(always)]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>sbi_call</span>(which: <span style=color:#66d9ef>usize</span>, arg0: <span style=color:#66d9ef>usize</span>, arg1: <span style=color:#66d9ef>usize</span>, arg2: <span style=color:#66d9ef>usize</span>) -&gt; <span style=color:#66d9ef>usize</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#66d9ef>mut</span> ret;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>unsafe</span> {
+</span></span><span style=display:flex><span>        asm! {
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;ecall&#34;</span>,
+</span></span><span style=display:flex><span>            inlateout(<span style=color:#e6db74>&#34;x10&#34;</span>) arg0<span style=color:#f92672>=&gt;</span>ret,
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>in</span>(<span style=color:#e6db74>&#34;x11&#34;</span>) arg1,
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>in</span>(<span style=color:#e6db74>&#34;x12&#34;</span>) arg2,
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>in</span>(<span style=color:#e6db74>&#34;x17&#34;</span>) which,
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    ret
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><p>我们将内核与RustSBI通信的相关功能在子模块<code>sbi</code>中实现，因此需要在<code>main.rs</code>中加入<code>mod sbi</code>将该子模块加入项目中。</p><p>在<code>os/src/sbi.rs</code>中：<code>which</code>表示请求RustSBI的服务类型，<code>arg0</code>~<code>arg2</code>表示传递给RustSBI的三个参数，而RustSBI在将请求处理完毕后，会给内核一个返回值，这个返回值也被<code>sbi_all</code>返回。</p><p>我们可以在<code>sbi.rs</code>中定义RustSBI支持的服务类型常量：</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#75715e>// os/src/sbi.rs
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#75715e>#![allow(unused)]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> SBI_SET_TIMER: <span style=color:#66d9ef>usize</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> SBI_CONSOLE_PUTCHAR: <span style=color:#66d9ef>usize</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> SBI_CONSOLE_GETCHAR: <span style=color:#66d9ef>usize</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>2</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> SBI_CLEAR_IPI: <span style=color:#66d9ef>usize</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>3</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> SBI_SEND_IPI: <span style=color:#66d9ef>usize</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>4</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> SBI_REMOTE_FENCE_I: <span style=color:#66d9ef>usize</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>5</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> SBI_REMOTE_SFENCE_VMA: <span style=color:#66d9ef>usize</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>6</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> SBI_REMOTE_SFENCE_VMA_ASID: <span style=color:#66d9ef>usize</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>7</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> SBI_SHUTDOWN: <span style=color:#66d9ef>usize</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>8</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>use</span> core::arch::asm;
+</span></span><span style=display:flex><span><span style=color:#75715e>#[inline(always)]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>sbi_call</span>(which: <span style=color:#66d9ef>usize</span>, arg0: <span style=color:#66d9ef>usize</span>, arg1: <span style=color:#66d9ef>usize</span>, arg2: <span style=color:#66d9ef>usize</span>) -&gt; <span style=color:#66d9ef>usize</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#66d9ef>mut</span> ret;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>unsafe</span> {
+</span></span><span style=display:flex><span>        asm! {
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;ecall&#34;</span>,
+</span></span><span style=display:flex><span>            inlateout(<span style=color:#e6db74>&#34;x10&#34;</span>) arg0 <span style=color:#f92672>=&gt;</span> ret,
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>in</span>(<span style=color:#e6db74>&#34;x11&#34;</span>) arg1,
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>in</span>(<span style=color:#e6db74>&#34;x12&#34;</span>) arg2,
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>in</span>(<span style=color:#e6db74>&#34;x17&#34;</span>) which,
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    ret
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><p>服务<code>SBI_CONSOLE_PUTCHAR</code>可以用来在屏幕上输出一个字符，我们可以将这个功能使用<code>sbi_call</code>函数来封装：</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#66d9ef>pub</span> <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>console_putchar</span>(c: <span style=color:#66d9ef>usize</span>) {
+</span></span><span style=display:flex><span>    sbi_call(SBI_CONSOLE_PUTCHAR, c, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><p><code>SBI_SHUTDONW</code>提供关机服务，同样可以封装：</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#66d9ef>pub</span> <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>shutdown</span>() -&gt; <span style=color:#f92672>!</span> {
+</span></span><span style=display:flex><span>    sbi_call(SBI_SHUTDOWN, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>    panic!(<span style=color:#e6db74>&#34;It should shutdown!&#34;</span>)
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><h3 id=实现格式化输出>实现格式化输出<a hidden class=anchor aria-hidden=true href=#实现格式化输出>#</a></h3><p>上面实现的<code>console_putchar</code>功能过于受限，如果想打印一行<code>Hello,world!</code>则需要多次调用。接下来我们尝试编写基于<code>console_putchar</code>的<code>println!</code>宏。</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">30
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#75715e>// os/src/console.rs
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#75715e>#![allow(unused)]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>use</span> <span style=color:#66d9ef>crate</span>::sbi::console_putchar;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>use</span> core::fmt::{self, Result, Write};
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>struct</span> <span style=color:#a6e22e>Stdout</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>impl</span> Write <span style=color:#66d9ef>for</span> Stdout {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>write_str</span>(<span style=color:#f92672>&amp;</span><span style=color:#66d9ef>mut</span> self, s: <span style=color:#66d9ef>&amp;</span><span style=color:#66d9ef>str</span>) -&gt; Result {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> c <span style=color:#66d9ef>in</span> s.chars() {
+</span></span><span style=display:flex><span>            console_putchar(c <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span>);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        Ok(())
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>pub</span> <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>print</span>(args: <span style=color:#a6e22e>fmt</span>::Arguments) {
+</span></span><span style=display:flex><span>    Stdout.write_fmt(args).unwrap();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#[macro_export]</span>
+</span></span><span style=display:flex><span>macro_rules! print {
+</span></span><span style=display:flex><span>    (<span style=color:#75715e>$fmt</span>: <span style=color:#a6e22e>literal</span> <span style=color:#75715e>$(,</span> <span style=color:#75715e>$($arg</span>: <span style=color:#a6e22e>tt</span>)<span style=color:#f92672>+</span>)<span style=color:#f92672>?</span>) <span style=color:#f92672>=&gt;</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>$crate</span>::console::print(format_args!(<span style=color:#75715e>$fmt</span> <span style=color:#75715e>$(,</span> <span style=color:#75715e>$($arg</span>)<span style=color:#f92672>+</span>)<span style=color:#f92672>?</span>));
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#[macro_export]</span>
+</span></span><span style=display:flex><span>macro_rules! println {
+</span></span><span style=display:flex><span>    (<span style=color:#75715e>$fmt</span>: <span style=color:#a6e22e>literal</span> <span style=color:#75715e>$(,</span> <span style=color:#75715e>$($arg</span>: <span style=color:#a6e22e>tt</span>)<span style=color:#f92672>+</span>)<span style=color:#f92672>?</span>) <span style=color:#f92672>=&gt;</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>$crate</span>::console::print(format_args!(concat!(<span style=color:#75715e>$fmt</span>, <span style=color:#e6db74>&#34;\n&#34;</span>) <span style=color:#75715e>$(,</span> <span style=color:#75715e>$($arg</span>)<span style=color:#f92672>+</span>)<span style=color:#f92672>?</span>));
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><h3 id=处理致命错误>处理致命错误<a hidden class=anchor aria-hidden=true href=#处理致命错误>#</a></h3><p>错误处理是编程中重要的一环，它能够保证程序的可靠性和可用性。Rust将错误分为可恢复和不可恢复错误两大类，这里我们主要关心不可恢复错误，在遇到不可恢复错误时，Rust程序会直接报错退出，使用<code>panic!</code>宏便会直接出发一个不可恢复错误并使得程序退出。在我们的内核中，目前不可恢复错误的处理机制还不完善：</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#75715e>// os/src/lang_items.rss
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>use</span> <span style=color:#66d9ef>crate</span>::println;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>use</span> <span style=color:#66d9ef>crate</span>::sbi::shutdown;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>use</span> core::panic::PanicInfo;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#[panic_handler]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>panic</span>(info: <span style=color:#66d9ef>&amp;</span><span style=color:#a6e22e>PanicInfo</span>) -&gt; <span style=color:#f92672>!</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> <span style=color:#66d9ef>let</span> Some(location) <span style=color:#f92672>=</span> info.location() {
+</span></span><span style=display:flex><span>        println!(
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;Panicked at {}:{} {}&#34;</span>,
+</span></span><span style=display:flex><span>            location.file(),
+</span></span><span style=display:flex><span>            location.line(),
+</span></span><span style=display:flex><span>            info.message().unwrap()
+</span></span><span style=display:flex><span>        );
+</span></span><span style=display:flex><span>    } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>        println!(<span style=color:#e6db74>&#34;Panicked: {}&#34;</span>, info.message().unwrap());
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    shutdown()
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#75715e>// os/src/main.rs
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#75715e>#![no_std]</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#![no_main]</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#![feature(panic_info_message)]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>mod</span> lang_items;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>mod</span> sbi;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#[macro_use]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>mod</span> console;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>use</span> core::arch::global_asm;
+</span></span><span style=display:flex><span>global_asm!(include_str!(<span style=color:#e6db74>&#34;entry.asm&#34;</span>));
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#[no_mangle]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>pub</span> <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>rust_main</span>() -&gt; <span style=color:#f92672>!</span> {
+</span></span><span style=display:flex><span>    clear_bss();
+</span></span><span style=display:flex><span>    println!(<span style=color:#e6db74>&#34;Hello, world&#34;</span>);
+</span></span><span style=display:flex><span>    panic!(<span style=color:#e6db74>&#34;Shutdown machine!&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>clear_bss</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>extern</span> <span style=color:#e6db74>&#34;C&#34;</span> {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>sbss</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>ebss</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    (sbss <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span><span style=color:#f92672>..</span>ebss <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span>).for_each(<span style=color:#f92672>|</span>p<span style=color:#f92672>|</span> <span style=color:#66d9ef>unsafe</span> { (p <span style=color:#66d9ef>as</span> <span style=color:#f92672>*</span><span style=color:#66d9ef>mut</span> <span style=color:#66d9ef>u8</span>).write_volatile(<span style=color:#ae81ff>0</span>) });
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><p>注意：在<code>main.rs</code>中我们需要加入<code>#![feature(panic_info_message)]</code>才能通过<code>PanicInfo::message</code>获取报错信息。</p><p>使用Qemu运行内核，可以得到结果：</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>Hello, world
+</span></span><span style=display:flex><span>Panicked at src/main.rs:18 Shutdown machine!
+</span></span></code></pre></td></tr></table></div></div><h2 id=实践作业-实现彩色化log>实践作业-实现彩色化LOG<a hidden class=anchor aria-hidden=true href=#实践作业-实现彩色化log>#</a></h2><p>详细原理：<a href=https://zh.wikipedia.org/wiki/ANSI%E8%BD%AC%E4%B9%89%E5%BA%8F%E5%88%97>ANSI转义序列</a></p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>echo -e <span style=color:#e6db74>&#34;\x1b[31mhello world\x1b[0m&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">9
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-toml data-lang=toml><span style=display:flex><span><span style=color:#75715e># Cargo.toml</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>[<span style=color:#a6e22e>package</span>]
+</span></span><span style=display:flex><span><span style=color:#a6e22e>name</span> = <span style=color:#e6db74>&#34;os&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>version</span> = <span style=color:#e6db74>&#34;0.1.0&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>edition</span> = <span style=color:#e6db74>&#34;2021&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>[<span style=color:#a6e22e>dependencies</span>]
+</span></span><span style=display:flex><span><span style=color:#a6e22e>log</span> = <span style=color:#e6db74>&#34;0.4&#34;</span> 
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">30
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">34
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">35
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">36
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">37
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">38
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">39
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">40
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">41
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">42
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">43
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">44
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">45
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">46
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">47
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">48
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#75715e>// os/src/logger.rs
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>use</span> log::{self, Level, LevelFilter, Log};
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>use</span> <span style=color:#66d9ef>crate</span>::println;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>struct</span> <span style=color:#a6e22e>Logger</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>impl</span> Log <span style=color:#66d9ef>for</span> Logger {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>enabled</span>(<span style=color:#f92672>&amp;</span>self, _metadata: <span style=color:#66d9ef>&amp;</span><span style=color:#a6e22e>log</span>::Metadata) -&gt; <span style=color:#66d9ef>bool</span> {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>true</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>log</span>(<span style=color:#f92672>&amp;</span>self, record: <span style=color:#66d9ef>&amp;</span><span style=color:#a6e22e>log</span>::Record) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> <span style=color:#f92672>!</span>self.enabled(record.metadata()) {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span>;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>let</span> color <span style=color:#f92672>=</span> <span style=color:#66d9ef>match</span> record.level() {
+</span></span><span style=display:flex><span>            Level::Error <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>31</span>,
+</span></span><span style=display:flex><span>            Level::Debug <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>32</span>,
+</span></span><span style=display:flex><span>            Level::Info <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>34</span>,
+</span></span><span style=display:flex><span>            Level::Trace <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>90</span>,
+</span></span><span style=display:flex><span>            Level::Warn <span style=color:#f92672>=&gt;</span> <span style=color:#ae81ff>93</span>,
+</span></span><span style=display:flex><span>        };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        println!(
+</span></span><span style=display:flex><span>            <span style=color:#e6db74>&#34;\u{1B}[{}m[{:&gt;5}] {}\u{1B}[0m&#34;</span>,
+</span></span><span style=display:flex><span>            color,
+</span></span><span style=display:flex><span>            record.level(),
+</span></span><span style=display:flex><span>            record.args(),
+</span></span><span style=display:flex><span>        );
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>flush</span>(<span style=color:#f92672>&amp;</span>self) {}
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>pub</span> <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>init</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>static</span> LOGGER: <span style=color:#a6e22e>Logger</span> <span style=color:#f92672>=</span> Logger;
+</span></span><span style=display:flex><span>    log::set_logger(<span style=color:#f92672>&amp;</span>LOGGER).unwrap();
+</span></span><span style=display:flex><span>    log::set_max_level(<span style=color:#66d9ef>match</span> option_env!(<span style=color:#e6db74>&#34;LOG&#34;</span>) {
+</span></span><span style=display:flex><span>        Some(<span style=color:#e6db74>&#34;ERROR&#34;</span>) <span style=color:#f92672>=&gt;</span> LevelFilter::Error,
+</span></span><span style=display:flex><span>        Some(<span style=color:#e6db74>&#34;WARN&#34;</span>) <span style=color:#f92672>=&gt;</span> LevelFilter::Warn,
+</span></span><span style=display:flex><span>        Some(<span style=color:#e6db74>&#34;INFO&#34;</span>) <span style=color:#f92672>=&gt;</span> LevelFilter::Info,
+</span></span><span style=display:flex><span>        Some(<span style=color:#e6db74>&#34;DEBUG&#34;</span>) <span style=color:#f92672>=&gt;</span> LevelFilter::Debug,
+</span></span><span style=display:flex><span>        Some(<span style=color:#e6db74>&#34;TRACE&#34;</span>) <span style=color:#f92672>=&gt;</span> LevelFilter::Trace,
+</span></span><span style=display:flex><span>        _ <span style=color:#f92672>=&gt;</span> LevelFilter::Trace,
+</span></span><span style=display:flex><span>    });
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">30
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">34
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">35
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">36
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">37
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">38
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">39
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">40
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">41
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">42
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">43
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">44
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">45
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">46
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">47
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">48
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">49
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">50
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">51
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">52
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">53
+</span><span style="white-space:pre;user-select:none;margin-right:.4em;padding:0 .4em;color:#7f7f7f">54
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=display:flex><span><span style=color:#75715e>// os/src/main.rs
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#75715e>#![no_main]</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#![no_std]</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#![feature(panic_info_message)]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>mod</span> lang_items;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>mod</span> sbi;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>mod</span> logger;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>use</span> log::<span style=color:#f92672>*</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#[macro_use]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>mod</span> console;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>core::arch::global_asm!(include_str!(<span style=color:#e6db74>&#34;entry.asm&#34;</span>));
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#[no_mangle]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>pub</span> <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>rust_main</span>() -&gt; <span style=color:#f92672>!</span> {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>extern</span> <span style=color:#e6db74>&#34;C&#34;</span> {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>stext</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>etext</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>srodata</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>erodata</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>sdata</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>edata</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>sbss</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>ebss</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>boot_stack</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>boot_stack_top</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    clear_bss();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    logger::init();
+</span></span><span style=display:flex><span>    error<span style=color:#f92672>!</span>(<span style=color:#e6db74>&#34;Hello, rCore!&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    info<span style=color:#f92672>!</span>(<span style=color:#e6db74>&#34;.text [{:#x}, {:#x}]&#34;</span>, stext <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span>, etext <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span>);
+</span></span><span style=display:flex><span>    debug<span style=color:#f92672>!</span>(<span style=color:#e6db74>&#34;.rodata [{:#x}, {:#x}]&#34;</span>, srodata <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span>, erodata <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span>);
+</span></span><span style=display:flex><span>    trace<span style=color:#f92672>!</span>(<span style=color:#e6db74>&#34;.data [{:#x}, {:#x}]&#34;</span>, sdata <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span>, edata <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span>);
+</span></span><span style=display:flex><span>    warn<span style=color:#f92672>!</span>(<span style=color:#e6db74>&#34;.bss [{:#x}, {:#x}]&#34;</span>, sbss <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span>, ebss <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span>);
+</span></span><span style=display:flex><span>    error<span style=color:#f92672>!</span>(
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;.stack [{:#x}, {:#x}]&#34;</span>,
+</span></span><span style=display:flex><span>        boot_stack <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span>, boot_stack_top <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span>
+</span></span><span style=display:flex><span>    );
+</span></span><span style=display:flex><span>    panic!(<span style=color:#e6db74>&#34;Shutdown machine!&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>clear_bss</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>extern</span> <span style=color:#e6db74>&#34;C&#34;</span> {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>sbss</span>();
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>ebss</span>();
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    (sbss <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span><span style=color:#f92672>..</span>ebss <span style=color:#66d9ef>as</span> <span style=color:#66d9ef>usize</span>).for_each(<span style=color:#f92672>|</span>p<span style=color:#f92672>|</span> <span style=color:#66d9ef>unsafe</span> { (p <span style=color:#66d9ef>as</span> <span style=color:#f92672>*</span><span style=color:#66d9ef>mut</span> <span style=color:#66d9ef>u8</span>).write_volatile(<span style=color:#ae81ff>0</span>) });
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></td></tr></table></div></div><p>运行结果如下：</p><p><img loading=lazy src=/rCore/os1.png alt></p></div><footer class=post-footer><ul class=post-tags><li><a href=https://www.niuwx.cn/tags/rcore/>rCore</a></li></ul><nav class=paginav><a class=next href=https://www.niuwx.cn/posts/linux/linux_c_1/><span class=title>Next Page »</span><br><span>Linux C之进程</span></a></nav><div class=share-buttons><a target=_blank rel="noopener noreferrer" aria-label="share rCore-os1-应用程序与基本执行环境 on twitter" href="https://twitter.com/intent/tweet/?text=rCore-os1-%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e4%b8%8e%e5%9f%ba%e6%9c%ac%e6%89%a7%e8%a1%8c%e7%8e%af%e5%a2%83&url=https%3a%2f%2fwww.niuwx.cn%2fposts%2frcore%2fos1%2f&hashtags=rCore"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM195.519 424.544c135.939.0 210.268-112.643 210.268-210.268.0-3.218.0-6.437-.153-9.502 14.406-10.421 26.973-23.448 36.935-38.314-13.18 5.824-27.433 9.809-42.452 11.648 15.326-9.196 26.973-23.602 32.49-40.92-14.252 8.429-30.038 14.56-46.896 17.931-13.487-14.406-32.644-23.295-53.946-23.295-40.767.0-73.87 33.104-73.87 73.87.0 5.824.613 11.494 1.992 16.858-61.456-3.065-115.862-32.49-152.337-77.241-6.284 10.881-9.962 23.601-9.962 37.088.0 25.594 13.027 48.276 32.95 61.456-12.107-.307-23.448-3.678-33.41-9.196v.92c0 35.862 25.441 65.594 59.311 72.49-6.13 1.686-12.72 2.606-19.464 2.606-4.751.0-9.348-.46-13.946-1.38 9.349 29.426 36.628 50.728 68.965 51.341-25.287 19.771-57.164 31.571-91.8 31.571-5.977.0-11.801-.306-17.625-1.073 32.337 21.15 71.264 33.41 112.95 33.41z"/></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share rCore-os1-应用程序与基本执行环境 on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fwww.niuwx.cn%2fposts%2frcore%2fos1%2f&title=rCore-os1-%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e4%b8%8e%e5%9f%ba%e6%9c%ac%e6%89%a7%e8%a1%8c%e7%8e%af%e5%a2%83&summary=rCore-os1-%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e4%b8%8e%e5%9f%ba%e6%9c%ac%e6%89%a7%e8%a1%8c%e7%8e%af%e5%a2%83&source=https%3a%2f%2fwww.niuwx.cn%2fposts%2frcore%2fos1%2f"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share rCore-os1-应用程序与基本执行环境 on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fwww.niuwx.cn%2fposts%2frcore%2fos1%2f&title=rCore-os1-%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e4%b8%8e%e5%9f%ba%e6%9c%ac%e6%89%a7%e8%a1%8c%e7%8e%af%e5%a2%83"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share rCore-os1-应用程序与基本执行环境 on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.niuwx.cn%2fposts%2frcore%2fos1%2f"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share rCore-os1-应用程序与基本执行环境 on whatsapp" href="https://api.whatsapp.com/send?text=rCore-os1-%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e4%b8%8e%e5%9f%ba%e6%9c%ac%e6%89%a7%e8%a1%8c%e7%8e%af%e5%a2%83%20-%20https%3a%2f%2fwww.niuwx.cn%2fposts%2frcore%2fos1%2f"><svg viewBox="0 0 512 512"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a><a target=_blank rel="noopener noreferrer" aria-label="share rCore-os1-应用程序与基本执行环境 on telegram" href="https://telegram.me/share/url?text=rCore-os1-%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e4%b8%8e%e5%9f%ba%e6%9c%ac%e6%89%a7%e8%a1%8c%e7%8e%af%e5%a2%83&url=https%3a%2f%2fwww.niuwx.cn%2fposts%2frcore%2fos1%2f"><svg viewBox="2 2 28 28"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></div></footer><div id=gitalk-container></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css><script src=https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js></script>
+<script>var gitalk=new Gitalk({clientID:"020fa7d4d09265f4eb67",clientSecret:"29db217eaf1173794064f0e5bb3fa87004d111ba",repo:"isther.github.io",owner:"isther",admin:["isther"],id:location.pathname,distractionFreeMode:!1});gitalk.render("gitalk-container")</script></article></main><footer class=footer><span>&copy; 2022 <a href=https://www.niuwx.cn/>Ther's Blog -- 个人笔记</a></span>
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
+<a href=https://beian.miit.gov.cn/ rel=noopener target=_blank>晋ICP备2020009882号-1</a></span>
+<script type=text/javascript>document.write(unescape("%3Cspan id='cnzz_stat_icon_1279768046'%3E%3C/span%3E%3Cscript src='https://s4.cnzz.com/z_stat.php%3Fid%3D1279768046%26online%3D2' type='text/javascript'%3E%3C/script%3E"))</script></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></a><script>let menu=document.getElementById("menu");menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)},document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove("dark"),localStorage.setItem("pref-theme","light")):(document.body.classList.add("dark"),localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerText="copy";function s(){t.innerText="copied!",setTimeout(()=>{t.innerText="copy"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
