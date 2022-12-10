@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>rCore on Ther&#39;s Blog -- 个人笔记</title>
-    <link>https://www.niuwx.cn/categories/rcore/</link>
+    <link>https://ther.rs/categories/rcore/</link>
     <description>Recent content in rCore on Ther&#39;s Blog -- 个人笔记</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 10 Oct 2022 16:33:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/categories/rcore/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 10 Oct 2022 16:33:51 +0800</lastBuildDate><atom:link href="https://ther.rs/categories/rcore/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>rCore-os2-批处理系统</title>
-      <link>https://www.niuwx.cn/posts/rcore/os2/</link>
+      <link>https://ther.rs/posts/rcore/os2/</link>
       <pubDate>Mon, 10 Oct 2022 16:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/posts/rcore/os2/</guid>
+      <guid>https://ther.rs/posts/rcore/os2/</guid>
       <description>Desc Text.</description>
       <content:encoded><![CDATA[<p>保障系统安全和多应用支持是操作系统的两个核心目标，本章从这两个目标出发，思考如何设计应用程序，并进一步展现操作系统的一系列新功能:</p>
 <ul>
@@ -2038,10 +2038,10 @@
     
     <item>
       <title>rCore-os1-应用程序与基本执行环境</title>
-      <link>https://www.niuwx.cn/posts/rcore/os1/</link>
+      <link>https://ther.rs/posts/rcore/os1/</link>
       <pubDate>Sun, 09 Oct 2022 10:00:00 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/posts/rcore/os1/</guid>
+      <guid>https://ther.rs/posts/rcore/os1/</guid>
       <description>Desc Text.</description>
       <content:encoded><![CDATA[<p>从零开始使用Rust写一个基于<code>RISC-V</code>架构的类Unix内核.</p>
 <p>前置知识:</p>

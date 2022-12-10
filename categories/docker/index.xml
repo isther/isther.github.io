@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Docker on Ther&#39;s Blog -- 个人笔记</title>
-    <link>https://www.niuwx.cn/categories/docker/</link>
+    <link>https://ther.rs/categories/docker/</link>
     <description>Recent content in Docker on Ther&#39;s Blog -- 个人笔记</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 29 Oct 2021 21:33:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/categories/docker/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 29 Oct 2021 21:33:51 +0800</lastBuildDate><atom:link href="https://ther.rs/categories/docker/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Docker部署Go Web应用</title>
-      <link>https://www.niuwx.cn/posts/go/docker_go/</link>
+      <link>https://ther.rs/posts/go/docker_go/</link>
       <pubDate>Fri, 29 Oct 2021 21:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/posts/go/docker_go/</guid>
+      <guid>https://ther.rs/posts/go/docker_go/</guid>
       <description>&lt;p&gt;本文介绍了如何在Docker中部署Go Web 应用，包含了镜像构建、分段构建。&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>本文介绍了如何在Docker中部署Go Web 应用，包含了镜像构建、分段构建。</p>
 <h3 id="简单示例">简单示例</h3>

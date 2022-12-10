@@ -2,166 +2,166 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tags on Ther&#39;s Blog -- 个人笔记</title>
-    <link>https://www.niuwx.cn/tags/</link>
+    <link>https://ther.rs/tags/</link>
     <description>Recent content in Tags on Ther&#39;s Blog -- 个人笔记</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 10 Oct 2022 16:33:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 10 Oct 2022 16:33:51 +0800</lastBuildDate><atom:link href="https://ther.rs/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>rCore</title>
-      <link>https://www.niuwx.cn/tags/rcore/</link>
+      <link>https://ther.rs/tags/rcore/</link>
       <pubDate>Mon, 10 Oct 2022 16:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/tags/rcore/</guid>
+      <guid>https://ther.rs/tags/rcore/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>C</title>
-      <link>https://www.niuwx.cn/tags/c/</link>
+      <link>https://ther.rs/tags/c/</link>
       <pubDate>Sun, 30 Jan 2022 21:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/tags/c/</guid>
+      <guid>https://ther.rs/tags/c/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>Linux</title>
-      <link>https://www.niuwx.cn/tags/linux/</link>
+      <link>https://ther.rs/tags/linux/</link>
       <pubDate>Sun, 30 Jan 2022 21:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/tags/linux/</guid>
+      <guid>https://ther.rs/tags/linux/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>管道</title>
-      <link>https://www.niuwx.cn/tags/%E7%AE%A1%E9%81%93/</link>
+      <link>https://ther.rs/tags/%E7%AE%A1%E9%81%93/</link>
       <pubDate>Sun, 30 Jan 2022 21:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/tags/%E7%AE%A1%E9%81%93/</guid>
+      <guid>https://ther.rs/tags/%E7%AE%A1%E9%81%93/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>线程</title>
-      <link>https://www.niuwx.cn/tags/%E7%BA%BF%E7%A8%8B/</link>
+      <link>https://ther.rs/tags/%E7%BA%BF%E7%A8%8B/</link>
       <pubDate>Sun, 30 Jan 2022 21:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/tags/%E7%BA%BF%E7%A8%8B/</guid>
+      <guid>https://ther.rs/tags/%E7%BA%BF%E7%A8%8B/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>进程</title>
-      <link>https://www.niuwx.cn/tags/%E8%BF%9B%E7%A8%8B/</link>
+      <link>https://ther.rs/tags/%E8%BF%9B%E7%A8%8B/</link>
       <pubDate>Sun, 30 Jan 2022 21:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/tags/%E8%BF%9B%E7%A8%8B/</guid>
+      <guid>https://ther.rs/tags/%E8%BF%9B%E7%A8%8B/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>amd</title>
-      <link>https://www.niuwx.cn/tags/amd/</link>
+      <link>https://ther.rs/tags/amd/</link>
       <pubDate>Sun, 23 Jan 2022 09:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/tags/amd/</guid>
+      <guid>https://ther.rs/tags/amd/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>kde</title>
-      <link>https://www.niuwx.cn/tags/kde/</link>
+      <link>https://ther.rs/tags/kde/</link>
       <pubDate>Sun, 23 Jan 2022 09:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/tags/kde/</guid>
+      <guid>https://ther.rs/tags/kde/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>manjaro</title>
-      <link>https://www.niuwx.cn/tags/manjaro/</link>
+      <link>https://ther.rs/tags/manjaro/</link>
       <pubDate>Sun, 23 Jan 2022 09:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/tags/manjaro/</guid>
+      <guid>https://ther.rs/tags/manjaro/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>nvidia</title>
-      <link>https://www.niuwx.cn/tags/nvidia/</link>
+      <link>https://ther.rs/tags/nvidia/</link>
       <pubDate>Sun, 23 Jan 2022 09:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/tags/nvidia/</guid>
+      <guid>https://ther.rs/tags/nvidia/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>Docker</title>
-      <link>https://www.niuwx.cn/tags/docker/</link>
+      <link>https://ther.rs/tags/docker/</link>
       <pubDate>Fri, 29 Oct 2021 21:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/tags/docker/</guid>
+      <guid>https://ther.rs/tags/docker/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>Go</title>
-      <link>https://www.niuwx.cn/tags/go/</link>
+      <link>https://ther.rs/tags/go/</link>
       <pubDate>Fri, 29 Oct 2021 21:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/tags/go/</guid>
+      <guid>https://ther.rs/tags/go/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>oh my zsh</title>
-      <link>https://www.niuwx.cn/tags/oh-my-zsh/</link>
+      <link>https://ther.rs/tags/oh-my-zsh/</link>
       <pubDate>Sat, 16 Oct 2021 10:42:38 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/tags/oh-my-zsh/</guid>
+      <guid>https://ther.rs/tags/oh-my-zsh/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>Windows</title>
-      <link>https://www.niuwx.cn/tags/windows/</link>
+      <link>https://ther.rs/tags/windows/</link>
       <pubDate>Sat, 16 Oct 2021 10:42:38 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/tags/windows/</guid>
+      <guid>https://ther.rs/tags/windows/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>zsh</title>
-      <link>https://www.niuwx.cn/tags/zsh/</link>
+      <link>https://ther.rs/tags/zsh/</link>
       <pubDate>Sat, 16 Oct 2021 10:42:38 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/tags/zsh/</guid>
+      <guid>https://ther.rs/tags/zsh/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>
     
     <item>
       <title>Hello</title>
-      <link>https://www.niuwx.cn/tags/hello/</link>
+      <link>https://ther.rs/tags/hello/</link>
       <pubDate>Tue, 12 Jan 2021 22:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/tags/hello/</guid>
+      <guid>https://ther.rs/tags/hello/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>

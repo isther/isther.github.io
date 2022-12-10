@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Ther&#39;s Blog -- 个人笔记</title>
-    <link>https://www.niuwx.cn/</link>
+    <link>https://ther.rs/</link>
     <description>Recent content on Ther&#39;s Blog -- 个人笔记</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 10 Oct 2022 16:33:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 10 Oct 2022 16:33:51 +0800</lastBuildDate><atom:link href="https://ther.rs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>rCore-os2-批处理系统</title>
-      <link>https://www.niuwx.cn/posts/rcore/os2/</link>
+      <link>https://ther.rs/posts/rcore/os2/</link>
       <pubDate>Mon, 10 Oct 2022 16:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/posts/rcore/os2/</guid>
+      <guid>https://ther.rs/posts/rcore/os2/</guid>
       <description>Desc Text.</description>
       <content:encoded><![CDATA[<p>保障系统安全和多应用支持是操作系统的两个核心目标，本章从这两个目标出发，思考如何设计应用程序，并进一步展现操作系统的一系列新功能:</p>
 <ul>
@@ -2038,10 +2038,10 @@
     
     <item>
       <title>rCore-os1-应用程序与基本执行环境</title>
-      <link>https://www.niuwx.cn/posts/rcore/os1/</link>
+      <link>https://ther.rs/posts/rcore/os1/</link>
       <pubDate>Sun, 09 Oct 2022 10:00:00 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/posts/rcore/os1/</guid>
+      <guid>https://ther.rs/posts/rcore/os1/</guid>
       <description>Desc Text.</description>
       <content:encoded><![CDATA[<p>从零开始使用Rust写一个基于<code>RISC-V</code>架构的类Unix内核.</p>
 <p>前置知识:</p>
@@ -3591,10 +3591,10 @@
     
     <item>
       <title>Linux C之进程</title>
-      <link>https://www.niuwx.cn/posts/linux/linux_c_1/</link>
+      <link>https://ther.rs/posts/linux/linux_c_1/</link>
       <pubDate>Sun, 30 Jan 2022 21:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/posts/linux/linux_c_1/</guid>
+      <guid>https://ther.rs/posts/linux/linux_c_1/</guid>
       <description>&lt;h2 id=&#34;初识进程和线程&#34;&gt;初识进程和线程&lt;/h2&gt;
 &lt;h3 id=&#34;认识进程&#34;&gt;认识进程&lt;/h3&gt;
 &lt;p&gt;在Linux系统中，每一个进程都有自己的ID，就如同人的身份证一样。Linux中有一个数据类型pid_t，它定义了进程的ID。&lt;/p&gt;</description>
@@ -4596,10 +4596,10 @@
     
     <item>
       <title>Manjaro下双显卡笔记本配置</title>
-      <link>https://www.niuwx.cn/posts/other/manjaro_amd_nvidia/</link>
+      <link>https://ther.rs/posts/other/manjaro_amd_nvidia/</link>
       <pubDate>Sun, 23 Jan 2022 09:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/posts/other/manjaro_amd_nvidia/</guid>
+      <guid>https://ther.rs/posts/other/manjaro_amd_nvidia/</guid>
       <description>前段时间换了系统，开始使用Manjaro，但是驱动问题搞得很头疼，在这里记录一下解决双显卡(amd+nvidia)的显示问题。
 由于Manjaro自带了mhwd，所以下载驱动还是很方便的。但是下载了video-hybrid-amd-nvidia-prime之后，外界显示器会时常卡顿，切换到video-nvidia之后，笔记本的显示器又亮不了。
 需要使用optimus-manager。
@@ -4701,10 +4701,10 @@ sudo vim /etc/optimus-manager/optimus-manager.conf，添加以下内容：
     
     <item>
       <title>Docker部署Go Web应用</title>
-      <link>https://www.niuwx.cn/posts/go/docker_go/</link>
+      <link>https://ther.rs/posts/go/docker_go/</link>
       <pubDate>Fri, 29 Oct 2021 21:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/posts/go/docker_go/</guid>
+      <guid>https://ther.rs/posts/go/docker_go/</guid>
       <description>&lt;p&gt;本文介绍了如何在Docker中部署Go Web 应用，包含了镜像构建、分段构建。&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>本文介绍了如何在Docker中部署Go Web 应用，包含了镜像构建、分段构建。</p>
 <h3 id="简单示例">简单示例</h3>
@@ -4965,10 +4965,10 @@ sudo vim /etc/optimus-manager/optimus-manager.conf，添加以下内容：
     
     <item>
       <title>Windows oh-my-zsh 命令行出现乱码的原因及解决办法</title>
-      <link>https://www.niuwx.cn/posts/other/zsh/</link>
+      <link>https://ther.rs/posts/other/zsh/</link>
       <pubDate>Sat, 16 Oct 2021 10:42:38 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/posts/other/zsh/</guid>
+      <guid>https://ther.rs/posts/other/zsh/</guid>
       <description>&lt;p&gt;本文以Oh-my-zsh为例，Oh-my-post同样适用。&lt;/p&gt;</description>
       <content:encoded><![CDATA[<p>本文以Oh-my-zsh为例，Oh-my-post同样适用。</p>
 <p>如图，使用Windows Terminal连接服务器使用Zsh命令行时，会出现乱码，导致主题无法正常显示。</p>
@@ -4984,10 +4984,10 @@ sudo vim /etc/optimus-manager/optimus-manager.conf，添加以下内容：
     
     <item>
       <title>Hello Test</title>
-      <link>https://www.niuwx.cn/posts/hello-test/</link>
+      <link>https://ther.rs/posts/hello-test/</link>
       <pubDate>Tue, 12 Jan 2021 22:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/posts/hello-test/</guid>
+      <guid>https://ther.rs/posts/hello-test/</guid>
       <description>Desc Text.</description>
       <content:encoded><![CDATA[<p><strong>This is a test for hugo.</strong></p>
 <h2 id="1">1</h2>
@@ -5018,10 +5018,10 @@ sudo vim /etc/optimus-manager/optimus-manager.conf，添加以下内容：
     
     <item>
       <title></title>
-      <link>https://www.niuwx.cn/friends/</link>
+      <link>https://ther.rs/friends/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://www.niuwx.cn/friends/</guid>
+      <guid>https://ther.rs/friends/</guid>
       <description></description>
       <content:encoded><![CDATA[]]></content:encoded>
     </item>

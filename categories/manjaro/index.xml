@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>manjaro on Ther&#39;s Blog -- 个人笔记</title>
-    <link>https://www.niuwx.cn/categories/manjaro/</link>
+    <link>https://ther.rs/categories/manjaro/</link>
     <description>Recent content in manjaro on Ther&#39;s Blog -- 个人笔记</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 23 Jan 2022 09:33:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/categories/manjaro/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 23 Jan 2022 09:33:51 +0800</lastBuildDate><atom:link href="https://ther.rs/categories/manjaro/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Manjaro下双显卡笔记本配置</title>
-      <link>https://www.niuwx.cn/posts/other/manjaro_amd_nvidia/</link>
+      <link>https://ther.rs/posts/other/manjaro_amd_nvidia/</link>
       <pubDate>Sun, 23 Jan 2022 09:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/posts/other/manjaro_amd_nvidia/</guid>
+      <guid>https://ther.rs/posts/other/manjaro_amd_nvidia/</guid>
       <description>前段时间换了系统，开始使用Manjaro，但是驱动问题搞得很头疼，在这里记录一下解决双显卡(amd+nvidia)的显示问题。
 由于Manjaro自带了mhwd，所以下载驱动还是很方便的。但是下载了video-hybrid-amd-nvidia-prime之后，外界显示器会时常卡顿，切换到video-nvidia之后，笔记本的显示器又亮不了。
 需要使用optimus-manager。

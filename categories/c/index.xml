@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>C on Ther&#39;s Blog -- 个人笔记</title>
-    <link>https://www.niuwx.cn/categories/c/</link>
+    <link>https://ther.rs/categories/c/</link>
     <description>Recent content in C on Ther&#39;s Blog -- 个人笔记</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Sun, 30 Jan 2022 21:33:51 +0800</lastBuildDate><atom:link href="https://www.niuwx.cn/categories/c/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 30 Jan 2022 21:33:51 +0800</lastBuildDate><atom:link href="https://ther.rs/categories/c/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Linux C之进程</title>
-      <link>https://www.niuwx.cn/posts/linux/linux_c_1/</link>
+      <link>https://ther.rs/posts/linux/linux_c_1/</link>
       <pubDate>Sun, 30 Jan 2022 21:33:51 +0800</pubDate>
       
-      <guid>https://www.niuwx.cn/posts/linux/linux_c_1/</guid>
+      <guid>https://ther.rs/posts/linux/linux_c_1/</guid>
       <description>&lt;h2 id=&#34;初识进程和线程&#34;&gt;初识进程和线程&lt;/h2&gt;
 &lt;h3 id=&#34;认识进程&#34;&gt;认识进程&lt;/h3&gt;
 &lt;p&gt;在Linux系统中，每一个进程都有自己的ID，就如同人的身份证一样。Linux中有一个数据类型pid_t，它定义了进程的ID。&lt;/p&gt;</description>
