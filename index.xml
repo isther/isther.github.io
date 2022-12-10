@@ -3635,22 +3635,22 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/types.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/unistd.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">get_pid</span>() {
-</span></span><span style="display:flex;"><span>    pid_t pid <span style="color:#f92672">=</span> fork();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pid_t</span> pid <span style="color:#f92672">=</span> <span style="color:#a6e22e">fork</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;fork error</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>        exit(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;fork error</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>);
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;parent: the pid is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;parent: the pid is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (<span style="color:#ae81ff">1</span>)
 </span></span><span style="display:flex;"><span>            ;
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;child: this pid is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;child: this pid is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (<span style="color:#ae81ff">1</span>)
 </span></span><span style="display:flex;"><span>            ;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    get_pid();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">get_pid</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
@@ -3721,25 +3721,25 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/unistd.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> global_var <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">get_pid</span>() {
-</span></span><span style="display:flex;"><span>    pid_t pid <span style="color:#f92672">=</span> fork();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pid_t</span> pid <span style="color:#f92672">=</span> <span style="color:#a6e22e">fork</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> var <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;fork error</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>        exit(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;fork error</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>);
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;parent: this pid is %d, global_var = %d, var = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid, global_var, var);
-</span></span><span style="display:flex;"><span>        exit(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;parent: this pid is %d, global_var = %d, var = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid, global_var, var);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">0</span>);
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
 </span></span><span style="display:flex;"><span>        global_var<span style="color:#f92672">--</span>;
 </span></span><span style="display:flex;"><span>        var<span style="color:#f92672">++</span>;
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;child: this pid is %d, global_var = %d, var = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid, global_var, var);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;child: this pid is %d, global_var = %d, var = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid, global_var, var);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        exit(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">0</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    get_pid();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">get_pid</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
@@ -3797,26 +3797,26 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/unistd.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> global_var <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">get_pid</span>() {
-</span></span><span style="display:flex;"><span>    pid_t pid <span style="color:#f92672">=</span> vfork();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pid_t</span> pid <span style="color:#f92672">=</span> <span style="color:#a6e22e">vfork</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> var <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
-</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;pid = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid());
-</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;global_var = %d, var = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, global_var, var);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;pid = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#a6e22e">getpid</span>());
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;global_var = %d, var = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, global_var, var);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;fork error</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>        exit(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;fork error</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">1</span>);
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;parent: this pid is %d, global_var = %d, var = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid, global_var, var);
-</span></span><span style="display:flex;"><span>        exit(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;parent: this pid is %d, global_var = %d, var = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid, global_var, var);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">0</span>);
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
 </span></span><span style="display:flex;"><span>        global_var<span style="color:#f92672">--</span>;
 </span></span><span style="display:flex;"><span>        var<span style="color:#f92672">++</span>;
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;child: this pid is %d, global_var = %d, var = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid, global_var, var);
-</span></span><span style="display:flex;"><span>        exit(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;child: this pid is %d, global_var = %d, var = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid, global_var, var);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">0</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    get_pid();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">get_pid</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
@@ -3857,7 +3857,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> argv[]) {
-</span></span><span style="display:flex;"><span>    execv(<span style="color:#e6db74">&#34;child&#34;</span>, argv);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">execv</span>(<span style="color:#e6db74">&#34;child&#34;</span>, argv);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
@@ -3880,9 +3880,9 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> argv[]) {
-</span></span><span style="display:flex;"><span>    puts(<span style="color:#e6db74">&#34;welcome!&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">puts</span>(<span style="color:#e6db74">&#34;welcome!&#34;</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> argc; i<span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>        puts(argv[i]);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">puts</span>(argv[i]);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
@@ -3962,39 +3962,39 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;wait.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">exit_s</span>(<span style="color:#66d9ef">int</span> status) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (WIFEXITED(status)) {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;normal exist, status = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, WEXITSTATUS(status));
-</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (WIFSIGNALED(status)) {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;signal exit! status = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, WTERMSIG(status));
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">WIFEXITED</span>(status)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;normal exist, status = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#a6e22e">WEXITSTATUS</span>(status));
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">WIFSIGNALED</span>(status)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;signal exit! status = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#a6e22e">WTERMSIG</span>(status));
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">wait_test</span>() {
-</span></span><span style="display:flex;"><span>    pid_t pid_a;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pid_t</span> pid_a;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> status;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> ret;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    pid_a <span style="color:#f92672">=</span> fork();
+</span></span><span style="display:flex;"><span>    pid_a <span style="color:#f92672">=</span> <span style="color:#a6e22e">fork</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (pid_a <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;child process error</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>        exit(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;child process error</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">0</span>);
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (pid_a <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;the pid of parent is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid());
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;wait for child ...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> pid_child <span style="color:#f92672">=</span> wait(<span style="color:#f92672">&amp;</span>status);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;the pid of parent is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#a6e22e">getpid</span>());
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;wait for child ...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> pid_child <span style="color:#f92672">=</span> <span style="color:#a6e22e">wait</span>(<span style="color:#f92672">&amp;</span>status);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (pid_child <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>            printf(<span style="color:#e6db74">&#34;i catch a child process with pid of %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid_child);
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;i catch a child process with pid of %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid_child);
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        exit_s(status);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit_s</span>(status);
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;the pid of child is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid());
-</span></span><span style="display:flex;"><span>        sleep(<span style="color:#ae81ff">3</span>);
-</span></span><span style="display:flex;"><span>        exit(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;the pid of child is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#a6e22e">getpid</span>());
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sleep</span>(<span style="color:#ae81ff">3</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">2</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    wait_test();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">wait_test</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
@@ -4079,41 +4079,41 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;wait.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">exit_s</span>(<span style="color:#66d9ef">int</span> status) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (WIFEXITED(status)) {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;normal exist, status = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, WEXITSTATUS(status));
-</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (WIFSIGNALED(status)) {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;signal exit! status = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, WTERMSIG(status));
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">WIFEXITED</span>(status)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;normal exist, status = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#a6e22e">WEXITSTATUS</span>(status));
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">WIFSIGNALED</span>(status)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;signal exit! status = %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#a6e22e">WTERMSIG</span>(status));
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">wait_test</span>() {
-</span></span><span style="display:flex;"><span>    pid_t pid_a;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pid_t</span> pid_a;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> status;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> ret;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    pid_a <span style="color:#f92672">=</span> fork();
+</span></span><span style="display:flex;"><span>    pid_a <span style="color:#f92672">=</span> <span style="color:#a6e22e">fork</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (pid_a <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;child process error</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>        exit(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;child process error</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">0</span>);
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (pid_a <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;the pid of parent is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid());
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;wait child ...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> pid_child <span style="color:#f92672">=</span> wait(<span style="color:#f92672">&amp;</span>status);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;the pid of parent is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#a6e22e">getpid</span>());
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;wait child ...</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> pid_child <span style="color:#f92672">=</span> <span style="color:#a6e22e">wait</span>(<span style="color:#f92672">&amp;</span>status);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (pid_child <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>            printf(<span style="color:#e6db74">&#34;i catch a child process with pid of %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid_child);
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;i catch a child process with pid of %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, pid_child);
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        exit_s(status);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit_s</span>(status);
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;the pid of child is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, getpid());
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;the pid of child is %d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, <span style="color:#a6e22e">getpid</span>());
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// sleep(3);
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        pid_t pid <span style="color:#f92672">=</span> getpid();
-</span></span><span style="display:flex;"><span>        kill(pid, <span style="color:#ae81ff">9</span>);
-</span></span><span style="display:flex;"><span>        exit(<span style="color:#ae81ff">2</span>);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">pid_t</span> pid <span style="color:#f92672">=</span> <span style="color:#a6e22e">getpid</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">kill</span>(pid, <span style="color:#ae81ff">9</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">2</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    wait_test();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">wait_test</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
@@ -4191,26 +4191,26 @@
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">thread1</span>(<span style="color:#66d9ef">void</span>) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> i;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>; i<span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;this is the first thread</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>        sleep(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;this is the first thread</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sleep</span>(<span style="color:#ae81ff">1</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">thread2</span>(<span style="color:#66d9ef">void</span>) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> i;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>; i<span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;this is the second thread</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>        sleep(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;this is the second thread</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sleep</span>(<span style="color:#ae81ff">1</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> ret <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>    pthread_t id1, id2;
-</span></span><span style="display:flex;"><span>    pthread_create(<span style="color:#f92672">&amp;</span>id1, NULL, (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)thread1, NULL);
-</span></span><span style="display:flex;"><span>    pthread_create(<span style="color:#f92672">&amp;</span>id2, NULL, (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)thread2, NULL);
-</span></span><span style="display:flex;"><span>    pthread_join(id1, NULL);
-</span></span><span style="display:flex;"><span>    pthread_join(id2, NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pthread_t</span> id1, id2;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">pthread_create</span>(<span style="color:#f92672">&amp;</span>id1, NULL, (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)thread1, NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">pthread_create</span>(<span style="color:#f92672">&amp;</span>id2, NULL, (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)thread2, NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">pthread_join</span>(id1, NULL);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">pthread_join</span>(id2, NULL);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
@@ -4306,33 +4306,33 @@
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">pipe_test</span>() {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> ppe[<span style="color:#ae81ff">2</span>];
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (pipe(ppe) <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
-</span></span><span style="display:flex;"><span>        perror(<span style="color:#e6db74">&#34;not create a new process!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">pipe</span>(ppe) <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;not create a new process!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> pid <span style="color:#f92672">=</span> fork();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> pid <span style="color:#f92672">=</span> <span style="color:#a6e22e">fork</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>        close(ppe[<span style="color:#ae81ff">0</span>]);
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;child process send message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">close</span>(ppe[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;child process send message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>message <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;happy new year!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
-</span></span><span style="display:flex;"><span>        write(ppe[<span style="color:#ae81ff">1</span>], message, strlen(message));
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">write</span>(ppe[<span style="color:#ae81ff">1</span>], message, <span style="color:#a6e22e">strlen</span>(message));
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>        close(ppe[<span style="color:#ae81ff">1</span>]);
-</span></span><span style="display:flex;"><span>        sleep(<span style="color:#ae81ff">2</span>);
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;parent process receive message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">close</span>(ppe[<span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sleep</span>(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;parent process receive message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> message[<span style="color:#ae81ff">100</span>];
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> line <span style="color:#f92672">=</span> read(ppe[<span style="color:#ae81ff">0</span>], message, <span style="color:#ae81ff">100</span>);
-</span></span><span style="display:flex;"><span>        write(STDOUT_FILENO, message, line);
-</span></span><span style="display:flex;"><span>        wait(NULL);
-</span></span><span style="display:flex;"><span>        exit(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> line <span style="color:#f92672">=</span> <span style="color:#a6e22e">read</span>(ppe[<span style="color:#ae81ff">0</span>], message, <span style="color:#ae81ff">100</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">write</span>(STDOUT_FILENO, message, line);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">wait</span>(NULL);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">0</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    pipe_test();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">pipe_test</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
@@ -4418,48 +4418,48 @@
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">pipe_test</span>() {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> ppea[<span style="color:#ae81ff">2</span>], ppeb[<span style="color:#ae81ff">2</span>];
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (pipe(ppea) <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> pipe(ppeb) <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
-</span></span><span style="display:flex;"><span>        perror(<span style="color:#e6db74">&#34;not create a new process!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">pipe</span>(ppea) <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">pipe</span>(ppeb) <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;not create a new process!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> pid <span style="color:#f92672">=</span> fork();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> pid <span style="color:#f92672">=</span> <span style="color:#a6e22e">fork</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>        perror(<span style="color:#e6db74">&#34;not create a new process !&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">perror</span>(<span style="color:#e6db74">&#34;not create a new process !&#34;</span>);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (pid <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
-</span></span><span style="display:flex;"><span>        close(ppea[<span style="color:#ae81ff">0</span>]);
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;child process send message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">close</span>(ppea[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;child process send message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>message_send <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;happy new year!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
-</span></span><span style="display:flex;"><span>        write(ppea[<span style="color:#ae81ff">1</span>], message_send, strlen(message_send));
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">write</span>(ppea[<span style="color:#ae81ff">1</span>], message_send, <span style="color:#a6e22e">strlen</span>(message_send));
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        sleep(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sleep</span>(<span style="color:#ae81ff">2</span>);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        close(ppeb[<span style="color:#ae81ff">1</span>]);
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;child process receive message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">close</span>(ppeb[<span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;child process receive message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> message_receive[<span style="color:#ae81ff">100</span>];
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> line <span style="color:#f92672">=</span> read(ppeb[<span style="color:#ae81ff">0</span>], message_receive, <span style="color:#ae81ff">100</span>);
-</span></span><span style="display:flex;"><span>        write(STDOUT_FILENO, message_receive, line);
-</span></span><span style="display:flex;"><span>        exit(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> line <span style="color:#f92672">=</span> <span style="color:#a6e22e">read</span>(ppeb[<span style="color:#ae81ff">0</span>], message_receive, <span style="color:#ae81ff">100</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">write</span>(STDOUT_FILENO, message_receive, line);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">0</span>);
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>        close(ppea[<span style="color:#ae81ff">1</span>]);
-</span></span><span style="display:flex;"><span>        sleep(<span style="color:#ae81ff">2</span>);
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;parent process receive message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">close</span>(ppea[<span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sleep</span>(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;parent process receive message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> message_receive[<span style="color:#ae81ff">100</span>];
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> line <span style="color:#f92672">=</span> read(ppea[<span style="color:#ae81ff">0</span>], message_receive, <span style="color:#ae81ff">100</span>);
-</span></span><span style="display:flex;"><span>        write(STDOUT_FILENO, message_receive, line);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> line <span style="color:#f92672">=</span> <span style="color:#a6e22e">read</span>(ppea[<span style="color:#ae81ff">0</span>], message_receive, <span style="color:#ae81ff">100</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">write</span>(STDOUT_FILENO, message_receive, line);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        close(ppeb[<span style="color:#ae81ff">0</span>]);
-</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;parent process send message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">close</span>(ppeb[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;parent process send message</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>message_send <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;happy new year my child!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
-</span></span><span style="display:flex;"><span>        write(ppeb[<span style="color:#ae81ff">1</span>], message_send, strlen(message_send));
-</span></span><span style="display:flex;"><span>        exit(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">write</span>(ppeb[<span style="color:#ae81ff">1</span>], message_send, <span style="color:#a6e22e">strlen</span>(message_send));
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">exit</span>(<span style="color:#ae81ff">0</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    pipe_test();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">pipe_test</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
@@ -4531,16 +4531,16 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">mkfifo_write</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> ppe <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;./fifo&#34;</span>, O_RDWR);
-</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;write the message:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> ppe <span style="color:#f92672">=</span> <span style="color:#a6e22e">open</span>(<span style="color:#e6db74">&#34;./fifo&#34;</span>, O_RDWR);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;write the message:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> message <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;hello world</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
-</span></span><span style="display:flex;"><span>    write(ppe, message, strlen(message));
-</span></span><span style="display:flex;"><span>    close(ppe);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">write</span>(ppe, message, <span style="color:#a6e22e">strlen</span>(message));
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">close</span>(ppe);
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-</span></span><span style="display:flex;"><span>    mkfifo_write();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mkfifo_write</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
@@ -4578,15 +4578,15 @@
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">mkfifo_read</span>() {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> message[<span style="color:#ae81ff">100</span>];
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> ppe <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;./fifo&#34;</span>, O_RDWR);
-</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;read the message:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> line <span style="color:#f92672">=</span> read(ppe, message, <span style="color:#ae81ff">100</span>);
-</span></span><span style="display:flex;"><span>    close(ppe);
-</span></span><span style="display:flex;"><span>    write(STDOUT_FILENO, message, line);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> ppe <span style="color:#f92672">=</span> <span style="color:#a6e22e">open</span>(<span style="color:#e6db74">&#34;./fifo&#34;</span>, O_RDWR);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;read the message:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> line <span style="color:#f92672">=</span> <span style="color:#a6e22e">read</span>(ppe, message, <span style="color:#ae81ff">100</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">close</span>(ppe);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">write</span>(STDOUT_FILENO, message, line);
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span><span style="color:#f92672">*</span> argv[]) {
-</span></span><span style="display:flex;"><span>    mkfifo_read();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mkfifo_read</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></td></tr></table>
